@@ -48,7 +48,7 @@ class ReportsHandler extends Handler {
 		
 		$roleSymbolic = $isEditor ? 'editor' : 'sectionEditor';
 		$roleKey = $isEditor ? 'user.role.coordinator' : 'user.role.sectionEditor';
-		$pageHierarchy = array(array(Request::url(null, 'user'), 'navigation.user'), array(Request::url(null, $roleSymbolic), $roleKey), array(Request::url(null, $roleSymbolic, ''), 'editor.reports.reportGenerator'));
+		$pageHierarchy = array(array(Request::url(null, 'user'), 'navigation.user'), array(Request::url(null, 'user'), $roleKey), array(Request::url(null, $roleSymbolic, 'submissionsReport'), 'editor.reports.reportGenerator'));
 		
 		$templateMgr->assign('pageHierarchy', $pageHierarchy);
 	}
@@ -190,6 +190,12 @@ class ReportsHandler extends Handler {
                     case 0:
                         $this->_CSVReport($submissions, $criterias);
                         break;
+                    case 1:
+                        $this->_simpleChart($submissions, $criterias, $reportType);
+                        break;                    
+                    case 2:
+                        $this->_simpleChart($submissions, $criterias, $reportType);
+                        break;                    
                     default :
                         break;
                 }
@@ -817,6 +823,161 @@ class ReportsHandler extends Handler {
          */
         function _replaceQuoteCSV($string){
             return '"'.str_replace('"', "'", $string).'"';
+        }
+        
+        function _simpleChart($proposals, $criterias, $reportType){
+            
+            $countryDao =& DAORegistry::getDAO('CountryDAO');
+            $areasOfTheCountryDao =& DAORegistry::getDAO('AreasOfTheCountryDAO');
+            $proposalDetailsDao =& DAORegistry::getDAO('ProposalDetailsDAO');
+            
+            $this->setupTemplate();
+            $journal =& Request::getJournal();
+                
+            $measurement = Request::getUserVar('measurement');
+            $chartOptions = Request::getUserVar('chartOptions');
+            
+            import('classes.lib.libchart.classes.libchart');
+            
+            if ($reportType == 1) {$pieChart = new PieChart();}
+            elseif ($reportType == 2) {$pieChart = new VerticalBarChart();}
+            
+            $dataSet = new XYDataSet();
+            $dataSetArray = array();
+            
+            $keyNA = Locale::translate('editor.reports.notApplicable');
+            $keyN = Locale::translate('editor.reports.nationwide');
+            $keyWHS = Locale::translate('editor.reports.chart.withoutHumanSubjects');
+            
+            if ($measurement == 0){$endTitle = Locale::translate('common.bySomebody').' '.Locale::translate('editor.reports.measurement.proposalNmbre');} 
+            else {$endTitle = Locale::translate('common.bySomebody').' '.Locale::translate('editor.reports.measurement.cumulatedBudget');}
+            
+            foreach ($proposals as $proposal){
+                if ($measurement == 0){ $toSumUp = (int) 1;} 
+                else {$toSumUp = (int) $proposal->getTotalBudget();}
+                $proposalDetails = $proposal->getProposalDetails();
+                if ($chartOptions == 'studentResearch'){
+                    if ($proposalDetails->getStudentResearch() == PROPOSAL_DETAIL_YES){
+                        $studentResearchInfo = $proposalDetails->getStudentResearchInfo();
+                        $key = Locale::translate($studentResearchInfo->getDegreeKey());
+                        if(array_key_exists($key, $dataSetArray)){$dataSetArray[$key] = $dataSetArray[$key] + $toSumUp;} 
+                        else {$dataSetArray[$key] = (int) $toSumUp;}
+                        unset($key);
+                    } else {
+                        if(array_key_exists($keyNA, $dataSetArray)){$dataSetArray[$keyNA] = $dataSetArray[$keyNA] + $toSumUp;} 
+                        else {$dataSetArray[$keyNA] = (int) $toSumUp;}
+                    }
+                } elseif ($chartOptions == 'kii') {
+                    $key = $proposalDetails->getKeyImplInstitutionAcronym();
+                    if(array_key_exists($key, $dataSetArray)){$dataSetArray[$key] = $dataSetArray[$key] + $toSumUp;} 
+                    else {$dataSetArray[$key] = (int) $toSumUp;}
+                    unset($key);                    
+                } elseif ($chartOptions == 'multiCountry') {
+                    if ($proposalDetails->getMultiCountryResearch() == PROPOSAL_DETAIL_YES) {
+                        $countries = $proposalDetails->getCountries();
+                        $countries = explode(',', $countries);
+                        foreach ($countries as $country) {
+                            $key = $countryDao->getCountry($country);
+                            if(array_key_exists($key, $dataSetArray)){$dataSetArray[$key] = $dataSetArray[$key] + $toSumUp;} 
+                            else {$dataSetArray[$key] = (int) $toSumUp;}      
+                            unset($key);
+                        }
+                    } else {
+                        if(array_key_exists($keyNA, $dataSetArray)){$dataSetArray[$keyNA] = $dataSetArray[$keyNA] + $toSumUp;} 
+                        else {$dataSetArray[$keyNA] = (int) $toSumUp;}      
+                    }
+                } elseif ($chartOptions == 'nationwide') {
+                    if ($proposalDetails->getNationwide() != PROPOSAL_DETAIL_YES) {
+                        $geoAreas = $proposalDetails->getGeoAreas();
+                        $geoAreas = explode(',', $geoAreas);
+                        foreach ($geoAreas as $geoArea) {
+                            $key = $areasOfTheCountryDao->getAreaOfTheCountry($geoArea);
+                            if(array_key_exists($key, $dataSetArray)){$dataSetArray[$key] = $dataSetArray[$key] + $toSumUp;} 
+                            else {$dataSetArray[$key] = (int) $toSumUp;}
+                            unset($key);
+                        }
+                    } else {
+                        if(array_key_exists($keyN, $dataSetArray)){$dataSetArray[$keyN] = $dataSetArray[$keyN] + $toSumUp;} 
+                        else {$dataSetArray[$keyN] = (int) $toSumUp;}
+                    }               
+                } elseif ($chartOptions == 'proposalTypes') {
+                    if ($proposalDetails->getHumanSubjects() == PROPOSAL_DETAIL_YES) {
+                        $proposalTypes = $proposalDetails->getProposalTypes();
+                        $proposalTypes = explode('+', $proposalTypes);
+                        foreach ($proposalTypes as $proposalType) {
+                            $key = $proposalDetailsDao->getProposalTypeSingle($proposalType);
+                            if(array_key_exists($key, $dataSetArray)){$dataSetArray[$key] = $dataSetArray[$key] + $toSumUp;} 
+                            else {$dataSetArray[$key] = (int) $toSumUp;}
+                            unset($key);
+                        }
+                    } else {
+                        if(array_key_exists($keyWHS, $dataSetArray)){$dataSetArray[$keyWHS] = $dataSetArray[$keyWHS] + $toSumUp;} 
+                        else {$dataSetArray[$keyWHS] = (int) $toSumUp;}
+                    }
+                } elseif ($chartOptions == 'researchFields') {
+                    $researchFields = $proposalDetails->getResearchFields();
+                    $researchFields = explode('+', $researchFields);
+                    foreach ($researchFields as $researchField) {
+                        $key = $proposalDetailsDao->getResearchFieldSingle($researchField);
+                        if(array_key_exists($key, $dataSetArray)){$dataSetArray[$key] = $dataSetArray[$key] + $toSumUp;} 
+                        else {$dataSetArray[$key] = (int) $toSumUp;}     
+                        unset($key);
+                    }
+                } elseif ($chartOptions == 'dataCollection') {
+                    $key = Locale::translate($proposalDetails->getDataCollectionKey());
+                    if(array_key_exists($key, $dataSetArray)){$dataSetArray[$key] = $dataSetArray[$key] + $toSumUp;} 
+                    else {$dataSetArray[$key] = (int) $toSumUp;}
+                    unset($key);                    
+                } else {
+                    $riskAssessment = $proposal->getRiskAssessment();
+                    $key = Locale::translate($riskAssessment->getYesNoKey($riskAssessment->$chartOptions()));
+                    if(array_key_exists($key, $dataSetArray)){$dataSetArray[$key] = $dataSetArray[$key] + $toSumUp;} 
+                    else {$dataSetArray[$key] = (int) $toSumUp;}
+                    unset($key);                    
+                }
+            }
+                                
+            switch ($chartOptions) {
+                case 'studentResearch': $pieChart->setTitle(Locale::translate('proposal.studentInitiatedResearch').' '.$endTitle); break;
+                case 'kii': $pieChart->setTitle(Locale::translate('proposal.keyImplInstitution').' '.$endTitle); break;
+                case 'multiCountry': $pieChart->setTitle(Locale::translate('proposal.multiCountryResearch').' '.$endTitle); break;
+                case 'nationwide': $pieChart->setTitle(Locale::translate('proposal.nationwide').' '.$endTitle); break;
+                case 'proposalTypes': $pieChart->setTitle(Locale::translate('proposal.proposalType').' '.$endTitle); break;
+                case 'researchFields': $pieChart->setTitle(Locale::translate('proposal.researchField').' '.$endTitle); break;
+                case 'dataCollection': $pieChart->setTitle(Locale::translate('proposal.dataCollection').' '.$endTitle); break;
+                case 'getIdentityRevealed': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.identityRevealedAbb').' '.$endTitle); break;
+                case 'getUnableToConsent': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.unableToConsentAbb').' '.$endTitle); break;
+                case 'getUnder18': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.under18Abb').' '.$endTitle); break;
+                case 'getDependentRelationship': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.dependentRelationshipAbb').' '.$endTitle); break;
+                case 'getEthnicMinority': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.ethnicMinorityAbb').' '.$endTitle); break;
+                case 'getImpairment': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.impairmentAbb').' '.$endTitle); break;
+                case 'getPregnant': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.pregnantAbb').' '.$endTitle); break;
+                case 'getNewTreatment': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.newTreatmentAbb').' '.$endTitle); break;
+                case 'getBioSamples': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.bioSamplesAbb').' '.$endTitle); break;
+                case 'getRadiation': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.radiationAbb').' '.$endTitle); break;
+                case 'getDistress': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.distressAbb').' '.$endTitle); break;
+                case 'getInducements': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.inducementsAbb').' '.$endTitle); break;
+                case 'getSensitiveInfo': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.sensitiveInfoAbb').' '.$endTitle); break;
+                case 'getReproTechnology': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.reproTechnologyAbb').' '.$endTitle); break;
+                case 'getGenetic': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.geneticsAbb').' '.$endTitle); break;
+                case 'getStemCell': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.stemCellAbb').' '.$endTitle); break;
+                case 'getBiosafety': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.biosafetyAbb').' '.$endTitle); break;
+                case 'getExportHumanTissue': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.exportHumanTissueAbb').' '.$endTitle); break;
+            }
+
+            foreach ($dataSetArray as $key => $value){
+        	$dataSet->addPoint(new Point($key.' ('.$value.')', $value));                        
+            }
+            
+            $pieChart->setDataSet($dataSet);
+            $pieChart->render("classes/lib/libchart/images/".$journal->getLocalizedInitials(). '-'.Locale::translate('editor.reports.chart').".png");
+            
+            $templateMgr =& TemplateManager::getManager();
+            
+            $templateMgr->assign('chartLocation', "/classes/lib/libchart/images/".$journal->getLocalizedInitials(). '-'.Locale::translate('editor.reports.chart').".png");
+            $templateMgr->assign('criterias', $criterias);
+                
+            $templateMgr->display('sectionEditor/reports/showChart.tpl');
         }
 }
 

@@ -25,7 +25,7 @@
         <p>{translate key="editor.reports.filterBy.instruct"}</p>
         
         {include file="sectionEditor/reports/filterByDecision.tpl"}
-                
+        
         {include file="sectionEditor/reports/filterByDetails.tpl"}
                     
         {include file="sectionEditor/reports/filterBySources.tpl"}
@@ -43,6 +43,7 @@
                 <td width="20%">{translate key="editor.reports.type"}</td>
                 <td width="80%">
                     <select name="reportType" id="reportType" class="selectMenu">
+                        <option value=""></option>
                         {html_options_translate options=$reportTypeOptions}
                     </select>
                 </td>
@@ -51,10 +52,12 @@
 
         {include file="sectionEditor/reports/spreadsheet.tpl"}
         
+        {include file="sectionEditor/reports/pieChart.tpl"}
+        
     </div>
 	
     <br/><br/>
-    <input type="submit" name="generateSubmissionsReport" value="{translate key="editor.reports.generateReport"}" class="button defaultButton" />
+    <input id="defaultButton" type="submit" name="generateSubmissionsReport" value="{translate key="editor.reports.generateReport"}" class="button defaultButton" />
     <input type="button" class="button" onclick="history.go(-1)" value="{translate key="common.cancel"}" />
 
 </form>

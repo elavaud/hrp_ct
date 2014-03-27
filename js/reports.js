@@ -14,7 +14,7 @@ function showOrHideDecisionTable(){
        $('#decisionType').val(INITIAL_REVIEW);
        $('#decisionStatus').val(SUBMISSION_SECTION_DECISION_APPROVED);
        $('#decisionAfter').val("");
-       $("#decisionAfter").datepicker("option","maxDate", null);
+       $("#decisionAfter").datepicker("option","maxDate", '-1 d');
        $('#decisionBefore').val("");
        $("#decisionBefore").datepicker("option","minDate", null);
    }
@@ -265,12 +265,20 @@ function showOrHideRiskAssessmentTable(){
 function showSelectedReportType(){
    var value = $('#reportType').val();
    if (value === "0") {
+       $('#defaultButton').show();   
        $('#spreadsheetTable').show();
+       $('#pieChartTable').hide();       
    } else if (value === "1") {
+       $('#defaultButton').show();       
        $('#spreadsheetTable').hide();
+       $('#pieChartTable').show();       
    } else if (value === "2") {
+       $('#defaultButton').show();       
        $('#spreadsheetTable').hide();
-   } else if (value === "3") {
+       $('#pieChartTable').show();       
+   } else {
+       $('#defaultButton').hide();       
        $('#spreadsheetTable').hide();
-   } 
+       $('#pieChartTable').hide();       
+   }
 }

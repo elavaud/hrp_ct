@@ -114,4 +114,8 @@
 
         });
     </script>
+    <!-- Datepicker bug: see http://bugs.jqueryui.com/ticket/5970 -->
+    <style type="text/css">
+         #ui-datepicker-div { display:none }
+    </style>
 {/literal}

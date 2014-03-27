@@ -63,10 +63,42 @@ class SubmissionsReportForm extends Form {
                 $sourceCurrencyId = $journal->getSetting('sourceCurrency');
                 $reportTypeOptions = array(
                     0 => 'editor.reports.type.spreadsheet',
-                    1 => 'editor.reports.type.linePLot',
-                    2 => 'editor.reports.type.barPlot',
-                    3 => 'editor.reports.type.piePlot'
+                    1 => 'editor.reports.type.pieChart',
+                    2 => 'editor.reports.type.barChart'
 		);
+                $measurementOptions = array(
+                    0 => 'editor.reports.measurement.proposalNmbre',
+                    1 => 'editor.reports.measurement.cumulatedBudget'
+                );
+                $chartOptions = array(
+                    'studentResearch' => Locale::translate('proposal.studentInitiatedResearch'),
+                    'kii' => Locale::translate('proposal.keyImplInstitution'),
+                    'multiCountry' => Locale::translate('proposal.multiCountryResearch'),
+                    'nationwide' => Locale::translate('proposal.nationwide'),
+                    'researchFields' => Locale::translate('proposal.researchField'),
+                    'proposalTypes' => Locale::translate('proposal.proposalType'),
+                    'dataCollection' => Locale::translate('proposal.dataCollection'),
+                    'getIdentityRevealed' => Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.identityRevealedAbb'),
+                    'getUnableToConsent' => Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.unableToConsentAbb'),
+                    'getUnder18' => Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.under18Abb'),
+                    'getDependentRelationship' => Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.dependentRelationshipAbb'),
+                    'getEthnicMinority' => Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.ethnicMinorityAbb'),
+                    'getImpairment' => Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.impairmentAbb'),
+                    'getPregnant' => Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.pregnantAbb'),
+                    'getNewTreatment' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.newTreatmentAbb'),
+                    'getBioSamples' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.bioSamplesAbb'),
+                    'getRadiation' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.radiationAbb'),
+                    'getDistress' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.distressAbb'),
+                    'getInducements' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.inducementsAbb'),
+                    'getSensitiveInfo' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.sensitiveInfoAbb'),
+                    'getReproTechnology' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.reproTechnologyAbb'),
+                    'getGenetic' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.geneticsAbb'),
+                    'getStemCell' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.stemCellAbb'),
+                    'getBiosafety' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.biosafetyAbb'),
+                    'getExportHumanTissue' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.exportHumanTissueAbb')
+                );
+                
+                
                 
                 $templateMgr =& TemplateManager::getManager();
                 $templateMgr->assign('sectionOptions', $sectionOptions);
@@ -83,6 +115,8 @@ class SubmissionsReportForm extends Form {
                 $templateMgr->assign('sourceCurrency', $currencyDao->getCurrencyByAlphaCode($sourceCurrencyId));
                 $templateMgr->assign('riskAssessmentYesNoArray', $riskAssessmentDao->getYesNoArray());
                 $templateMgr->assign('reportTypeOptions', $reportTypeOptions);
+                $templateMgr->assign('measurementOptions', $measurementOptions);
+                $templateMgr->assign('chartOptions', $chartOptions);
                 
      	        parent::display();
 	}     

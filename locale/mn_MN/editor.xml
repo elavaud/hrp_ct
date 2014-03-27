@@ -42,9 +42,9 @@
         <message key="editor.reports.generate">Generate report</message>
         <message key="editor.reports.type">Type of report to generate</message>
         <message key="editor.reports.type.spreadsheet">Spreadsheet</message>
-        <message key="editor.reports.type.linePLot">Line plot</message>
-        <message key="editor.reports.type.barPlot">Bar plot</message>
-        <message key="editor.reports.type.piePlot">Pie plot</message>
+        <message key="editor.reports.type.lineChart">Line chart</message>
+        <message key="editor.reports.type.barChart">Bar chart</message>
+        <message key="editor.reports.type.pieChart">Pie chart</message>
         <message key="editor.reports.spreadsheet.instruct">You are going to generate a spreadsheet: please select the metadata you would like to export. These metadata will be the columns of your spreadsheet. This spreadsheet will be on the CSV format (Comma Separated Value). To visualize your document, just import it as a ".csv" in your prefered spreadsheet software (Microsoft Excel, LibreOffice Calc, MATLAB, STATA, R, SPSS, GMP...).</message>
         <message key="editor.reports.spreadsheet.general">General</message>
         <message key="editor.reports.spreadsheet.allInvestigators">All investigators</message>
