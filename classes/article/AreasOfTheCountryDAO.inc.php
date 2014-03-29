@@ -30,7 +30,7 @@ class AreasOfTheCountryDAO extends DAO {
 		return "lib/pkp/locale/$locale/areasOfTheCountry.xml";
 	}
 
-	function &_getCountryCache($locale = null) {
+	function &_getGeoAreaCache($locale = null) {
 		$caches =& Registry::get('allAreasOfTheCountry', true, array());
                 
 		if (!isset($locale)) $locale = Locale::getLocale();
@@ -39,7 +39,7 @@ class AreasOfTheCountryDAO extends DAO {
 			$cacheManager =& CacheManager::getManager();
 			$caches[$locale] = $cacheManager->getFileCache(
 				'areasOfTheCountry', $locale,
-				array(&$this, '_countryCacheMiss')
+				array(&$this, '_geoAreaCacheMiss')
 			);
 
 			// Check to see if the data is outdated
@@ -51,18 +51,18 @@ class AreasOfTheCountryDAO extends DAO {
 		return $caches[$locale];
 	}
 
-	function _countryCacheMiss(&$cache, $id) {
+	function _geoAreaCacheMiss(&$cache, $id) {
 		$areasOfTheCountry =& Registry::get('allAreasOfTheCountryData', true, array());
                 
                 
 		if (!isset($areasOfTheCountry[$id])) {
 			// Reload country registry file
 			$xmlDao = new XMLDAO();
-			$data = $xmlDao->parseStruct($this->getFilename(), array('countries', 'country'));
+			$data = $xmlDao->parseStruct($this->getFilename(), array('geoareas', 'geoarea'));
 
-                        if (isset($data['countries'])) {
-				foreach ($data['country'] as $countryData) {
-					$areasOfTheCountry[$id][$countryData['attributes']['code']] = $countryData['attributes']['name'];
+                        if (isset($data['geoareas'])) {
+				foreach ($data['geoarea'] as $geoAreaData) {
+					$areasOfTheCountry[$id][$geoAreaData['attributes']['code']] = $geoAreaData['attributes']['name'];
 				}
 			}
 			asort($areasOfTheCountry[$id]);
@@ -77,7 +77,7 @@ class AreasOfTheCountryDAO extends DAO {
 	 * @return array
 	 */
 	function &getAreasOfTheCountry($locale = null) {
-		$cache =& $this->_getCountryCache($locale);
+		$cache =& $this->_getGeoAreaCache($locale);
 		return $cache->getContents();
 	}
 
@@ -89,14 +89,14 @@ class AreasOfTheCountryDAO extends DAO {
          * Updated 12.22.2011 to handle multiple regions
 	 */
 	function getAreaOfTheCountry($code, $locale = null) {
-		$cache =& $this->_getCountryCache($locale);
-                $countries = explode(",", $code);
-                $countriesText = "";
-                foreach($countries as $i => $country) {
-                    $countriesText = $countriesText . $cache->get(trim($country));
-                    if($i < count($countries)-1) $countriesText = $countriesText . ", ";
+		$cache =& $this->_getGeoAreaCache($locale);
+                $geoAreas = explode(",", $code);
+                $geoAreasText = "";
+                foreach($geoAreas as $i => $geoArea) {
+                    $geoAreasText = $geoAreasText . $cache->get(trim($geoArea));
+                    if($i < count($geoAreas)-1) $geoAreasText = $geoAreasText . ", ";
                 }
-		return $countriesText;
+		return $geoAreasText;
 	}
 }
 
