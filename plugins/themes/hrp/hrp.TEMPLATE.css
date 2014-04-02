@@ -76,14 +76,14 @@ span.disabled, label.disabled {
 
 /* link */
 a {
-	color:#416187 !important;
+	color:#009933 !important;
 	text-decoration:none;
 }
 a:visited {
     color: #356464;
 }
 a:hover {
-	color:#dede6b !important;
+	color:#D86422 !important;
 	background-color: transparent;
 	text-decoration:none;
 }
@@ -91,16 +91,16 @@ a:hover {
 #container{
 	background-color: whiteSmoke;
 	background-image: url("images/shadow.gif");
-        width: 990px !important;
+    width: 990px !important;
 	margin:auto;
 }
 
 #header{
 	background-color: transparent;
 	background-image: url("images/banner.png");
-        background-repeat: no-repeat;
-        width: 990px !important;
-        height: 160px;
+    background-repeat: no-repeat;
+    width: 990px !important;
+    height: 160px;
 	margin-bottom: 0px;
 	padding-right: 5px;
 	padding-left: 5px;
@@ -108,7 +108,7 @@ a:hover {
 
 #headerTitle {
 	background-color: #F5F5F5;
-        width: 980px !important;
+    width: 980px !important;
 	border-bottom: 1px solid #CCCCCC;
 	position: relative;
 	top: 105px;
@@ -123,7 +123,7 @@ form{
 	font-size: 20px;
 	font-family: inherit;
 	font-weight: bold;
-	color: #233e5e;
+	color: #006600;
 	margin: 0 auto;
 	padding: 10px;
     text-align: left;
@@ -187,12 +187,12 @@ form{
 }
 
 #rightSidebar {
-        font-size: 12px;
-        width: 16%;
+    font-size: 12px;
+    width: 16%;
 	height: 100%;
-        margin-left: 0%;
-        margin-right: 2%;
-        padding: 1em 0;
+    margin-left: 0%;
+    margin-right: 2%;
+    padding: 1em 0;
 }
 
 #developedBy{
@@ -201,11 +201,11 @@ form{
 }
 
 #footer{
-        color: whiteSmoke;
+    color: whiteSmoke;
 	background-image: url("images/footer.png");
 	background-position: left bottom;
 	background-repeat: no-repeat;
-        width: 990px !important;
+    width: 990px !important;
 	height: 110px;
 	margin-bottom: 0px;
 }

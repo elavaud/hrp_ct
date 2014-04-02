@@ -8,4 +8,6 @@ config.inc.php
 /public/about/*
 /plugins/themes/hrp/images/banner.png
 /plugins/themes/hrp/images/footer.png
+/plugins/themes/hrp/hrp.css
 /lib/pkp/locale/*/areasOfTheCountry.xml
+/lib/pkp/locale/*/researchFields.xml

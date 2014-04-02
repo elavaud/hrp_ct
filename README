@@ -5,4 +5,7 @@ This version is the first attempt to a generic version. Some specific files to e
 _At the root of the system: a config file "config.inc.php" based on the template file "config.TEMPLATE.inc.php" and configured according to your server
 _The cache subfolders (empty or not): '/cache/_db/', '/cache/t_cache/', '/cache/t_compile/' and '/cache/t_config/'
 _The banner, "banner.png", and the footer, "footer.png", png images of 990 * 105 pixels located in "/plugins/themes/hrp/images/"
+_The CSS file "/plugins/themes/hrp/hrp.css" based on the template "/plugins/themes/hrp/hrp.TEMPLATE.css"
 _An xml file containing the geographical areas of the country for each language you intend to use. Each of these files should be located in their respective locale directory: "/lib/pkp/locale/*/areasOfTheCountry.xml". PLease refer to "/classes/article/AreasOfTheCountryDAO.inc.php".
+_An xml file containing the research fields for each language you intend to use. Each of these files should be located in their respective locale directory: "/lib/pkp/locale/*/researchFields.xml". PLease refer to the following template "/lib/pkp/locale/en_US/researchFields.TEMPLATE.xml.
+
