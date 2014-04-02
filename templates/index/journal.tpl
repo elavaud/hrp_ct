@@ -14,7 +14,7 @@
 {/strip}
 
 <div>
-<p>{translate key="common.homePageText"}</p>
+<p>{$journalDescription}</p>
 </div>
 
 {call_hook name="Templates::Index::journal"}
