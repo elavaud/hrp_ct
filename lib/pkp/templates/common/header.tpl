@@ -102,10 +102,13 @@
 {/if}
 {if $displayPageHeaderTitle && is_array($displayPageHeaderTitle)}
 	<img src="{$publicFilesDir}/{$displayPageHeaderTitle.uploadName|escape:"url"}" width="{$displayPageHeaderTitle.width|escape}" height="{$displayPageHeaderTitle.height|escape}" {if $displayPageHeaderTitleAltText != ''}alt="{$displayPageHeaderTitleAltText|escape}"{else}alt="{translate key="common.pageHeader.altText"}"{/if} />
+{*Whatever the case, display only the title of the site*}
 {elseif $displayPageHeaderTitle}
-	{$displayPageHeaderTitle}
+	{*$displayPageHeaderTitle*}
+	{$siteTitle}
 {elseif $alternatePageHeader}
-	{$alternatePageHeader}
+	{*$alternatePageHeader*}
+	{$siteTitle}
 {elseif $siteTitle}
 	{$siteTitle}
 {else}
