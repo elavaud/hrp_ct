@@ -8,7 +8,7 @@
  *
  *}
  
- <script src="/js/proposalSubmission.js"></script>
+ <script type="text/javascript" src="{$baseUrl|cat:"/js/proposalSubmission.js"}"></script>
 
  {literal}
      <script type="text/javascript">

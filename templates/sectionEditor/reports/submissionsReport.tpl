@@ -10,9 +10,8 @@
     {include file="common/header.tpl"}
 {/strip}
 
-<script type="text/javascript" src="/lib/pkp/js/lib/jquery/jquery-ui-timepicker-addon.js"></script>
-
-<script src="/js/reports.js"></script>
+<script type="text/javascript" src="{$baseUrl|cat:"/lib/pkp/js/lib/jquery/jquery-ui-timepicker-addon.js"}"></script>
+<script type="text/javascript" src="{$baseUrl|cat:"/js/reports.js"}"></script>
 
 {include file="sectionEditor/reports/javascript.tpl"}
 
