@@ -268,9 +268,30 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
 		}
 		
 		// Send a regular notification to section editors
-		$message = 'notification.type.articleSubmitted';
-		if ($article->getResubmitCount()!=0) $message = 'notification.type.articleReSubmitted';
-		
+                $lastDecision = $article->getLastSectionDecision();
+                switch ($lastDecision->getReviewType()){
+                    case REVIEW_TYPE_INITIAL:
+                        if ($lastDecision->getRound() == 1) {$message = 'notification.type.articleSubmitted.initialReview';}
+                        else {$message = 'notification.type.articleReSubmitted.initialReview';}
+                        break;
+                    case REVIEW_TYPE_CONTINUING:
+                        if ($lastDecision->getRound() == 1) {$message = 'notification.type.articleSubmitted.continuingReview';}
+                        else {$message = 'notification.type.articleReSubmitted.continuingReview';}
+                        break;
+                    case REVIEW_TYPE_AMENDMENT:
+                        if ($lastDecision->getRound() == 1) {$message = 'notification.type.articleSubmitted.PAAmendmentReview';}
+                        else {$message = 'notification.type.articleReSubmitted.PAAmendmentReview';}                        
+                        break;
+                    case REVIEW_TYPE_SAE:
+                        if ($lastDecision->getRound() == 1) {$message = 'notification.type.articleSubmitted.SAE';}
+                        else {$message = 'notification.type.articleReSubmitted.SAE';}                        
+                        break;
+                    case REVIEW_TYPE_EOS:
+                        if ($lastDecision->getRound() == 1) {$message = 'notification.type.articleSubmitted.EOS';}
+                        else {$message = 'notification.type.articleReSubmitted.EOS';}                        
+                        break;
+                }
+                
 		import('lib.pkp.classes.notification.NotificationManager');
 		$notificationManager = new NotificationManager();
 		$url = Request::url($journal->getPath(), 'sectionEditor', 'submissionReview', array($article->getId()));
@@ -283,7 +304,9 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
 
 		import('classes.article.log.ArticleLog');
 		import('classes.article.log.ArticleEventLogEntry');
-		ArticleLog::logEvent($this->articleId, ARTICLE_LOG_ARTICLE_SUBMIT, ARTICLE_LOG_TYPE_AUTHOR, $user->getId(), 'log.author.submitted', array('submissionId' => $article->getId(), 'authorName' => $user->getFullName()));
+                if($lastDecision->getRound() == 1){$message = 'log.author.submitted';}
+                else {$message = 'log.author.resubmitted';}
+		ArticleLog::logEvent($this->articleId, ARTICLE_LOG_ARTICLE_SUBMIT, ARTICLE_LOG_TYPE_AUTHOR, $user->getId(), $message, array('submissionId' => $article->getProposalId(), 'authorName' => $user->getFullName(), 'reviewType' => Locale::translate($lastDecision->getReviewTypeKey())));
         
 		return $this->articleId;
 	}

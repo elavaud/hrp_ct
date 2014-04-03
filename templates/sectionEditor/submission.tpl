@@ -17,6 +17,7 @@
 <ul class="menu">
 	<li class="current"><a href="{url op="submission" path=$submission->getId()}">{translate key="submission.summary"}</a></li>
 	{if !$isEditor && $canReview}<li><a href="{url op="submissionReview" path=$submission->getId()}">{translate key="submission.review"}</a></li>{/if}
+	<li><a href="{url op="submissionHistory" path=$submission->getId()}">{translate key="submission.history"}</a></li>
 </ul>
 
 {include file="sectionEditor/submission/management.tpl"}

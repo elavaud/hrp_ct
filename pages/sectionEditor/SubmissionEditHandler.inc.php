@@ -2479,10 +2479,17 @@ class SubmissionEditHandler extends SectionEditorHandler {
 			$markAsPaid ? $journal->getSetting('currency') : ''
 		);
 
-		$queuedPaymentId = $paymentManager->queuePayment($queuedPayment);
 
 		// Since this is a waiver, fulfill the payment immediately
 		$paymentManager->fulfillQueuedPayment($queuedPayment, $markAsPaid?'ManualPayment':'Waiver');
+                
+                import('classes.article.log.ArticleLog');
+                import('classes.article.log.ArticleEventLogEntry');
+                Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
+                if ($markAsPaid) {$message = 'log.editor.fee.paid';}
+                else {$message = 'log.editor.fee.waived';}
+                ArticleLog::logEvent($submission->getArticleId(), ARTICLE_LOG_SECTION_DECISION, ARTICLE_LOG_TYPE_EDITOR, $user->getId(), $message, array('editorName' => $user->getFullName(), 'proposalId' => $submission->getProposalId()));
+                
 		$request->redirect(null, null, 'submissionReview', array($articleId));
 	}
 

@@ -29,8 +29,29 @@
         <!-- New keys added in February March 2014 -->
                 
         <message key="proposal.exportHumanTissueAbb">Export Human Tissue</message>
-                
+        <message key="notification.type.articleSubmitted.initialReview">A new proposal, "{$param}", has been submitted for "Initial Review".</message>
+        <message key="notification.type.articleReSubmitted.initialReview">The proposal, "{$param}", has been re-submitted for "Initial Review".</message>
+        <message key="notification.type.articleSubmitted.continuingReview">The proposal, "{$param}", has been submitted for "Continuing Review".</message>
+        <message key="notification.type.articleReSubmitted.continuingReview">The proposal, "{$param}", has been re-submitted for "Continuing Review".</message>
+        <message key="notification.type.articleSubmitted.PAAmendmentReview">The proposal, "{$param}", has been submitted for "Post-Approval Amendment Review".</message>
+        <message key="notification.type.articleReSubmitted.PAAmendmentReview">The proposal, "{$param}", has been re-submitted for "Post-Approval Amendment Review".</message>
+        <message key="notification.type.articleSubmitted.SAE">The proposal, "{$param}", has been submitted for "Serious-Adverse-Event Review".</message>
+        <message key="notification.type.articleReSubmitted.SAE">The proposal, "{$param}", has been re-submitted for "Serious-Adverse-Event Review".</message>
+        <message key="notification.type.articleSubmitted.EOS">The proposal, "{$param}", has been submitted for "End-Of-Study Review".</message>
+        <message key="notification.type.articleReSubmitted.EOS">The proposal, "{$param}", has been re-submitted for "End-Of-Study Review".</message>        
+	<message key="log.author.resubmitted">{$authorName} has re-submitted a proposal, ID {$submissionId}, for "{$reviewType}".</message>
+	<message key="log.editor.fee.paid">{$editorName} acknowledged the reception of the review fee for proposal {$proposalId}.</message>
+	<message key="log.editor.fee.waived">{$editorName} decided to waive the proposal {$proposalId} of fee.</message>
+        
         <!-- End new keys -->
+        
+	<message key="log.author.submitted">{$authorName} has submitted a proposal, ID "{$submissionId}", for "{$reviewType}".</message>
+        
+        <!-- Modified Keys in February March 2014 -->
+        
+        
+        
+        <!-- End modified keys -->
                                 
         <!-- Common Source and Institution Terms. Added in February 2014-->
         
@@ -1341,7 +1362,6 @@ Your server currently supports mbstring: <strong>{$supportsMBString}</strong>]]>
 
 
 	<!-- Article Logs -->
-	<message key="log.author.submitted">{$authorName} has entered a new proposal, ID {$submissionId}.</message>
 	<message key="log.author.documentRevised">{$authorName} has revised article {$articleId}. The new file ID is {$fileId}.</message>
 	<message key="log.review.reviewerAssigned">{$reviewerName} has been assigned to review proposal {$articleId}.</message>
 	<message key="log.review.reviewerUnassigned">{$reviewerName} has been unassigned from reviewing proposal {$articleId} for review round {$round}.</message>
@@ -1375,7 +1395,7 @@ Your server currently supports mbstring: <strong>{$supportsMBString}</strong>]]>
 	<message key="log.layout.layoutEditorUnassigned">{$editorName} has been unassigned as layout editor for proposal {$articleId}.</message>
 	<message key="log.layout.layoutEditComplete">{$editorName} has completed layout editing for proposal {$articleId}.</message>
 
-	<message key="log.editor.metadataModified">The metadata for this article was modified by {$editorName}.</message>
+	<message key="log.editor.metadataModified">The metadata for this proposal was modified by {$editorName}.</message>
 	<message key="log.editor.editorFile">An editor version of the proposal file has been uploaded.</message>
 	<message key="log.editor.archived">The proposal {$articleId} has been archived.</message>
 	<message key="log.editor.restored">The proposal {$articleId} has been restored to the queue.</message>
@@ -1446,7 +1466,7 @@ Validation may fail on search URLs that require posted form data.]]></message>
 	<message key="notification.notificationsPublicDescription">This page shows important updates associated with this Health Research Portal such as new issues or announcements.  You may subscribe to these notifications through RSS feeds (by clicking on the images to the right), or <![CDATA[  <a href="{$emailUrl}">through email.</a>]]></message>
 
 	<message key="notification.type.articleSubmitted">A new proposal, "{$param}", has been submitted.</message>
-    <message key="notification.type.articleReSubmitted">The proposal, "{$param}", has been re-submitted.</message>
+        <message key="notification.type.articleReSubmitted">The proposal, "{$param}", has been re-submitted.</message>
 	<message key="notification.type.copyeditComment">A copyeditor has left a comment on "{$param}".</message>
 	<message key="notification.type.editing">Editing Events</message>
 	<message key="notification.type.editorDecisionComment">Proposal {$param} left a comment.</message>
@@ -1464,23 +1484,23 @@ Validation may fail on search URLs that require posted form data.]]></message>
 	<message key="notification.type.submissions">Submission Events</message>
 	<message key="notification.type.suppFileModified">"{$param}'s" supplementary file(s) has been modified.</message>
 	<message key="notification.type.userComment">A reader has made a comment on "{$param}"</message>
-    <message key="notification.type.submissionComplete">Your proposal, "{$param}", has been considered as "Complete".</message>
-    <message key="notification.type.submissionIncomplete">Your proposal, "{$param}", has been considered as "Incomplete". You may resubmit it.</message>
-    <message key="notification.type.reviseAndResubmit">Your proposal, "{$param}", doesn't fit all the committee's requirements. You should revise and re-submit it.</message>
-    <message key="notification.type.submissionExpedited">Your proposal, "{$param}", will be subject to an "Expedited review".</message>
-    <message key="notification.type.submissionAssigned">Your proposal, "{$param}", will be subject to a "Full review".</message>
-    <message key="notification.type.submissionExempted">Your proposal, "{$param}", has been considered as "Exempt from review".</message>
-    <message key="notification.type.submissionDecline">Your proposal, "{$param}", has been declined.</message>
-    <message key="notification.type.submissionAccept">Your proposal, "{$param}", has been accepted.</message>
-    <message key="notification.type.submissionDone">Your proposal, "{$param}", is done.</message>
-    <message key="notification.type.rawDataSubmitted">Some raw data have been submitted for the proposal "{$param}"</message>
-    <message key="notification.type.otherSuppResearchOutput">Some other supplementary research output have been submitted for the proposal "{$param}"</message>
-    <message key="notification.type.progressReport">A progress report has been submitted for the proposal "{$param}"</message>
-    <message key="notification.type.completionReport">A completion report has been submitted for the proposal "{$param}"</message>
-    <message key="notification.type.suppFile">A new supplementary file has been added to the proposal "{$param}"</message>
-    <message key="notification.type.extensionRequest">An extension request has been submitted for the proposal "{$param}"</message>	
-    <message key="notification.type.reviewAssignment">You have been assigned to review the proposal: "{$param}". Please specify if you are able to do the review.</message>
-    <message key="notification.type.reviewerFile">Proposal {$param} uploaded a file concerning his/her review.</message>
+        <message key="notification.type.submissionComplete">Your proposal, "{$param}", has been considered as "Complete".</message>
+        <message key="notification.type.submissionIncomplete">Your proposal, "{$param}", has been considered as "Incomplete". You may resubmit it.</message>
+        <message key="notification.type.reviseAndResubmit">Your proposal, "{$param}", doesn't fit all the committee's requirements. You should revise and re-submit it.</message>
+        <message key="notification.type.submissionExpedited">Your proposal, "{$param}", will be subject to an "Expedited review".</message>
+        <message key="notification.type.submissionAssigned">Your proposal, "{$param}", will be subject to a "Full review".</message>
+        <message key="notification.type.submissionExempted">Your proposal, "{$param}", has been considered as "Exempt from review".</message>
+        <message key="notification.type.submissionDecline">Your proposal, "{$param}", has been declined.</message>
+        <message key="notification.type.submissionAccept">Your proposal, "{$param}", has been accepted.</message>
+        <message key="notification.type.submissionDone">Your proposal, "{$param}", is done.</message>
+        <message key="notification.type.rawDataSubmitted">Some raw data have been submitted for the proposal "{$param}"</message>
+        <message key="notification.type.otherSuppResearchOutput">Some other supplementary research output have been submitted for the proposal "{$param}"</message>
+        <message key="notification.type.progressReport">A progress report has been submitted for the proposal "{$param}"</message>
+        <message key="notification.type.completionReport">A completion report has been submitted for the proposal "{$param}"</message>
+        <message key="notification.type.suppFile">A new supplementary file has been added to the proposal "{$param}"</message>
+        <message key="notification.type.extensionRequest">An extension request has been submitted for the proposal "{$param}"</message>	
+        <message key="notification.type.reviewAssignment">You have been assigned to review the proposal: "{$param}". Please specify if you are able to do the review.</message>
+        <message key="notification.type.reviewerFile">Proposal {$param} uploaded a file concerning his/her review.</message>
         <message key="notification.type.reviewerFileDeleted">Proposal {$param} deleted a file concerning his/her review.</message>
 	<message key="notification.type.reviewAssignmentCanceled">Your review assignment for the proposal: "{$param}", has been canceled.</message>
     <message key="notification.type.reviewAssignmentConfirmed">Proposal {$param} his/her review assignment.</message>

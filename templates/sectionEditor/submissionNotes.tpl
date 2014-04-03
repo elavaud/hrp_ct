@@ -10,9 +10,9 @@
  * $Id$
  *}
 {strip}
-{translate|assign:"pageTitleTranslated" key="submission.notes" id=$submission->getProposalId()}
-{assign var="pageCrumbTitle" value="submission.notes.breadcrumb"}
-{include file="common/header.tpl"}
+    {translate|assign:"pageTitleTranslated" key="submission.notes" id=$submission->getProposalId()}
+    {assign var="pageCrumbTitle" value="submission.notes.breadcrumb"}
+    {include file="common/header.tpl"}
 {/strip}
 
 {literal}
@@ -53,7 +53,7 @@
 {* Edited out "Editing" - 12 Apr 2012 - spf
 	{if $canEdit}<li><a href="{url op="submissionEditing" path=$submission->getArticleId()}">{translate key="submission.editing"}</a></li>{/if}
 *}
-	<li><a href="{url op="submissionHistory" path=$submission->getArticleId()}">{translate key="submission.history"}</a></li>
+	<li class="current"><a href="{url op="submissionHistory" path=$submission->getArticleId()}">{translate key="submission.history"}</a></li>
 </ul>
 
 <ul class="menu">
@@ -61,8 +61,6 @@
 	<li><a href="{url op="submissionEmailLog" path=$submission->getArticleId()}">{translate key="submission.history.submissionEmailLog"}</a></li>
 	<li class="current"><a href="{url op="submissionNotes" path=$submission->getArticleId()}">{translate key="submission.history.submissionNotes"}</a></li>
 </ul>
-
-{include file="sectionEditor/submission/summary.tpl"}
 
 <div class="separator"></div>
 

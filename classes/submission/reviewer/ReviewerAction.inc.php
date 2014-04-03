@@ -92,6 +92,7 @@ class ReviewerAction extends Action {
 				$entry->setArticleId($reviewerSubmission->getArticleId());
 				$entry->setUserId($reviewer->getId());
 				$entry->setDateLogged(Core::getCurrentDate());
+                                $entry->setLogLevel('N');
 				$entry->setEventType($decline?ARTICLE_LOG_REVIEW_DECLINE:ARTICLE_LOG_REVIEW_ACCEPT);
 				$entry->setLogMessage($decline?'log.review.reviewDeclined':'log.review.reviewAccepted', array('reviewerName' => $reviewer->getFullName(), 'articleId' => $reviewerSubmission->getProposalId()));
 				$entry->setAssocType(ARTICLE_LOG_TYPE_REVIEW);
@@ -186,6 +187,7 @@ class ReviewerAction extends Action {
 				$entry->setUserId($reviewer->getId());
 				$entry->setDateLogged(Core::getCurrentDate());
 				$entry->setEventType(ARTICLE_LOG_REVIEW_RECOMMENDATION);
+                                $entry->setLogLevel('N');
 				$entry->setLogMessage('log.review.reviewRecommendationSet', array('reviewerName' => $reviewer->getFullName(), 'articleId' => $reviewerSubmission->getProposalId()));
 				$entry->setAssocType(ARTICLE_LOG_TYPE_REVIEW);
 				$entry->setAssocId($reviewAssignment->getId());
@@ -277,6 +279,7 @@ class ReviewerAction extends Action {
 			$entry->setUserId($reviewer->getId());
 			$entry->setDateLogged(Core::getCurrentDate());
 			$entry->setEventType(ARTICLE_LOG_REVIEW_FILE);
+                        $entry->setLogLevel('N');
 			$entry->setLogMessage('log.review.reviewerFile');
 			$entry->setAssocType(ARTICLE_LOG_TYPE_REVIEW);
 			$entry->setAssocId($reviewAssignment->getId());

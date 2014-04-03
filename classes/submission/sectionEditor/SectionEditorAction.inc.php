@@ -93,8 +93,8 @@ class SectionEditorAction extends Action {
 			// Add log
 			import('classes.article.log.ArticleLog');
 			import('classes.article.log.ArticleEventLogEntry');
-			Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON, LOCALE_COMPONENT_OJS_EDITOR));
-			ArticleLog::logEvent($sectionEditorSubmission->getArticleId(), ARTICLE_LOG_SECTION_DECISION, ARTICLE_LOG_TYPE_EDITOR, $user->getId(), 'log.editor.decision', array('editorName' => $user->getFullName(), 'articleId' => $sectionEditorSubmission->getProposalId(), 'decision' => Locale::translate($decisions[$decision])));
+			Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON, LOCALE_COMPONENT_OJS_EDITOR, LOCALE_COMPONENT_PKP_SUBMISSION));
+			ArticleLog::logEvent($sectionEditorSubmission->getArticleId(), ARTICLE_LOG_SECTION_DECISION, ARTICLE_LOG_TYPE_EDITOR, $user->getId(), 'log.editor.decision', array('editorName' => $user->getFullName(), 'proposalId' => $sectionEditorSubmission->getProposalId(), 'decision' => Locale::translate($sectionDecision->getReviewTypeKey()).' - '.$sectionDecision->getRound().': '.Locale::translate($decisions[$decision])));
 		}
 	}
 
@@ -151,6 +151,7 @@ class SectionEditorAction extends Action {
 			// Add log
 			import('classes.article.log.ArticleLog');
 			import('classes.article.log.ArticleEventLogEntry');
+			Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
 			ArticleLog::logEvent($lastSectionDecision->getArticleId(), ARTICLE_LOG_REVIEW_ASSIGN, ARTICLE_LOG_TYPE_REVIEW, $reviewAssignment->getId(), 'log.review.reviewerAssigned', array('reviewerName' => $reviewer->getFullName(), 'articleId' => $lastSectionDecision->getProposalId()));
 		}
 	}
@@ -177,6 +178,7 @@ class SectionEditorAction extends Action {
 			// Add log
 			import('classes.article.log.ArticleLog');
 			import('classes.article.log.ArticleEventLogEntry');
+			Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
 			ArticleLog::logEvent($lastSectionDecision->getArticleId(), ARTICLE_LOG_REVIEW_CLEAR, ARTICLE_LOG_TYPE_REVIEW, $reviewAssignment->getId(), 'log.review.reviewCleared', array('reviewerName' => $reviewer->getFullName(), 'articleId' => $lastSectionDecision->getProposalId()));
 		}
 	}
@@ -385,6 +387,7 @@ class SectionEditorAction extends Action {
 					// Add log
 					import('classes.article.log.ArticleLog');
 					import('classes.article.log.ArticleEventLogEntry');
+                                        Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
 					ArticleLog::logEvent($sectionEditorSubmission->getArticleId(), ARTICLE_LOG_REVIEW_CANCEL, ARTICLE_LOG_TYPE_REVIEW, $reviewAssignment->getId(), 'log.review.reviewCancelled', array('reviewerName' => $reviewer->getFullName(), 'articleId' => $sectionEditorSubmission->getProposalId()));
 				} else {
 					if (!Request::getUserVar('continued')) {
@@ -588,6 +591,7 @@ class SectionEditorAction extends Action {
 			// Add log
 			import('classes.article.log.ArticleLog');
 			import('classes.article.log.ArticleEventLogEntry');
+			Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
 			ArticleLog::logEvent($articleId, ARTICLE_LOG_REVIEW_RATE, ARTICLE_LOG_TYPE_REVIEW, $reviewAssignment->getId(), 'log.review.reviewerRated', array('reviewerName' => $reviewer->getFullName(), 'articleId' => $sectionDecision->getProposalId()));
 		}
 	}
@@ -680,6 +684,7 @@ class SectionEditorAction extends Action {
 				// Add log
 				import('classes.article.log.ArticleLog');
 				import('classes.article.log.ArticleEventLogEntry');
+                                Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
 				ArticleLog::logEvent(
 				$articleId,
 				ARTICLE_LOG_REVIEW_SET_DUE_DATE,
@@ -769,6 +774,7 @@ class SectionEditorAction extends Action {
 			// Add log
 			import('classes.article.log.ArticleLog');
 			import('classes.article.log.ArticleEventLogEntry');
+			Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
 			ArticleLog::logEvent($articleId, ARTICLE_LOG_REVIEW_RECOMMENDATION_BY_PROXY, ARTICLE_LOG_TYPE_REVIEW, $reviewAssignment->getId(), 'log.review.reviewRecommendationSetByProxy', array('editorName' => $user->getFullName(), 'reviewerName' => $reviewer->getFullName(), 'articleId' => $sectionDecision->getProposalId()));
 		}
 	}
@@ -884,6 +890,7 @@ class SectionEditorAction extends Action {
 			// Add log
 			import('classes.article.log.ArticleLog');
 			import('classes.article.log.ArticleEventLogEntry');
+			Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
 			ArticleLog::logEvent($sectionEditorSubmission->getArticleId(), ARTICLE_LOG_COPYEDIT_SET_FILE, ARTICLE_LOG_TYPE_COPYEDIT, $sectionEditorSubmission->getFileBySignoffType('SIGNOFF_COPYEDITING_INITIAL', true), 'log.copyedit.copyeditFileSet');
 		}
 	}
@@ -965,6 +972,7 @@ class SectionEditorAction extends Action {
 			// Add log
 			import('classes.article.log.ArticleLog');
 			import('classes.article.log.ArticleEventLogEntry');
+			Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
 			ArticleLog::logEvent($sectionEditorSubmission->getArticleId(), ARTICLE_LOG_REVIEW_RESUBMIT, ARTICLE_LOG_TYPE_EDITOR, $user->getId(), 'log.review.resubmit', array('articleId' => $sectionEditorSubmission->getArticleId()));
 		}
 	}
@@ -997,6 +1005,7 @@ class SectionEditorAction extends Action {
 			// Add log
 			import('classes.article.log.ArticleLog');
 			import('classes.article.log.ArticleEventLogEntry');
+			Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
 			ArticleLog::logEvent($sectionEditorSubmission->getArticleId(), ARTICLE_LOG_COPYEDIT_ASSIGN, ARTICLE_LOG_TYPE_COPYEDIT, $copyeditorId, 'log.copyedit.copyeditorAssigned', array('copyeditorName' => $copyeditor->getFullName(), 'articleId' => $sectionEditorSubmission->getArticleId()));
 		}
 	}
@@ -1352,6 +1361,7 @@ class SectionEditorAction extends Action {
 			// Add log
 			import('classes.article.log.ArticleLog');
 			import('classes.article.log.ArticleEventLogEntry');
+			Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
 			ArticleLog::logEvent($sectionEditorSubmission->getArticleId(), ARTICLE_LOG_EDITOR_FILE, ARTICLE_LOG_TYPE_EDITOR, $sectionEditorSubmission->getEditorFileId(), 'log.editor.editorFile');
 		}
 	}
@@ -1427,6 +1437,7 @@ class SectionEditorAction extends Action {
 		// Add log entry
 		import('classes.article.log.ArticleLog');
 		import('classes.article.log.ArticleEventLogEntry');
+                Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
 		ArticleLog::logEvent($sectionEditorSubmission->getArticleId(), ARTICLE_LOG_COPYEDIT_INITIAL, ARTICLE_LOG_TYPE_COPYEDIT, $user->getId(), 'log.copyedit.initialEditComplete', Array('copyeditorName' => $user->getFullName(), 'articleId' => $sectionEditorSubmission->getArticleId()));
 	}
 
@@ -1465,6 +1476,7 @@ class SectionEditorAction extends Action {
 		// Add log entry
 		import('classes.article.log.ArticleLog');
 		import('classes.article.log.ArticleEventLogEntry');
+                Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
 		ArticleLog::logEvent($sectionEditorSubmission->getArticleId(), ARTICLE_LOG_COPYEDIT_FINAL, ARTICLE_LOG_TYPE_COPYEDIT, $user->getId(), 'log.copyedit.finalEditComplete', Array('copyeditorName' => $user->getFullName(), 'articleId' => $sectionEditorSubmission->getProposalId()));
 	}
 
@@ -1486,6 +1498,7 @@ class SectionEditorAction extends Action {
 		// Add log
 		import('classes.article.log.ArticleLog');
 		import('classes.article.log.ArticleEventLogEntry');
+                Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
 		ArticleLog::logEvent($sectionEditorSubmission->getArticleId(), ARTICLE_LOG_EDITOR_ARCHIVE, ARTICLE_LOG_TYPE_EDITOR, $sectionEditorSubmission->getArticleId(), 'log.editor.archived', array('articleId' => $sectionEditorSubmission->getProposalId()));
 	}
 
@@ -1516,6 +1529,7 @@ class SectionEditorAction extends Action {
 		// Add log
 		import('classes.article.log.ArticleLog');
 		import('classes.article.log.ArticleEventLogEntry');
+                Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
 		ArticleLog::logEvent($sectionEditorSubmission->getArticleId(), ARTICLE_LOG_EDITOR_RESTORE, ARTICLE_LOG_TYPE_EDITOR, $sectionEditorSubmission->getArticleId(), 'log.editor.restored', array('articleId' => $sectionEditorSubmission->getProposalId()));
 	}
 
@@ -1571,7 +1585,7 @@ class SectionEditorAction extends Action {
 
 		import('classes.article.log.ArticleLog');
 		import('classes.article.log.ArticleEventLogEntry');
-
+                Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
 		$layoutSignoff = $signoffDao->build('SIGNOFF_LAYOUT', ASSOC_TYPE_ARTICLE, $submission->getArticleId());
 		$layoutProofSignoff = $signoffDao->build('SIGNOFF_PROOFREADING_LAYOUT', ASSOC_TYPE_ARTICLE, $submission->getArticleId());
 		if ($layoutSignoff->getUserId()) {
@@ -2407,7 +2421,7 @@ class SectionEditorAction extends Action {
 			// Add log
 			import('classes.article.log.ArticleLog');
 			import('classes.article.log.ArticleEventLogEntry');
-
+			Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
 			$entry = new ArticleEventLogEntry();
 			$entry->setArticleId($sectionDecision->getArticleId());
 			$entry->setUserId($user->getId());
@@ -2476,7 +2490,7 @@ class SectionEditorAction extends Action {
 			// Add log
 			import('classes.article.log.ArticleLog');
 			import('classes.article.log.ArticleEventLogEntry');
-
+			Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
 			$entry = new ArticleEventLogEntry();
 			$entry->setArticleId($sectionDecision->getArticleId());
 			$entry->setUserId($user->getId());

@@ -68,7 +68,6 @@
 	<li><a href="{url op="submissionNotes" path=$submission->getArticleId()}">{translate key="submission.history.submissionNotes"}</a></li>
 </ul>
 
-{include file="sectionEditor/submission/summary.tpl"}
 {assign var="proposalId" value=$submission->getProposalId()}
 <div class="separator"></div>
 <div id="submissionEventLog">
