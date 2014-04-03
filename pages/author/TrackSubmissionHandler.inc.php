@@ -122,18 +122,22 @@ class TrackSubmissionHandler extends AuthorHandler {
 
 		$templateMgr->assign('helpTopicId','editorial.authorsRole');
 
-        if($submission->getSubmissionStatus()==PROPOSAL_STATUS_SUBMITTED) {
-                $canEditMetadata = true;
-                $canEditFiles = true;
-        }
-        else {
-                $canEditMetadata = false;
-                $canEditFiles = false;
-        }
-        $templateMgr->assign('canEditMetadata', $canEditMetadata);
-        $templateMgr->assign('canEditFiles', $canEditFiles);
-        $templateMgr->assign_by_ref('riskAssessment', $submission->getRiskAssessment());
-        $templateMgr->assign_by_ref('abstract', $submission->getLocalizedAbstract());
+                if($submission->getSubmissionStatus()==PROPOSAL_STATUS_SUBMITTED) {
+                        $canEditMetadata = true;
+                        $canEditFiles = true;
+                }
+                else {
+                        $canEditMetadata = false;
+                        $canEditFiles = false;
+                }
+                $templateMgr->assign('canEditMetadata', $canEditMetadata);
+                $templateMgr->assign('canEditFiles', $canEditFiles);
+                $templateMgr->assign_by_ref('riskAssessment', $submission->getRiskAssessment());
+                $templateMgr->assign_by_ref('abstract', $submission->getLocalizedAbstract());
+                
+		$currencyDao =& DAORegistry::getDAO('CurrencyDAO');
+                $sourceCurrencyId = $journal->getSetting('sourceCurrency');
+                $templateMgr->assign('sourceCurrency', $currencyDao->getCurrencyByAlphaCode($sourceCurrencyId));
                 
 		$templateMgr->display('author/submission.tpl');
                 
