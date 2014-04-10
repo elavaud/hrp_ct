@@ -38,7 +38,14 @@ class AboutHandler extends Handler {
                 $userManuals = $aboutFileDao->getAboutFilesByType(ABOUT_FILE_USER_MANUAL);
                 $templates = $aboutFileDao->getAboutFilesByType(ABOUT_FILE_TEMPLATE);
                 $miscellaneousFiles = $aboutFileDao->getAboutFilesByType(ABOUT_FILE_MISCELLANEOUS);
+                $navMenuItems = $templateMgr->get_template_vars('navMenuItems');
+                foreach ($navMenuItems as $navMenuKey => $navMenuItem){
+                    $navMenuItems[$navMenuKey] = array_filter($navMenuItem);
+                }
+                $navMenuItems = array_filter($navMenuItems);
                 
+                
+                $templateMgr->assign('countNavMenuItems', count($navMenuItems));
 		$templateMgr->assign_by_ref('policyFiles', $policyFiles);
 		$templateMgr->assign('countPolicyFiles', count($policyFiles));
                 $templateMgr->assign_by_ref('userManuals', $userManuals);

@@ -35,6 +35,9 @@
 	<message key="manager.setup.form.exchangeRateExamples">Examples of good exchange rate: "150,35" or "43890.54" or "0.322" or "87" ...</message>
 	<message key="manager.setup.form.exchangeRateConfirm">Attention! This operation can not be undone! Please carefully confirm the following exchange rate:</message>
 	<message key="manager.setup.form.exchangeRateAlert">Attention! This operation on the database can not be undone! Please ensure with your server administrator that you have backups of the database. We strongly recommend an automatic daily backup.</message>        
+        
+	<message key="manager.setup.itemsDescriptionModif">Links entered below will appear in the "About" page and, if the block has been made available, on the right column of this system.</message>
+        
         <!-- /Added -->
         
         <!-- Changed -->

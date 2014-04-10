@@ -37,11 +37,6 @@
 
 		{call_hook name="Templates::Common::Header::Navbar::CurrentJournal"}
 
-		{foreach from=$navMenuItems item=navItem}
-			{if $navItem.url != '' && $navItem.name != ''}
-				<li id="navItem"><a href="{if $navItem.isAbsolute}{$navItem.url|escape}{else}{$navItem.url|escape}{/if}">{if $navItem.isLiteral}{$navItem.name|escape}{else}{translate key=$navItem.name}{/if}</a></li>
-			{/if}
-		{/foreach}
 	</ul>
 </div>
 

@@ -73,5 +73,31 @@
 	</div>
 {/if}
 
+{if $countNavMenuItems > 0}
+    <div id="links">
+        <h3>{translate key="common.links"}</h3>
+        <table width="100%">
+            <tr><td colspan="2">&nbsp;</tr>
+            {foreach from=$navMenuItems item=navItem}
+                {if $navItem.url != '' && $navItem.name != ''}
+                    <tr>
+                        <td width="5%">&nbsp;</td>
+                        <td width="95%"><a href="{if $navItem.isAbsolute}{$navItem.url|escape}{else}{$navItem.url|escape}{/if}">
+                            <b>&#8226;&nbsp;
+                                {if $navItem.isLiteral}
+                                    {$navItem.name|escape}
+                                {else}
+                                    {translate key=$navItem.name}
+                                {/if}
+                            </b>
+                        </a>
+                        </td>
+                    </tr>
+                {/if}                
+            {/foreach}
+        </table>
+    </div>
+{/if}
+
 {include file="common/footer.tpl"}
 

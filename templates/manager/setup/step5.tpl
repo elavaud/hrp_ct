@@ -336,10 +336,10 @@ function prepBlockFields() {
 
 <div class="separator"></div>
 
-<div id="navigationBar">
-<h3>5.5 {translate key="manager.setup.navigationBar"}</h3>
+<div id="links">
+<h3>5.5 {translate key="common.links"}</h3>
 
-<p>{translate key="manager.setup.itemsDescription"}</p>
+<p>{translate key="manager.setup.itemsDescriptionModif"}</p>
 
 <table width="100%" class="data">
 {foreach name=navItems from=$navItems[$formLocale] key=navItemId item=navItem}
@@ -349,7 +349,7 @@ function prepBlockFields() {
 			<input type="text" name="navItems[{$formLocale|escape}][{$navItemId|escape}][name]" id="navItems-{$navItemId|escape}-name" value="{$navItem.name|escape}" size="30" maxlength="90" class="textField" /> <input type="submit" name="delNavItem[{$navItemId|escape}]" value="{translate key="common.delete"}" class="button" />
 			<table width="100%">
 				<tr valign="top">
-					<td width="5%"><input type="checkbox" name="navItems[{$formLocale|escape}][{$navItemId|escape}][isLiteral]" id="navItems-{$navItemId|escape}-isLiteral" value="1"{if $navItem.isLiteral} checked="checked"{/if} /></td>
+					<td width="5%"><input type="checkbox" name="navItems[{$formLocale|escape}][{$navItemId|escape}][isLiteral]" id="navItems-{$navItemId|escape}-isLiteral" value="1"{if ($navItem.name and $navItem.isLiteral) or !$navItem.name} checked="checked"{/if} /></td>
 					<td width="95%"><label for="navItems-{$navItemId|escape}-isLiteral">{translate key="manager.setup.navItemIsLiteral"}</label></td>
 				</tr>
 			</table>
@@ -361,7 +361,7 @@ function prepBlockFields() {
 			<input type="text" name="navItems[{$formLocale|escape}][{$navItemId|escape}][url]" id="navItems-{$navItemId|escape}-url" value="{$navItem.url|escape}" size="50" maxlength="255" class="textField" />
 			<table width="100%">
 				<tr valign="top">
-					<td width="5%"><input type="checkbox" name="navItems[{$formLocale|escape}][{$navItemId|escape}][isAbsolute]" id="navItems-{$navItemId|escape}-isAbsolute" value="1"{if $navItem.isAbsolute} checked="checked"{/if} /></td>
+					<td width="5%"><input type="checkbox" name="navItems[{$formLocale|escape}][{$navItemId|escape}][isAbsolute]" id="navItems-{$navItemId|escape}-isAbsolute" value="1"{if ($navItem.url and $navItem.isAbsolute) or !$navItem.url} checked="checked"{/if} /></td>
 					<td width="95%"><label for="navItems-{$navItemId|escape}-isAbsolute">{translate key="manager.setup.navItemIsAbsolute"}</label></td>
 				</tr>
 			</table>
