@@ -165,6 +165,8 @@ class SetupHandler extends ManagerHandler {
 						} else {
 							$lastOrder = $checklist[$formLocale][count($checklist[$formLocale])-1]['order'];
 						}
+						array_push($checklist[$formLocale], array('order' => $lastOrder+1));
+						$setupForm->setData('submissionChecklist', $checklist);                                                
                                                 
 					} else if (($delChecklist = $request->getUserVar('delChecklist')) && count($delChecklist) == 1) {
 						// Delete a checklist item
