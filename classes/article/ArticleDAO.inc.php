@@ -887,9 +887,9 @@ class ArticleDAO extends DAO {
 		
 		if (!empty($query)) {
 			$searchSql .= ' AND (
-				LOWER(ab.scientific_title) LIKE LOWER ("%'.$query.'%")
-				OR LOWER(ab.public_title) LIKE LOWER ("%'.$query.'%")
-				OR LOWER(ab.keywords) LIKE LOWER ("%'.$query.'%")
+				LOWER(ab.scientific_title) LIKE LOWER("%'.$query.'%")
+				OR LOWER(ab.public_title) LIKE LOWER("%'.$query.'%")
+				OR LOWER(ab.keywords) LIKE LOWER("%'.$query.'%")
 			)';
 		}
 		
@@ -909,7 +909,7 @@ class ArticleDAO extends DAO {
 			}
 		}
 		
-		if ($geoAreas != 'ALL') $searchSql .= ' AND LOWER(ad.geo_areas) LIKE LOWER ("%'.$geoAreas.'%")';
+		if ($geoAreas != 'ALL') $searchSql .= ' AND LOWER(ad.geo_areas) LIKE LOWER("%'.$geoAreas.'%")';
 				
 		
 		if ($status == 1) $searchSql .= ' AND a.status = ' . STATUS_COMPLETED;
