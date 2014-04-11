@@ -181,8 +181,6 @@ function checkSubmissionChecklist() {
 
 <p><input type="submit" value="{translate key="common.saveAndContinue"}" class="button defaultButton" /> <input type="button" value="{translate key="common.cancel"}" class="button" onclick="{if $articleId}confirmAction('{url page="author"}', '{translate|escape:"jsparam" key="author.submit.cancelSubmission"}'){else}document.location.href='{url page="author" escape=false}'{/if}" /></p>
 
-<p><span class="formRequired">{translate key="common.requiredField"}</span></p>
-<p><span class="formRequired">{translate key="common.mouseOver"}</span></p>
 </form>
 
 {/if}{* If not accepting submissions *}

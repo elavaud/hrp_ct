@@ -28,8 +28,6 @@
     
     <p><input type="submit" value="{translate key="common.saveAndContinue"}" class="button defaultButton"/> <input type="button" value="{translate key="common.cancel"}" class="button" onclick="confirmAction('{url page="author"}', '{translate|escape:"jsparam" key="author.submit.cancelSubmission"}')" /></p>
 
-    <p><span class="formRequired">{translate key="common.requiredField"}</span></p>
-    <p><span class="formRequired">{translate key="common.mouseOver"}</span></p>
 </form>
 
 {include file="common/footer.tpl"}
