@@ -6,6 +6,7 @@ config.inc.php
 /cache/*
 /.classpath
 /public/about/*
+/public/site/images/*
 /plugins/themes/hrp/images/banner.png
 /plugins/themes/hrp/images/footer.png
 /plugins/themes/hrp/hrp.css
