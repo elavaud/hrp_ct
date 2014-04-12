@@ -239,7 +239,9 @@ class ReportsHandler extends Handler {
 		$pregnant = Request::getUserVar('pregnant');
 		$newTreatment = Request::getUserVar('newTreatment');
 		$bioSamples = Request::getUserVar('bioSamples');
-		$radiation = Request::getUserVar('radiation');
+		$exportHumanTissue = Request::getUserVar('exportHumanTissue');
+		$exportReason = Request::getUserVar('exportReason');
+                $radiation = Request::getUserVar('radiation');
 		$distress = Request::getUserVar('distress');
 		$inducements = Request::getUserVar('inducements');
 		$sensitiveInfo = Request::getUserVar('sensitiveInfo');
@@ -247,7 +249,6 @@ class ReportsHandler extends Handler {
 		$genetic = Request::getUserVar('genetic');
 		$stemCell = Request::getUserVar('stemCell');
 		$biosafety = Request::getUserVar('biosafety');
-		$exportHumanTissue = Request::getUserVar('exportHumanTissue');
                 
 
                 $editorSubmissionDao =& DAORegistry::getDAO('EditorSubmissionDAO');
@@ -258,8 +259,8 @@ class ReportsHandler extends Handler {
                             $countries, $geoAreas, $researchFields, $withHumanSubjects, $proposalTypes, $dataCollection,
                         $budgetOption, $budget, $sources,
                         $identityRevealed, $unableToConsent, $under18, $dependentRelationship, $ethnicMinority, $impairment, 
-                            $pregnant, $newTreatment, $bioSamples, $radiation, $distress, $inducements, $sensitiveInfo, $reproTechnology, 
-                            $genetic, $stemCell, $biosafety, $exportHumanTissue);
+                            $pregnant, $newTreatment, $bioSamples, $exportHumanTissue, $exportReason, $radiation, $distress, $inducements, 
+                            $sensitiveInfo, $reproTechnology, $genetic, $stemCell, $biosafety);
                 
                 $criterias = $this->_getCriterias(
                         $sectionId, $decisionType, $decisionStatus, $decisionAfter, $decisionBefore,
@@ -267,8 +268,8 @@ class ReportsHandler extends Handler {
                             $countries, $geoAreas, $researchFields, $withHumanSubjects, $proposalTypes, $dataCollection,
                         $budgetOption, $budget, $sources,
                         $identityRevealed, $unableToConsent, $under18, $dependentRelationship, $ethnicMinority, $impairment, 
-                            $pregnant, $newTreatment, $bioSamples, $radiation, $distress, $inducements, $sensitiveInfo, $reproTechnology, 
-                            $genetic, $stemCell, $biosafety, $exportHumanTissue                        
+                            $pregnant, $newTreatment, $bioSamples, $exportHumanTissue, $exportReason, $radiation, $distress, $inducements, 
+                            $sensitiveInfo, $reproTechnology, $genetic, $stemCell, $biosafety                        
                         );
                                                 
 		return array( 0 => $submissions->toArray(), 1 => $criterias);            
@@ -283,8 +284,8 @@ class ReportsHandler extends Handler {
                             $countries, $geoAreas, $researchFields, $withHumanSubjects, $proposalTypes, $dataCollection,
                         $budgetOption, $budget, $sources,
                         $identityRevealed, $unableToConsent, $under18, $dependentRelationship, $ethnicMinority, $impairment, 
-                            $pregnant, $newTreatment, $bioSamples, $radiation, $distress, $inducements, $sensitiveInfo, $reproTechnology, 
-                            $genetic, $stemCell, $biosafety, $exportHumanTissue
+                            $pregnant, $newTreatment, $bioSamples, $exportHumanTissue, $exportReason, $radiation, $distress, 
+                            $inducements, $sensitiveInfo, $reproTechnology, $genetic, $stemCell, $biosafety
                         ){
 
                 $institutionDao =& DAORegistry::getDAO('InstitutionDAO');
@@ -418,7 +419,17 @@ class ReportsHandler extends Handler {
                 if ($impairment != null) {array_push($criterias, (Locale::translate('proposal.researchIncludesHumanSubject').' '.Locale::translate('proposal.impairment').' '.Locale::translate($riskAssessment->getYesNoKey($impairment))));}
                 if ($pregnant != null) {array_push($criterias, (Locale::translate('proposal.researchIncludesHumanSubject').' '.Locale::translate('proposal.pregnant').' '.Locale::translate($riskAssessment->getYesNoKey($pregnant))));}
                 if ($newTreatment != null) {array_push($criterias, (Locale::translate('proposal.researchIncludes').' '.Locale::translate('proposal.newTreatment').' '.Locale::translate($riskAssessment->getYesNoKey($newTreatment))));}
-                if ($bioSamples != null) {array_push($criterias, (Locale::translate('proposal.researchIncludes').' '.Locale::translate('proposal.bioSamples').' '.Locale::translate($riskAssessment->getYesNoKey($bioSamples))));}
+                if ($bioSamples != null) {
+                    array_push($criterias, (Locale::translate('proposal.researchIncludes').' '.Locale::translate('proposal.bioSamples').' '.Locale::translate($riskAssessment->getYesNoKey($bioSamples))));
+                    if ($bioSamples == RISK_ASSESSMENT_YES){
+                        if ($exportHumanTissue != null) {
+                            array_push($criterias, (Locale::translate('proposal.researchIncludes').' '.Locale::translate('proposal.exportHumanTissue').' '.Locale::translate($riskAssessment->getYesNoKey($exportHumanTissue))));                            
+                            if ($exportHumanTissue == RISK_ASSESSMENT_YES){
+                                if ($exportReason != null) {array_push($criterias, (Locale::translate('proposal.researchIncludes').' '.Locale::translate('proposal.exportReason').' '.Locale::translate($riskAssessment->getExportReasonKey())));}            
+                            }
+                        }                    
+                    }
+                }
                 if ($radiation != null) {array_push($criterias, (Locale::translate('proposal.researchIncludes').' '.Locale::translate('proposal.radiation').' '.Locale::translate($riskAssessment->getYesNoKey($radiation))));}
                 if ($distress != null) {array_push($criterias, (Locale::translate('proposal.researchIncludes').' '.Locale::translate('proposal.distress').' '.Locale::translate($riskAssessment->getYesNoKey($distress))));}
                 if ($inducements != null) {array_push($criterias, (Locale::translate('proposal.researchIncludes').' '.Locale::translate('proposal.inducements').' '.Locale::translate($riskAssessment->getYesNoKey($inducements))));}
@@ -427,7 +438,6 @@ class ReportsHandler extends Handler {
                 if ($genetic != null) {array_push($criterias, (Locale::translate('proposal.researchIncludes').' '.Locale::translate('proposal.genetic').' '.Locale::translate($riskAssessment->getYesNoKey($genetic))));}
                 if ($stemCell != null) {array_push($criterias, (Locale::translate('proposal.researchIncludes').' '.Locale::translate('proposal.stemCell').' '.Locale::translate($riskAssessment->getYesNoKey($stemCell))));}
                 if ($biosafety != null) {array_push($criterias, (Locale::translate('proposal.researchIncludes').' '.Locale::translate('proposal.biosafety').' '.Locale::translate($riskAssessment->getYesNoKey($biosafety))));}
-                if ($exportHumanTissue != null) {array_push($criterias, (Locale::translate('proposal.researchIncludes').' '.Locale::translate('proposal.exportHumanTissue').' '.Locale::translate($riskAssessment->getYesNoKey($exportHumanTissue))));}
                 
                 return $criterias;
         }
@@ -605,6 +615,12 @@ class ReportsHandler extends Handler {
                                                         $columns[$index] = Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getNewTreatment()));
                                                     } elseif ($index == 'bioSamples') {
                                                         $columns[$index] = Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getBioSamples()));
+                                                    } elseif ($index == 'exportHumanTissue') {
+                                                        if ($riskAssessment->getBioSamples() == RISK_ASSESSMENT_YES){$columns[$index] = Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getExportHumanTissue()));}
+                                                        else {$columns[$index] = Locale::translate('editor.reports.notApplicable');}
+                                                    } elseif ($index == 'exportReason') {
+                                                        if ($riskAssessment->getBioSamples() == RISK_ASSESSMENT_YES && $riskAssessment->getExportHumanTissue() == RISK_ASSESSMENT_YES){$columns[$index] = Locale::translate($riskAssessment->getExportReasonKey());}
+                                                        else {$columns[$index] = Locale::translate('editor.reports.notApplicable');}
                                                     } elseif ($index == 'radiation') {
                                                         $columns[$index] = Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getRadiation()));
                                                     } elseif ($index == 'distress') {
@@ -621,8 +637,6 @@ class ReportsHandler extends Handler {
                                                         $columns[$index] = Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getStemCell()));
                                                     } elseif ($index == 'biosafety') {
                                                         $columns[$index] = Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getBiosafety()));
-                                                    } elseif ($index == 'exportHumanTissue') {
-                                                        $columns[$index] = Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getExportHumanTissue()));
                                                     }                                                
                                                     
                                                 }						
@@ -778,7 +792,9 @@ class ReportsHandler extends Handler {
 		}
 		if (Request::getUserVar('checkBioSamples')){
 			$columns = $columns + array('bioSamples' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.bioSamplesAbb'));
-		}
+			$columns = $columns + array('exportHumanTissue' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.exportHumanTissueAbb'));
+			$columns = $columns + array('exportReason' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.exportReason'));                        
+                }
 		if (Request::getUserVar('checkRadiation')){
 			$columns = $columns + array('radiation' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.radiationAbb'));
 		}
@@ -802,9 +818,6 @@ class ReportsHandler extends Handler {
 		}
 		if (Request::getUserVar('checkBiosafety')){
 			$columns = $columns + array('biosafety' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.biosafetyAbb'));
-		}
-		if (Request::getUserVar('checkExportHumanTissue')){
-			$columns = $columns + array('exportHumanTissue' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.exportHumanTissueAbb'));
 		}
                 
                 return $columns;
@@ -856,6 +869,7 @@ class ReportsHandler extends Handler {
                 if ($measurement == 0){ $toSumUp = (int) 1;} 
                 else {$toSumUp = (int) $proposal->getTotalBudget();}
                 $proposalDetails = $proposal->getProposalDetails();
+                $riskAssessment = $proposal->getRiskAssessment();
                 if ($chartOptions == 'studentResearch'){
                     if ($proposalDetails->getStudentResearch() == PROPOSAL_DETAIL_YES){
                         $studentResearchInfo = $proposalDetails->getStudentResearchInfo();
@@ -928,8 +942,27 @@ class ReportsHandler extends Handler {
                     if(array_key_exists($key, $dataSetArray)){$dataSetArray[$key] = $dataSetArray[$key] + $toSumUp;} 
                     else {$dataSetArray[$key] = (int) $toSumUp;}
                     unset($key);                    
+                } elseif ($chartOptions == 'exportHumanTissue') {
+                    if ($riskAssessment->getBioSamples() == RISK_ASSESSMENT_YES) {
+                        $key = Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getExportHumanTissue()));
+                        if(array_key_exists($key, $dataSetArray)){$dataSetArray[$key] = $dataSetArray[$key] + $toSumUp;} 
+                        else {$dataSetArray[$key] = (int) $toSumUp;}
+                        unset($key);                                            
+                    } else {
+                        if(array_key_exists($keyNA, $dataSetArray)){$dataSetArray[$keyNA] = $dataSetArray[$keyNA] + $toSumUp;} 
+                        else {$dataSetArray[$keyNA] = (int) $toSumUp;}                        
+                    }
+                } elseif ($chartOptions == 'exportReason') {
+                    if ($riskAssessment->getBioSamples() == RISK_ASSESSMENT_YES && $riskAssessment->getExportHumanTissue() == RISK_ASSESSMENT_YES) {
+                        $key = Locale::translate($riskAssessment->getExportReasonKey());
+                        if(array_key_exists($key, $dataSetArray)){$dataSetArray[$key] = $dataSetArray[$key] + $toSumUp;} 
+                        else {$dataSetArray[$key] = (int) $toSumUp;}
+                        unset($key);
+                    } else {
+                        if(array_key_exists($keyNA, $dataSetArray)){$dataSetArray[$keyNA] = $dataSetArray[$keyNA] + $toSumUp;} 
+                        else {$dataSetArray[$keyNA] = (int) $toSumUp;}                        
+                    }
                 } else {
-                    $riskAssessment = $proposal->getRiskAssessment();
                     $key = Locale::translate($riskAssessment->getYesNoKey($riskAssessment->$chartOptions()));
                     if(array_key_exists($key, $dataSetArray)){$dataSetArray[$key] = $dataSetArray[$key] + $toSumUp;} 
                     else {$dataSetArray[$key] = (int) $toSumUp;}
@@ -954,6 +987,8 @@ class ReportsHandler extends Handler {
                 case 'getPregnant': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.pregnantAbb').' '.$endTitle); break;
                 case 'getNewTreatment': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.newTreatmentAbb').' '.$endTitle); break;
                 case 'getBioSamples': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.bioSamplesAbb').' '.$endTitle); break;
+                case 'exportHumanTissue': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.exportHumanTissueAbb').' '.$endTitle); break;
+                case 'exportReason': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.exportReason').' '.$endTitle); break;
                 case 'getRadiation': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.radiationAbb').' '.$endTitle); break;
                 case 'getDistress': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.distressAbb').' '.$endTitle); break;
                 case 'getInducements': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.inducementsAbb').' '.$endTitle); break;
@@ -962,7 +997,6 @@ class ReportsHandler extends Handler {
                 case 'getGenetic': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.geneticsAbb').' '.$endTitle); break;
                 case 'getStemCell': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.stemCellAbb').' '.$endTitle); break;
                 case 'getBiosafety': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.biosafetyAbb').' '.$endTitle); break;
-                case 'getExportHumanTissue': $pieChart->setTitle(Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.exportHumanTissueAbb').' '.$endTitle); break;
             }
 
             foreach ($dataSetArray as $key => $value){

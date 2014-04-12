@@ -84,6 +84,22 @@
             <a id="clearBioSamples" style="cursor: pointer;">{translate key="editor.reports.clearField"}</a>                
         </td>
     </tr>
+    <tr valign="top" id="exportHumanTissueField">
+        <td class="label">{fieldLabel name="exportHumanTissue" required="true" key="proposal.exportHumanTissue"}</td>
+        <td class="value">
+            {html_radios class='riskAssessmentRadio' name='exportHumanTissue' options=$riskAssessmentYesNoArray selected=$exportHumanTissue separator='&nbsp;&nbsp;&nbsp;&nbsp;'}
+            <a id="clearExportHumanTissue" style="cursor: pointer;">{translate key="editor.reports.clearField"}</a>                
+        </td>
+    </tr>        
+    <tr valign="top" id="exportReasonField">
+        <td width="40%" class="label">{fieldLabel name="exportReason" required="true" key="proposal.exportReason"}</td>
+        <td width="60%" class="value">
+            <select name="exportReason" id="exportReasonSelect" class="selectMenu">
+                <option value=""></option>
+                {html_options options=$riskAssessmentExportReasonArray selected=$exportReason}
+            </select>
+        </td>
+    </tr>                
     <tr valign="top" id="radiationField">
         <td class="label">{fieldLabel name="radiation" required="true" key="proposal.radiation"}</td>
         <td class="value">
@@ -140,11 +156,4 @@
             <a id="clearBiosafety" style="cursor: pointer;">{translate key="editor.reports.clearField"}</a>                
         </td>
     </tr>
-    <tr valign="top" id="exportHumanTissueField">
-        <td class="label">{fieldLabel name="exportHumanTissue" required="true" key="proposal.exportHumanTissue"}</td>
-        <td class="value">
-            {html_radios class='riskAssessmentRadio' name='exportHumanTissue' options=$riskAssessmentYesNoArray selected=$exportHumanTissue separator='&nbsp;&nbsp;&nbsp;&nbsp;'}
-            <a id="clearExportHumanTissue" style="cursor: pointer;">{translate key="editor.reports.clearField"}</a>                
-        </td>
-    </tr>        
 </table>

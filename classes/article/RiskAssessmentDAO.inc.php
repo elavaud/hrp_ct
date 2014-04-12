@@ -49,8 +49,12 @@ class RiskAssessmentDAO extends DAO{
 	function insertRiskAssessment(&$riskAssessment) {
 		$this->update(
 			'INSERT INTO article_risk_assessments
-				(article_id, identity_revealed, unable_to_consent, under_18, dependent_relationship, ethnic_minority, mental_impairment, pregnant, new_treatment, biological_samples, ionizing_radiation, distress, inducements, sensitive_information, repro_technology, genetic, stem_cell, biosafety, export_human_tissue, level_of_risk, risks_list, risks_management, risks_to_team, risks_to_subjects, risks_to_community, benefits_to_participants, knowledge_on_condition, knowledge_on_disease, multi_institution, conflict_of_interest)
-				VALUES			(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+				(article_id, identity_revealed, unable_to_consent, under_18, dependent_relationship, ethnic_minority, 
+                                mental_impairment, pregnant, new_treatment, biological_samples, export_human_tissue, export_reason, 
+                                ionizing_radiation, distress, inducements, sensitive_information, repro_technology, genetic, stem_cell, 
+                                biosafety, level_of_risk, risks_list, risks_management, risks_to_team, risks_to_subjects, risks_to_community, 
+                                benefits_to_participants, knowledge_on_condition, knowledge_on_disease, multi_institution, conflict_of_interest)
+				VALUES			(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
 			array(
 				(int) $riskAssessment->getArticleId(),
 				(int) $riskAssessment->getIdentityRevealed(),
@@ -62,6 +66,8 @@ class RiskAssessmentDAO extends DAO{
 				(int) $riskAssessment->getPregnant(),
 				(int) $riskAssessment->getNewTreatment(),
 				(int) $riskAssessment->getBioSamples(),
+				(int) $riskAssessment->getExportHumanTissue(),
+				(int) $riskAssessment->getExportReason(),
 				(int) $riskAssessment->getRadiation(),
 				(int) $riskAssessment->getDistress(),
 				(int) $riskAssessment->getInducements(),
@@ -70,7 +76,6 @@ class RiskAssessmentDAO extends DAO{
 				(int) $riskAssessment->getGenetic(),
 				(int) $riskAssessment->getStemCell(),
 				(int) $riskAssessment->getBiosafety(),
-				(int) $riskAssessment->getExportHumanTissue(),
 				(int) $riskAssessment->getRiskLevel(),
 				(string) $riskAssessment->getListRisks(),
 				(string) $riskAssessment->getHowRisksMinimized(),
@@ -105,6 +110,8 @@ class RiskAssessmentDAO extends DAO{
 				pregnant = ?,
 				new_treatment = ?,
 				biological_samples = ?,
+                                export_human_tissue = ?,
+                                export_reason = ?,
 				ionizing_radiation = ?,
 				distress = ?,
 				inducements = ?,
@@ -113,7 +120,6 @@ class RiskAssessmentDAO extends DAO{
 				genetic = ?,
 				stem_cell = ?,
 				biosafety = ?,
-                                export_human_tissue = ?,
                                 level_of_risk = ?,
 				risks_list = ?,
 				risks_management = ?,
@@ -136,6 +142,8 @@ class RiskAssessmentDAO extends DAO{
 				(int) $riskAssessment->getPregnant(),
 				(int) $riskAssessment->getNewTreatment(),
 				(int) $riskAssessment->getBioSamples(),
+				(int) $riskAssessment->getExportHumanTissue(),
+				(int) $riskAssessment->getExportReason(),
 				(int) $riskAssessment->getRadiation(),
 				(int) $riskAssessment->getDistress(),
 				(int) $riskAssessment->getInducements(),
@@ -144,7 +152,6 @@ class RiskAssessmentDAO extends DAO{
 				(int) $riskAssessment->getGenetic(),
 				(int) $riskAssessment->getStemCell(),
 				(int) $riskAssessment->getBiosafety(),
-				(int) $riskAssessment->getExportHumanTissue(),
 				(int) $riskAssessment->getRiskLevel(),
 				(string) $riskAssessment->getListRisks(),
 				(string) $riskAssessment->getHowRisksMinimized(),
@@ -203,6 +210,8 @@ class RiskAssessmentDAO extends DAO{
 		$riskAssessment->setPregnant($row['pregnant']);
 		$riskAssessment->setNewTreatment($row['new_treatment']);
 		$riskAssessment->setBioSamples($row['biological_samples']);
+		$riskAssessment->setExportHumanTissue($row['export_human_tissue']);
+		$riskAssessment->setExportReason($row['export_reason']);
 		$riskAssessment->setRadiation($row['ionizing_radiation']);
 		$riskAssessment->setDistress($row['distress']);
 		$riskAssessment->setInducements($row['inducements']);
@@ -211,7 +220,6 @@ class RiskAssessmentDAO extends DAO{
 		$riskAssessment->setGenetic($row['genetic']);
 		$riskAssessment->setStemCell($row['stem_cell']);
 		$riskAssessment->setBiosafety($row['biosafety']);
-		$riskAssessment->setExportHumanTissue($row['export_human_tissue']);
 		$riskAssessment->setRiskLevel($row['level_of_risk']);
 		$riskAssessment->setListRisks($row['risks_list']);
 		$riskAssessment->setHowRisksMinimized($row['risks_management']);
@@ -233,6 +241,13 @@ class RiskAssessmentDAO extends DAO{
             return array(
                 RISK_ASSESSMENT_YES => Locale::translate("common.yes"),
                 RISK_ASSESSMENT_NO => Locale::translate("common.no")
+            );
+        }
+        
+        function getExportReasonArray() {
+            return array(
+                RISK_ASSESSMENT_NO_LAB_CAPACITY => Locale::translate("proposal.noLabCapacity"),
+                RISK_ASSESSMENT_REQUIRE_QUALITY_ASSURANCE => Locale::translate("proposal.requireQualityAssusrance")
             );
         }
         

@@ -74,6 +74,21 @@
                 {html_radios name='riskAssessment[bioSamples]' options=$riskAssessmentYesNoArray selected=$riskAssessment.bioSamples separator='&nbsp;&nbsp;&nbsp;&nbsp;'}
             </td>
         </tr>
+        <tr valign="top" id="exportHumanTissueField">
+            <td width="40%" class="label">{fieldLabel name="exportHumanTissue" required="true" key="proposal.exportHumanTissue"}</td>
+            <td width="60%" class="value">
+                {html_radios name='riskAssessment[exportHumanTissue]' options=$riskAssessmentYesNoArray selected=$riskAssessment.exportHumanTissue separator='&nbsp;&nbsp;&nbsp;&nbsp;'}
+            </td>
+        </tr>                
+        <tr valign="top" id="exportReasonField">
+            <td width="40%" class="label">{fieldLabel name="exportReason" required="true" key="proposal.exportReason"}</td>
+            <td width="60%" class="value">
+                <select name="riskAssessment[exportReason]" id="exportReasonSelect" class="selectMenu">
+                    <option value=""></option>
+                    {html_options options=$riskAssessmentExportReasonArray selected=$riskAssessment.exportReason}
+                </select>
+            </td>
+        </tr>                
         <tr valign="top" id="radiationField">
             <td width="40%" class="label">{fieldLabel name="radiation" required="true" key="proposal.radiation"}</td>
             <td width="60%" class="value">
@@ -122,12 +137,6 @@
                 {html_radios name='riskAssessment[biosafety]' options=$riskAssessmentYesNoArray selected=$riskAssessment.biosafety separator='&nbsp;&nbsp;&nbsp;&nbsp;'}
             </td>
         </tr>
-        <tr valign="top" id="exportHumanTissueField">
-            <td width="40%" class="label">{fieldLabel name="exportHumanTissue" required="true" key="proposal.exportHumanTissue"}</td>
-            <td width="60%" class="value">
-                {html_radios name='riskAssessment[exportHumanTissue]' options=$riskAssessmentYesNoArray selected=$riskAssessment.exportHumanTissue separator='&nbsp;&nbsp;&nbsp;&nbsp;'}
-            </td>
-        </tr>        
         <tr valign="top"><td colspan="2">&nbsp;</td></tr>
     </table>
 

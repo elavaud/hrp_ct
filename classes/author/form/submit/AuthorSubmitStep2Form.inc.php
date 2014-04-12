@@ -125,7 +125,7 @@ class AuthorSubmitStep2Form extends AuthorSubmitForm {
                              }, array($_POST["proposalDetails"]["otherInstitutionName"], $_POST["proposalDetails"]["otherInstitutionAcronym"])));
                 }
                 
-                $this->addCheck(new FormValidatorArrayRadios($this, "riskAssessment", 'required', 'author.submit.form.riskAssessment', array('identityRevealed', 'unableToConsent', 'under18', 'dependentRelationship', 'ethnicMinority', 'impairment', 'pregnant', 'newTreatment', 'bioSamples', 'radiation', 'distress', 'inducements', 'sensitiveInfo', 'reproTechnology', 'genetic', 'stemCell', 'biosafety', 'exportHumanTissue', 'multiInstitutions', 'conflictOfInterest')));
+                $this->addCheck(new FormValidatorArrayRadios($this, "riskAssessment", 'required', 'author.submit.form.riskAssessment', array('identityRevealed', 'unableToConsent', 'under18', 'dependentRelationship', 'ethnicMinority', 'impairment', 'pregnant', 'newTreatment', 'bioSamples', 'exportHumanTissue', 'exportReason', 'radiation', 'distress', 'inducements', 'sensitiveInfo', 'reproTechnology', 'genetic', 'stemCell', 'biosafety', 'multiInstitutions', 'conflictOfInterest')));
         }
 
 	/**
@@ -231,6 +231,8 @@ class AuthorSubmitStep2Form extends AuthorSubmitForm {
                             'pregnant' => $riskAssessment->getPregnant(),
                             'newTreatment' => $riskAssessment->getNewTreatment(),
                             'bioSamples' => $riskAssessment->getBioSamples(),
+                            'exportHumanTissue' => $riskAssessment->getExportHumanTissue(),
+                            'exportReason' => $riskAssessment->getExportReason(),
                             'radiation' => $riskAssessment->getRadiation(),
                             'distress' => $riskAssessment->getDistress(),
                             'inducements' => $riskAssessment->getInducements(),
@@ -239,7 +241,6 @@ class AuthorSubmitStep2Form extends AuthorSubmitForm {
                             'genetic' => $riskAssessment->getGenetic(),
                             'stemCell' => $riskAssessment->getStemCell(),
                             'biosafety' => $riskAssessment->getBiosafety(),
-                            'exportHumanTissue' => $riskAssessment->getExportHumanTissue(),
                             'riskLevel' => $riskAssessment->getRiskLevel(),
                             'listRisks' => $riskAssessment->getListRisks(),
                             'howRisksMinimized' => $riskAssessment->getHowRisksMinimized(),
@@ -408,6 +409,7 @@ class AuthorSubmitStep2Form extends AuthorSubmitForm {
                 $templateMgr->assign('institutionTypes', $institutionDao->getInstitutionTypes());
                 $templateMgr->assign('internationalArray', $institutionDao->getInstitutionInternationalArray());
                 $templateMgr->assign('riskAssessmentYesNoArray', $riskAssessmentDao->getYesNoArray());
+                $templateMgr->assign('riskAssessmentExportReasonArray', $riskAssessmentDao->getExportReasonArray());
                 $templateMgr->assign('riskAssessmentLevelsOfRisk', $riskAssessmentDao->getLevelOfRiskArray());
                 $templateMgr->assign('riskAssessmentConflictOfInterestArray', $riskAssessmentDao->getConflictOfInterestArray());
 
@@ -689,6 +691,8 @@ class AuthorSubmitStep2Form extends AuthorSubmitForm {
                 $riskAssessment->setPregnant($riskAssessmentData['pregnant']);
                 $riskAssessment->setNewTreatment($riskAssessmentData['newTreatment']);
                 $riskAssessment->setBioSamples($riskAssessmentData['bioSamples']);
+                $riskAssessment->setExportHumanTissue($riskAssessmentData['exportHumanTissue']);
+                $riskAssessment->setExportReason($riskAssessmentData['exportReason']);
                 $riskAssessment->setRadiation($riskAssessmentData['radiation']);
                 $riskAssessment->setDistress($riskAssessmentData['distress']);
                 $riskAssessment->setInducements($riskAssessmentData['inducements']);
@@ -697,7 +701,6 @@ class AuthorSubmitStep2Form extends AuthorSubmitForm {
                 $riskAssessment->setGenetic($riskAssessmentData['genetic']);
                 $riskAssessment->setStemCell($riskAssessmentData['stemCell']);
                 $riskAssessment->setBiosafety($riskAssessmentData['biosafety']);
-                $riskAssessment->setExportHumanTissue($riskAssessmentData['exportHumanTissue']);
                 $riskAssessment->setRiskLevel($riskAssessmentData['riskLevel']);
                 $riskAssessment->setListRisks($riskAssessmentData['listRisks']);
                 $riskAssessment->setHowRisksMinimized($riskAssessmentData['howRisksMinimized']);

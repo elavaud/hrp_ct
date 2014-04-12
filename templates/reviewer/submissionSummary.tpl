@@ -225,6 +225,18 @@
             <td class="label" width="20%">{translate key="proposal.bioSamples"}</td>
             <td class="value">{translate key=$riskAssessment->getYesNoKey($riskAssessment->getBioSamples())}</td>
         </tr>
+        {if ($riskAssessment->getBioSamples()) == RISK_ASSESSMENT_YES}
+            <tr valign="top" id="exportHumanTissueField">
+                <td class="label" width="20%">{translate key="proposal.exportHumanTissue"}</td>
+                <td class="value">{translate key=$riskAssessment->getYesNoKey($riskAssessment->getExportHumanTissue())}</td>
+            </tr>
+        {/if}
+        {if (($riskAssessment->getBioSamples()) == RISK_ASSESSMENT_YES) && (($riskAssessment->getExportHumanTissue()) == RISK_ASSESSMENT_YES)}
+            <tr valign="top" id="exportReasonField">
+                <td class="label" width="20%">{translate key="proposal.exportReason"}</td>
+                <td class="value">{translate key=$riskAssessment->getExportReasonKey()}</td>
+            </tr>                           
+        {/if}                    
         <tr valign="top" id="radiationField">
             <td class="label" width="20%">{translate key="proposal.radiation"}</td>
             <td class="value">{translate key=$riskAssessment->getYesNoKey($riskAssessment->getRadiation())}</td>
@@ -257,10 +269,6 @@
             <td class="label" width="20%">{translate key="proposal.biosafety"}</td>
             <td class="value">{translate key=$riskAssessment->getYesNoKey($riskAssessment->getBiosafety())}</td>
         </tr>
-        <tr valign="top" id="exportHumanTissueField">
-            <td class="label" width="20%">{translate key="proposal.exportHumanTissue"}</td>
-            <td class="value">{translate key=$riskAssessment->getYesNoKey($riskAssessment->getExportHumanTissue())}</td>
-        </tr>               
         <tr valign="top"><td colspan="2"><b><br/>{translate key="proposal.potentialRisk"}</b></td></tr>
         <tr valign="top" id="riskLevelField">
             <td class="label" width="20%">{translate key="proposal.riskLevel"}</td>

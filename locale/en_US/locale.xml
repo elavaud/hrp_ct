@@ -26,9 +26,15 @@
 	 *  DEFAULT - Default settings for configuration items.
 	-->
         
-        <!-- New keys added in February March 2014 -->
+        <!-- New keys added in February - April 2014 -->
                 
-        <message key="proposal.exportHumanTissueAbb">Export Human Tissue</message>
+        <message key="proposal.exportHumanTissueAbb">Export Bio. Sample</message>
+        <message key="proposal.exportReason">Reason for export</message>
+        <message key="proposal.noLabCapacity">No laboratory capacity in the country</message>
+        <message key="proposal.requireQualityAssusrance">Requires additional quality assurance/validation</message>        
+        <message key="proposal.noLabCapacityAbb">No Lab. Capacity</message>
+        <message key="proposal.requireQualityAssusranceAbb">Requires add. validation</message>        
+        
         <message key="notification.type.articleSubmitted.initialReview">A new proposal, "{$param}", has been submitted for "Initial Review".</message>
         <message key="notification.type.articleReSubmitted.initialReview">The proposal, "{$param}", has been re-submitted for "Initial Review".</message>
         <message key="notification.type.articleSubmitted.continuingReview">The proposal, "{$param}", has been submitted for "Continuing Review".</message>
@@ -85,7 +91,7 @@
 
         <message key="proposal.otherSource.instruct"><![CDATA[If your source of monetary is not included in the above list, please provide the following information.<br/><i><font color="red">Please note that if this one has already been provided as an other institution for your key implementing institution, just select "Key Implementing Institution" in the bottom of the above list.</font></i>]]></message>
 
-        <message key="proposal.exportHumanTissue">Export of human tissue outside the country?</message>
+        <message key="proposal.exportHumanTissue">Export of the sample(s) outside the country?</message>
 
         <!-- Common Source and Institution Terms. Added in February 2014 - End -->
 
@@ -358,7 +364,7 @@
         <message key="proposal.pregnant">Who are pregnant?</message>
         <message key="proposal.researchIncludes">Does the research include:</message>
         <message key="proposal.newTreatment">A new treatment, medical procedure or test?</message>
-        <message key="proposal.bioSamples">Collection of biological samples including<![CDATA[<br/>]]> tissue extraction?</message>
+        <message key="proposal.bioSamples">Collection of biological samples including tissue extraction?</message>
         <message key="proposal.radiation">Use of ionizing radiation?</message>
         <message key="proposal.distress">Pain or psychological distress?</message><message key="proposal.inducements">Inducements?</message>
         <message key="proposal.sensitiveInfo">Collection of sensitive information?</message>

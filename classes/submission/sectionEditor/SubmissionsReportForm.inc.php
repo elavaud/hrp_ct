@@ -87,6 +87,8 @@ class SubmissionsReportForm extends Form {
                     'getPregnant' => Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.pregnantAbb'),
                     'getNewTreatment' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.newTreatmentAbb'),
                     'getBioSamples' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.bioSamplesAbb'),
+                    'exportHumanTissue' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.exportHumanTissueAbb'),
+                    'exportReason' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.exportReason'),                    
                     'getRadiation' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.radiationAbb'),
                     'getDistress' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.distressAbb'),
                     'getInducements' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.inducementsAbb'),
@@ -94,8 +96,7 @@ class SubmissionsReportForm extends Form {
                     'getReproTechnology' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.reproTechnologyAbb'),
                     'getGenetic' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.geneticsAbb'),
                     'getStemCell' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.stemCellAbb'),
-                    'getBiosafety' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.biosafetyAbb'),
-                    'getExportHumanTissue' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.exportHumanTissueAbb')
+                    'getBiosafety' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.biosafetyAbb')
                 );
                 
                 
@@ -114,6 +115,7 @@ class SubmissionsReportForm extends Form {
                 $templateMgr->assign('budgetOptions', $budgetOptions);                
                 $templateMgr->assign('sourceCurrency', $currencyDao->getCurrencyByAlphaCode($sourceCurrencyId));
                 $templateMgr->assign('riskAssessmentYesNoArray', $riskAssessmentDao->getYesNoArray());
+                $templateMgr->assign('riskAssessmentExportReasonArray', $riskAssessmentDao->getExportReasonArray());
                 $templateMgr->assign('reportTypeOptions', $reportTypeOptions);
                 $templateMgr->assign('measurementOptions', $measurementOptions);
                 $templateMgr->assign('chartOptions', $chartOptions);

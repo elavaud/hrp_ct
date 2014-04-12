@@ -14,6 +14,7 @@
        var OR_STRING = "{/literal}{translate key='common.or'}{literal}";
        var SOURCE_AMOUNT_NUMERIC = "{/literal}{translate key="proposal.source.amount.instruct"}{literal}";
 
+       var RISK_ASSESSMENT_NO = "{/literal}{$smarty.const.RISK_ASSESSMENT_NO}{literal}";
     
        $(document).ready(function() {
             
@@ -76,8 +77,14 @@
             
             $('#clearNewTreatment').click(function(){$('#riskAssessmentTable input:radio[name="newTreatment"]').attr('checked', false);});
             
-            $('#clearBioSamples').click(function(){$('#riskAssessmentTable input:radio[name="bioSamples"]').attr('checked', false);});
+            $('#clearBioSamples').click(function(){$('#riskAssessmentTable input:radio[name="bioSamples"]').attr('checked', false);showOrHideExportHumanTissue()});
             
+            $('#clearExportHumanTissue').click(function(){$('#riskAssessmentTable input:radio[name="exportHumanTissue"]').attr('checked', false);showOrHideExportReason();});            
+
+            $("[name='bioSamples']").change(showOrHideExportHumanTissue);
+
+            $("[name='exportHumanTissue']").change(showOrHideExportReason);
+        
             $('#clearRadiation').click(function(){$('#riskAssessmentTable input:radio[name="radiation"]').attr('checked', false);});
             
             $('#clearDistress').click(function(){$('#riskAssessmentTable input:radio[name="distress"]').attr('checked', false);});
@@ -94,8 +101,6 @@
 
             $('#clearBiosafety').click(function(){$('#riskAssessmentTable input:radio[name="biosafety"]').attr('checked', false);});
             
-            $('#clearExportHumanTissue').click(function(){$('#riskAssessmentTable input:radio[name="exportHumanTissue"]').attr('checked', false);});            
-
             $('#reportType').change(showSelectedReportType);
             
             showOrHideDecisionTable();
@@ -109,6 +114,8 @@
             showOrHideSourcesTable();
             
             showOrHideRiskAssessmentTable();
+            
+            showOrHideExportHumanTissue();
             
             showSelectedReportType();
 

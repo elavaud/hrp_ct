@@ -15,6 +15,9 @@ define ('RISK_ASSESSMENT_NO', 0);
 define ('RISK_ASSESSMENT_YES', 1);
 define ('RISK_ASSESSMENT_NOT_PROVIDED', 2);
 
+define ('RISK_ASSESSMENT_NO_LAB_CAPACITY', 0);
+define ('RISK_ASSESSMENT_REQUIRE_QUALITY_ASSURANCE', 1);
+
 define ('RISK_ASSESSMENT_NO_MORE_THAN_MINIMAL', 1);
 define ('RISK_ASSESSMENT_MINORE_THAN_MINIMAL', 2);
 define ('RISK_ASSESSMENT_MORE_THAN_MINIMAL', 3);
@@ -190,7 +193,62 @@ class RiskAssessment extends DataObject {
 	function setBioSamples($bioSamples) {
 		return $this->setData('bioSamples', $bioSamples);
 	}
+                
+	/**
+	 * Get if the research involves exporting human tissue outside of the country.
+	 * @return int
+	 */
+	function getExportHumanTissue() {
+		return $this->getData('exportHumanTissue');
+	}
 
+	/**
+	 * Set if the research involves exporting human tissue outside of the country (yes/no).
+	 * @param $exportHumanTissue int
+	 */
+	function setExportHumanTissue($exportHumanTissue) {
+		return $this->setData('exportHumanTissue', $exportHumanTissue);
+	}
+                
+	/**
+	 * Get if the the reason of the export outside the country of the biological sample.
+	 * @return int
+	 */
+	function getExportReason() {
+		return $this->getData('exportReason');
+	}
+
+	/**
+	 * Set if the the reason of the export outside the country of the biological sample.
+	 * @param $exportReason int
+	 */
+	function setExportReason($exportReason) {
+		return $this->setData('exportReason', $exportReason);
+	}
+        /**
+	 * Get a map for export reasons constants to locale key.
+	 * @return array
+	 */
+	function &getExportReasonMap() {
+		static $exportReasonMap;
+		if (!isset($exportReasonMap)) {
+			$exportReasonMap = array(
+                                RISK_ASSESSMENT_NO_LAB_CAPACITY => 'proposal.noLabCapacity',
+				RISK_ASSESSMENT_REQUIRE_QUALITY_ASSURANCE => 'proposal.requireQualityAssusrance'
+			);
+		}
+		return $exportReasonMap;
+	}
+	/**
+	 * Get a locale key for export reasons
+	 * @param $value
+	 */
+	function getExportReasonKey() {
+		$exportReasonMap =& $this->getExportReasonMap();
+		return $exportReasonMap[$this->getExportReason()];
+	}
+        
+        
 	/**
 	 * Get radiation.
 	 * @return int
@@ -317,22 +375,6 @@ class RiskAssessment extends DataObject {
 	 */
 	function setBiosafety($biosafety) {
 		return $this->setData('biosafety', $biosafety);
-	}
-        
-	/**
-	 * Get if the research involves exporting human tissue outside of the country.
-	 * @return int
-	 */
-	function getExportHumanTissue() {
-		return $this->getData('exportHumanTissue');
-	}
-
-	/**
-	 * Set if the research involves exporting human tissue outside of the country (yes/no).
-	 * @param $exportHumanTissue int
-	 */
-	function setExportHumanTissue($exportHumanTissue) {
-		return $this->setData('exportHumanTissue', $exportHumanTissue);
 	}        
         
 	/**

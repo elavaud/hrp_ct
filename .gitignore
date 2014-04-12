@@ -12,3 +12,5 @@ config.inc.php
 /plugins/themes/hrp/hrp.css
 /lib/pkp/locale/*/areasOfTheCountry.xml
 /lib/pkp/locale/*/researchFields.xml
+/classes/lib/libchart/images/*
+!/classes/lib/libchart/images/PoweredBy.png

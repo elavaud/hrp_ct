@@ -110,9 +110,4 @@
         <td colspan="2"><input type="checkbox" name="checkStemCell"/>{translate key="proposal.stemCell"}</td>
         <td colspan="2"><input type="checkbox" name="checkBiosafety"/>{translate key="proposal.biosafety"}</td>
     </tr>    
-    <tr>
-        <td colspan="2"><input type="checkbox" name="checkExportHumanTissue"/>{translate key="proposal.exportHumanTissue"}</td>
-        <td colspan="2">&nbsp;</td>
-    </tr>    
-    
 </table>

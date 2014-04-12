@@ -620,7 +620,7 @@ return $returner;
                         $journalId, $sectionId = 0, $decisionType = INITIAL_REVIEW, $decisionStatus = SUBMISSION_SECTION_DECISION_APPROVED, $decisionAfter = null, $decisionBefore = null,
                         $studentResearch = null, $startAfter = null, $startBefore = null, $endAfter = null, $endBefore = null, $kiiField = array(), $multiCountry = null, $countries = array(), $geoAreas = array(), $researchFields = array(), $withHumanSubjects = null, $proposalTypes = array(), $dataCollection = null,
                         $budgetOption = "<=", $budget = null, $sources = array(),
-                        $identityRevealed = null, $unableToConsent = null, $under18 = null, $dependentRelationship = null, $ethnicMinority = null, $impairment = null, $pregnant = null, $newTreatment = null, $bioSamples = null, $radiation = null, $distress = null, $inducements = null, $sensitiveInfo = null, $reproTechnology = null, $genetic = null, $stemCell = null, $biosafety = null, $exportHumanTissue = null
+                        $identityRevealed = null, $unableToConsent = null, $under18 = null, $dependentRelationship = null, $ethnicMinority = null, $impairment = null, $pregnant = null, $newTreatment = null, $bioSamples = null, $exportHumanTissue = null, $exportReason = null, $radiation = null, $distress = null, $inducements = null, $sensitiveInfo = null, $reproTechnology = null, $genetic = null, $stemCell = null, $biosafety = null
                         ) {
                 
             if ($sectionId == 0) {$sectionId = null;}
@@ -739,7 +739,17 @@ return $returner;
             if ($impairment != null) {$sql .= " AND ara.mental_impairment = '".$impairment."'";}
             if ($pregnant != null) {$sql .= " AND ara.pregnant = '".$pregnant."'";}
             if ($newTreatment != null) {$sql .= " AND ara.new_treatment = '".$newTreatment."'";}
-            if ($bioSamples != null) {$sql .= " AND ara.biological_samples = '".$bioSamples."'";}
+            if ($bioSamples != null) {
+                $sql .= " AND ara.biological_samples = '".$bioSamples."'";
+                if ($bioSamples == RISK_ASSESSMENT_YES){
+                    if ($exportHumanTissue != null) {
+                        $sql .= " AND ara.export_human_tissue = '".$exportHumanTissue."'";
+                        if ($exportHumanTissue == RISK_ASSESSMENT_YES){
+                            if ($exportReason != null) {$sql .= " AND ara.export_reason = '".$exportReason."'";}            
+                        }
+                    }                    
+                }
+            }
             if ($radiation != null) {$sql .= " AND ara.ionizing_radiation = '".$radiation."'";}
             if ($distress != null) {$sql .= " AND ara.distress = '".$distress."'";}
             if ($inducements != null) {$sql .= " AND ara.inducements = '".$inducements."'";}
@@ -748,7 +758,6 @@ return $returner;
             if ($genetic != null) {$sql .= " AND ara.genetic = '".$genetic."'";}
             if ($stemCell != null) {$sql .= " AND ara.stem_cell = '".$stemCell."'";}
             if ($biosafety != null) {$sql .= " AND ara.biosafety = '".$biosafety."'";}
-            if ($exportHumanTissue != null) {$sql .= " AND ara.export_human_tissue = '".$exportHumanTissue."'";}
 
             $result =& $this->_getUnfilteredEditorSubmissions(
             $journalId, $sectionId, null,

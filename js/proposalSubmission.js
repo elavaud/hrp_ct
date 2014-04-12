@@ -453,6 +453,38 @@ function addSource(){
     $('#sources input[name="sources[0][international]"][value="'+radioFirstSourceValue+'"]').attr('checked',true);    
 }       
 
+function showOrHideExportHumanTissue(){
+    var value = $("#riskAssessment input:radio[name='riskAssessment[bioSamples]']:checked").val();
+    if (value === RISK_ASSESSMENT_NO || typeof value === "undefined") {
+         $('#exportHumanTissueField').hide();
+         if(!$('#hiddenExportHumanTissueRadio').length){
+            $('#exportHumanTissueField').append($('<input type="radio" name="riskAssessment[exportHumanTissue]" id="hiddenExportHumanTissueRadio" value="NA">'));
+         }
+         $('#hiddenExportHumanTissueRadio').attr('checked', 'checked');
+    } else {
+         $('#exportHumanTissueField').show();
+         $('#hiddenExportHumanTissueRadio').remove();
+    }
+    showOrHideExportReason();
+}
+
+function showOrHideExportReason(){
+    var value = $("#riskAssessment input:radio[name='riskAssessment[exportHumanTissue]']:checked").val();
+    if (value === RISK_ASSESSMENT_NO || value === 'NA' || typeof value === "undefined") {
+         $('#exportReasonField').hide();
+         if($('#exportReasonSelect option[value="NA"]').length === 0){ // check if select option exists
+            $('#exportReasonSelect').append($('<option value="NA"></option>'));
+         }
+         $('#exportReasonSelect').val('NA');         
+    } else {
+         $('#exportReasonField').show();
+         if($('#exportReasonSelect option[value="NA"]').length > 0){ // check if select option exists
+            $('#exportReasonSelect option[value="NA"]').remove();
+         }
+         
+    }
+}
+
 function showOrHideOtherLevelOfRisk(){
     var value = $("#riskLevel").val();
     if (value === RISK_ASSESSMENT_NO_MORE_THAN_MINIMAL || typeof value === "undefined" || value === "") {

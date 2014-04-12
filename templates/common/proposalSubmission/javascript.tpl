@@ -31,6 +31,9 @@
        var RISK_ASSESSMENT_YES = "{/literal}{$smarty.const.RISK_ASSESSMENT_YES}{literal}";
        var RISK_ASSESSMENT_NOT_PROVIDED = "{/literal}{$smarty.const.RISK_ASSESSMENT_NOT_PROVIDED}{literal}";
 
+       var RISK_ASSESSMENT_NO_LAB_CAPACITY = "{/literal}{$smarty.const.RISK_ASSESSMENT_NO_LAB_CAPACITY}{literal}";
+       var RISK_ASSESSMENT_REQUIRE_QUALITY_ASSURANCE = "{/literal}{$smarty.const.RISK_ASSESSMENT_REQUIRE_QUALITY_ASSURANCE}{literal}";
+
        var RISK_ASSESSMENT_NO_MORE_THAN_MINIMAL = "{/literal}{$smarty.const.RISK_ASSESSMENT_NO_MORE_THAN_MINIMAL}{literal}";
        var RISK_ASSESSMENT_MINORE_THAN_MINIMAL = "{/literal}{$smarty.const.RISK_ASSESSMENT_MINORE_THAN_MINIMAL}{literal}";
        var RISK_ASSESSMENT_MORE_THAN_MINIMAL = "{/literal}{$smarty.const.RISK_ASSESSMENT_MORE_THAN_MINIMAL}{literal}";
@@ -92,6 +95,10 @@
         
         $('#sources a.removeSource').each(function() {$(this).click(function(){$(this).closest('table').remove();displayTotalBudget();});});                
         
+        $("[name='riskAssessment[bioSamples]']").change(showOrHideExportHumanTissue);
+
+        $("[name='riskAssessment[exportHumanTissue]']").change(showOrHideExportReason);
+
         $("#riskLevel").change(showOrHideOtherLevelOfRisk);
        
         $(document).ready(
@@ -118,8 +125,8 @@
                 displayTotalBudget();
                 
                 showOrHideOtherSource();
-                
-                //showLocationOtherSource();
+                                
+                showOrHideExportHumanTissue();
                 
                 showOrHideOtherLevelOfRisk();
             }
