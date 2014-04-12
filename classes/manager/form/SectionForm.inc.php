@@ -259,29 +259,6 @@ class SectionForm extends Form {
 			$sectionId = $sectionDao->insertSection($section);
 			$sectionDao->resequenceSections($journalId);
 		}
-
-		// Save assigned editors
-		$assignedEditorIds = Request::getUserVar('assignedEditorIds');
-		if (empty($assignedEditorIds)) $assignedEditorIds = array();
-		elseif (!is_array($assignedEditorIds)) $assignedEditorIds = array($assignedEditorIds);
-		$sectionEditorsDao =& DAORegistry::getDAO('SectionEditorsDAO');
-		$sectionEditorsDao->deleteEditorsBySectionId($sectionId, $journalId);
-		foreach ($this->sectionEditors as $key => $junk) {
-			$sectionEditor =& $this->sectionEditors[$key];
-			$userId = $sectionEditor->getId();
-			// We don't have to worry about omit- and include-
-			// section editors because this function is only called
-			// when the Save button is pressed and those are only
-			// used in other cases.
-			if (in_array($userId, $assignedEditorIds)) $sectionEditorsDao->insertEditor(
-				$journalId,
-				$sectionId,
-				$userId,
-				Request::getUserVar('canReview' . $userId),
-				Request::getUserVar('canEdit' . $userId)
-			);
-			unset($sectionEditor);
-		}
 	}
 }
 
