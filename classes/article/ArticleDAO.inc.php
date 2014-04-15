@@ -761,7 +761,7 @@ class ArticleDAO extends DAO {
 	 */
 	function getICPSubmissionsForYearCount($year) {
 		$result =& $this->retrieve('SELECT * FROM articles
-                                            WHERE date_submitted is not NULL and extract(year from date_submitted) = ? and a.public_id LIKE ?',
+                                            WHERE date_submitted is not NULL and extract(year from date_submitted) = ? and public_id LIKE ?',
 		array($year, '%.ICP.%'));
 
 		$count = $result->NumRows();
