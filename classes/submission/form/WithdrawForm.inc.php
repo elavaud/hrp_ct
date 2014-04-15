@@ -45,8 +45,8 @@ class WithdrawForm extends Form {
 		);
 		$this->article = $article;
 
-                $this->addCheck(new FormValidatorLocale($this, 'withdrawReason', 'required', 'author.submit.form.withdrawReasonRequired', $this->getRequiredLocale()));
-                $this->addCheck(new FormValidatorLocale($this, 'otherReason', 'required', 'author.submit.form.otherReasonRequired', $this->getRequiredLocale()));
+                $this->addCheck(new FormValidator($this, 'withdrawReason', 'required', 'author.submit.form.withdrawReasonRequired'));
+                $this->addCheck(new FormValidator($this, 'otherReason', 'required', 'author.submit.form.otherReasonRequired'));
 	}
 
 	/**
