@@ -34,8 +34,8 @@ define('ARTICLE_FILE_EDITOR',		'Editor');
 define('ARTICLE_FILE_COPYEDIT',		'CopyEdit');
 define('ARTICLE_FILE_LAYOUT',		'Layout');
 define('ARTICLE_FILE_PUBLIC',		'PublicFile');
-define('ARTICLE_FILE_SUPP',			'SupplementaryFile');
-define('ARTICLE_FILE_NOTE',			'FileNote');
+define('ARTICLE_FILE_SUPP',		'SupplementaryFile');
+define('ARTICLE_FILE_NOTE',		'FileNote');
 define('ARTICLE_FILE_ATTACHMENT',	'Attachment');
 
 class ArticleFileManager extends FileManager {
