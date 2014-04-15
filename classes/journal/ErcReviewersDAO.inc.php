@@ -10,7 +10,10 @@
  * @brief Class for DAO relating erc to reviewers.
  */
 
-// $Id$
+define('REVIEWER_EXTERNAL', 0);
+define('REVIEWER_CHAIR', 1);
+define('REVIEWER_VICE_CHAIR', 2);
+define('REVIEWER_MEMBER', 3);
 
 class ErcReviewersDAO extends DAO {
 	
@@ -220,10 +223,16 @@ class ErcReviewersDAO extends DAO {
 	 * @return boolean
 	 * Added by EL on March 14th 2013
 	 */
-	function isErcReviewer($journalId, $userId) {
-		$result =& $this->retrieve(
+	function isErcReviewer($journalId, $userId, $status = null) {
+		if ($status === null) {
+                    $result =& $this->retrieve(
 			'SELECT COUNT(*) FROM erc_reviewers WHERE section_id <> 0 AND journal_id = ? AND user_id = ?', array($journalId, $userId)
-		);
+                    );
+                } else {
+                    $result =& $this->retrieve(
+			'SELECT COUNT(*) FROM erc_reviewers WHERE section_id <> 0 AND journal_id = ? AND user_id = ? AND status = ?', array($journalId, $userId, $status)
+                    );
+                }
 		$returner = isset($result->fields[0]) && $result->fields[0] == 1 ? true : false;
 
 		$result->Close();

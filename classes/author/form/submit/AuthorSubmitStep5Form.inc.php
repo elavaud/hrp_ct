@@ -154,6 +154,7 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
 		$articleDao =& DAORegistry::getDAO('ArticleDAO');
 		$signoffDao =& DAORegistry::getDAO('SignoffDAO');
 		$sectionDao =& DAORegistry::getDAO('SectionDAO');
+		$ercReviewersDao =& DAORegistry::getDAO('ErcReviewersDAO');
 
 		$journal = Request::getJournal();
 		$user = Request::getUser();
@@ -241,12 +242,17 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
 		import('classes.mail.ArticleMailTemplate');
 		$mail = new ArticleMailTemplate($article, null, 'SUBMISSION_ACK', null, null, null, false);
 		foreach ($sectionEditors as $sectionEditor) {
-				// Not anymore: EL on February 17th 2013
-				// A section editor is directly assigned with the section id
-				// $sectionEditor =& $sectionEditorEntry['user'];
-			$mail->setFrom($sectionEditor->getEmail(), $sectionEditor->getFullName());
+                        
+                        // If one of the secretary is the chair of the committee, send from the chair, if not, take the last secretary in the array
+                        $from = $mail->getFrom();
+                        if ($ercReviewersDao->isErcReviewer($journal->getId(), $sectionEditor->getId(), REVIEWER_CHAIR)){
+                            $mail->setFrom($sectionEditor->getEmail(), $sectionEditor->getFullName());
+                        } elseif ($from['email'] == ''){
+                            $mail->setFrom($sectionEditor->getEmail(), $sectionEditor->getFullName());
+                        }
+			
 			$mail->addBcc($sectionEditor->getEmail(), $sectionEditor->getFullName());
-			//unset($sectionEditor);
+			unset($sectionEditor);
 		}
 		if ($mail->isEnabled()) {
 			$mail->addRecipient($user->getEmail(), $user->getFullName());
