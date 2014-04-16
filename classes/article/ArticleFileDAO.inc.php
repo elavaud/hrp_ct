@@ -136,6 +136,32 @@ class ArticleFileDAO extends DAO {
 		return $articleFiles;
 	}
 
+        /**
+	 * Retrieve all article files for a type and article ID.
+	 * @param $articleId int
+	 * @param $type int
+	 * @return array ArticleFiles
+	 */
+	function &getArticleFilesByType($articleId, $type) {
+		import('classes.file.ArticleFileManager');
+		$articleFiles = array();
+
+		$result =& $this->retrieve(
+			'SELECT * FROM article_files WHERE article_id = ? AND type = ?',
+			array($articleId, ArticleFileManager::typeToPath($type))
+		);
+
+		while (!$result->EOF) {
+			$articleFiles[] =& $this->_returnArticleFileFromRow($result->GetRowAssoc(false));
+			$result->moveNext();
+		}
+
+		$result->Close();
+		unset($result);
+
+		return $articleFiles;
+	}
+        
 	/**
 	 * Internal function to return an ArticleFile object from a row.
 	 * @param $row array

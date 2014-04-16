@@ -540,6 +540,13 @@ class AuthorAction extends Action {
 					$canDownload = true;
 				}
 			}
+                        
+			// Check report files
+			foreach ($authorSubmission->getReportFiles() as $reportFile) {
+				if ($reportFile->getFileId() == $fileId) {
+					$canDownload = true;
+				}
+			}                        
 
 			// Check galley files
 			foreach ($authorSubmission->getGalleys() as $galleyFile) {

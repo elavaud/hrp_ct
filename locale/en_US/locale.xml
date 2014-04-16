@@ -49,6 +49,9 @@
 	<message key="log.editor.fee.paid">{$editorName} acknowledged the reception of the review fee for proposal {$proposalId}.</message>
 	<message key="log.editor.fee.waived">{$editorName} decided to waive the proposal {$proposalId} of fee.</message>
         
+	<message key="article.reports">Report(s)</message>
+	<message key="article.reports.instruct">These files are post initial approval reports uploaded by the investigator. A report can be a progress report or the final report. Click on the blue title of the file in order to download it.</message>
+        
         <!-- End new keys -->
         
 	<message key="log.author.submitted">{$authorName} has submitted a proposal, ID "{$submissionId}", for "{$reviewType}".</message>

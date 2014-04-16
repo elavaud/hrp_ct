@@ -21,7 +21,8 @@
  * [article id]/submission/copyedit
  * [article id]/submission/layout
  * [article id]/supp
- * [article id]/attachment
+ * [article id]/report
+ *  * [article id]/attachment
  */
 
 
@@ -35,6 +36,7 @@ define('ARTICLE_FILE_COPYEDIT',		'CopyEdit');
 define('ARTICLE_FILE_LAYOUT',		'Layout');
 define('ARTICLE_FILE_PUBLIC',		'PublicFile');
 define('ARTICLE_FILE_SUPP',		'SupplementaryFile');
+define('ARTICLE_FILE_REPORT',		'Report');
 define('ARTICLE_FILE_NOTE',		'FileNote');
 define('ARTICLE_FILE_ATTACHMENT',	'Attachment');
 
@@ -70,7 +72,7 @@ class ArticleFileManager extends FileManager {
 	 * @return int file ID, is false if failure
 	 */
 	function uploadSubmissionFile($fileName, $fileId = null) {
-        return $this->handleUpload($fileName, ARTICLE_FILE_SUBMISSION, null, $fileId);
+                return $this->handleUpload($fileName, ARTICLE_FILE_SUBMISSION, null, $fileId);
 	}
 
 	/**
@@ -80,7 +82,7 @@ class ArticleFileManager extends FileManager {
 	 * @return int file ID, is false if failure
 	 */
 	function uploadReviewFile($fileName, $assocId = null, $fileId = null) {		
-		return $this->handleUpload($fileName, ARTICLE_FILE_REVIEW, $assocId, $fileId);
+                return $this->handleUpload($fileName, ARTICLE_FILE_REVIEW, $assocId, $fileId);
 	}
 
 	/**
@@ -90,7 +92,7 @@ class ArticleFileManager extends FileManager {
 	 * @return int file ID, is false if failure
 	 */
 	function uploadEditorDecisionFile($fileName, $assocId, $fileId = null) {	
-		return $this->handleUpload($fileName, ARTICLE_FILE_EDITOR, $assocId, $fileId, 1);
+                return $this->handleUpload($fileName, ARTICLE_FILE_EDITOR, $assocId, $fileId, 1);
 	}
 
 	/**
@@ -100,7 +102,7 @@ class ArticleFileManager extends FileManager {
 	 * @return int file ID, is false if failure
 	 */
 	function uploadCopyeditFile($fileName, $fileId = null) {	
-		return $this->handleUpload($fileName, ARTICLE_FILE_COPYEDIT, null, $fileId);
+                return $this->handleUpload($fileName, ARTICLE_FILE_COPYEDIT, null, $fileId);
 	}
 
 	/**
@@ -122,7 +124,7 @@ class ArticleFileManager extends FileManager {
 	function uploadSuppFile($fileName, $fileId = null) {	
 		return $this->handleUpload($fileName, ARTICLE_FILE_SUPP, null, $fileId);
 	}
-
+        
 	/**
 	 * Upload a public file.
 	 * @param $fileName string the name of the file used in the POST form
@@ -133,6 +135,16 @@ class ArticleFileManager extends FileManager {
 		return $this->handleUpload($fileName, ARTICLE_FILE_PUBLIC, null, $fileId);
 	}
 
+        /**
+	 * Upload a report file.
+	 * @param $fileName string the name of the file used in the POST form
+	 * @param $fileId int
+	 * @return int file ID, is false if failure
+	 */
+	function uploadReportFile($fileName, $fileId = null) {	
+		return $this->handleUpload($fileName, ARTICLE_FILE_REPORT, null, $fileId);
+	}        
+        
 	/**
 	 * Upload a note file.
 	 * @param $fileName string the name of the file used in the POST form
@@ -328,6 +340,7 @@ class ArticleFileManager extends FileManager {
             switch ($type) {
 			case ARTICLE_FILE_PUBLIC: return 'public';
 			case ARTICLE_FILE_SUPP: return 'supp';
+			case ARTICLE_FILE_REPORT: return 'report';
 			case ARTICLE_FILE_NOTE: return 'note';
 			case ARTICLE_FILE_REVIEW: return 'submission/review';
 			case ARTICLE_FILE_EDITOR: return 'submission/editor';
@@ -347,6 +360,7 @@ class ArticleFileManager extends FileManager {
 		switch ($path) {
 			case "public": return ARTICLE_FILE_PUBLIC;
 			case "supp": return ARTICLE_FILE_SUPP;
+			case "report": return ARTICLE_FILE_REPORT;
 			case "note": return ARTICLE_FILE_NOTE;
 			case "submission/review": return ARTICLE_FILE_REVIEW;
 			case "submission/editor": return ARTICLE_FILE_EDITOR;
@@ -490,7 +504,7 @@ class ArticleFileManager extends FileManager {
 		if($proposalId!=null || $proposalId!=''){
 			
 			$date = new DateTime($articleFile->getDateUploaded());
-			$dateUploaded = $date->format('MdY-g:ia');
+			$dateUploaded = $date->format('dMY-gia');
 			$newFileName = $proposalId.'.'.$type.'.'.$dateUploaded.'.'.$extension;
 			
 		}else{
