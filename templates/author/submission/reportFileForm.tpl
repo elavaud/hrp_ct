@@ -55,7 +55,7 @@
     
     {include file="common/formErrors.tpl"}
 
-    <p> Some comments on what and how to upload should be here </p>
+    <p>{if $type == "progress"}{$progressReportGuidelines}{else}{$completionReportGuidelines}{/if}</p>
     
     <div id="fileUpload">
         <table id="showReviewers" width="100%" class="data">

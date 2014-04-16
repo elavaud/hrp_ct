@@ -76,6 +76,8 @@ class ReportFileForm extends Form {
 	 * Display the form.
 	 */
 	function display() {
+		$journal =& Request::getJournal();
+                
 		$templateMgr =& TemplateManager::getManager();
 		$templateMgr->assign('rolePath', Request::getRequestedPage());
 		$templateMgr->assign('articleId', $this->article->getArticleId());
@@ -85,8 +87,11 @@ class ReportFileForm extends Form {
 		// order to redirect back to the right place
 		$templateMgr->assign('from', Request::getUserVar('from'));
 
+		$templateMgr->assign('progressReportGuidelines', $journal->getLocalizedSetting('progressReportGuidelines'));
+		$templateMgr->assign('completionReportGuidelines', $journal->getLocalizedSetting('completionReportGuidelines'));
+                
 		if (isset($this->file)) {
-			$templateMgr->assign_by_ref('file', $this->file);
+                    $templateMgr->assign_by_ref('file', $this->file);
 		}
 		parent::display();
 	}
