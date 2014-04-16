@@ -58,8 +58,6 @@ class ReportFileForm extends Form {
 	 * @return string
 	 */
 	function getDefaultFormLocale() {
-		//if ($this->article) return $this->article->getLocale();
-		//return parent::getDefaultFormLocale();
 	}
 
 	/**
@@ -67,8 +65,6 @@ class ReportFileForm extends Form {
 	 * @return array
 	 */
 	function getLocaleFieldNames() {
-		//$suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
-		//return $suppFileDao->getLocaleFieldNames();
 	}
 
 
@@ -124,21 +120,6 @@ class ReportFileForm extends Form {
 	function readInputData() {
 		$this->readUserVars(
 			array(
-				//'title',
-				//'creator',
-				//'subject',
-				//'type',
-				//'typeOther',
-				//'description',
-				//'publisher',
-				//'sponsor',
-				//'dateCreated',
-				//'source',
-				//'language',
-				//'showReviewers',
-				//'publicSuppFileId',
-                                //'fileType',
-                                //'otherFileType'
                                 'type',
                                 'articleId',
                                 'from',
@@ -163,8 +144,22 @@ class ReportFileForm extends Form {
 		$fileName = isset($fileName) ? $fileName : 'uploadReportFile';
                 
                 $lastDecision = $this->article->getLastSectionDecision();
+                $lastDecisionDecision = $lastDecision->getDecision();
+                $lastDecisionType = $lastDecision->getReviewType();
                 
-                if (($lastDecision->getDecision() == SUBMISSION_SECTION_DECISION_APPROVED || $lastDecision->getDecision() == SUBMISSION_SECTION_DECISION_EXEMPTED)&& $articleFileManager->uploadedFileExists($fileName)) {
+                // Ensure to start a new round of review when needed
+                if (    (
+                            (
+                                ($lastDecisionType != REVIEW_TYPE_CONTINUING && $lastDecisionType!= REVIEW_TYPE_EOS)
+                                && ($lastDecisionDecision == SUBMISSION_SECTION_DECISION_APPROVED || $lastDecisionDecision == SUBMISSION_SECTION_DECISION_EXEMPTED)
+                            )
+                            || (
+                                ($lastDecisionType == REVIEW_TYPE_CONTINUING || $lastDecisionType == REVIEW_TYPE_EOS)
+                                && ($lastDecisionDecision == SUBMISSION_SECTION_DECISION_INCOMPLETE || $lastDecisionDecision == SUBMISSION_SECTION_DECISION_RESUBMIT)                                
+                            )
+                        )
+                            && $articleFileManager->uploadedFileExists($fileName)
+                   ) {
                         $this->fileId = $articleFileManager->uploadReportFile($fileName);
                 } else {
                         $this->fileId = 0;
@@ -177,7 +172,7 @@ class ReportFileForm extends Form {
                     $sectionDecision->setDateDecided(date(Core::getCurrentDate()));      
                     $sectionDecision->setArticleId($this->article->getArticleId());
                     
-                    if ($lastDecision->getReviewType() == REVIEW_TYPE_CONTINUING) {
+                    if ($lastDecisionType == REVIEW_TYPE_CONTINUING || $lastDecisionType == REVIEW_TYPE_EOS) {
                         $lastRound = (int) $lastDecision->getRound();
                         $sectionDecision->setRound($lastRound + 1);
                     } else {
