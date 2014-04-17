@@ -164,10 +164,7 @@ class ReportFileForm extends Form {
                 
                 // Ensure to start a new round of review when needed, and if the file to upload is correct
                 if (    (
-                            (
-                                ($lastDecisionType != REVIEW_TYPE_CONTINUING && $lastDecisionType!= REVIEW_TYPE_EOS)
-                                && ($lastDecisionDecision == SUBMISSION_SECTION_DECISION_APPROVED || $lastDecisionDecision == SUBMISSION_SECTION_DECISION_EXEMPTED)
-                            )
+                            ($lastDecisionDecision == SUBMISSION_SECTION_DECISION_APPROVED || $lastDecisionDecision == SUBMISSION_SECTION_DECISION_EXEMPTED)
                             || (
                                 ($lastDecisionType == REVIEW_TYPE_CONTINUING || $lastDecisionType == REVIEW_TYPE_EOS)
                                 && ($lastDecisionDecision == SUBMISSION_SECTION_DECISION_INCOMPLETE || $lastDecisionDecision == SUBMISSION_SECTION_DECISION_RESUBMIT)                                
@@ -177,7 +174,7 @@ class ReportFileForm extends Form {
                    ) {
                     $this->fileId = $articleFileManager->uploadReportFile($fileName);
                 } else {
-                        $this->fileId = 0;
+                    $this->fileId = 0;
                 }
 
                 if ($this->fileId && $this->fileId > 0){
@@ -186,21 +183,20 @@ class ReportFileForm extends Form {
                     $sectionDecision->setDecision(0);
                     $sectionDecision->setDateDecided(date(Core::getCurrentDate()));      
                     $sectionDecision->setArticleId($this->article->getArticleId());
-                    
-                    if ($lastDecisionType == REVIEW_TYPE_CONTINUING || $lastDecisionType == REVIEW_TYPE_EOS) {
-                        $lastRound = (int) $lastDecision->getRound();
-                        $sectionDecision->setRound($lastRound + 1);
-                    } else {
-                        $sectionDecision->setRound(1);
-                    }
-                            
-                    
+
                     if ($this->getData('type') == 'progress') {
                         $sectionDecision->setReviewType(REVIEW_TYPE_CONTINUING);
                     } else {
                         $sectionDecision->setReviewType(REVIEW_TYPE_EOS);
                     }
-                    
+
+                    if ($lastDecisionType == $sectionDecision->getReviewType()) {
+                        $lastRound = (int) $lastDecision->getRound();
+                        $sectionDecision->setRound($lastRound + 1);
+                    } else {
+                        $sectionDecision->setRound(1);
+                    }
+                                        
                     $sectionDecisionDao->insertSectionDecision($sectionDecision);
                     $articleDao->changeArticleStatus($this->article->getArticleId(), STATUS_QUEUED);
                 }
