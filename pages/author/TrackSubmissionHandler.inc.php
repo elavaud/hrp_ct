@@ -739,12 +739,12 @@ class TrackSubmissionHandler extends AuthorHandler {
             $withdrawForm->setData('type', 'Withdraw Report');
             
             if ($withdrawForm->isLocaleResubmit()) {
-                    $withdrawForm->readInputData();
-		} else {
-                    $withdrawForm->initData();
-		}
+                $withdrawForm->readInputData();
+            } else {
+                $withdrawForm->initData();
+            }
 
-           $withdrawForm->display();
+            $withdrawForm->display();
         }
 
 
