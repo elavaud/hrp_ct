@@ -886,7 +886,11 @@ class TrackSubmissionHandler extends AuthorHandler {
 	 */
 	function saveReportFile($args, &$request) {
 		$articleId = Request::getUserVar('articleId');
-		$this->validate($articleId);
+		if ($articleId) {
+                    $this->validate($articleId);
+                } else {
+                    Request::redirect(null, Request::getRequestedPage());
+                }
 		$authorSubmission =& $this->submission;
 		$this->setupTemplate(true, $articleId, 'summary');
                 

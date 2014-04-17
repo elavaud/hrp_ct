@@ -46,11 +46,26 @@ class ReportFileForm extends Form {
 				$this->fileId = $fileId;
 			}
 		}
-
-		// Validation checks for this form
-                // Comment out, AIM, June 1, 2011
-		//$this->addCheck(new FormValidatorLocale($this, 'title', 'required', 'author.submit.suppFile.form.titleRequired'));
-		//$this->addCheck(new FormValidatorPost($this));
+                
+                $this->addCheck(new FormValidatorCustom($this, 'type', 'required', 'author.submit.form.pdfRequired', 
+                        function($type) {
+                            if ($type == 'completion' && $_FILES['uploadReportFile']['type'] != 'application/pdf') {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }));
+                        
+                $this->addCheck(new FormValidatorCustom($this, 'uploadReportFile', 'required', 'author.submit.form.fileTooBig', 
+                        function() {
+                            if ($_FILES['uploadReportFile']['size'] > 20971520) {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }));
+                        
+		$this->addCheck(new FormValidatorPost($this));
 	}
 
 	/**
@@ -147,7 +162,7 @@ class ReportFileForm extends Form {
                 $lastDecisionDecision = $lastDecision->getDecision();
                 $lastDecisionType = $lastDecision->getReviewType();
                 
-                // Ensure to start a new round of review when needed
+                // Ensure to start a new round of review when needed, and if the file to upload is correct
                 if (    (
                             (
                                 ($lastDecisionType != REVIEW_TYPE_CONTINUING && $lastDecisionType!= REVIEW_TYPE_EOS)
@@ -160,7 +175,7 @@ class ReportFileForm extends Form {
                         )
                             && $articleFileManager->uploadedFileExists($fileName)
                    ) {
-                        $this->fileId = $articleFileManager->uploadReportFile($fileName);
+                    $this->fileId = $articleFileManager->uploadReportFile($fileName);
                 } else {
                         $this->fileId = 0;
                 }
