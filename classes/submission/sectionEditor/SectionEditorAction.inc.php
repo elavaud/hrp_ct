@@ -53,28 +53,14 @@ class SectionEditorAction extends Action {
 		$sectionDecision->setComments($comments);
                 $sectionDecision->setDateDecided($approvalDate);
 
-		// Send a notification to the user
-		import('lib.pkp.classes.notification.NotificationManager');
-		$notificationManager = new NotificationManager();
-		$url = Request::url($journal->getPath(), 'author', 'submissionReview', array($sectionEditorSubmission->getArticleId()));
-
-		if ($decision == SUBMISSION_SECTION_DECISION_COMPLETE) $message = 'notification.type.submissionComplete';
-		elseif ($decision == SUBMISSION_SECTION_DECISION_INCOMPLETE) $message = 'notification.type.submissionIncomplete';		
-		elseif ($decision == SUBMISSION_SECTION_DECISION_EXPEDITED) $message = 'notification.type.submissionExpedited';
-		elseif ($decision == SUBMISSION_SECTION_DECISION_FULL_REVIEW) $message = 'notification.type.submissionAssigned';
-		elseif ($decision == SUBMISSION_SECTION_DECISION_EXEMPTED) $message = 'notification.type.submissionExempted';
-		elseif ($decision == SUBMISSION_SECTION_DECISION_DECLINED) $message = 'notification.type.submissionDecline';
-		elseif ($decision == SUBMISSION_SECTION_DECISION_APPROVED) $message = 'notification.type.submissionAccept';
-		elseif ($decision == SUBMISSION_SECTION_DECISION_DONE) $message = 'notification.type.submissionDone';
-		elseif ($decision == SUBMISSION_SECTION_DECISION_RESUBMIT) $message = 'notification.type.reviseAndResubmit';		
-
-		$notificationManager->createNotification(
-                    $sectionEditorSubmission->getUserId(), $message,
-                    $sectionEditorSubmission->getProposalId(), $url, 1, NOTIFICATION_TYPE_SECTION_DECISION_COMMENT
-                ); 
-
 		if (!HookRegistry::call('SectionEditorAction::recordDecision', array($sectionEditorSubmission, $decision, $reviewType, $round, $dateDecided, $lastDecisionId))) {
 			
+                        if ($reviewType == REVIEW_TYPE_EOS && ($decision == SUBMISSION_SECTION_DECISION_APPROVED || ($decision == SUBMISSION_SECTION_DECISION_EXEMPTED && $sectionDecision->getComments()))){
+                            if(!SectionEditorAction::_publishResearch($sectionEditorSubmission)){
+				Request::redirect(null, null, 'submissionReview', $sectionEditorSubmission->getArticleId());
+                            }  
+                        }
+                        
 			if (($decision == SUBMISSION_SECTION_DECISION_EXEMPTED && $sectionDecision->getComments())
 				|| $decision == SUBMISSION_SECTION_DECISION_APPROVED 
 				|| $decision == SUBMISSION_SECTION_DECISION_DONE 
@@ -89,6 +75,27 @@ class SectionEditorAction extends Action {
 			$sectionEditorSubmission->addDecision($sectionDecision);
 			$sectionEditorSubmissionDao->updateSectionEditorSubmission($sectionEditorSubmission);
 			
+                        // Send a notification to the user
+                        import('lib.pkp.classes.notification.NotificationManager');
+                        $notificationManager = new NotificationManager();
+                        $url = Request::url($journal->getPath(), 'author', 'submissionReview', array($sectionEditorSubmission->getArticleId()));
+
+                        if ($decision == SUBMISSION_SECTION_DECISION_COMPLETE) $message = 'notification.type.submissionComplete';
+                        elseif ($decision == SUBMISSION_SECTION_DECISION_INCOMPLETE) $message = 'notification.type.submissionIncomplete';		
+                        elseif ($decision == SUBMISSION_SECTION_DECISION_EXPEDITED) $message = 'notification.type.submissionExpedited';
+                        elseif ($decision == SUBMISSION_SECTION_DECISION_FULL_REVIEW) $message = 'notification.type.submissionAssigned';
+                        elseif ($decision == SUBMISSION_SECTION_DECISION_EXEMPTED) $message = 'notification.type.submissionExempted';
+                        elseif ($decision == SUBMISSION_SECTION_DECISION_DECLINED) $message = 'notification.type.submissionDecline';
+                        elseif ($decision == SUBMISSION_SECTION_DECISION_APPROVED) $message = 'notification.type.submissionAccept';
+                        elseif ($decision == SUBMISSION_SECTION_DECISION_DONE) $message = 'notification.type.submissionDone';
+                        elseif ($decision == SUBMISSION_SECTION_DECISION_RESUBMIT) $message = 'notification.type.reviseAndResubmit';		
+
+                        $notificationManager->createNotification(
+                            $sectionEditorSubmission->getUserId(), $message,
+                            $sectionEditorSubmission->getProposalId(), $url, 1, NOTIFICATION_TYPE_SECTION_DECISION_COMMENT
+                        ); 
+
+                        
 			$decisions = SectionEditorSubmission::getAllPossibleEditorDecisionOptions();
 			// Add log
 			import('classes.article.log.ArticleLog');
@@ -2843,6 +2850,121 @@ class SectionEditorAction extends Action {
                 
         }
 
+        /**
+	 * Internal function to write the pdf of a published researt.
+	 * @param $sectionEditorSubmission SectionEditorSubmission
+	 * @return bool
+	 */
+        function _publishResearch($sectionEditorSubmission){
+            
+            $completionReport = $sectionEditorSubmission->getLastReportFile();
+            
+            if ($completionReport->getFileType() == "application/pdf") {
+                
+                $coverPath = SectionEditorAction::_generateCover($sectionEditorSubmission);
+                
+                if ($coverPath && $coverPath!= '') {
+
+                    import('classes.lib.TCPDFMerger');
+                    $file2merge=array($coverPath.'tempCover.pdf', $completionReport->getFilePath());
+                    $pdf = new TCPDFMerger();
+                    $pdf->setFiles($file2merge);
+                    $pdf->concat();
+                    $fileName = $sectionEditorSubmission->getProposalId().'-Final_Technical_Report.pdf';
+                    $pdf->Output($coverPath.$fileName, "F");
+                    
+                    FileManager::deleteFile($coverPath.'tempCover.pdf');
+                    
+                    if (file_exists($coverPath.$fileName)) {
+                        
+                        //import('classes.article.ArticleFile');
+                        $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
+                        $technicalReport = new ArticleFile();
+
+                        $technicalReport->setArticleId($sectionEditorSubmission->getArticleId());
+                        $technicalReport->setFileName($fileName);
+                        $technicalReport->setFileType('application/pdf');
+                        $technicalReport->setFileSize(filesize($coverPath.$fileName));
+                        $technicalReport->setOriginalFileName($fileName);
+                        $technicalReport->setType('public');
+                        $technicalReport->setDateUploaded(Core::getCurrentDate());
+                        $technicalReport->setDateModified(Core::getCurrentDate());
+
+                        $fileId = $articleFileDao->insertArticleFile($technicalReport);
+                        
+                        return false;
+                        
+                    }
+                    
+                }
+                
+            }
+            return false;
+        }
+    
+        /**
+	 * Internal function to return the cover for publishing a research
+	 * @param $sectionEditorSubmission SectionEditorSubmission
+	 * @return string path to cover created
+	 */
+        function &_generateCover($sectionEditorSubmission){
+		$journal =& Request::getJournal();
+            
+                import('classes.lib.tcpdf.pdf');
+                import('classes.lib.tcpdf.tcpdf');
+            
+                $pdf = new PDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+                                                
+                $pdf->SetCreator(PDF_CREATOR);
+                
+                $submitter =& $sectionEditorSubmission->getUser();
+                $pdf->SetAuthor($submitter->getFullName());
+                
+                $pdf->SetTitle($journal->getJournalTitle());
+                
+                $pdf->SetSubject($sectionEditorSubmission->getProposalId().' - '.Locale::translate('submission.summary'));                
+                
+                //$pdf->SetKeywords('TCPDF, PDF, example, tutorial');
+
+                $cell_width = 45;
+                $cell_height = 6;
+                
+                // set default header data
+                $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 020', PDF_HEADER_STRING);
+
+                // set header and footer fonts
+                $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+                $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+                // set default monospaced font
+                $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+                // set margins
+                $pdf->SetMargins(PDF_MARGIN_LEFT, 58, PDF_MARGIN_RIGHT);
+                $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+                $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+                // set auto page breaks
+                $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+                // set image scale factor
+                $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+                
+                $pdf->AddPage();
+                $pdf->SetFont('dejavusans','B',13);
+                $pdf->MultiCell(0,6,Locale::translate("article.authors"), 0, 'L');
+                
+		$filePath = Config::getVar('files', 'files_dir') .
+		'/articles/' . $sectionEditorSubmission->getArticleId() . '/public/';
+                
+		if (!FileManager::fileExists($filePath, 'dir')) {
+                    FileManager::mkdirtree($filePath);
+                }
+                
+		$pdf->Output($filePath.'tempCover.pdf','F');
+                
+                return $filePath;
+        }
 }
 
 ?>

@@ -62,7 +62,7 @@ class ArticleFileManager extends FileManager {
 		$this->article =& $articleDao->getArticle($articleId);
 		$journalId = $this->article->getJournalId();
 		$this->filesDir = Config::getVar('files', 'files_dir') .
-		'articles/' . $articleId . '/';
+		'/articles/' . $articleId . '/';
 	}
 
 	/**

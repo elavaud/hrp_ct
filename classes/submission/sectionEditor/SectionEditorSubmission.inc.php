@@ -212,7 +212,22 @@ class SectionEditorSubmission extends Article {
 	function setReportFiles($reportFiles) {
 		return $this->setData('reportFiles', $reportFiles);
 	}
-        
+
+        /**
+	 * Get last report file uploaded for this article.
+	 * @return array ReportFiles
+	 */
+	function getLastReportFile() {
+                $reportFiles =& $this->getReportFiles();
+                $keyOfLastReport = 0;
+                foreach ($reportFiles as $key => $reportFile) {
+                    if ($reportFile->getDateUploaded() > $reportFiles[$keyOfLastReport]->getDateUploaded()){
+                        $keyOfLastReport = $key;
+                    }
+                }
+		return $reportFiles[$keyOfLastReport];
+	}
+
 	/**
 	 * Get review file.
 	 * @return ArticleFile
