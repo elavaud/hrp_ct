@@ -2892,7 +2892,7 @@ class SectionEditorAction extends Action {
 
                         $fileId = $articleFileDao->insertArticleFile($technicalReport);
                         
-                        return false;
+                        return $fileId;
                         
                     }
                     
