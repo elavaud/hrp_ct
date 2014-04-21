@@ -14,6 +14,7 @@
  */
 
 import('classes.article.Article');
+import('classes.article.SectionDecision');
 import('classes.submission.common.Action');
 
 class ArticleDAO extends DAO {
@@ -858,6 +859,7 @@ class ArticleDAO extends DAO {
 		$locale = Locale::getLocale();
 
 		$params = array(
+                                REVIEW_TYPE_INITIAL,
 				SUBMISSION_SECTION_DECISION_APPROVED,
 				SUBMISSION_SECTION_DECISION_EXEMPTED,
 				SUBMISSION_SECTION_DECISION_DONE
@@ -880,8 +882,7 @@ class ArticleDAO extends DAO {
 				LEFT JOIN article_abstract ab ON (ab.article_id = a.article_id)
                                 LEFT JOIN article_details ad ON (ad.article_id = a.article_id)
 				LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)
-                                LEFT JOIN section_decisions sdec2 ON (a.article_id = sdec2.article_id AND sdec.section_decision_id < sdec2.section_decision_id)
-			WHERE sdec2.section_decision_id IS NULL AND (sdec.decision = ? 
+			WHERE sdec.review_type = ? AND (sdec.decision = ? 
 				OR sdec.decision = ? 
 				OR sdec.decision = ?)';
 		
