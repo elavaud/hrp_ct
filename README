@@ -8,4 +8,4 @@ _The banner, "banner.png", and the footer, "footer.png", png images of 990 * 105
 _The CSS file "/plugins/themes/hrp/hrp.css" based on the template "/plugins/themes/hrp/hrp.TEMPLATE.css"
 _An xml file containing the geographical areas of the country for each language you intend to use. Each of these files should be located in their respective locale directory: "/lib/pkp/locale/*/areasOfTheCountry.xml". PLease refer to "/classes/article/AreasOfTheCountryDAO.inc.php".
 _An xml file containing the research fields for each language you intend to use. Each of these files should be located in their respective locale directory: "/lib/pkp/locale/*/researchFields.xml". PLease refer to the following template "/lib/pkp/locale/en_US/researchFields.TEMPLATE.xml.
-
+_The logo of the main institution in charge of the system: /public/site/images/mainlogo.png. This logo will be used for all the future PDF documents generated. The size of the logo should be smaller than "500*500" pixels, should in the PNG format and should have the name "mainlogo".
