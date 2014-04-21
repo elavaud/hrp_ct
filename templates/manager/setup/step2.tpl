@@ -28,6 +28,7 @@
 </table>
 </div>
 {/if}
+<!--{*
 <div id="focusAndScopeDescription">
 <h3>2.1 {translate key="manager.setup.focusAndScopeOfJournal"}</h3>
 <p>{translate key="manager.setup.focusAndScopeDescription"}</p>
@@ -37,9 +38,10 @@
 </div>
 
 <div class="separator"></div>
-
+*}-->
 <div id="peerReviewPolicy">
 <h3>2.2 {translate key="manager.setup.peerReviewPolicy"}</h3>
+<!--{*
 <div id="peerReviewDescription">
 <p>{translate key="manager.setup.peerReviewDescription"}</p>
 
@@ -87,6 +89,8 @@
 	</tr>
 </table>
 </div>
+*}-->
+
 <div id="reviewOptions">
 <h4>{translate key="manager.setup.reviewOptions"}</h4>
 
@@ -141,7 +145,7 @@
 	<input type="checkbox" name="rateReviewerOnQuality" id="rateReviewerOnQuality" value="1"{if $rateReviewerOnQuality} checked="checked"{/if} />&nbsp;
 	<label for="rateReviewerOnQuality">{translate key="manager.setup.reviewOptions.onQuality"}</label>
 </p>
-
+<!--{*
 <p>
 	<strong>{translate key="manager.setup.reviewOptions.reviewerAccess"}</strong><br/>
 	<input type="checkbox" name="reviewerAccessKeysEnabled" id="reviewerAccessKeysEnabled" value="1"{if $reviewerAccessKeysEnabled} checked="checked"{/if} />&nbsp;
@@ -157,6 +161,7 @@
 	{get_help_id|assign:"blindReviewHelpId" key="editorial.sectionEditorsRole.review.blindPeerReview" url="true"}
 	<label for="showEnsuringLink">{translate key="manager.setup.reviewOptions.showEnsuringLink" blindReviewHelpId=$blindReviewHelpId}</label><br/>
 </p>
+*}-->
 </div>
 </div>
 <div class="separator"></div>
@@ -167,7 +172,7 @@
 </div>
 
 <div class="separator"></div>
-
+<!--{*
 <div id="editorDecision">
 <h3>2.4 {translate key="manager.setup.editorDecision"}</h3>
 
@@ -264,8 +269,9 @@
 
 <p><input type="submit" name="addReviewerDatabaseLink" value="{translate key="manager.setup.addReviewerDatabaseLink"}" class="button" /></p>
 </div>
-<div class="separator"></div>
 
+<div class="separator"></div>
+*}-->
 <p><input type="submit" value="{translate key="common.saveAndContinue"}" class="button defaultButton" /> <input type="button" value="{translate key="common.cancel"}" class="button" onclick="document.location.href='{url op="setup" escape=false}'" /></p>
 
 <p><span class="formRequired">{translate key="common.requiredField"}</span></p>

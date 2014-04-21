@@ -28,7 +28,7 @@
 </table>
 </div><!-- locales -->
 {/if}
-
+<!--{*
 <div id="securitySettings">
 <h3>4.1 {translate key="manager.setup.securitySettings"}</h3>
 <div id="onlineAccessManagement">
@@ -459,7 +459,7 @@ function setRegAllowOpts(form) {
 
 <div class="separator"></div>
 
-
+**}-->
 <p><input type="submit" value="{translate key="common.saveAndContinue"}" class="button defaultButton" /> <input type="button" value="{translate key="common.cancel"}" class="button" onclick="document.location.href='{url op="setup" escape=false}'" /></p>
 
 <p><span class="formRequired">{translate key="common.requiredField"}</span></p>
