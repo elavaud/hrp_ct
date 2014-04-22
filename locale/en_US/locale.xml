@@ -89,7 +89,7 @@
         <message key="proposal.source.amount.instruct">Please enter whole numbers without any comma or other separator.</message>
 
         <message key="proposal.keyImplInstitution">Key Implementing Institution</message>
-        <message key="proposal.keyImplInstitution.instruct">The key implementing institution for the research. Please write any individual, organization, group or other legal entity responsible for overall management and implementation of research.</message>
+        <message key="proposal.keyImplInstitution.instruct">An institution, group or other legal entity responsible for overall management and implementation of research. If the research is being implmented in individual capacity by yourself: please select 'Self' from drop-down menu.</message>
         <message key="proposal.otherKeyImplInstitution.instruct">If your key implementing institution is not listed in the above list, please provide the following information:</message>
 
         <message key="proposal.otherSource.instruct"><![CDATA[If your source of monetary is not included in the above list, please provide the following information.<br/><i><font color="red">Please note that if this one has already been provided as an other institution for your key implementing institution, just select "Key Implementing Institution" in the bottom of the above list.</font></i>]]></message>
