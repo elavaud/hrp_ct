@@ -40,7 +40,7 @@
 <div class="separator"></div>
 *}-->
 <div id="peerReviewPolicy">
-<h3>2.2 {translate key="manager.setup.peerReviewPolicy"}</h3>
+<h3>2.1 {translate key="manager.setup.peerReviewPolicy"}</h3>
 <!--{*
 <div id="peerReviewDescription">
 <p>{translate key="manager.setup.peerReviewDescription"}</p>
@@ -165,6 +165,16 @@
 </div>
 </div>
 <div class="separator"></div>
+
+<div id="finalReportDisclaimer">
+    <h3>2.2 {translate key="manager.setup.finalReportDisclaimer"}</h3>
+    
+    <p>{translate key="manager.setup.finalReportDisclaimer.instruct"}</p>
+    
+    <p><textarea name="reportDisclaimer" id="reportDisclaimer" rows="12" cols="80" class="textArea">{$reportDisclaimer|escape}</textarea></p>
+</div>
+<div class="separator"></div>
+
 <div id="privacyStatementInfo">
 <h3>2.3 {translate key="manager.setup.privacyStatement"}</h3>
 

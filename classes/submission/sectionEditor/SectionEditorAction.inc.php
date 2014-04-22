@@ -58,18 +58,21 @@ class SectionEditorAction extends Action {
                         if ($reviewType == REVIEW_TYPE_EOS && ($decision == SUBMISSION_SECTION_DECISION_APPROVED || ($decision == SUBMISSION_SECTION_DECISION_EXEMPTED && $sectionDecision->getComments()))){
                             if(!SectionEditorAction::_publishResearch($sectionEditorSubmission)){
 				Request::redirect(null, null, 'submissionReview', $sectionEditorSubmission->getArticleId());
-                            }  
+                            }
                         }
                         
-			if (($decision == SUBMISSION_SECTION_DECISION_EXEMPTED && $sectionDecision->getComments())
+                        if ($reviewType == REVIEW_TYPE_EOS && ($decision == SUBMISSION_SECTION_DECISION_APPROVED || ($decision == SUBMISSION_SECTION_DECISION_EXEMPTED && $sectionDecision->getComments()))) {
+				$sectionEditorSubmission->setStatus(STATUS_COMPLETED);
+                        } elseif (($decision == SUBMISSION_SECTION_DECISION_EXEMPTED && $sectionDecision->getComments())
 				|| $decision == SUBMISSION_SECTION_DECISION_APPROVED 
 				|| $decision == SUBMISSION_SECTION_DECISION_DONE 
 				|| $decision == SUBMISSION_SECTION_DECISION_INCOMPLETE
 				|| $decision == SUBMISSION_SECTION_DECISION_RESUBMIT
-                        ) 
+                        ) {
 				$sectionEditorSubmission->setStatus(STATUS_REVIEWED);
-			elseif ($decision == SUBMISSION_SECTION_DECISION_DECLINED) 
+                        } elseif ($decision == SUBMISSION_SECTION_DECISION_DECLINED) { 
 				$sectionEditorSubmission->setStatus(STATUS_ARCHIVED);
+                        }
 
 			$sectionEditorSubmission->stampStatusModified();
 			$sectionEditorSubmission->addDecision($sectionDecision);
@@ -2913,36 +2916,19 @@ class SectionEditorAction extends Action {
                 import('classes.lib.tcpdf.pdf');
                 import('classes.lib.tcpdf.tcpdf');
             
+		Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON, LOCALE_COMPONENT_OJS_EDITOR, LOCALE_COMPONENT_PKP_SUBMISSION, LOCALE_COMPONENT_PKP_USER));
                 $pdf = new PDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-                                                
+                
+                // No header and footer for this document
+                $pdf->SetPrintHeader(false);
+                $pdf->SetPrintFooter(false);
+
                 $pdf->SetCreator(PDF_CREATOR);
                 
-                $submitter =& $sectionEditorSubmission->getUser();
-                $pdf->SetAuthor($submitter->getFullName());
+                $pdf->SetAuthor($journal->getJournalTitle());
                 
-                $pdf->SetTitle($journal->getJournalTitle());
-                
-                $pdf->SetSubject($sectionEditorSubmission->getProposalId().' - '.Locale::translate('submission.summary'));                
-                
-                //$pdf->SetKeywords('TCPDF, PDF, example, tutorial');
-
-                $cell_width = 45;
-                $cell_height = 6;
-                
-                // set default header data
-                $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 020', PDF_HEADER_STRING);
-
-                // set header and footer fonts
-                $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-                $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-
-                // set default monospaced font
-                $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
                 // set margins
-                $pdf->SetMargins(PDF_MARGIN_LEFT, 58, PDF_MARGIN_RIGHT);
-                $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-                $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+                $pdf->SetMargins(PDF_MARGIN_LEFT, 20, PDF_MARGIN_RIGHT);
 
                 // set auto page breaks
                 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
@@ -2950,11 +2936,77 @@ class SectionEditorAction extends Action {
                 // set image scale factor
                 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
                 
+                // Right now this cover page is only in english, but the english translation keys are ready
                 $pdf->AddPage();
-                $pdf->SetFont('dejavusans','B',13);
-                $pdf->MultiCell(0,6,Locale::translate("article.authors"), 0, 'L');
+                $pdf->SetFont('dejavusans','B',14);
+                $pdf->MultiCell(0,6,'Final Technical Report', 0, 'C'); // Locale::translate('editor.finalReport')
+                $pdf->ln();
+                $pdf->ln();
+                $pdf->MultiCell(0,6,'for', 0, 'C'); // Locale::translate('editor.finalReport.for')
+                $pdf->ln();
+                $pdf->ln();
+                $pdf->MultiCell(0,6,'Research Project', 0, 'C'); // Locale::translate('editor.finalReport.researchProject')
+                $pdf->ln();
+                $pdf->ln();
+                $pdf->ln();
+                $pdf->ln();
+
+                $abstract = $sectionEditorSubmission->getAbstractByLocale('en_US'); // Right now, considering only the english language
+                $pdf->SetFont('dejavusans','B',16);
+                $pdf->MultiCell(0,6,$abstract->getScientificTitle(), 0, 'C');                
+                $pdf->ln();
                 
-		$filePath = Config::getVar('files', 'files_dir') .
+                $authors = $sectionEditorSubmission->getAuthors();
+                $coInvestigatorsString = (string) '';
+                $pInvestigatorsString = (string) '';
+                foreach ($authors as $author) {
+                    if (!$author->getPrimaryContact()) {
+                        if ($coInvestigatorsString == '') {
+                            $coInvestigatorsString = $author->getFullName().' ('.$author->getAffiliation().')';
+                        } else {
+                            $coInvestigatorsString = $coInvestigatorsString.', '.$author->getFullName().' ('.$author->getAffiliation().')';
+                        }
+                    } else {
+                        $pInvestigatorsString = $author->getFullName().' ('.$author->getAffiliation().')';
+                    }
+                }
+                
+                $pdf->SetFont('dejavusans','',16);
+                $pdf->MultiCell(0,6,'Principal Investigator: '.$pInvestigatorsString, 0, 'C'); // Locale::translate('user.role.primaryInvestigator')         
+                
+                if ($coInvestigatorsString != ''){
+                    $pdf->MultiCell(0,6,'Co-Investigator(s): '.$coInvestigatorsString, 0, 'C'); // Locale::translate('user.role.coinvestigator')   
+                }
+                $pdf->ln();
+                $pdf->ln();
+                $pdf->ln();
+                $pdf->ln();
+                
+                $pdf->SetFont('dejavusans','B',16);
+                $pdf->MultiCell(0,6,$sectionEditorSubmission->getProposalId(), 0, 'C');
+                $pdf->ln();
+                $pdf->ln();
+
+                $decision = $sectionEditorSubmission->getLastSectionDecision();
+
+                $pdf->MultiCell(0, 0, date("F Y", strtotime($decision->getDateDecided())), 0, 'L', 0, 1, '', 250, true);
+                $pdf->Image("public/site/images/mainlogo.png", 'C', 230, 40, '', '', false, 'C', false, 300, 'R', false, false, 0, false, false, false);
+
+                $pdf->AddPage();
+                
+                $pdf->SetFont('dejavusans','B',14);
+                $pdf->MultiCell(0,6,'Final Technical Report', 0, 'C'); // Locale::translate('editor.finalReport')
+                $pdf->ln();
+                $pdf->ln();
+
+                $pdf->SetFont('dejavusans','B',12);
+                $pdf->MultiCell(0,6,'Disclaimer', 0, 'C'); // Locale::translate('editor.finalReport.disclaimer')
+                $pdf->ln();
+                $pdf->ln();
+
+                $pdf->SetFont('dejavusans','',11);
+                $pdf->writeHTMLCell(0, 6, '', '', $journal->getSetting('reportDisclaimer'), 0, 0, false, true, 'J');
+                $filePath = Config::getVar('files', 'files_dir') .
 		'/articles/' . $sectionEditorSubmission->getArticleId() . '/public/';
                 
 		if (!FileManager::fileExists($filePath, 'dir')) {

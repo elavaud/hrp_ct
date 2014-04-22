@@ -74,6 +74,11 @@
         <message key="editor.reports.chart.theme">Theme</message>
         <message key="editor.reports.chart">Chart</message>
         <message key="editor.reports.chart.withoutHumanSubjects">Without Human Subjects</message>
+
+        <message key="editor.finalReport">Final Technical Report</message>
+        <message key="editor.finalReport.for">for</message>
+        <message key="editor.finalReport.researchProject">Research Project</message>
+        <message key="editor.finalReport.disclaimer">Disclaimer</message>
         
         <!--  -->
     

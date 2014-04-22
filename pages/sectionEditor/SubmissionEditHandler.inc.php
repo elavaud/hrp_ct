@@ -415,11 +415,6 @@ class SubmissionEditHandler extends SectionEditorHandler {
                 $decision = Request::getUserVar('decision');
 		$previousDecision =& $submission->getLastSectionDecision();
                 $pastDecisionResult = $previousDecision->getDecision();
-
-		$fileName = "finalDecisionFile";
-		if(($pastDecisionResult == SUBMISSION_SECTION_DECISION_EXPEDITED || $pastDecisionResult == SUBMISSION_SECTION_DECISION_FULL_REVIEW || ($pastDecisionResult == SUBMISSION_SECTION_DECISION_EXEMPTED && !$previousDecision->getComments())) && isset($_FILES[$fileName])) {			
-			if (SectionEditorAction::uploadDecisionFile($articleId, $fileName, $submission->getLastSectionDecisionId()) == '0') Request::redirect(null, null, 'submissionReview', $articleId);		
-		}
 				
 		//pass lastDecisionId of this article to update existing row in section_decisions
 		if (isset($previousDecision)) {
@@ -458,7 +453,12 @@ class SubmissionEditHandler extends SectionEditorHandler {
                         SectionEditorAction::recordDecision($submission, $decision, $previousDecision->getReviewType(), $previousDecision->getRound(), $comments, $approvalDate, $lastDecisionId);
 				break;
 		}
-		
+                
+		$fileName = "finalDecisionFile";
+		if(($pastDecisionResult == SUBMISSION_SECTION_DECISION_EXPEDITED || $pastDecisionResult == SUBMISSION_SECTION_DECISION_FULL_REVIEW || ($pastDecisionResult == SUBMISSION_SECTION_DECISION_EXEMPTED && !$previousDecision->getComments())) && isset($_FILES[$fileName])) {			
+			if (SectionEditorAction::uploadDecisionFile($articleId, $fileName, $submission->getLastSectionDecisionId()) == '0') Request::redirect(null, null, 'submissionReview', $articleId);		
+		}
+                
 		switch ($decision) {
 			case SUBMISSION_SECTION_DECISION_APPROVED:
 			case SUBMISSION_SECTION_DECISION_DECLINED:

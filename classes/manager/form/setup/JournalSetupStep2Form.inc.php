@@ -39,6 +39,7 @@ class JournalSetupStep2Form extends JournalSetupForm {
 				'mailSubmissionsToReviewers' => 'bool',
 				'reviewGuidelines' => 'string',
 				'authorSelectsEditor' => 'bool',
+                                'reportDisclaimer' => 'string',
 				'privacyStatement' => 'string',
 				'customAboutItems' => 'object',
 				'enableLockss' => 'bool',

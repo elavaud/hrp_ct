@@ -201,6 +201,7 @@ class TinyMCEPlugin extends GenericPlugin {
 						$fields[] = 'focusScopeDesc';
 						$fields[] = 'reviewPolicy';
 						$fields[] = 'reviewGuidelines';
+						$fields[] = 'reportDisclaimer';
 						$fields[] = 'privacyStatement';
 						$customAboutItems = $templateMgr->get_template_vars('customAboutItems');
 						$count = max(1, isset($customAboutItems[$formLocale])?count($customAboutItems[$formLocale]):0);
