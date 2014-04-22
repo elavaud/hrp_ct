@@ -94,7 +94,11 @@ function checkSize(){
 								<td title="{translate key="editor.article.selectDecisionInstruct"}" class="label" width="20%">[?] {translate key="editor.article.selectDecision"}</td>
 								<td width="80%" class="value">
 									<select id="decision" name="decision" {if $authorFees && !$submissionPayment && $submission->getTotalBudget() > 5000}disabled="disabled"{/if} size="1" class="selectMenu">
-										{html_options_translate options=$sectionDecisionOptions selected=0}
+                                                                            {if $sectionDecision->getReviewType() == REVIEW_TYPE_INITIAL}
+                                                                                {html_options_translate options=$sectionDecisionOptions selected=0}
+                                                                            {else}
+                                                                                {html_options_translate options=$sectionDecisionOptionsWithoutDeclined selected=0}
+                                                                            {/if}
 									</select> {if $authorFees && !$submissionPayment && $submission->getTotalBudget() > 5000}<i>{translate key="editor.article.payment.paymentConfirm"}</i>{/if}			
 								</td>		
 							</tr>

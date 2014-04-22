@@ -234,8 +234,11 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		$templateMgr->assign_by_ref('sectionDecisions', $submission->getDecisions());
                 $templateMgr->assign('rateReviewerOnQuality', $journal->getSetting('rateReviewerOnQuality'));
 		$templateMgr->assign_by_ref('sections', $sections->toArray());
-		$templateMgr->assign('sectionDecisionOptions',SectionEditorSubmission::getEditorDecisionOptions());
-		
+		$sectionDecisions = SectionEditorSubmission::getEditorDecisionOptions();
+		$templateMgr->assign('sectionDecisionOptions',$sectionDecisions);
+                import('classes.submission.common.Action');
+                unset($sectionDecisions[SUBMISSION_SECTION_DECISION_DECLINED]);
+		$templateMgr->assign('sectionDecisionOptionsWithoutDeclined',$sectionDecisions);                
 		$templateMgr->assign('initialReviewOptions',SectionEditorSubmission::getInitialReviewOptions());
 		$templateMgr->assign('exemptionOptions',SectionEditorSubmission::getExemptionOptions());
 		$templateMgr->assign('continuingReviewOptions',SectionEditorSubmission::getContinuingReviewOptions());
