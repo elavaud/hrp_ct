@@ -83,7 +83,8 @@
 	<message key="institution.type.privateIndividual">Private Individual</message>
         
         <message key="proposal.source">Source</message>
-        <message key="proposal.source.instruct">Please select the funding source from the drop down menu. If your funding source is not listed: please select 'Key Implementing Institution' at the end of the drop down menu, if your funding source is the same as your Key Implementing Institution, OTHERWISE select 'Other'.</message>
+        <message key="proposal.source.instruct">Please select the funding source from the drop down menu. If your funding source is not listed: please select "Key Implementing Institution" at the end of the drop down menu, if your funding source is the same as your Key Implementing Institution, OTHERWISE select "Other".</message>
+        <message key="proposal.source.instruct2"><![CDATA[<i>If your funding source is not listed, please select "Key Implementing Institution" at the end of the drop-down menu, if your funding source is same as your key implementing institution, OTHERWISE select "Other".</i>]]></message>
         <message key="proposal.source.add">Add source of monetary or material support</message>
         <message key="proposal.source.amount">Amount</message>
         <message key="proposal.source.amount.instruct">Please enter whole numbers without any comma or other separator.</message>
@@ -92,7 +93,7 @@
         <message key="proposal.keyImplInstitution.instruct">An institution, group or other legal entity responsible for overall management and implementation of research. If the research is being implmented in individual capacity by yourself: please select 'Self' from drop-down menu.</message>
         <message key="proposal.otherKeyImplInstitution.instruct">If your key implementing institution is not listed in the above list, please provide the following information:</message>
 
-        <message key="proposal.otherSource.instruct"><![CDATA[If your source of monetary is not included in the above list, please provide the following information.<br/><i><font color="red">Please note that if this one has already been provided as an other institution for your key implementing institution, just select "Key Implementing Institution" in the bottom of the above list.</font></i>]]></message>
+        <message key="proposal.otherSource.instruct"><![CDATA[<i><font color="red">If this "Other" funding agency is the same as your "Key Implementing Institution", just select "Key Implementing Institution".</font></i>]]></message>
 
         <message key="proposal.exportHumanTissue">Export of the sample(s) outside the country?</message>
 

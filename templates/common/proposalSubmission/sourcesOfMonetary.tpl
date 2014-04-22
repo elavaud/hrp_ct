@@ -11,7 +11,9 @@
     <h3>{translate key="proposal.sourceOfMonetary"}</h3>
 
     <span><i><br/>{translate key="proposal.source.amount.instruct"}</i><br/>&nbsp;</span>
-
+    <span><br/>{translate key="proposal.source.instruct2"}<br/>&nbsp;</span>
+    
+    
     {foreach name=sources from=$sources key=sourceIndex item=source}
         <table width="100%" style="border-top: dotted 1px #C0C0C0 !important; padding-bottom:10px; padding-top: 10px;" {if $sourceIndex == 0} id="firstSource"{else} class="sourceSuppClass" {/if}> 
             {if $source.sourceId}
