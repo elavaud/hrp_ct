@@ -34,6 +34,7 @@
         <message key="proposal.requireQualityAssusrance">Requires additional quality assurance/validation</message>        
         <message key="proposal.noLabCapacityAbb">No Lab. Capacity</message>
         <message key="proposal.requireQualityAssusranceAbb">Requires add. validation</message>        
+        <message key="proposal.dataCollection.instruct">Primary data are the "new" data collected either through interviews, observations, laboratory experiments, or review of patient records, etc., as part of proposed research. Secondary data refer to reuse of "existing" datasets collected as part of other reearch projects, surveillance or routine health information systems. The secondary data may be in public domain or have restricted access.</message>
         
         <message key="notification.type.articleSubmitted.initialReview">A new proposal, "{$param}", has been submitted for "Initial Review".</message>
         <message key="notification.type.articleReSubmitted.initialReview">The proposal, "{$param}", has been re-submitted for "Initial Review".</message>

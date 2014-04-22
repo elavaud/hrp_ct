@@ -225,7 +225,7 @@
         </tr>
 
         <tr valign="top" id="dataCollectionField">
-            <td width="20%" class="label">{fieldLabel name="proposalDetails-dataCollection" required="true" key="proposal.dataCollection"}</td>
+            <td width="20%" class="label" title='{translate key="proposal.dataCollection.instruct"}'>[?] {fieldLabel name="proposalDetails-dataCollection" required="true" key="proposal.dataCollection"}</td>
             <td width="80%" class="value">
                 <select name="proposalDetails[dataCollection]" class="selectMenu">
                     <option value=""></option>
