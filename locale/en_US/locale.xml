@@ -83,7 +83,7 @@
 	<message key="institution.type.privateIndividual">Private Individual</message>
         
         <message key="proposal.source">Source</message>
-        <message key="proposal.source.instruct">Please select in this list your source of monetary and material support. If this one is not listed, please select "Other" at the bottom of this list. If this one is the same as your "Key Implementing Institution", please select "Key Implementing Institution" at the bottom of the list.</message>
+        <message key="proposal.source.instruct">Please select the funding source from the drop down menu. If your funding source is not listed: please select 'Key Implementing Institution' at the end of the drop down menu, if your funding source is the same as your Key Implementing Institution, OTHERWISE select 'Other'.</message>
         <message key="proposal.source.add">Add source of monetary or material support</message>
         <message key="proposal.source.amount">Amount</message>
         <message key="proposal.source.amount.instruct">Please enter whole numbers without any comma or other separator.</message>
