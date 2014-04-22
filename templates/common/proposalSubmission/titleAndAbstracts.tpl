@@ -31,19 +31,19 @@
             <tr><td colspan="2">&nbsp;</td></tr>
             <tr valign="top" id="backgroundField">
                 <td title="{translate key="proposal.backgroundInstruct"}" width="20%" class="label">[?] {fieldLabel name="background" required="true" key="proposal.background"}</td>
-                <td width="80%" class="value"><textarea name="abstracts[{$localeKey|escape}][background]" id="background" class="textArea" rows="5" cols="70">{$abstract.background|escape}</textarea></td>
+                <td width="80%" class="value"><textarea name="abstracts[{$localeKey|escape}][background]" id="background" class="textArea" rows="5" cols="70" maxlength="1200">{$abstract.background|escape}</textarea></td>
             </tr>
             <tr valign="top" id="objectivesField">
                 <td title="{translate key="proposal.objectivesInstruct"}" width="20%" class="label">[?] {fieldLabel name="objectives" required="true" key="proposal.objectives"}</td>
-                <td width="80%" class="value"><textarea name="abstracts[{$localeKey|escape}][objectives]" id="objectives" class="textArea" rows="5" cols="70">{$abstract.objectives|escape}</textarea></td>
+                <td width="80%" class="value"><textarea name="abstracts[{$localeKey|escape}][objectives]" id="objectives" class="textArea" rows="5" cols="70" maxlength="1200">{$abstract.objectives|escape}</textarea></td>
             </tr>
             <tr valign="top" id="studyMethodsField">
                 <td title="{translate key="proposal.studyMethodsInstruct"}" width="20%" class="label">[?] {fieldLabel name="studyMethods" required="true" key="proposal.studyMethods"}</td>
-                <td width="80%" class="value"><textarea name="abstracts[{$localeKey|escape}][studyMethods]" id="studyMethods" class="textArea" rows="5" cols="70">{$abstract.studyMethods|escape}</textarea></td>
+                <td width="80%" class="value"><textarea name="abstracts[{$localeKey|escape}][studyMethods]" id="studyMethods" class="textArea" rows="5" cols="70" maxlength="1800">{$abstract.studyMethods|escape}</textarea></td>
             </tr>  
             <tr valign="top" id="expectedOutcomesField">
                 <td title="{translate key="proposal.expectedOutcomesInstruct"}" width="20%" class="label">[?] {fieldLabel name="expectedOutcomes" required="true" key="proposal.expectedOutcomes"}</td>
-                <td width="80%" class="value"><textarea name="abstracts[{$localeKey|escape}][expectedOutcomes]" id="expectedOutcomes" class="textArea" rows="5" cols="70">{$abstract.expectedOutcomes|escape}</textarea></td>
+                <td width="80%" class="value"><textarea name="abstracts[{$localeKey|escape}][expectedOutcomes]" id="expectedOutcomes" class="textArea" rows="5" cols="70" maxlength="1800">{$abstract.expectedOutcomes|escape}</textarea></td>
             </tr>   
             <tr><td colspan="2">&nbsp;</td></tr>
             <tr valign="top" id="keywordsField">
