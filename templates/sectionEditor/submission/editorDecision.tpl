@@ -83,10 +83,14 @@ function checkSize(){
 					{elseif $decision == SUBMISSION_SECTION_DECISION_COMPLETE}
 						<td title="{translate key="editor.article.selectReviewProcessInstruct"}" class="label" width="20%">[?] {translate key="editor.article.selectReviewProcess"}</td>
 						<td width="80%" class="value">
-							<select id="decision" name="decision" size="1" class="selectMenu">
-								{html_options_translate options=$exemptionOptions selected=1}
-							</select>
-							<input type="submit" id="notFullReview" onclick="return confirm('{translate|escape:"jsparam" key="editor.article.confirmExemption"}')" name="submit" value="{translate key="editor.article.record"}"  class="button" />
+                                                    <select id="decision" name="decision" size="1" class="selectMenu">
+                                                        {if $sectionDecision->getReviewType() == REVIEW_TYPE_INITIAL}
+                                                            {html_options_translate options=$reviewOptions selected=0}
+                                                        {else}
+                                                            {html_options_translate options=$reviewOptionsWithoutExempted selected=0}
+                                                        {/if}                                                            
+                                                    </select>
+                                                    <input type="submit" id="notFullReview" onclick="return confirm('{translate|escape:"jsparam" key="editor.article.confirmExemption"}')" name="submit" value="{translate key="editor.article.record"}"  class="button" />
 						</td>
 					{elseif $decision == SUBMISSION_SECTION_DECISION_EXPEDITED || $decision == SUBMISSION_SECTION_DECISION_FULL_REVIEW || ($decision == SUBMISSION_SECTION_DECISION_EXEMPTED && !$sectionDecision->getComments())}
 						{if $decision == SUBMISSION_SECTION_DECISION_EXPEDITED || $decision == SUBMISSION_SECTION_DECISION_FULL_REVIEW}	

@@ -240,7 +240,10 @@ class SubmissionEditHandler extends SectionEditorHandler {
                 unset($sectionDecisions[SUBMISSION_SECTION_DECISION_DECLINED]);
 		$templateMgr->assign('sectionDecisionOptionsWithoutDeclined',$sectionDecisions);                
 		$templateMgr->assign('initialReviewOptions',SectionEditorSubmission::getInitialReviewOptions());
-		$templateMgr->assign('exemptionOptions',SectionEditorSubmission::getExemptionOptions());
+                $reviewOptions = SectionEditorSubmission::getReviewOptions();
+		$templateMgr->assign('reviewOptions', $reviewOptions);
+                unset($reviewOptions[SUBMISSION_SECTION_DECISION_EXEMPTED]);
+		$templateMgr->assign('reviewOptionsWithoutExempted', $reviewOptions);
 		$templateMgr->assign('continuingReviewOptions',SectionEditorSubmission::getContinuingReviewOptions());
 		$templateMgr->assign('articleMoreRecent', $articleMoreRecent);
 		$templateMgr->assign('lastDecision', $lastDecision);

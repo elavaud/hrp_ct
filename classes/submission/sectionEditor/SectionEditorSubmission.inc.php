@@ -418,14 +418,14 @@ class SectionEditorSubmission extends Article {
 	 * Last Update: 5/28/2011
 	********************************************/
 	
-	function &getExemptionOptions() {
-		static $exemptionOptions = array(
+	function &getReviewOptions() {
+		static $reviewOptions = array(
 			'' => 'common.chooseOne',
 			SUBMISSION_SECTION_DECISION_EXEMPTED => 'editor.article.decision.exempted',
 			SUBMISSION_SECTION_DECISION_FULL_REVIEW => 'editor.article.decision.fullReview',
 			SUBMISSION_SECTION_DECISION_EXPEDITED => 'editor.article.decision.expedited'
 		);
-		return $exemptionOptions;
+		return $reviewOptions;
 	}
 	
 	/********************************************
