@@ -372,13 +372,12 @@ class ArticleFileManager extends FileManager {
 	}
 	
 	/**
-	* Added by MSB, Sept 29, 2011
 	* Rename an existing ArticleFile
 	* @param fileId int
 	* @param path string
 	* @param suppFileCounter  int
 	*/
-	function renameFile($fileId, $path, $suppFileCounter){
+	function renameFile($fileId, $path, $suppFileCounter = 0, $suppFileType = null){
 		if (HookRegistry::call('ArticleFileManager::renameFile', array(&$fileId, &$path, $suppFileCounter, &$result))) return $result;
 	
 		$articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
@@ -390,7 +389,8 @@ class ArticleFileManager extends FileManager {
 	
 		if($type == ARTICLE_FILE_SUPP ){
 			$suppFileCounter = $suppFileCounter + 1;
-			$type = $type.$suppFileCounter;
+                        $suppFileType = preg_replace('/\s+/', '', $suppFileType);  
+			$type = $suppFileType.$suppFileCounter;
 		}
 		
 		

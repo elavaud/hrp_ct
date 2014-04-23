@@ -67,7 +67,6 @@ class SubmitHandler extends AuthorHandler {
     }
         
      /**
-      * Added by MSB, Sept 29, 2011
       * Rename all the submitted files 
       * Enter description here ...
       */
@@ -81,12 +80,20 @@ class SubmitHandler extends AuthorHandler {
 
     	$articleFileManager = new ArticleFileManager($articleId);
     	
-    	$suppFileCounter = 0;
+    	$suppFileCounter = array();
     	$suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
     	 
     	/*Rename each uploaded file*/
     	foreach  ($articleFiles as $file){
-    		$suppFileCounter = $articleFileManager->renameFile($file->getFileId(),$file->getType(),$suppFileCounter);
+            if ($file->getType() == 'supp') {
+                $suppFile = $suppFileDao->getSuppFileByFileId($file->getFileId());
+                if (!array_key_exists($suppFile->getType(), $suppFileCounter)) {
+                    $suppFileCounter[$suppFile->getType()] = 0;
+                }
+    		$suppFileCounter[$suppFile->getType()] = $articleFileManager->renameFile($file->getFileId(),$file->getType(),$suppFileCounter[$suppFile->getType()], $suppFile->getType());
+            } else {
+    		$articleFileManager->renameFile($file->getFileId(),$file->getType());
+            }
     	}
     }
 
