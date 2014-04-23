@@ -993,7 +993,7 @@ class SectionEditorAction extends Action {
 			$editorFileId = $sectionEditorSubmission->getEditorFileId() != null ? $sectionEditorSubmission->getEditorFileId() : null;
 
 			// $editorFileId definitely will not be null after assignment
-			$editorFileId = $articleFileManager->copyToEditorFile($newFileId, null, $editorFileId);
+			$editorFileId = $articleFileManager->copyToDecisionFile($newFileId, null, $editorFileId);
 			$newEditorFile = $articleFileDao->getArticleFile($editorFileId);
 			$newEditorFile->setRound($sectionEditorSubmission->getCurrentRound());
 			$articleFileDao->updateArticleFile($newEditorFile);
@@ -1368,7 +1368,7 @@ class SectionEditorAction extends Action {
 			} else {
 				$reviewFileId = $articleFileManager->uploadReviewFile($fileName);
 			}
-			$editorFileId = $articleFileManager->copyToEditorFile($reviewFileId, $sectionEditorSubmission->getEditorFileId());
+			$editorFileId = $articleFileManager->copyToDecisionFile($reviewFileId, $sectionEditorSubmission->getEditorFileId());
 		}
 
 		if (isset($reviewFileId) && $reviewFileId != 0 && isset($editorFileId) && $editorFileId != 0) {
@@ -1392,9 +1392,9 @@ class SectionEditorAction extends Action {
 		$fileName = 'upload';
 		if ($articleFileManager->uploadedFileExists($fileName) && !HookRegistry::call('SectionEditorAction::uploadEditorVersion', array(&$sectionEditorSubmission))) {
 			if ($sectionEditorSubmission->getEditorFileId() != null) {
-				$fileId = $articleFileManager->uploadEditorDecisionFile($fileName,$sectionEditorSubmission->getLastSectionDecisionId(), $sectionEditorSubmission->getEditorFileId());
+				$fileId = $articleFileManager->uploadDecisionFile($fileName,$sectionEditorSubmission->getLastSectionDecisionId(), $sectionEditorSubmission->getEditorFileId());
 			} else {
-				$fileId = $articleFileManager->uploadEditorDecisionFile($fileName, $sectionEditorSubmission->getLastSectionDecisionId());
+				$fileId = $articleFileManager->uploadDecisionFile($fileName, $sectionEditorSubmission->getLastSectionDecisionId());
 			}
 		}
 
@@ -2600,7 +2600,7 @@ class SectionEditorAction extends Action {
 		
                 // Upload file, if file selected.
 		if ($articleFileManager->uploadedFileExists($fileName)) {
-			$fileId = $articleFileManager->uploadEditorDecisionFile($fileName, $decisionId);
+			$fileId = $articleFileManager->uploadDecisionFile($fileName, $decisionId);
 			return $fileId;	
 		} else {
 			$fileId = 0;

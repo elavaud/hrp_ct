@@ -17,7 +17,7 @@
  * [article id]/submission
  * [article id]/submission/original
  * [article id]/submission/review
- * [article id]/submission/editor
+ * [article id]/submission/decision
  * [article id]/submission/copyedit
  * [article id]/submission/layout
  * [article id]/supp
@@ -31,7 +31,7 @@ import('lib.pkp.classes.file.FileManager');
 /* File type suffixes */
 define('ARTICLE_FILE_SUBMISSION',	'MainProposal');
 define('ARTICLE_FILE_REVIEW',		'ReviewFile');
-define('ARTICLE_FILE_EDITOR',		'Editor');
+define('ARTICLE_FILE_DECISION',		'Decision');
 define('ARTICLE_FILE_COPYEDIT',		'CopyEdit');
 define('ARTICLE_FILE_LAYOUT',		'Layout');
 define('ARTICLE_FILE_PUBLIC',		'PublicFile');
@@ -86,13 +86,13 @@ class ArticleFileManager extends FileManager {
 	}
 
 	/**
-	 * Upload a file to the editor decision file folder.
+	 * Upload a file to the decision file folder.
 	 * @param $fileName string the name of the file used in the POST form
 	 * @param $fileId int
 	 * @return int file ID, is false if failure
 	 */
-	function uploadEditorDecisionFile($fileName, $assocId, $fileId = null) {	
-                return $this->handleUpload($fileName, ARTICLE_FILE_EDITOR, $assocId, $fileId, 1);
+	function uploadDecisionFile($fileName, $assocId, $fileId = null) {	
+                return $this->handleUpload($fileName, ARTICLE_FILE_DECISION, $assocId, $fileId, 1);
 	}
 
 	/**
@@ -302,13 +302,13 @@ class ArticleFileManager extends FileManager {
 	}
 
 	/**
-	 * Copies an existing file to create an editor decision file.
+	 * Copies an existing file to create a decision file.
 	 * @param $fileId int the file id of the review file.
 	 * @param $destFileId int file ID to copy to
 	 * @return int the file id of the new file.
 	 */
-	function copyToEditorFile($fileId, $destFileId = null) {	
-		return $this->copyAndRenameFile($fileId, ARTICLE_FILE_EDITOR, $destFileId);
+	function copyToDecisionFile($fileId, $destFileId = null) {	
+		return $this->copyAndRenameFile($fileId, ARTICLE_FILE_DECISION, $destFileId);
 	}
 
 	/**
@@ -343,7 +343,7 @@ class ArticleFileManager extends FileManager {
 			case ARTICLE_FILE_REPORT: return 'report';
 			case ARTICLE_FILE_NOTE: return 'note';
 			case ARTICLE_FILE_REVIEW: return 'submission/review';
-			case ARTICLE_FILE_EDITOR: return 'submission/editor';
+			case ARTICLE_FILE_DECISION: return 'submission/decision';
 			case ARTICLE_FILE_COPYEDIT: return 'submission/copyedit';
 			case ARTICLE_FILE_LAYOUT: return 'submission/layout';
 			case ARTICLE_FILE_ATTACHMENT: return 'attachment';
@@ -363,7 +363,7 @@ class ArticleFileManager extends FileManager {
 			case "report": return ARTICLE_FILE_REPORT;
 			case "note": return ARTICLE_FILE_NOTE;
 			case "submission/review": return ARTICLE_FILE_REVIEW;
-			case "submission/editor": return ARTICLE_FILE_EDITOR;
+			case "submission/decision": return ARTICLE_FILE_DECISION;
 			case "submission/copyedit": return ARTICLE_FILE_COPYEDIT;
 			case "submission/layout": return ARTICLE_FILE_LAYOUT;
 			case "attachment": return ARTICLE_FILE_ATTACHMENT;

@@ -87,9 +87,9 @@ class AuthorAction extends Action {
 		if ($articleFileManager->uploadedFileExists($fileName)) {
 			HookRegistry::call('AuthorAction::uploadRevisedVersion', array(&$authorSubmission));
 			if ($authorSubmission->getRevisedFileId() != null) {
-				$fileId = $articleFileManager->uploadEditorDecisionFile($fileName, $authorSubmission->getRevisedFileId());
+				$fileId = $articleFileManager->uploadDecisionFile($fileName, $authorSubmission->getRevisedFileId());
 			} else {
-				$fileId = $articleFileManager->uploadEditorDecisionFile($fileName);
+				$fileId = $articleFileManager->uploadDecisionFile($fileName);
 			}
 		}
 
