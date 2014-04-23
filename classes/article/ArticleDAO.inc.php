@@ -112,15 +112,16 @@ class ArticleDAO extends DAO {
 		$locale = Locale::getLocale();
 		$params = array(
 			'title',
-		$primaryLocale,
+                        $primaryLocale,
 			'title',
-		$locale,
+                        $locale,
 			'abbrev',
-		$primaryLocale,
+                        $primaryLocale,
 			'abbrev',
-		$locale,
-		$articleId
+                        $locale,
+                        $articleId
 		);
+                
 		$sql = 'SELECT	a.*,
 				COALESCE(stl.setting_value, stpl.setting_value) AS section_title,
 				COALESCE(sal.setting_value, sapl.setting_value) AS section_abbrev
@@ -203,6 +204,10 @@ class ArticleDAO extends DAO {
 		$article->setSources($this->proposalSourceDao->getProposalSourcesByArticleId($row['article_id']));
                 
                 $article->setRiskAssessment($this->riskAssessmentDao->getRiskAssessmentByArticleId($row['article_id']));
+
+                $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
+                $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
+                $article->setPublishedFinalReport($publicFiles[0]); // FIX ME: Only one file in folder 'public' -> alwas the final report: Pretty ugly
 
                 $sectionDecisionDao =& DAORegistry::getDAO('SectionDecisionDAO');
 		$article->setProposalStatus($sectionDecisionDao->getProposalStatus($article->getId()));
@@ -1057,7 +1062,11 @@ class ArticleDAO extends DAO {
 		$article->setAbstracts($this->proposalAbstractDao->getAbstractsByArticle($row['article_id']));
                 $article->setProposalDetails($this->proposalDetailsDao->getProposalDetailsByArticleId($row['article_id']));
 
-		HookRegistry::call('ArticleDAO::_returnSearchArticleFromRow', array(&$article, &$row));
+                $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
+                $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
+                $article->setPublishedFinalReport($publicFiles[0]); // FIX ME: Only one file in folder 'public' -> alwas the final report: Pretty ugly
+
+                HookRegistry::call('ArticleDAO::_returnSearchArticleFromRow', array(&$article, &$row));
 	}
 
 	function getSortMapping($heading) {

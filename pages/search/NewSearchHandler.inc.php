@@ -291,13 +291,9 @@ class NewSearchHandler extends Handler {
 		$templateMgr->assign_by_ref('results', $results);
 		$templateMgr->assign('query', Request::getUserVar('query'));
 		
-		$sectionEditorSubmissionDao =& DAORegistry::getDAO('SectionEditorSubmissionDAO');
-		$proposal = $sectionEditorSubmissionDao->getSectionEditorSubmission($articleId);
-		$templateMgr->assign_by_ref('suppFiles', $proposal->getSuppFiles());
+		$proposal = $articleDao->getArticle($articleId);
+		$templateMgr->assign_by_ref('finalReport', $proposal->getPublishedFinalReport());
 			
-			// Undefined. EL on March 15th 2013
-			//$templateMgr->assign('dateFrom', $fromDate);
-			//$templateMgr->assign('dateTo', $toDate);
 		$templateMgr->assign_by_ref('submission', $submission);
 		$templateMgr->assign_by_ref('abstract', $submission->getLocalizedAbstract());
 		
@@ -328,23 +324,18 @@ class NewSearchHandler extends Handler {
 			$templateMgr->setCacheability(CACHEABILITY_PUBLIC);
 		}
 	}
-
+        
 	/**
-	 * Download a file.
-	 * @param $args array ($articleId, $fileId)
+	 * Download published final report
+	 * @param $args ($articleId, fileId)
 	 */
-	function downloadFile($args) {
+	function downloadFinalReport($args) {
 		$articleId = isset($args[0]) ? $args[0] : 0;
 		$fileId = isset($args[1]) ? $args[1] : 0;
-		$suppFileId = isset($args[2]) ? $args[2] : 0;
 		
-		$suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
-		$suppFile =& $suppFileDao->getSuppFile($suppFileId);
-		if ($suppFile->getType() == "Completion Report") {
-			import('classes.file.ArticleFileManager');
-			$articleFileManager = new ArticleFileManager($articleId);
-			return $articleFileManager->downloadFile($fileId);
-		} else return null;
+		import("classes.file.ArticleFileManager");
+		$articleFileManager = new ArticleFileManager($articleId);
+		return $articleFileManager->downloadFile($fileId);
 	}
 
 }

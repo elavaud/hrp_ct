@@ -19,10 +19,11 @@
         <!-- ADDED -->
         <!-- ***** -->
         
-        <!-- February 6th 2014 -->
+        <!-- February April 2014 -->
             
 	<message key="common.outside">Outside</message>
 	<message key="common.links">Link(s)</message>
+	<message key="search.downloadFinalReport">Download Final Report</message>
         
         <!-- Old -->
             

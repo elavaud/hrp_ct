@@ -29,9 +29,9 @@ switch ($op) {
 	case 'advanced':
 	case 'results':
 	case 'advancedResults':
+	case 'downloadFinalReport':
 	case 'generateCSV':
 	case 'generateCustomizedCSV':
-	case 'downloadFile':
 	case 'viewProposal':
 		define('HANDLER_CLASS', 'NewSearchHandler');
 		import('pages.search.NewSearchHandler');

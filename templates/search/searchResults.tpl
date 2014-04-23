@@ -176,7 +176,15 @@ $(document).ready(
 				</td>
 				<td>{$proposalDetails->getLocalizedResearchFieldText()}</td>
 				<td>{$proposalDetails->getStartDate()} {translate key="search.dateTo"} {$proposalDetails->getEndDate()}</td>
-				<td>{if $result->getStatus() == PROPOSAL_STATUS_COMPLETED}{translate key="common.queue.short.completedResearches"}{else}{translate key="common.queue.short.ongoingResearches"}{/if}</td>
+				<td>
+                                    {if $result->getStatus() == STATUS_COMPLETED}
+                                        {translate key="common.queue.short.completedResearches"}
+                                	{assign var="finalReport" value=$result->getPublishedFinalReport()}
+                                	<br/><a href="{url op="downloadFinalReport" path=$result->getArticleId()|to_array:$finalReport->getFileId()}" class="file">{translate key="search.downloadFinalReport"}</a>
+                                    {else}
+                                        {translate key="common.queue.short.ongoingResearches"}
+                                    {/if}
+                                </td>
 			</tr>
 			<tr>
 				<td colspan="6" class="{if $results->eof()}end{/if}separator">&nbsp;</td>
