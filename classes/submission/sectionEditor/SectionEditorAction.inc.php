@@ -82,17 +82,52 @@ class SectionEditorAction extends Action {
                         import('lib.pkp.classes.notification.NotificationManager');
                         $notificationManager = new NotificationManager();
                         $url = Request::url($journal->getPath(), 'author', 'submissionReview', array($sectionEditorSubmission->getArticleId()));
-
-                        if ($decision == SUBMISSION_SECTION_DECISION_COMPLETE) $message = 'notification.type.submissionComplete';
-                        elseif ($decision == SUBMISSION_SECTION_DECISION_INCOMPLETE) $message = 'notification.type.submissionIncomplete';		
-                        elseif ($decision == SUBMISSION_SECTION_DECISION_EXPEDITED) $message = 'notification.type.submissionExpedited';
-                        elseif ($decision == SUBMISSION_SECTION_DECISION_FULL_REVIEW) $message = 'notification.type.submissionAssigned';
-                        elseif ($decision == SUBMISSION_SECTION_DECISION_EXEMPTED) $message = 'notification.type.submissionExempted';
-                        elseif ($decision == SUBMISSION_SECTION_DECISION_DECLINED) $message = 'notification.type.submissionDecline';
-                        elseif ($decision == SUBMISSION_SECTION_DECISION_APPROVED) $message = 'notification.type.submissionAccept';
-                        elseif ($decision == SUBMISSION_SECTION_DECISION_DONE) $message = 'notification.type.submissionDone';
-                        elseif ($decision == SUBMISSION_SECTION_DECISION_RESUBMIT) $message = 'notification.type.reviseAndResubmit';		
-
+                        
+                        switch ($decision) {
+                            case SUBMISSION_SECTION_DECISION_COMPLETE:
+                                $message = 'notification.type.submissionComplete';
+                                break;
+                            case SUBMISSION_SECTION_DECISION_INCOMPLETE:
+                                $message = 'notification.type.submissionIncomplete';
+                                break;
+                            case SUBMISSION_SECTION_DECISION_EXPEDITED:
+                                $message = 'notification.type.submissionExpedited';
+                                break;
+                            case SUBMISSION_SECTION_DECISION_FULL_REVIEW:
+                                $message = 'notification.type.submissionAssigned';
+                                break;
+                            case SUBMISSION_SECTION_DECISION_EXEMPTED:
+                                $message = 'notification.type.submissionExempted';
+                                break;
+                            case SUBMISSION_SECTION_DECISION_DECLINED:
+                                $message = 'notification.type.submissionDecline';
+                                break;
+                            case SUBMISSION_SECTION_DECISION_APPROVED:
+                                $message = 'notification.type.submissionAccept';
+                                break;
+                            case SUBMISSION_SECTION_DECISION_DONE:
+                                $message = 'notification.type.submissionDone';
+                                break;
+                            case SUBMISSION_SECTION_DECISION_RESUBMIT:
+                                $message = 'notification.type.reviseAndResubmit';
+                                break;                            
+                        }
+                        
+                        switch ($reviewType) {
+                            case REVIEW_TYPE_CONTINUING:
+                                $message = $message.'.continuingReview';
+                                break;
+                            case REVIEW_TYPE_AMENDMENT:
+                                $message = $message.'.amendment';
+                                break;
+                            case REVIEW_TYPE_SAE:
+                                $message = $message.'.sae';
+                                break;
+                            case REVIEW_TYPE_EOS:
+                                $message = $message.'.eos';
+                                break;                            
+                        }
+                        
                         $notificationManager->createNotification(
                             $sectionEditorSubmission->getUserId(), $message,
                             $sectionEditorSubmission->getProposalId(), $url, 1, NOTIFICATION_TYPE_SECTION_DECISION_COMMENT
@@ -2103,6 +2138,7 @@ class SectionEditorAction extends Action {
 					'editorialContactSignature' => $user->getContactSignature(),
 					'authorName' => $authorUser->getFullName(),
 					'url' => Request::url(null, 'author', 'submission', $sectionEditorSubmission->getArticleId()),
+                                        'reviewType' => Locale::translate($decision->getReviewTypeKey()),
 					'journalTitle' => $journal->getLocalizedTitle()
 				));
 				$email->addRecipient($authorEmail, $authorUser->getFullName());

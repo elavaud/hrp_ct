@@ -52,10 +52,43 @@
         
 	<message key="article.reports">Report(s)</message>
 	<message key="article.reports.instruct">These files are post initial approval reports uploaded by the investigator. A report can be a progress report or the final report. Click on the blue title of the file in order to download it.</message>
+
         
-        <!-- End new keys -->
+                
+        <message key="notification.type.submissionComplete.continuingReview">The progress report of your proposal, "{$param}", has been considered as "Complete".</message>
+        <message key="notification.type.submissionIncomplete.continuingReview">The progress report of your proposal, "{$param}", has been considered as "Incomplete". You may resubmit it.</message>
+        <message key="notification.type.reviseAndResubmit.continuingReview">The progress report of your proposal, "{$param}", doesn't fit all the committee's requirements. You should revise and re-submit it.</message>
+        <message key="notification.type.submissionExpedited.continuingReview">The progress report of your proposal, "{$param}", will be subject to an "Expedited review".</message>
+        <message key="notification.type.submissionAssigned.continuingReview">The progress report of your proposal, "{$param}", will be subject to a "Full review".</message>
+        <message key="notification.type.submissionDecline.continuingReview">The progress report of your proposal, "{$param}", has been declined.</message>
+        <message key="notification.type.submissionAccept.continuingReview">The progress report of your proposal, "{$param}", has been accepted.</message>
+        
+        <message key="notification.type.submissionComplete.amendment">The protocol amendment of your proposal, "{$param}", has been considered as "Complete".</message>
+        <message key="notification.type.submissionIncomplete.amendment">The protocol amendment of your proposal, "{$param}", has been considered as "Incomplete". You may resubmit it.</message>
+        <message key="notification.type.reviseAndResubmit.amendment">The protocol amendment of your proposal, "{$param}", doesn't fit all the committee's requirements. You should revise and re-submit it.</message>
+        <message key="notification.type.submissionExpedited.amendment">The protocol amendment of your proposal, "{$param}", will be subject to an "Expedited review".</message>
+        <message key="notification.type.submissionAssigned.amendment">The protocol amendment of your proposal, "{$param}", will be subject to a "Full review".</message>
+        <message key="notification.type.submissionDecline.amendment">The protocol amendment of your proposal, "{$param}", has been declined.</message>
+        <message key="notification.type.submissionAccept.amendment">The protocol amendment of your proposal, "{$param}", has been accepted.</message>
+        
+        <message key="notification.type.submissionComplete.sae">The serious adverse event of your proposal, "{$param}", has been considered as "Complete".</message>
+        <message key="notification.type.submissionIncomplete.sae">The serious adverse event of your proposal, "{$param}", has been considered as "Incomplete". You may resubmit it.</message>
+        <message key="notification.type.reviseAndResubmit.sae">The serious adverse event of your proposal, "{$param}", doesn't fit all the committee's requirements. You should revise and re-submit it.</message>
+        <message key="notification.type.submissionExpedited.sae">The serious adverse event of your proposal, "{$param}", will be subject to an "Expedited review".</message>
+        <message key="notification.type.submissionAssigned.sae">The serious adverse event of your proposal, "{$param}", will be subject to a "Full review".</message>
+        <message key="notification.type.submissionDecline.sae">The serious adverse event of your proposal, "{$param}", has been declined.</message>
+        <message key="notification.type.submissionAccept.sae">The serious adverse event of your proposal, "{$param}", has been accepted.</message>
+        
+        <message key="notification.type.submissionComplete.eos">The final technical report of your proposal, "{$param}", has been considered as "Complete".</message>
+        <message key="notification.type.submissionIncomplete.eos">The final technical report of your proposal, "{$param}", has been considered as "Incomplete". You may resubmit it.</message>
+        <message key="notification.type.reviseAndResubmit.eos">The final technical report of your proposal, "{$param}", doesn't fit all the committee's requirements. You should revise and re-submit it.</message>
+        <message key="notification.type.submissionExpedited.eos">The final technical report of your proposal, "{$param}", will be subject to an "Expedited review".</message>
+        <message key="notification.type.submissionAssigned.eos">The final technical report of your proposal, "{$param}", will be subject to a "Full review".</message>
+        <message key="notification.type.submissionDecline.eos">The final technical report of your proposal, "{$param}", has been declined.</message>
+        <message key="notification.type.submissionAccept.eos">The final technical report of your proposal, "{$param}", has been accepted.</message>
         
 	<message key="log.author.submitted">{$authorName} has submitted a proposal, ID "{$submissionId}", for "{$reviewType}".</message>
+        <!-- End new keys -->
         
         <!-- Modified Keys in February March 2014 -->
         
