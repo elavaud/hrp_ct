@@ -207,8 +207,9 @@ class ArticleDAO extends DAO {
 
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
-                $article->setPublishedFinalReport($publicFiles[0]); // FIX ME: Only one file in folder 'public' -> alwas the final report: Pretty ugly
-
+                if ($publicFiles) {
+                    $article->setPublishedFinalReport($publicFiles[0]); // FIX ME: Only one file in folder 'public' -> alwas the final report: Pretty ugly
+                }
                 $sectionDecisionDao =& DAORegistry::getDAO('SectionDecisionDAO');
 		$article->setProposalStatus($sectionDecisionDao->getProposalStatus($article->getId()));
 
