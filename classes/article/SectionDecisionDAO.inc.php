@@ -173,7 +173,7 @@ class SectionDecisionDAO extends DAO{
 
 		$sectionDecision->setAuthorViewableReviewFiles($articleFileDao->getArticleFilesByAssocId($row['section_decision_id'], ARTICLE_FILE_REVIEW));
 
-		$sectionDecision->setDecisionFiles($articleFileDao->getArticleFilesByAssocId($row['section_decision_id'], ARTICLE_FILE_EDITOR));
+		$sectionDecision->setDecisionFiles($articleFileDao->getArticleFilesByAssocId($row['section_decision_id'], ARTICLE_FILE_DECISION));
 		
 		$meetingDao =& DAORegistry::getDAO('MeetingDAO');
                 $sectionDecision->setMeetings($meetingDao->getMeetingsBySectionDecisionId($row['section_decision_id']));

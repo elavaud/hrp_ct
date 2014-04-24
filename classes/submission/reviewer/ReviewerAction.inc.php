@@ -492,7 +492,14 @@ class ReviewerAction extends Action {
 					$canDownload = true;
 				}
 			}
-			if (!$canDownload) {
+                        if (!$canDownload) {
+                            foreach ($article->getReportFiles() as $reportFile) {
+                                    if ($reportFile->getFileId() == $fileId) {
+                                            $canDownload = true;
+                                    }
+                            }
+                        }
+                        if (!$canDownload) {
 				$previousFiles =& $articleFileDao->getPreviousFilesByArticleId($article->getId());
 				foreach ($previousFiles as $previousFile) {
 					if ($previousFile->getFileId() == $fileId) {

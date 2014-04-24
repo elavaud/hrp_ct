@@ -106,6 +106,8 @@ function prepBlockFields() {
 	</tr>
 </table>
 {/if}
+
+<!--{*
 <div id="journalHomepageHeader">
 <h3>5.1 {translate key="manager.setup.journalHomepageHeader"}</h3>
 
@@ -170,6 +172,7 @@ function prepBlockFields() {
 </div>
 </div>
 <div class="separator"></div>
+*}-->
 
 <div id="journalHomepageContent">
 <h3>5.2 {translate key="manager.setup.journalHomepageContent"}</h3>
@@ -184,6 +187,7 @@ function prepBlockFields() {
 
 <p><textarea id="description" name="description[{$formLocale|escape}]" rows="3" cols="50" class="textArea">{$description[$formLocale]|escape}</textarea></p>
 </div>
+<!--{*
 <div id="homepageImage">
 <h4>{translate key="manager.setup.homepageImage"}</h4>
 
@@ -233,7 +237,8 @@ function prepBlockFields() {
 </div>
 </div>
 <div class="separator"></div>
-
+*}-->
+<!--{*
 <div id="journalPageHeaderInfo">
 <h3>5.3 {translate key="manager.setup.journalPageHeader"}</h3>
 
@@ -333,7 +338,7 @@ function prepBlockFields() {
 
 <p><textarea name="journalPageFooter[{$formLocale|escape}]" id="journalPageFooter" rows="12" cols="50" class="textArea">{$journalPageFooter[$formLocale]|escape}</textarea></p>
 </div>
-
+*}-->
 <div class="separator"></div>
 
 <div id="links">
@@ -489,6 +494,7 @@ function prepBlockFields() {
 <input type="hidden" name="blockUnselected" value="" />
 </div>
 <div class="separator"></div>
+<!--{*
 <div id="setupInfo">
 <h3>5.7 {translate key="manager.setup.information"}</h3>
 
@@ -508,7 +514,7 @@ function prepBlockFields() {
 </div>
 
 <div class="separator"></div>
-
+*}-->
 <div id="lists">
 <h3>5.8 {translate key="manager.setup.lists"}</h3>
 <p>{translate key="manager.setup.listsDescription"}</p>

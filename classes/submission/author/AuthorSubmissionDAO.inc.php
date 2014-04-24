@@ -106,9 +106,10 @@ class AuthorSubmissionDAO extends DAO {
 		// Files
 		$authorSubmission->setSubmissionFile($this->articleFileDao->getArticleFile($row['submission_file_id']));
 		$authorSubmission->setRevisedFile($this->articleFileDao->getArticleFile($row['revised_file_id']));
+		$authorSubmission->setReportFiles($this->articleFileDao->getArticleFilesByType($row['article_id'], ARTICLE_FILE_REPORT));
 		$authorSubmission->setSuppFiles($this->suppFileDao->getSuppFilesByArticle($row['article_id']));
-		
-		$authorSubmission->setGalleys($this->galleyDao->getGalleysByArticle($row['article_id']));
+
+                $authorSubmission->setGalleys($this->galleyDao->getGalleysByArticle($row['article_id']));
 
 		HookRegistry::call('AuthorSubmissionDAO::_returnAuthorSubmissionFromRow', array(&$authorSubmission, &$row));
 

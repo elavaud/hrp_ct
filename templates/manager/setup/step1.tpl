@@ -48,6 +48,7 @@
 			<span class="instruct">{translate key="manager.setup.location.instruct"}</span>                
                 </td>
 	</tr>     
+        <!--{*
         <tr valign="top">
 		<td width="20%" class="label">{fieldLabel name="abbreviation" key="manager.setup.journalAbbreviation"}</td>
 		<td width="80%" class="value"><input type="text" name="abbreviation[{$formLocale|escape}]" id="abbreviation" value="{$abbreviation[$formLocale]|escape}" size="40" maxlength="120" class="textField" /></td>
@@ -122,6 +123,7 @@
 			<span class="instruct">{translate key="manager.setup.mailingAddressDescription"}</span>
 		</td>
 	</tr>
+        *}-->
 </table>
 </div>
 
@@ -211,7 +213,7 @@
 	</tr>
 </table>
 </div>
-
+<!--{*
 <div class="separator"></div>
 <div id="setupPublisher">
 <h3>1.5 {translate key="manager.setup.publisher"}</h3>
@@ -369,7 +371,7 @@
 	</tr>
 </table>
 
-
+*}-->
 <div class="separator"></div>
 
 

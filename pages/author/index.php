@@ -49,8 +49,9 @@ switch ($op) {
         case 'saveWithdrawal':    //Added by AIM, July 3, 2011
 	case 'addSuppFile':
 	case 'deleteSuppFile':      //Added by AIM, Jan 31, 2012
-        case 'addProgressReport':   //Added by AIM, June 15, 2011
-        case 'addCompletionReport': //Added by AIM, June 21, 2011
+        case 'addProgressReport': 
+        case 'addCompletionReport': 
+        case 'saveReportFile': 
         case 'addExtensionRequest': //Added by AIM, Jul 18, 2011
         case 'addRawDataFile': //Added by EL, April 18, 2012
         case 'addOtherSuppResearchOutput': //Added by EL, April 18, 2012

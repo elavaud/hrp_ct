@@ -19,7 +19,7 @@
 {iterate from=submissions item=submission}
 	{assign var="articleId" value=$submission->getArticleId()}
 	{assign var="abstract" value=$submission->getLocalizedAbstract()}
-    {assign var="proposalId" value=$submission->getProposalId()}
+        {assign var="proposalId" value=$submission->getProposalId()}
         <tr valign="top">
             <td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
             <td>{if $submission->getDateSubmitted()}{$submission->getDateSubmitted()|date_format:$dateFormatLong}{else}&mdash;{/if}</td>                
@@ -28,7 +28,7 @@
                 {if $submission->isSubmissionDue()}
 					<a href="{url op="addExtensionRequest" path=$articleId}" title="{translate key="author.submit.submitExtensionRequestInstruct"}" class="action">{translate key="author.submit.submitExtensionRequest.short"} &#8226;</a><br />
                 {/if}
-                <a href="{url op="addProgressReport" path=$articleId}" class="action")>{translate key="author.submit.submitInterimProgressReport.short"} &#8226;</a><br />
+                <a href="{url op="addProgressReport" path=$articleId}" class="action">{translate key="author.submit.submitInterimProgressReport.short"} &#8226;</a><br />
                 <a href="{url op="addCompletionReport" path=$articleId}" class="action">{translate key="author.submit.submitFinalReport.short"} &#8226;</a><br />
                 {*<a href="{url op="addAdverseEvents" path=$articleId}" class="action">*}Adverse Events &#8226;{*</a>*}<br />
                 {*<a href="{url op="addProtocolAmendment" path=$articleId}" class="action">*}Protocol Amendment &#8226;{*</a>*}<br />

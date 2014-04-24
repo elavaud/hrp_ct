@@ -24,6 +24,7 @@
         <message key="manager.institutions.form.regionRequired">The geographical area of the institution is required. Please specify where the headquarter is located.</message>
         <message key="manager.institutions.form.replacementInstitutionRequired">Please choose a replacement institution. The institution you intend to delete is used by some proposals in the database. You therefore need to choose a replacing institution for these proposals. Please choose carefully: this operation can not be undone.</message>
         <message key="manager.institutions.form.typeRequired">The type of the institution is required.</message>
+        
         <message key="manager.setup.location">Covering area</message>
         <message key="manager.setup.location.instruct">Country, geographical area, or location covered by this Health Research Portal.</message>
 	<message key="manager.setup.form.locationRequired">The area covered by this Health Research Portal is required.</message>
@@ -38,6 +39,15 @@
         
 	<message key="manager.setup.itemsDescriptionModif">Links entered below will appear in the "About" page and, if the block has been made available, on the right column of this system.</message>
         
+        <message key="manager.setup.submission.postApproval">Post-approval actions</message>
+        <message key="manager.setup.submission.progressReport">Progress report</message>
+        <message key="manager.setup.submission.progressReport.instruct"><![CDATA[The text entered below will appear during the submission of a progress report by an investigator. Please enter information relative to this submission like policies or links to templates. We recommend you to specify that:<ul><li>The upload of the progress report will result in a new round of review to the committee(s) in charge of the research.</li><li>Only 1 (one) file can be uploaded.</li></ul>]]></message>
+        <message key="manager.setup.submission.completionReport">Completion report</message>
+        <message key="manager.setup.submission.completionReport.instruct"><![CDATA[The text entered below will appear during the submission of a completion report by an investigator. Please enter information relative to this submission like policies or links to templates. We recommend you to specify that:<ul><li>The upload of the completion report will result in a new round of review to the committee(s) in charge of the research.</li><li>Only 1 (one) file can be uploaded.</li><li>Once the completion report accepted by the committee(s), the research will be considered as completed.</li></ul>]]></message>
+
+	<message key="manager.setup.finalReportDisclaimer">Final Technical Report Disclaimer</message>
+	<message key="manager.setup.finalReportDisclaimer.instruct">The text entered below is the disclaimer that will appear on the second page of the published final technical report.</message>
+
         <!-- /Added -->
         
         <!-- Changed -->

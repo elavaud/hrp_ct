@@ -625,5 +625,17 @@ class Article extends Submission {
 		return $sDecision->getDateDecided();
 	}
 
+        /**
+	 * Getter/setter methods for publishedFinalReport
+	 */
+	 
+	function setPublishedFinalReport($finalReport) {
+		return $this->setData('publishedFinalReport', $finalReport);
+	}
+	
+	function getPublishedFinalReport() {
+		return $this->getData('publishedFinalReport');
+	}
+
 }
 ?>

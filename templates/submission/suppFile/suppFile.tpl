@@ -13,11 +13,7 @@
 {if $suppFileId}
 	{assign var="pageTitle" value="author.submit.editSupplementaryFile"}
 {else}
-        {if $type == "Progress Report"}
-            {assign var="pageTitle" value="author.submit.addProgressReport"}
-        {elseif $type == "Completion Report"}
-            {assign var="pageTitle" value="author.submit.addCompletionReport"}
-        {elseif $type == "Extension Request"}
+        {if $type == "Extension Request"}
             {assign var="pageTitle" value="author.submit.addExtensionRequest"}
         {elseif $type == "Raw Data File"}
         	{assign var="pageTitle" value=author.submit.addRawDataFile}
@@ -26,11 +22,7 @@
         {/if}
 {/if}
 
-{if $type == "Progress Report"}
-    {assign var="pageCrumbTitle" value="submission.progressReports"}
-{elseif $type == "Completion Report"}
-    {assign var="pageCrumbTitle" value="submission.completionReports"}
-{elseif $type == "Extension Request"}
+{if $type == "Extension Request"}
     {assign var="pageCrumbTitle" value="submission.extensionRequest"}
 {elseif $type == "Raw Data File"}
 	{assign var="pageCrumbTitle" value="submission.rawDataFile"}
@@ -41,6 +33,7 @@
 {/strip}
 {literal}
 <script type="text/javascript">
+    
 $(document).ready(function() {
    $('#fileType').change(function(){
         var isOtherSelected = false;

@@ -196,6 +196,38 @@ class SectionEditorSubmission extends Article {
 		return $this->setData('suppFiles', $suppFiles);
 	}
 
+        /**
+	 * Get report files for this article.
+	 * @return array ReportFiles
+	 */
+	function &getReportFiles() {
+		$returner =& $this->getData('reportFiles');
+		return $returner;
+	}
+
+	/**
+	 * Set report files for this article.
+	 * @param $reportFiles array ReportFiles
+	 */
+	function setReportFiles($reportFiles) {
+		return $this->setData('reportFiles', $reportFiles);
+	}
+
+        /**
+	 * Get last report file uploaded for this article.
+	 * @return array ReportFiles
+	 */
+	function getLastReportFile() {
+                $reportFiles =& $this->getReportFiles();
+                $keyOfLastReport = 0;
+                foreach ($reportFiles as $key => $reportFile) {
+                    if ($reportFile->getDateUploaded() > $reportFiles[$keyOfLastReport]->getDateUploaded()){
+                        $keyOfLastReport = $key;
+                    }
+                }
+		return $reportFiles[$keyOfLastReport];
+	}
+
 	/**
 	 * Get review file.
 	 * @return ArticleFile
@@ -386,14 +418,14 @@ class SectionEditorSubmission extends Article {
 	 * Last Update: 5/28/2011
 	********************************************/
 	
-	function &getExemptionOptions() {
-		static $exemptionOptions = array(
+	function &getReviewOptions() {
+		static $reviewOptions = array(
 			'' => 'common.chooseOne',
 			SUBMISSION_SECTION_DECISION_EXEMPTED => 'editor.article.decision.exempted',
 			SUBMISSION_SECTION_DECISION_FULL_REVIEW => 'editor.article.decision.fullReview',
 			SUBMISSION_SECTION_DECISION_EXPEDITED => 'editor.article.decision.expedited'
 		);
-		return $exemptionOptions;
+		return $reviewOptions;
 	}
 	
 	/********************************************

@@ -201,6 +201,7 @@ class TinyMCEPlugin extends GenericPlugin {
 						$fields[] = 'focusScopeDesc';
 						$fields[] = 'reviewPolicy';
 						$fields[] = 'reviewGuidelines';
+						$fields[] = 'reportDisclaimer';
 						$fields[] = 'privacyStatement';
 						$customAboutItems = $templateMgr->get_template_vars('customAboutItems');
 						$count = max(1, isset($customAboutItems[$formLocale])?count($customAboutItems[$formLocale]):0);
@@ -212,6 +213,8 @@ class TinyMCEPlugin extends GenericPlugin {
 						break;
 					case 3:
 						$fields[] = 'authorGuidelines';
+						$fields[] = 'progressReportGuidelines';
+						$fields[] = 'completionReportGuidelines';
 						$submissionChecklist = $templateMgr->get_template_vars('submissionChecklist');
 						$count = max(1, isset($submissionChecklist[$formLocale])?count($submissionChecklist[$formLocale]):0);
 						for ($i=0; $i<$count; $i++) {

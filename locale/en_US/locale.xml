@@ -34,6 +34,7 @@
         <message key="proposal.requireQualityAssusrance">Requires additional quality assurance/validation</message>        
         <message key="proposal.noLabCapacityAbb">No Lab. Capacity</message>
         <message key="proposal.requireQualityAssusranceAbb">Requires add. validation</message>        
+        <message key="proposal.dataCollection.instruct">Primary data are the "new" data collected either through interviews, observations, laboratory experiments, or review of patient records, etc., as part of proposed research. Secondary data refer to reuse of "existing" datasets collected as part of other reearch projects, surveillance or routine health information systems. The secondary data may be in public domain or have restricted access.</message>
         
         <message key="notification.type.articleSubmitted.initialReview">A new proposal, "{$param}", has been submitted for "Initial Review".</message>
         <message key="notification.type.articleReSubmitted.initialReview">The proposal, "{$param}", has been re-submitted for "Initial Review".</message>
@@ -49,9 +50,45 @@
 	<message key="log.editor.fee.paid">{$editorName} acknowledged the reception of the review fee for proposal {$proposalId}.</message>
 	<message key="log.editor.fee.waived">{$editorName} decided to waive the proposal {$proposalId} of fee.</message>
         
-        <!-- End new keys -->
+	<message key="article.reports">Report(s)</message>
+	<message key="article.reports.instruct">These files are post initial approval reports uploaded by the investigator. A report can be a progress report or the final report. Click on the blue title of the file in order to download it.</message>
+
+        
+                
+        <message key="notification.type.submissionComplete.continuingReview">The progress report of your proposal, "{$param}", has been considered as "Complete".</message>
+        <message key="notification.type.submissionIncomplete.continuingReview">The progress report of your proposal, "{$param}", has been considered as "Incomplete". You may resubmit it.</message>
+        <message key="notification.type.reviseAndResubmit.continuingReview">The progress report of your proposal, "{$param}", doesn't fit all the committee's requirements. You should revise and re-submit it.</message>
+        <message key="notification.type.submissionExpedited.continuingReview">The progress report of your proposal, "{$param}", will be subject to an "Expedited review".</message>
+        <message key="notification.type.submissionAssigned.continuingReview">The progress report of your proposal, "{$param}", will be subject to a "Full review".</message>
+        <message key="notification.type.submissionDecline.continuingReview">The progress report of your proposal, "{$param}", has been declined.</message>
+        <message key="notification.type.submissionAccept.continuingReview">The progress report of your proposal, "{$param}", has been accepted.</message>
+        
+        <message key="notification.type.submissionComplete.amendment">The protocol amendment of your proposal, "{$param}", has been considered as "Complete".</message>
+        <message key="notification.type.submissionIncomplete.amendment">The protocol amendment of your proposal, "{$param}", has been considered as "Incomplete". You may resubmit it.</message>
+        <message key="notification.type.reviseAndResubmit.amendment">The protocol amendment of your proposal, "{$param}", doesn't fit all the committee's requirements. You should revise and re-submit it.</message>
+        <message key="notification.type.submissionExpedited.amendment">The protocol amendment of your proposal, "{$param}", will be subject to an "Expedited review".</message>
+        <message key="notification.type.submissionAssigned.amendment">The protocol amendment of your proposal, "{$param}", will be subject to a "Full review".</message>
+        <message key="notification.type.submissionDecline.amendment">The protocol amendment of your proposal, "{$param}", has been declined.</message>
+        <message key="notification.type.submissionAccept.amendment">The protocol amendment of your proposal, "{$param}", has been accepted.</message>
+        
+        <message key="notification.type.submissionComplete.sae">The serious adverse event of your proposal, "{$param}", has been considered as "Complete".</message>
+        <message key="notification.type.submissionIncomplete.sae">The serious adverse event of your proposal, "{$param}", has been considered as "Incomplete". You may resubmit it.</message>
+        <message key="notification.type.reviseAndResubmit.sae">The serious adverse event of your proposal, "{$param}", doesn't fit all the committee's requirements. You should revise and re-submit it.</message>
+        <message key="notification.type.submissionExpedited.sae">The serious adverse event of your proposal, "{$param}", will be subject to an "Expedited review".</message>
+        <message key="notification.type.submissionAssigned.sae">The serious adverse event of your proposal, "{$param}", will be subject to a "Full review".</message>
+        <message key="notification.type.submissionDecline.sae">The serious adverse event of your proposal, "{$param}", has been declined.</message>
+        <message key="notification.type.submissionAccept.sae">The serious adverse event of your proposal, "{$param}", has been accepted.</message>
+        
+        <message key="notification.type.submissionComplete.eos">The final technical report of your proposal, "{$param}", has been considered as "Complete".</message>
+        <message key="notification.type.submissionIncomplete.eos">The final technical report of your proposal, "{$param}", has been considered as "Incomplete". You may resubmit it.</message>
+        <message key="notification.type.reviseAndResubmit.eos">The final technical report of your proposal, "{$param}", doesn't fit all the committee's requirements. You should revise and re-submit it.</message>
+        <message key="notification.type.submissionExpedited.eos">The final technical report of your proposal, "{$param}", will be subject to an "Expedited review".</message>
+        <message key="notification.type.submissionAssigned.eos">The final technical report of your proposal, "{$param}", will be subject to a "Full review".</message>
+        <message key="notification.type.submissionDecline.eos">The final technical report of your proposal, "{$param}", has been declined.</message>
+        <message key="notification.type.submissionAccept.eos">The final technical report of your proposal, "{$param}", has been accepted.</message>
         
 	<message key="log.author.submitted">{$authorName} has submitted a proposal, ID "{$submissionId}", for "{$reviewType}".</message>
+        <!-- End new keys -->
         
         <!-- Modified Keys in February March 2014 -->
         
@@ -80,16 +117,17 @@
 	<message key="institution.type.privateIndividual">Private Individual</message>
         
         <message key="proposal.source">Source</message>
-        <message key="proposal.source.instruct">Please select in this list your source of monetary and material support. If this one is not listed, please select "Other" at the bottom of this list. If this one is the same as your "Key Implementing Institution", please select "Key Implementing Institution" at the bottom of the list.</message>
+        <message key="proposal.source.instruct">Please select the funding source from the drop down menu. If your funding source is not listed: please select "Key Implementing Institution" at the end of the drop down menu, if your funding source is the same as your Key Implementing Institution, OTHERWISE select "Other".</message>
+        <message key="proposal.source.instruct2"><![CDATA[<i>If your funding source is not listed, please select "Key Implementing Institution" at the end of the drop-down menu, if your funding source is same as your key implementing institution, OTHERWISE select "Other".</i>]]></message>
         <message key="proposal.source.add">Add source of monetary or material support</message>
         <message key="proposal.source.amount">Amount</message>
         <message key="proposal.source.amount.instruct">Please enter whole numbers without any comma or other separator.</message>
 
         <message key="proposal.keyImplInstitution">Key Implementing Institution</message>
-        <message key="proposal.keyImplInstitution.instruct">The key implementing institution for the research. Please write any individual, organization, group or other legal entity responsible for overall management and implementation of research.</message>
+        <message key="proposal.keyImplInstitution.instruct">An institution, group or other legal entity responsible for overall management and implementation of research. If the research is being implmented in individual capacity by yourself: please select 'Self' from drop-down menu.</message>
         <message key="proposal.otherKeyImplInstitution.instruct">If your key implementing institution is not listed in the above list, please provide the following information:</message>
 
-        <message key="proposal.otherSource.instruct"><![CDATA[If your source of monetary is not included in the above list, please provide the following information.<br/><i><font color="red">Please note that if this one has already been provided as an other institution for your key implementing institution, just select "Key Implementing Institution" in the bottom of the above list.</font></i>]]></message>
+        <message key="proposal.otherSource.instruct"><![CDATA[<i><font color="red">If this "Other" funding agency is the same as your "Key Implementing Institution", just select "Key Implementing Institution".</font></i>]]></message>
 
         <message key="proposal.exportHumanTissue">Export of the sample(s) outside the country?</message>
 

@@ -10,7 +10,7 @@ class PDF extends TCPDF {
                 // Logo
                 //$this->Image("public/site/images/mainlogo.png", 85, 5, 40);
                 $this->Image("public/site/images/mainlogo.png", 'C', 5, 40, '', '', false, 'C', false, 300, 'C', false, false, 0, false, false, false);
-		$this->Ln(20);
+		$this->Ln($this->getImageRBY());
 
 		// Title
 		$title = $this->title;

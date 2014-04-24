@@ -26,9 +26,11 @@ class JournalSetupStep3Form extends JournalSetupForm {
 			array(
 				'authorGuidelines' => 'string',
 				'submissionChecklist' => 'object',
-                                'abstractLocales' => 'array',
                                 'sourceCurrency' => 'string',
                                 'convertionRate' => 'int',
+                                'progressReportGuidelines' => 'int',
+                                'completionReportGuidelines' => 'int'/*,
+                                'abstractLocales' => 'array',
                                 'copyrightNotice' => 'string',
 				'includeCreativeCommons' => 'bool',
 				'copyrightNoticeAgree' => 'bool',
@@ -52,7 +54,7 @@ class JournalSetupStep3Form extends JournalSetupForm {
 				'metaCitationOutputFilterId' => 'int',
 				'copySubmissionAckPrimaryContact' => 'bool',
 				'copySubmissionAckSpecified' => 'bool',
-				'copySubmissionAckAddress' => 'string'
+				'copySubmissionAckAddress' => 'string'*/
 			)
 		);
 		$this->addCheck(new FormValidator($this, 'sourceCurrency', 'required', 'manager.setup.form.sourceCurrencyRequired'));
@@ -81,7 +83,7 @@ class JournalSetupStep3Form extends JournalSetupForm {
 	 * @return array
 	 */
 	function getLocaleFieldNames() {
-		return array('authorGuidelines', 'submissionChecklist', 'copyrightNotice', 'metaDisciplineExamples', 'metaSubjectClassTitle', 'metaSubjectClassUrl', 'metaSubjectExamples', 'metaCoverageGeoExamples', 'metaCoverageChronExamples', 'metaCoverageResearchSampleExamples', 'metaTypeExamples', 'competingInterestGuidelines');
+		return array('authorGuidelines', 'submissionChecklist', 'progressReportGuidelines', 'completionReportGuidelines'/*, 'copyrightNotice', 'metaDisciplineExamples', 'metaSubjectClassTitle', 'metaSubjectClassUrl', 'metaSubjectExamples', 'metaCoverageGeoExamples', 'metaCoverageChronExamples', 'metaCoverageResearchSampleExamples', 'metaTypeExamples', 'competingInterestGuidelines'*/);
 	}
 
 	/**

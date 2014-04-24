@@ -45,6 +45,32 @@ class SuppFileDAO extends DAO {
 		return $returner;
 	}
 
+        /**
+	 * Retrieve a supplementary file by file ID (and not supp file ID).
+	 * @param $fileId int
+	 * @param $articleId int optional
+	 * @return SuppFile
+	 */
+	function &getSuppFileByFileId($fileId, $articleId = null) {
+		$params = array($fileId);
+		if ($articleId) $params[] = $articleId;
+
+		$result =& $this->retrieve(
+			'SELECT s.*, a.file_name, a.original_file_name, a.file_type, a.file_size, a.date_uploaded, a.date_modified FROM article_supplementary_files s LEFT JOIN article_files a ON (s.file_id = a.file_id) WHERE s.file_id = ?' . ($articleId?' AND s.article_id = ?':''),
+			$params
+		);
+
+		$returner = null;
+		if ($result->RecordCount() != 0) {
+			$returner =& $this->_returnSuppFileFromRow($result->GetRowAssoc(false));
+		}
+
+		$result->Close();
+		unset($result);
+
+		return $returner;
+	}
+
 	/**
 	 * Retrieve a supplementary file by public supp file ID.
 	 * @param $publicSuppId string

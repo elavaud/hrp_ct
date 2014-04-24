@@ -204,6 +204,23 @@ class AuthorSubmission extends Article {
 		return $this->setData('suppFiles', $suppFiles);
 	}
 
+        /**
+	 * Get report files for this article.
+	 * @return array ReportFiles
+	 */
+	function &getReportFiles() {
+		$returner =& $this->getData('reportFiles');
+		return $returner;
+	}
+
+	/**
+	 * Set report files for this article.
+	 * @param $reportFiles array ReportFiles
+	 */
+	function setReportFiles($reportFiles) {
+		return $this->setData('reportFiles', $reportFiles);
+	}
+        
 	/**
 	 * Get the galleys for an article.
 	 * @return array ArticleGalley

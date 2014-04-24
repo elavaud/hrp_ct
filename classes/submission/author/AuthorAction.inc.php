@@ -87,9 +87,9 @@ class AuthorAction extends Action {
 		if ($articleFileManager->uploadedFileExists($fileName)) {
 			HookRegistry::call('AuthorAction::uploadRevisedVersion', array(&$authorSubmission));
 			if ($authorSubmission->getRevisedFileId() != null) {
-				$fileId = $articleFileManager->uploadEditorDecisionFile($fileName, $authorSubmission->getRevisedFileId());
+				$fileId = $articleFileManager->uploadDecisionFile($fileName, $authorSubmission->getRevisedFileId());
 			} else {
-				$fileId = $articleFileManager->uploadEditorDecisionFile($fileName);
+				$fileId = $articleFileManager->uploadDecisionFile($fileName);
 			}
 		}
 
@@ -540,6 +540,13 @@ class AuthorAction extends Action {
 					$canDownload = true;
 				}
 			}
+                        
+			// Check report files
+			foreach ($authorSubmission->getReportFiles() as $reportFile) {
+				if ($reportFile->getFileId() == $fileId) {
+					$canDownload = true;
+				}
+			}                        
 
 			// Check galley files
 			foreach ($authorSubmission->getGalleys() as $galleyFile) {

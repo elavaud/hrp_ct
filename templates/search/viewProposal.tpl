@@ -30,6 +30,13 @@
 	</div>
 </form>
 
+<div id="downloadCompletionReport">
+    {if $submission->getStatus() == STATUS_COMPLETED}
+        {assign var="finalReport" value=$submission->getPublishedFinalReport()}
+        <h3 align="right"><b><a href="{url op="downloadFinalReport" path=$submission->getArticleId()|to_array:$finalReport->getFileId()}" class="file">{translate key="search.downloadFinalReport"}</a></b></h3>
+    {/if}
+</div>
+        
 <div id="authors">
 <h4>{translate key="article.authors"}</h4>
 	

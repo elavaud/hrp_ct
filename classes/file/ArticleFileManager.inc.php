@@ -17,11 +17,12 @@
  * [article id]/submission
  * [article id]/submission/original
  * [article id]/submission/review
- * [article id]/submission/editor
+ * [article id]/submission/decision
  * [article id]/submission/copyedit
  * [article id]/submission/layout
  * [article id]/supp
- * [article id]/attachment
+ * [article id]/report
+ *  * [article id]/attachment
  */
 
 
@@ -30,11 +31,12 @@ import('lib.pkp.classes.file.FileManager');
 /* File type suffixes */
 define('ARTICLE_FILE_SUBMISSION',	'MainProposal');
 define('ARTICLE_FILE_REVIEW',		'ReviewFile');
-define('ARTICLE_FILE_EDITOR',		'Editor');
+define('ARTICLE_FILE_DECISION',		'Decision');
 define('ARTICLE_FILE_COPYEDIT',		'CopyEdit');
 define('ARTICLE_FILE_LAYOUT',		'Layout');
 define('ARTICLE_FILE_PUBLIC',		'PublicFile');
 define('ARTICLE_FILE_SUPP',		'SupplementaryFile');
+define('ARTICLE_FILE_REPORT',		'Report');
 define('ARTICLE_FILE_NOTE',		'FileNote');
 define('ARTICLE_FILE_ATTACHMENT',	'Attachment');
 
@@ -60,7 +62,7 @@ class ArticleFileManager extends FileManager {
 		$this->article =& $articleDao->getArticle($articleId);
 		$journalId = $this->article->getJournalId();
 		$this->filesDir = Config::getVar('files', 'files_dir') .
-		'articles/' . $articleId . '/';
+		'/articles/' . $articleId . '/';
 	}
 
 	/**
@@ -70,7 +72,7 @@ class ArticleFileManager extends FileManager {
 	 * @return int file ID, is false if failure
 	 */
 	function uploadSubmissionFile($fileName, $fileId = null) {
-        return $this->handleUpload($fileName, ARTICLE_FILE_SUBMISSION, null, $fileId);
+                return $this->handleUpload($fileName, ARTICLE_FILE_SUBMISSION, null, $fileId);
 	}
 
 	/**
@@ -80,17 +82,17 @@ class ArticleFileManager extends FileManager {
 	 * @return int file ID, is false if failure
 	 */
 	function uploadReviewFile($fileName, $assocId = null, $fileId = null) {		
-		return $this->handleUpload($fileName, ARTICLE_FILE_REVIEW, $assocId, $fileId);
+                return $this->handleUpload($fileName, ARTICLE_FILE_REVIEW, $assocId, $fileId);
 	}
 
 	/**
-	 * Upload a file to the editor decision file folder.
+	 * Upload a file to the decision file folder.
 	 * @param $fileName string the name of the file used in the POST form
 	 * @param $fileId int
 	 * @return int file ID, is false if failure
 	 */
-	function uploadEditorDecisionFile($fileName, $assocId, $fileId = null) {	
-		return $this->handleUpload($fileName, ARTICLE_FILE_EDITOR, $assocId, $fileId, 1);
+	function uploadDecisionFile($fileName, $assocId, $fileId = null) {	
+                return $this->handleUpload($fileName, ARTICLE_FILE_DECISION, $assocId, $fileId, 1);
 	}
 
 	/**
@@ -100,7 +102,7 @@ class ArticleFileManager extends FileManager {
 	 * @return int file ID, is false if failure
 	 */
 	function uploadCopyeditFile($fileName, $fileId = null) {	
-		return $this->handleUpload($fileName, ARTICLE_FILE_COPYEDIT, null, $fileId);
+                return $this->handleUpload($fileName, ARTICLE_FILE_COPYEDIT, null, $fileId);
 	}
 
 	/**
@@ -122,7 +124,7 @@ class ArticleFileManager extends FileManager {
 	function uploadSuppFile($fileName, $fileId = null) {	
 		return $this->handleUpload($fileName, ARTICLE_FILE_SUPP, null, $fileId);
 	}
-
+        
 	/**
 	 * Upload a public file.
 	 * @param $fileName string the name of the file used in the POST form
@@ -133,6 +135,16 @@ class ArticleFileManager extends FileManager {
 		return $this->handleUpload($fileName, ARTICLE_FILE_PUBLIC, null, $fileId);
 	}
 
+        /**
+	 * Upload a report file.
+	 * @param $fileName string the name of the file used in the POST form
+	 * @param $fileId int
+	 * @return int file ID, is false if failure
+	 */
+	function uploadReportFile($fileName, $fileId = null) {	
+		return $this->handleUpload($fileName, ARTICLE_FILE_REPORT, null, $fileId);
+	}        
+        
 	/**
 	 * Upload a note file.
 	 * @param $fileName string the name of the file used in the POST form
@@ -290,13 +302,13 @@ class ArticleFileManager extends FileManager {
 	}
 
 	/**
-	 * Copies an existing file to create an editor decision file.
+	 * Copies an existing file to create a decision file.
 	 * @param $fileId int the file id of the review file.
 	 * @param $destFileId int file ID to copy to
 	 * @return int the file id of the new file.
 	 */
-	function copyToEditorFile($fileId, $destFileId = null) {	
-		return $this->copyAndRenameFile($fileId, ARTICLE_FILE_EDITOR, $destFileId);
+	function copyToDecisionFile($fileId, $destFileId = null) {	
+		return $this->copyAndRenameFile($fileId, ARTICLE_FILE_DECISION, $destFileId);
 	}
 
 	/**
@@ -328,9 +340,10 @@ class ArticleFileManager extends FileManager {
             switch ($type) {
 			case ARTICLE_FILE_PUBLIC: return 'public';
 			case ARTICLE_FILE_SUPP: return 'supp';
+			case ARTICLE_FILE_REPORT: return 'report';
 			case ARTICLE_FILE_NOTE: return 'note';
 			case ARTICLE_FILE_REVIEW: return 'submission/review';
-			case ARTICLE_FILE_EDITOR: return 'submission/editor';
+			case ARTICLE_FILE_DECISION: return 'submission/decision';
 			case ARTICLE_FILE_COPYEDIT: return 'submission/copyedit';
 			case ARTICLE_FILE_LAYOUT: return 'submission/layout';
 			case ARTICLE_FILE_ATTACHMENT: return 'attachment';
@@ -347,9 +360,10 @@ class ArticleFileManager extends FileManager {
 		switch ($path) {
 			case "public": return ARTICLE_FILE_PUBLIC;
 			case "supp": return ARTICLE_FILE_SUPP;
+			case "report": return ARTICLE_FILE_REPORT;
 			case "note": return ARTICLE_FILE_NOTE;
 			case "submission/review": return ARTICLE_FILE_REVIEW;
-			case "submission/editor": return ARTICLE_FILE_EDITOR;
+			case "submission/decision": return ARTICLE_FILE_DECISION;
 			case "submission/copyedit": return ARTICLE_FILE_COPYEDIT;
 			case "submission/layout": return ARTICLE_FILE_LAYOUT;
 			case "attachment": return ARTICLE_FILE_ATTACHMENT;
@@ -358,13 +372,12 @@ class ArticleFileManager extends FileManager {
 	}
 	
 	/**
-	* Added by MSB, Sept 29, 2011
 	* Rename an existing ArticleFile
 	* @param fileId int
 	* @param path string
 	* @param suppFileCounter  int
 	*/
-	function renameFile($fileId, $path, $suppFileCounter){
+	function renameFile($fileId, $path, $suppFileCounter = 0, $suppFileType = null){
 		if (HookRegistry::call('ArticleFileManager::renameFile', array(&$fileId, &$path, $suppFileCounter, &$result))) return $result;
 	
 		$articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
@@ -376,7 +389,8 @@ class ArticleFileManager extends FileManager {
 	
 		if($type == ARTICLE_FILE_SUPP ){
 			$suppFileCounter = $suppFileCounter + 1;
-			$type = $type.$suppFileCounter;
+                        $suppFileType = preg_replace('/\s+/', '', $suppFileType);  
+			$type = $suppFileType.$suppFileCounter;
 		}
 		
 		
@@ -490,7 +504,7 @@ class ArticleFileManager extends FileManager {
 		if($proposalId!=null || $proposalId!=''){
 			
 			$date = new DateTime($articleFile->getDateUploaded());
-			$dateUploaded = $date->format('MdY-g:ia');
+			$dateUploaded = $date->format('dMY-gia');
 			$newFileName = $proposalId.'.'.$type.'.'.$dateUploaded.'.'.$extension;
 			
 		}else{

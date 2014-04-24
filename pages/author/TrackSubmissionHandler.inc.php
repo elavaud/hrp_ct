@@ -113,6 +113,7 @@ class TrackSubmissionHandler extends AuthorHandler {
 		$templateMgr->assign_by_ref('submissionFile', $submission->getSubmissionFile());
 		$templateMgr->assign_by_ref('revisedFile', $submission->getRevisedFile());
 		$templateMgr->assign_by_ref('suppFiles', $submission->getSuppFiles());
+		$templateMgr->assign_by_ref('reportFiles', $submission->getReportFiles());
 
 		$suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
 		$templateMgr->assign_by_ref('suppFileDao', $suppFileDao);
@@ -121,8 +122,9 @@ class TrackSubmissionHandler extends AuthorHandler {
 		$templateMgr->assign_by_ref('editorDecisionOptions', SectionEditorSubmission::getEditorDecisionOptions());
 
 		$templateMgr->assign('helpTopicId','editorial.authorsRole');
-
-                if($submission->getSubmissionStatus()==PROPOSAL_STATUS_SUBMITTED) {
+                
+                $lastSectionDecision = $submission->getLastSectionDecision();
+                if($lastSectionDecision->getDecision() == SUBMISSION_SECTION_NO_DECISION && $lastSectionDecision->getReviewType() == REVIEW_TYPE_INITIAL) {
                         $canEditMetadata = true;
                         $canEditFiles = true;
                 }
@@ -737,12 +739,12 @@ class TrackSubmissionHandler extends AuthorHandler {
             $withdrawForm->setData('type', 'Withdraw Report');
             
             if ($withdrawForm->isLocaleResubmit()) {
-                    $withdrawForm->readInputData();
-		} else {
-                    $withdrawForm->initData();
-		}
+                $withdrawForm->readInputData();
+            } else {
+                $withdrawForm->initData();
+            }
 
-           $withdrawForm->display();
+            $withdrawForm->display();
         }
 
 
@@ -824,27 +826,22 @@ class TrackSubmissionHandler extends AuthorHandler {
         /**
          * Add a progress report
          * @param $args array ($articleId)
-         *
-         * Added by: AIM
-         * Last Updated: June 15, 2011
          */
 
         function addProgressReport($args, $request) {
 		$articleId = (int) array_shift($args);
-		$journal =& $request->getJournal();
-
+                
 		$this->validate($articleId);
 		$authorSubmission =& $this->submission;
 
-
 		$this->setupTemplate(true, $articleId, 'summary');
 
-		import('classes.submission.form.SuppFileForm');
+		import('classes.submission.form.ReportFileForm');
 
-                $submitForm = new SuppFileForm($authorSubmission, $journal);
+                $submitForm = new ReportFileForm($authorSubmission);
 
                 //Added by AIM, June 15 2011
-                $submitForm->setData('type','Progress Report');
+                $submitForm->setData('type','progress');
 
                 if ($submitForm->isLocaleResubmit()) {
                     $submitForm->readInputData();
@@ -853,44 +850,65 @@ class TrackSubmissionHandler extends AuthorHandler {
 		}
 
                 $submitForm->display();
-
 	}
 
 
         /**
          * Add a completion report
          * @param $args array ($articleId)
-         *
-         * Added by: AIM
-         * Last Updated: June 22, 2011
          */
 
         function addCompletionReport($args, $request) {
 		$articleId = (int) array_shift($args);
-		$journal =& $request->getJournal();
 		                
 		$this->validate($articleId);
 		$authorSubmission =& $this->submission;
-
                 
 		$this->setupTemplate(true, $articleId, 'summary');
 
-		import('classes.submission.form.SuppFileForm');
+		import('classes.submission.form.ReportFileForm');
                 
-        $submitForm = new SuppFileForm($authorSubmission, $journal);
+                $submitForm = new ReportFileForm($authorSubmission);
 
-        //Added by AIM, June 22 2011
-        $submitForm->setData('type','Completion Report');
+                $submitForm->setData('type','completion');
 
-        if ($submitForm->isLocaleResubmit()) {
-			$submitForm->readInputData();
-		} else {
-            $submitForm->initData();
-		}
-        $submitForm->display();
+                if ($submitForm->isLocaleResubmit()) {
+                    $submitForm->readInputData();
+                } else {
+                    $submitForm->initData();
+                }
+                $submitForm->display();
 	}
 
+	/**
+	 * Save a report file.
+	 * @param $args array ($fileId)
+	 */
+	function saveReportFile($args, &$request) {
+		$articleId = Request::getUserVar('articleId');
+		if ($articleId) {
+                    $this->validate($articleId);
+                } else {
+                    Request::redirect(null, Request::getRequestedPage());
+                }
+		$authorSubmission =& $this->submission;
+		$this->setupTemplate(true, $articleId, 'summary');
+                
+                $fileId = isset($args[0]) ? (int) $args[0] : 0;
 
+                import('classes.submission.form.ReportFileForm');
+
+                $submitForm = new ReportFileForm($authorSubmission, $fileId);
+                $submitForm->readInputData();
+
+                if ($submitForm->validate()) {
+                    $submitForm->execute();
+                    Request::redirect(null, null, 'index','proposalsInReview');
+                } else {
+                    $submitForm->display();
+                }
+	}
+        
         /**
          * Submit a request for extension
          * @param $args array ($articleId)
@@ -924,6 +942,7 @@ class TrackSubmissionHandler extends AuthorHandler {
 
                 $submitForm->display();
 	}
+        
         /**
          * Submit raw datafile
          * @param $args array ($articleId)

@@ -210,7 +210,6 @@ class EditorSubmissionDAO extends DAO {
 				LEFT JOIN authors aa ON (aa.submission_id = a.article_id)
 				LEFT JOIN authors aap ON (aap.submission_id = a.article_id AND aap.primary_contact = 1)
 				LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)
-                                LEFT JOIN section_decisions sdec2 ON (a.article_id = sdec2.article_id AND sdec.section_decision_id < sdec2.section_decision_id)
 				LEFT JOIN section_editors se ON (se.section_id = sdec.section_id)
 				
 				LEFT JOIN section_settings stpl ON (sdec.section_id = stpl.section_id AND stpl.setting_name = ? AND stpl.locale = ?)
@@ -229,8 +228,7 @@ class EditorSubmissionDAO extends DAO {
 
                                 LEFT JOIN article_risk_assessments ara ON (a.article_id = ara.article_id)
 
-                         WHERE	sdec2.section_decision_id IS NULL
-				AND a.journal_id = ?' .
+                         WHERE a.journal_id = ?' .
 				(!empty($additionalWhereSql)?" $additionalWhereSql":'');
 				
 		if ($sectionId) {

@@ -31,7 +31,12 @@
 	<message key="author.submit.form.sameInstitutionEntries">Your "Key Implementing Institution" and/or your "Source(s) of Monetary and Material Support" were not listed and you entered their information. However the same information (or the name of the institution, or its acronym) has been entered at least twice. Each source of monetary should be unique and if your "Key Implementing Institution" is also your (or one of your) "Source of Monetary", please select instead "Key Implementing Institution" in the bottom of the above list.</message>
 	<message key="author.submit.form.nonNumericValue">In the "Source of Monetary and Material Support" section, one of the amount is not numeric. Please enter only numeric values without any separator (comma "," / dot "." / space " " / etc.).</message>
 	<message key="author.submit.form.sameSource">In the "Source of Monetary and Material Support" section, at least 2 of your sources have the same institution. If 2 (or more) sources are coming from the same institution, please regroup them in one source.</message>
-        <!---->
+	<message key="author.submit.form.pdfRequired">The completion report should be uploaded in a PDF format. Please convert the report and submit it again.</message>        
+	<message key="author.submit.form.fileTooBig">The completion report should not exceed 20 Mb.</message>        
+
+        <!-- ***** -->
+        <!-- END OF ADDED -->
+        <!-- ***** -->
         
 	<message key="author.article.decision">Committee Decision</message>
 	<message key="author.submit">New Proposal</message>

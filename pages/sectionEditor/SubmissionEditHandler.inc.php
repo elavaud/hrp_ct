@@ -68,6 +68,8 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		$templateMgr->assign_by_ref('section', $section);
 		$templateMgr->assign_by_ref('submissionFile', $submission->getSubmissionFile());
 		$templateMgr->assign_by_ref('suppFiles', $submission->getSuppFiles());
+		$templateMgr->assign_by_ref('reportFiles', $submission->getReportFiles());
+		$templateMgr->assign_by_ref('previousFiles', $submission->getPreviousFiles());
 		$templateMgr->assign_by_ref('reviewFile', $submission->getReviewFile());
 		$templateMgr->assign_by_ref('journalSettings', $journalSettings);
 		$templateMgr->assign('abstractLocales', $journal->getSupportedLocaleNames());
@@ -223,6 +225,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		$templateMgr->assign_by_ref('submissionFile', $submission->getSubmissionFile());	
                 $templateMgr->assign_by_ref('abstract', $submission->getLocalizedAbstract());
 		$templateMgr->assign_by_ref('suppFiles', $submission->getSuppFiles());
+		$templateMgr->assign_by_ref('reportFiles', $submission->getReportFiles());
 		$templateMgr->assign_by_ref('reviewFile', $submission->getReviewFile());
 		$templateMgr->assign_by_ref('previousFiles', $submission->getPreviousFiles());
 		$templateMgr->assign_by_ref('copyeditFile', $submission->getFileBySignoffType('SIGNOFF_COPYEDITING_INITIAL'));
@@ -231,10 +234,16 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		$templateMgr->assign_by_ref('sectionDecisions', $submission->getDecisions());
                 $templateMgr->assign('rateReviewerOnQuality', $journal->getSetting('rateReviewerOnQuality'));
 		$templateMgr->assign_by_ref('sections', $sections->toArray());
-		$templateMgr->assign('sectionDecisionOptions',SectionEditorSubmission::getEditorDecisionOptions());
-		
+		$sectionDecisions = SectionEditorSubmission::getEditorDecisionOptions();
+		$templateMgr->assign('sectionDecisionOptions',$sectionDecisions);
+                import('classes.submission.common.Action');
+                unset($sectionDecisions[SUBMISSION_SECTION_DECISION_DECLINED]);
+		$templateMgr->assign('sectionDecisionOptionsWithoutDeclined',$sectionDecisions);                
 		$templateMgr->assign('initialReviewOptions',SectionEditorSubmission::getInitialReviewOptions());
-		$templateMgr->assign('exemptionOptions',SectionEditorSubmission::getExemptionOptions());
+                $reviewOptions = SectionEditorSubmission::getReviewOptions();
+		$templateMgr->assign('reviewOptions', $reviewOptions);
+                unset($reviewOptions[SUBMISSION_SECTION_DECISION_EXEMPTED]);
+		$templateMgr->assign('reviewOptionsWithoutExempted', $reviewOptions);
 		$templateMgr->assign('continuingReviewOptions',SectionEditorSubmission::getContinuingReviewOptions());
 		$templateMgr->assign('articleMoreRecent', $articleMoreRecent);
 		$templateMgr->assign('lastDecision', $lastDecision);
@@ -412,11 +421,6 @@ class SubmissionEditHandler extends SectionEditorHandler {
                 $decision = Request::getUserVar('decision');
 		$previousDecision =& $submission->getLastSectionDecision();
                 $pastDecisionResult = $previousDecision->getDecision();
-
-		$fileName = "finalDecisionFile";
-		if(($pastDecisionResult == SUBMISSION_SECTION_DECISION_EXPEDITED || $pastDecisionResult == SUBMISSION_SECTION_DECISION_FULL_REVIEW || ($pastDecisionResult == SUBMISSION_SECTION_DECISION_EXEMPTED && !$previousDecision->getComments())) && isset($_FILES[$fileName])) {			
-			if (SectionEditorAction::uploadDecisionFile($articleId, $fileName, $submission->getLastSectionDecisionId()) == '0') Request::redirect(null, null, 'submissionReview', $articleId);		
-		}
 				
 		//pass lastDecisionId of this article to update existing row in section_decisions
 		if (isset($previousDecision)) {
@@ -455,7 +459,12 @@ class SubmissionEditHandler extends SectionEditorHandler {
                         SectionEditorAction::recordDecision($submission, $decision, $previousDecision->getReviewType(), $previousDecision->getRound(), $comments, $approvalDate, $lastDecisionId);
 				break;
 		}
-		
+                
+		$fileName = "finalDecisionFile";
+		if(($pastDecisionResult == SUBMISSION_SECTION_DECISION_EXPEDITED || $pastDecisionResult == SUBMISSION_SECTION_DECISION_FULL_REVIEW || ($pastDecisionResult == SUBMISSION_SECTION_DECISION_EXEMPTED && !$previousDecision->getComments())) && isset($_FILES[$fileName])) {			
+			if (SectionEditorAction::uploadDecisionFile($articleId, $fileName, $submission->getLastSectionDecisionId()) == '0') Request::redirect(null, null, 'submissionReview', $articleId);		
+		}
+                
 		switch ($decision) {
 			case SUBMISSION_SECTION_DECISION_APPROVED:
 			case SUBMISSION_SECTION_DECISION_DECLINED:

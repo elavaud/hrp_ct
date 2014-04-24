@@ -84,15 +84,15 @@
     </div>
 {/if}
 
+<h3>3.1 {translate key="manager.setup.submission.steps"}</h3>
+
 <div id="authorGuidelinesInfo">
-    <h3>3.1 {translate key="manager.setup.submission.steps"}</h3>
+    
     <h6>3.1.1 {translate key="navigation.stepNumber" step=1} - {translate key="manager.setup.authorGuidelines"}</h6>
 
     <p>{translate key="manager.setup.authorGuidelinesDescription"}</p>
 
-    <p>
-        <textarea name="authorGuidelines[{$formLocale|escape}]" id="authorGuidelines" rows="12" cols="50" class="textArea">{$authorGuidelines[$formLocale]|escape}</textarea>
-    </p>
+    <p><textarea name="authorGuidelines[{$formLocale|escape}]" id="authorGuidelines" rows="12" cols="50" class="textArea">{$authorGuidelines[$formLocale]|escape}</textarea></p>
 
 </div>
 
@@ -152,7 +152,25 @@
         </tr>             
     </table>
 </div>
+
+<h3><br/><br/>3.2 {translate key="manager.setup.submission.postApproval"}</h3>
+
+<div id="progressReport">
+    <h6>3.2.1 {translate key="manager.setup.submission.progressReport"}</h6>
+    <p>{translate key="manager.setup.submission.progressReport.instruct"}</p>
     
+    <p><textarea name="progressReportGuidelines[{$formLocale|escape}]" id="progressReportGuidelines" rows="12" cols="50" class="textArea">{$progressReportGuidelines[$formLocale]|escape}</textarea></p>
+    
+</div>
+
+<div id="completionReport">
+    <h6>3.2.2 {translate key="manager.setup.submission.completionReport"}</h6>
+    <p>{translate key="manager.setup.submission.completionReport.instruct"}</p>
+    
+    <p><textarea name="completionReportGuidelines[{$formLocale|escape}]" id="completionReportGuidelines" rows="12" cols="50" class="textArea">{$completionReportGuidelines[$formLocale]|escape}</textarea></p>
+    
+</div>
+
 <!--{*
 <div id="requiredAbstracts">
 
@@ -183,7 +201,6 @@
 
 <table width="100%" class="data">
 	<tr valign="top">
-		<td width="5%" class="label">
 			<input type="checkbox" name="copyrightNoticeAgree" id="copyrightNoticeAgree" value="1"{if $copyrightNoticeAgree} checked="checked"{/if} />
 		</td>
 		<td width="95%" class="value"><label for="copyrightNoticeAgree">{translate key="manager.setup.authorCopyrightNoticeAgree"}</label>
