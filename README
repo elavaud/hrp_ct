@@ -9,3 +9,4 @@ _The CSS file "/plugins/themes/hrp/hrp.css" based on the template "/plugins/them
 _An xml file containing the geographical areas of the country for each language you intend to use. Each of these files should be located in their respective locale directory: "/lib/pkp/locale/*/areasOfTheCountry.xml". PLease refer to "/classes/article/AreasOfTheCountryDAO.inc.php".
 _An xml file containing the research fields for each language you intend to use. Each of these files should be located in their respective locale directory: "/lib/pkp/locale/*/researchFields.xml". PLease refer to the following template "/lib/pkp/locale/en_US/researchFields.TEMPLATE.xml.
 
+Hi Elis
