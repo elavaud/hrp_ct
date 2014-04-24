@@ -11,6 +11,7 @@
 		<td class="value" width="80%">
 			<table width="100%" class="data">
 				{foreach from=$meetings item=meeting}
+                                    {if $meeting->getStatus() != STATUS_CANCELLED}
 					{assign var="meetingAttendance" value=$meeting->getMeetingAttendanceOfUser($submission->getUserId())}
 					<tr>
 						<td width="50%" valign="top">
@@ -94,6 +95,9 @@
 							{/if}
 						</td>
 					</tr>
+                                    {else}
+                                        {$meeting->getStatusKey()}
+                                    {/if}
 				{/foreach}
 			</table>
 		</td>
