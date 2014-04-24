@@ -156,16 +156,10 @@ class TrackSubmissionHandler extends AuthorHandler {
 		$this->setupTemplate(true, $articleId);
 		Locale::requireComponents(array(LOCALE_COMPONENT_OJS_EDITOR)); // editor.article.decision etc. FIXME?
 
-		$reviewAssignmentDao =& DAORegistry::getDAO('ReviewAssignmentDAO');
-		$reviewFilesByDecision =& $reviewAssignmentDao->getReviewFilesByDecision($articleId);
-		$authorViewableFilesByDecision =& $reviewAssignmentDao->getAuthorViewableFilesByDecision($articleId);
-
 		$templateMgr =& TemplateManager::getManager();
 
 		$templateMgr->assign_by_ref('submission', $authorSubmission);
 		$templateMgr->assign_by_ref('abstract', $authorSubmission->getLocalizedAbstract());
-		$templateMgr->assign_by_ref('reviewFilesByDecision', $reviewFilesByDecision);
-		$templateMgr->assign_by_ref('authorViewableFilesByDecision', $authorViewableFilesByDecision);
 
 		$templateMgr->assign_by_ref('submissionFile', $authorSubmission->getSubmissionFile());
 		$templateMgr->assign_by_ref('revisedFile', $authorSubmission->getRevisedFile());

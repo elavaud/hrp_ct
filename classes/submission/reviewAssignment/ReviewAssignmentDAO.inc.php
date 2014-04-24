@@ -130,11 +130,11 @@ class ReviewAssignmentDAO extends PKPReviewAssignmentDAO {
 	}
 
 	/**
-	 * Get all author-viewable reviewer files for an article for each decision.
+	 * Get all author-viewable reviewer files for a decision.
 	 * @param $articleId int
 	 * @return array returned[decision][reviewer_index] = array of ArticleFiles
 	 */
-	function &getAuthorViewableFilesByDecision($articleId) {
+	function &getAuthorViewableFilesByDecision($decisionId) {
 		$files = array();
 
 		$result =& $this->retrieve(
@@ -143,24 +143,14 @@ class ReviewAssignmentDAO extends PKPReviewAssignmentDAO {
 				LEFT JOIN article_files f ON (r.reviewer_file_id = f.file_id)
 				LEFT JOIN section_decisions sd ON (r.decision_id = sd.section_decision_id)
 			WHERE viewable = 1 AND
-				sd.article_id = ?
+				sd.section_decision_id = ?
 			ORDER BY r.decision_id, r.reviewer_id, r.review_id',
-			array((int) $articleId)
+			array((int) $decisionId)
 		);
 
 		while (!$result->EOF) {
 			$row = $result->GetRowAssoc(false);
-			if (!isset($files[$row['decision_id']]) || !is_array($files[$row['decision_id']])) {
-				$files[$row['decision_id']] = array();
-				$thisReviewerId = $row['reviewer_id'];
-				$reviewerIndex = 0;
-			} else if ($thisReviewerId != $row['reviewer_id']) {
-				$thisReviewerId = $row['reviewer_id'];
-				$reviewerIndex++;
-			}
-
-			$thisArticleFile =& $this->articleFileDao->_returnArticleFileFromRow($row);
-			$files[$row['decision_id']][$reviewerIndex][$row['review_id']][] = $thisArticleFile;
+			$files[] =& $this->articleFileDao->_returnArticleFileFromRow($row);
 			$result->MoveNext();
 		}
 

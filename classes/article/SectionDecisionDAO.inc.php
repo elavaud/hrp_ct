@@ -171,7 +171,7 @@ class SectionDecisionDAO extends DAO{
 		$articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');		
 		import('classes.file.ArticleFileManager');
 
-		$sectionDecision->setAuthorViewableReviewFiles($articleFileDao->getArticleFilesByAssocId($row['section_decision_id'], ARTICLE_FILE_REVIEW));
+		$sectionDecision->setAuthorViewableReviewFiles($this->reviewAssignmentDao->getAuthorViewableFilesByDecision($row['section_decision_id']));
 
 		$sectionDecision->setDecisionFiles($articleFileDao->getArticleFilesByAssocId($row['section_decision_id'], ARTICLE_FILE_DECISION));
 		
