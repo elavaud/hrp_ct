@@ -15,7 +15,7 @@
             {foreach from=$navMenuItems item=navItem}
                 {if $navItem.url != '' && $navItem.name != ''}
                     <li>
-                        <a href="{if $navItem.isAbsolute}{$navItem.url|escape}{else}{$navItem.url|escape}{/if}">
+                        <a href="{if $navItem.isAbsolute}{$navItem.url|escape}{else}{$navItem.url|escape}{/if}" target="_blank">
                             {if $navItem.isLiteral}
                                 {$navItem.name|escape}
                             {else}
