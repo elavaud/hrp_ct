@@ -53,6 +53,8 @@
         <message key="manager.setup.about.header.instruct">If not empty, the below text will appear on the top of all "Governance and Policies" pages.</message>
         <message key="manager.setup.about.governance">Governance and Policies</message>
         <message key="manager.setup.about.governance.instruct">The below text will appear on the sub-category "Governance and Policies" of the "Governance, Policies and Procedures for Health Research" page ("Governance &amp; Policies" tab).</message>
+        <message key="manager.setup.about.grants">Grants</message>
+        <message key="manager.setup.about.grants.instruct">The below text will appear on the sub-category "Grants" of the "Governance, Policies and Procedures for Health Research" page ("Governance &amp; Policies" tab).</message>
         <message key="manager.setup.about.committees">Committee(s)</message>
         <message key="manager.setup.about.committees.instruct">The below text will appear on the sub-category "Committee(s)" of the "Governance, Policies and Procedures for Health Research" page ("Governance &amp; Policies" tab).</message>
         <message key="manager.setup.about.files">Files</message>

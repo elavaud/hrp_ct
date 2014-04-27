@@ -236,7 +236,8 @@ class TinyMCEPlugin extends GenericPlugin {
 						$fields[] = 'description';
 						$fields[] = 'aboutHeader';
 						$fields[] = 'aboutGovernance';
-						$fields[] = 'aboutCommittees';
+						$fields[] = 'aboutGrants';
+                                                $fields[] = 'aboutCommittees';
 						$fields[] = 'aboutFiles';
 						$fields[] = 'aboutLinks';
                                                 $fields[] = 'additionalHomeContent';

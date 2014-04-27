@@ -367,6 +367,16 @@ function prepBlockFields() {
  
     </div>
 
+    <div id="governanceForm">
+    
+        <h4>{translate key="manager.setup.about.grants"}</h4>
+
+        <p>{translate key="manager.setup.about.grants.instruct"}</p>
+
+        <p><textarea id="aboutGrants" name="aboutGrants[{$formLocale|escape}]" rows="3" cols="50" class="textArea">{$aboutGrants[$formLocale]|escape}</textarea></p>
+ 
+    </div>
+
     <div id="committeesForm">
     
         <h4>{translate key="manager.setup.about.committees"}</h4>

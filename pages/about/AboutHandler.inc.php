@@ -52,6 +52,7 @@ class AboutHandler extends Handler {
                 $templateMgr->assign('aboutGovernance', $journal->getLocalizedSetting('aboutGovernance'));
                 $templateMgr->assign('aboutCommittees', $journal->getLocalizedSetting('aboutCommittees'));
                 $templateMgr->assign('aboutFiles', $journal->getLocalizedSetting('aboutFiles'));
+                $templateMgr->assign('aboutGrants', $journal->getLocalizedSetting('aboutGrants'));
                 $templateMgr->assign('aboutLinks', $journal->getLocalizedSetting('aboutLinks'));
                 
                 // Contacts
