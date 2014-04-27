@@ -18,7 +18,8 @@
                            {foreach from=$policyFiles item=policyFile}
                                    <tr>
                                            <td width="5%">&nbsp;</td>
-                                           <td width="95%"><a href="{url op="downloadAboutFile" path=$policyFile->getId()}"><b>&#8226;&nbsp;{$policyFile->getLocalizedAboutFileName()|escape}</b></a></td>
+                                           <td width="2%" valign='top'>&#8226;</td>
+                                           <td width="93%"><a href="{url op="downloadAboutFile" path=$policyFile->getId()}"><b>{$policyFile->getLocalizedAboutFileName()|escape}</b></a>&nbsp;({$policyFile->getFileExtension()}, {$policyFile->getNiceFileSize()}){if $policyFile->getLocalizedAboutFileDescription() != ''}<br/>{$policyFile->getLocalizedAboutFileDescription()}{/if}</td>
                                    </tr>
                            {/foreach}
                    </table>
@@ -33,7 +34,7 @@
                            {foreach from=$userManuals item=userManual}
                                    <tr>
                                            <td width="5%">&nbsp;</td>
-                                           <td width="95%"><a href="{url op="downloadAboutFile" path=$userManual->getId()}"><b>&#8226;&nbsp;{$userManual->getLocalizedAboutFileName()|escape}</b></a></td>
+                                           <td width="95%"><a href="{url op="downloadAboutFile" path=$userManual->getId()}"><b>&#8226;&nbsp;{$userManual->getLocalizedAboutFileName()|escape}</b></a>&nbsp;({$policyFile->getFileExtension()}, {$policyFile->getNiceFileSize()})</td>
                                    </tr>
                            {/foreach}
                    </table>
@@ -48,7 +49,7 @@
                            {foreach from=$templates item=template}
                                    <tr>
                                            <td width="5%">&nbsp;</td>
-                                           <td width="95%"><a href="{url op="downloadAboutFile" path=$template->getId()}"><b>&#8226;&nbsp;{$template->getLocalizedAboutFileName()|escape}</b></a></td>
+                                           <td width="95%"><a href="{url op="downloadAboutFile" path=$template->getId()}"><b>&#8226;&nbsp;{$template->getLocalizedAboutFileName()|escape}</b></a>&nbsp;({$policyFile->getFileExtension()}, {$policyFile->getNiceFileSize()})</td>
                                    </tr>
                            {/foreach}
                    </table>
@@ -63,7 +64,7 @@
                            {foreach from=$miscellaneousFiles item=miscellaneousFile}
                                    <tr>
                                            <td width="5%">&nbsp;</td>
-                                           <td width="95%"><a href="{url op="downloadAboutFile" path=$miscellaneousFile->getId()}"><b>&#8226;&nbsp;{$miscellaneousFile->getLocalizedAboutFileName()|escape}</b></a></td>
+                                           <td width="95%"><a href="{url op="downloadAboutFile" path=$miscellaneousFile->getId()}"><b>&#8226;&nbsp;{$miscellaneousFile->getLocalizedAboutFileName()|escape}</b></a>&nbsp;({$policyFile->getFileExtension()}, {$policyFile->getNiceFileSize()})</td>
                                    </tr>
                            {/foreach}
                    </table>

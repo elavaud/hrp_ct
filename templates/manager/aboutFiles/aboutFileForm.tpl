@@ -29,7 +29,7 @@ function checkSize(){
 </script>
 {/literal}
 
-<form name="aboutFile" method="post" action="{url op="updateAboutFile" path="$aboutFileId}" enctype="multipart/form-data">
+<form name="aboutFile" method="post" action="{url op="updateAboutFile" path="$aboutFileId"}" enctype="multipart/form-data">
 
 	{include file="common/formErrors.tpl"}
 	<div id="aboutFileForm">
@@ -53,6 +53,11 @@ function checkSize(){
 				<tr valign="top">
 					<td width="20%" class="label">{$localeName} {fieldLabel name="aboutFileName" required="true" key="manager.aboutFiles.name"}</td>
 					<td width="80%" class="value"><input type="text" name="aboutFileNames[{$localeKey|escape}][name]" value="{$aboutFileName.name|escape}" id="name" size="40" maxlength="120" class="textField" /></td>
+				</tr>
+				{assign var="aboutFileDescription" value=$aboutFileDescriptionArray[$localeKey]}
+				<tr valign="top">
+					<td width="20%" class="label">{$localeName} {fieldLabel name="aboutFileDescription" key="manager.aboutFiles.fileDescription"}</td>
+                                        <td width="80%" class="value"><textarea name="aboutFileDescriptionArray[{$localeKey|escape}][description]" id="description"  rows="3" cols="40" maxlength="600" class="textArea">{$aboutFileDescription.description|escape}</textarea></td>
 				</tr>
 			{/foreach}
 			<tr valign="top">

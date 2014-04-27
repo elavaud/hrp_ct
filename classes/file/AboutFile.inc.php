@@ -56,29 +56,55 @@ class AboutFile extends DataObject {
 	} 
         
         /**
-	 * Set the type of the file.
-	 * @param $type int
-	 */
+	 * Set the name of the file.
+	 * @param $name string
+	 * @param $name string
+         */
 	function setAboutFileName($name, $locale) {
 		return $this->setData('aboutFileName', $name, $locale);
 	}
         
         /**
-	 * Get the type of the about file.
-	 * @return int
+	 * Get the name of the about file.
+	 * @return string
 	 */
 	function getAboutFileName($locale) {
 		return $this->getData('aboutFileName', $locale);
 	}
         
         /**
-	 * Get the type of the about file.
-	 * @return int
+	 * Get the name of the about file, automatically localized.
+	 * @return string
 	 */
 	function getLocalizedAboutFileName() {
 		return $this->getLocalizedData('aboutFileName');
 	}
+
+        /**
+	 * Set the description of the file.
+	 * @param $description string
+	 * @param $locale string
+         */
+	function setAboutFileDescription($description, $locale) {
+		return $this->setData('aboutFileDescription', $description, $locale);
+	}
         
+        /**
+	 * Get the description of the about file.
+	 * @return string
+	 */
+	function getAboutFileDescription($locale) {
+		return $this->getData('aboutFileDescription', $locale);
+	}
+        
+        /**
+	 * Get the description of the about file, automatically localized.
+	 * @return string
+	 */
+	function getLocalizedAboutFileDescription() {
+		return $this->getLocalizedData('aboutFileDescription');
+	}
+
         /**
 	 * Set type of the file.
 	 * @param $type string
@@ -93,6 +119,14 @@ class AboutFile extends DataObject {
 	 */
 	function getFileType() {
 		return $this->getData('fileType');
+	}
+
+	/**
+	 * Get extension of the file.
+	 * @ return string
+	 */
+	function getFileExtension() {
+		return FileManager::getExtension($this->getData('originalName'));
 	}
 
 	/**

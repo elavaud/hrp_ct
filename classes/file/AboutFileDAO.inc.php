@@ -148,7 +148,7 @@ class AboutFileDAO extends DAO {
 	}
         
         function getLocaleFieldNames() {
-		return array('aboutFileName');
+		return array('aboutFileName', 'aboutFileDescription');
 	}
 
 	function updateLocaleFields(&$aboutFile) {

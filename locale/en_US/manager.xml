@@ -60,6 +60,8 @@
         <message key="manager.setup.about.links">Links</message>
         <message key="manager.setup.about.links.instruct">The below text will appear on the sub-category "Links" of the "Governance, Policies and Procedures for Health Research" page ("Governance &amp; Policies" tab).</message>
 
+        <message key="manager.aboutFiles.fileDescription">Description</message>
+
 
         <!-- /Added -->
         

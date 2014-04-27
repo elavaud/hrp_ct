@@ -82,11 +82,13 @@ class AboutFileForm extends Form {
                                                 
                         $this->_data = array(
 				'aboutFileNames' => array(),
-				'originalName' => $aboutFile->getAboutFileOriginalName(),
+				'aboutFileDescriptionArray' => array(),
+                                'originalName' => $aboutFile->getAboutFileOriginalName(),
 				'type' => $aboutFile->getAboutFileType()
 			);
                         
                         $aboutFileNames =& $aboutFile->getAboutFileName(null);
+                        $aboutFileDescriptionArray =& $aboutFile->getAboutFileDescription(null);
                         $journal = Request::getJournal();
                         foreach ($journal->getSupportedLocaleNames() as $localeKey => $localeValue) {
                             if (isset($aboutFileNames[$localeKey])) {
@@ -94,6 +96,11 @@ class AboutFileForm extends Form {
                                         'name' => $aboutFileNames[$localeKey]
                                     );
                             }
+                            if (isset($aboutFileDescriptionArray[$localeKey])) {
+                                $this->_data['aboutFileDescriptionArray'][$localeKey] = array(
+                                        'description' => $aboutFileDescriptionArray[$localeKey]
+                                    );
+                            }                            
                         }
 
 		}
@@ -106,7 +113,7 @@ class AboutFileForm extends Form {
 	*/
 	function readInputData() {
 	
-		$this->readUserVars(array('aboutFileNames', 'type', 'aboutFile'));
+		$this->readUserVars(array('aboutFileNames', 'aboutFileDescriptionArray','type', 'aboutFile'));
 	}
         
 	/**
@@ -149,10 +156,11 @@ class AboutFileForm extends Form {
                     
                 $journal = Request::getJournal();
                 $aboutFileNames = $this->getData('aboutFileNames');
+                $aboutFileDescriptionArray = $this->getData('aboutFileDescriptionArray');                
                 foreach ($journal->getSupportedLocaleNames() as $localeKey => $localeValue) {
-                    $aboutFile->setAboutFileName($aboutFileNames[$localeKey]['name'], $localeKey);		
+                    $aboutFile->setAboutFileName($aboutFileNames[$localeKey]['name'], $localeKey);	
+                    $aboutFile->setAboutFileDescription($aboutFileDescriptionArray[$localeKey]['description'], $localeKey);	                    
                 }
-                
 		$aboutFileDao->updateAboutFile($aboutFile);
 	}
 }
