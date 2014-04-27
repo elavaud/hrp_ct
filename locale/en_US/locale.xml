@@ -87,8 +87,8 @@
         
 	<message key="log.author.submitted">{$authorName} has submitted a proposal, ID "{$submissionId}", for "{$reviewType}".</message>
         
-        <message key="about.governance">Governance and Policies</message>   
-        <message key="about.committees">Committee(s)</message>   
+        <message key="about.governance">Governance of Health Research</message>   
+        <message key="about.committees">Ethics</message>   
         <message key="about.files">Files</message>   
         <message key="about.contactlinks">Contacts &amp; Links</message>   
         <message key="about.contacts">Contacts</message>   
