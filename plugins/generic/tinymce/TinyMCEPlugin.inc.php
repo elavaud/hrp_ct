@@ -234,7 +234,12 @@ class TinyMCEPlugin extends GenericPlugin {
 						break;
 					case 5:
 						$fields[] = 'description';
-						$fields[] = 'additionalHomeContent';
+						$fields[] = 'aboutHeader';
+						$fields[] = 'aboutGovernance';
+						$fields[] = 'aboutCommittees';
+						$fields[] = 'aboutFiles';
+						$fields[] = 'aboutLinks';
+                                                $fields[] = 'additionalHomeContent';
 						$fields[] = 'journalPageHeader';
 						$fields[] = 'journalPageFooter';
 						$fields[] = 'readerInformation';

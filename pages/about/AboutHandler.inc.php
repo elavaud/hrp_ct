@@ -27,9 +27,13 @@ class AboutHandler extends Handler {
 	/**
 	 * Display about index page.
 	 */
-	function index() {
+	function index($args) {
 		$this->validate();
 		$this->setupTemplate();
+                
+		$page = isset($args[0]) ? $args[0] : 'governance';
+                
+		$journal =& Request::getJournal();
                 
                 $aboutFileDao =& DAORegistry::getDAO('AboutFileDAO');
 
@@ -44,6 +48,23 @@ class AboutHandler extends Handler {
                 }
                 $navMenuItems = array_filter($navMenuItems);
                 
+                $templateMgr->assign('aboutHeader', $journal->getLocalizedSetting('aboutHeader'));
+                $templateMgr->assign('aboutGovernance', $journal->getLocalizedSetting('aboutGovernance'));
+                $templateMgr->assign('aboutCommittees', $journal->getLocalizedSetting('aboutCommittees'));
+                $templateMgr->assign('aboutFiles', $journal->getLocalizedSetting('aboutFiles'));
+                $templateMgr->assign('aboutLinks', $journal->getLocalizedSetting('aboutLinks'));
+                
+                // Contacts
+                $templateMgr->assign('CName', $journal->getSetting('contactName'));
+                $templateMgr->assign('CTitle', $journal->getLocalizedSetting('contactTitle'));
+                $templateMgr->assign('CAffiliation', $journal->getLocalizedSetting('contactAffiliation'));
+                $templateMgr->assign('CPhone', $journal->getSetting('contactPhone'));
+                $templateMgr->assign('CFax', $journal->getSetting('contactFax'));
+                $templateMgr->assign('CAddress', $journal->getLocalizedSetting('contactMailingAddress'));
+                $templateMgr->assign('CEmail', $journal->getSetting('contactEmail'));
+                $templateMgr->assign('SName', $journal->getSetting('supportName'));
+                $templateMgr->assign('SPhone', $journal->getSetting('supportPhone'));
+                $templateMgr->assign('SEmail', $journal->getSetting('supportEmail'));
                 
                 $templateMgr->assign('countNavMenuItems', count($navMenuItems));
 		$templateMgr->assign_by_ref('policyFiles', $policyFiles);
@@ -55,6 +76,8 @@ class AboutHandler extends Handler {
 		$templateMgr->assign_by_ref('miscellaneousFiles', $miscellaneousFiles);
 		$templateMgr->assign('countMiscellaneousFiles', count($miscellaneousFiles));
 
+                $templateMgr->assign('pageToDisplay', $page);
+                
                 $templateMgr->display('about/index.tpl');
 	}
 

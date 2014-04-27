@@ -175,7 +175,7 @@ function prepBlockFields() {
 *}-->
 
 <div id="journalHomepageContent">
-<h3>5.2 {translate key="manager.setup.journalHomepageContent"}</h3>
+<h3>5.1 {translate key="manager.setup.journalHomepageContent"}</h3>
 
 <p>{translate key="manager.setup.journalHomepageContentDescription"}</p>
 </div>
@@ -341,8 +341,66 @@ function prepBlockFields() {
 *}-->
 <div class="separator"></div>
 
+<div id="aboutPages">
+    <h3>5.2 {translate key="navigation.about"}</h3>
+    
+    <p>{translate key="manager.setup.about.instruct"}</p>
+    </div>
+
+    <div id="aboutHeaderForm">
+    
+        <h4>{translate key="manager.setup.about.header"}</h4>
+
+        <p>{translate key="manager.setup.about.header.instruct"}</p>
+
+        <p><textarea id="aboutHeader" name="aboutHeader[{$formLocale|escape}]" rows="3" cols="50" class="textArea">{$aboutHeader[$formLocale]|escape}</textarea></p>
+ 
+    </div>
+
+    <div id="governanceForm">
+    
+        <h4>{translate key="manager.setup.about.governance"}</h4>
+
+        <p>{translate key="manager.setup.about.governance.instruct"}</p>
+
+        <p><textarea id="aboutGovernance" name="aboutGovernance[{$formLocale|escape}]" rows="3" cols="50" class="textArea">{$aboutGovernance[$formLocale]|escape}</textarea></p>
+ 
+    </div>
+
+    <div id="committeesForm">
+    
+        <h4>{translate key="manager.setup.about.committees"}</h4>
+
+        <p>{translate key="manager.setup.about.committees.instruct"}</p>
+
+        <p><textarea id="aboutCommittees" name="aboutCommittees[{$formLocale|escape}]" rows="3" cols="50" class="textArea">{$aboutCommittees[$formLocale]|escape}</textarea></p>
+ 
+    </div>
+
+    <div id="filesForm">
+    
+        <h4>{translate key="manager.setup.about.files"}</h4>
+
+        <p>{translate key="manager.setup.about.files.instruct"}</p>
+
+        <p><textarea id="aboutFiles" name="aboutFiles[{$formLocale|escape}]" rows="3" cols="50" class="textArea">{$aboutFiles[$formLocale]|escape}</textarea></p>
+ 
+    </div>
+
+    <div id="linksForm">
+    
+        <h4>{translate key="manager.setup.about.links"}</h4>
+
+        <p>{translate key="manager.setup.about.links.instruct"}</p>
+
+        <p><textarea id="aboutLinks" name="aboutLinks[{$formLocale|escape}]" rows="3" cols="50" class="textArea">{$aboutLinks[$formLocale]|escape}</textarea></p>
+ 
+    </div>
+
+<div class="separator"></div>
+
 <div id="links">
-<h3>5.5 {translate key="common.links"}</h3>
+<h3>5.3 {translate key="common.links"}</h3>
 
 <p>{translate key="manager.setup.itemsDescriptionModif"}</p>
 
@@ -411,7 +469,7 @@ function prepBlockFields() {
 <div class="separator"></div>
 
 <div id="journalLayout">
-<h3>5.6 {translate key="manager.setup.journalLayout"}</h3>
+<h3>5.4 {translate key="manager.setup.journalLayout"}</h3>
 
 <p>{translate key="manager.setup.journalLayoutDescription"}</p>
 
@@ -516,7 +574,7 @@ function prepBlockFields() {
 <div class="separator"></div>
 *}-->
 <div id="lists">
-<h3>5.8 {translate key="manager.setup.lists"}</h3>
+<h3>5.5 {translate key="manager.setup.lists"}</h3>
 <p>{translate key="manager.setup.listsDescription"}</p>
 <table width="100%" class="data">
 	<tr valign="top">

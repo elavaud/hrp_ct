@@ -37,6 +37,11 @@ class JournalSetupStep5Form extends JournalSetupForm {
 				'displayCurrentIssue' => 'bool',
 				'additionalHomeContent' => 'string',
 				'description' => 'string',
+				'aboutHeader' => 'string',
+				'aboutGovernance' => 'string',
+				'aboutCommittees' => 'string',
+				'aboutFiles' => 'string',
+				'aboutLinks' => 'string',                            
 				'navItems' => 'object',
 				'itemsPerPage' => 'int',
 				'numPageLinks' => 'int',
@@ -55,7 +60,7 @@ class JournalSetupStep5Form extends JournalSetupForm {
 	 * @return array
 	 */
 	function getLocaleFieldNames() {
-		return array('homeHeaderTitleType', 'homeHeaderTitle', 'pageHeaderTitleType', 'pageHeaderTitle', 'readerInformation', 'authorInformation', 'librarianInformation', 'journalPageHeader', 'journalPageFooter', 'homepageImage', 'journalFavicon', 'additionalHomeContent', 'description', 'navItems', 'homeHeaderTitleImageAltText', 'homeHeaderLogoImageAltText', 'homepageImageAltText', 'pageHeaderTitleImageAltText', 'pageHeaderLogoImageAltText');
+		return array('homeHeaderTitleType', 'homeHeaderTitle', 'pageHeaderTitleType', 'pageHeaderTitle', 'readerInformation', 'authorInformation', 'librarianInformation', 'journalPageHeader', 'journalPageFooter', 'homepageImage', 'journalFavicon', 'additionalHomeContent', 'description', 'aboutHeader', 'aboutGovernance', 'aboutCommittees', 'aboutFiles', 'aboutLinks', 'navItems', 'homeHeaderTitleImageAltText', 'homeHeaderLogoImageAltText', 'homepageImageAltText', 'pageHeaderTitleImageAltText', 'pageHeaderLogoImageAltText');
 
 	}
 

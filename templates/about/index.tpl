@@ -1,103 +1,28 @@
 {**
  * index.tpl
  *
- * Copyright (c) 2003-2011 John Willinsky
- * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
- *
  * About the Journal index.
  *
  * $Id$
  *}
 {strip}
-{assign var="pageTitle" value="about.aboutTheJournal"}
-{include file="common/header.tpl"}
+    {assign var="pageTitle" value="about.aboutTheJournal"}
+    {assign var="pageCrumbTitle" value="about.$pageToDisplay"}
+    {include file="common/header.tpl"}
 {/strip}
 
-{if $countPolicyFiles > 0}
-	<div id="policyFiles">
-		<h3>{translate key="common.file.policy"}</h3>
-		<table width="100%">
-			<tr><td colspan="2">&nbsp;</tr>
-			{foreach from=$policyFiles item=policyFile}
-				<tr>
-					<td width="5%">&nbsp;</td>
-					<td width="95%"><a href="{url op="downloadAboutFile" path=$policyFile->getId()}"><b>&#8226;&nbsp;{$policyFile->getLocalizedAboutFileName()|escape}</b></a></td>
-				</tr>
-			{/foreach}
-		</table>
-	</div>
-{/if}
-
-{if $countUserManuals > 0}
-	<div id="userManuals">
-		<h3>{translate key="common.file.usermanuals"}</h3>
-		<table width="100%">
-			<tr><td colspan="2">&nbsp;</tr>
-			{foreach from=$userManuals item=userManual}
-				<tr>
-					<td width="5%">&nbsp;</td>
-					<td width="95%"><a href="{url op="downloadAboutFile" path=$userManual->getId()}"><b>&#8226;&nbsp;{$userManual->getLocalizedAboutFileName()|escape}</b></a></td>
-				</tr>
-			{/foreach}
-		</table>
-	</div>
-{/if}
-
-{if $countTemplates > 0}
-	<div id="templates">
-		<h3>{translate key="common.file.templates"}</h3>
-		<table width="100%">
-			<tr><td colspan="2">&nbsp;</tr>
-			{foreach from=$templates item=template}
-				<tr>
-					<td width="5%">&nbsp;</td>
-					<td width="95%"><a href="{url op="downloadAboutFile" path=$template->getId()}"><b>&#8226;&nbsp;{$template->getLocalizedAboutFileName()|escape}</b></a></td>
-				</tr>
-			{/foreach}
-		</table>
-	</div>
-{/if}
-
-{if $countMiscellaneousFiles > 0}
-	<div id="miscellaneous">
-		<h3>{translate key="common.file.miscellaneous"}</h3>
-		<table width="100%">
-			<tr><td colspan="2">&nbsp;</tr>
-			{foreach from=$miscellaneousFiles item=miscellaneousFile}
-				<tr>
-					<td width="5%">&nbsp;</td>
-					<td width="95%"><a href="{url op="downloadAboutFile" path=$miscellaneousFile->getId()}"><b>&#8226;&nbsp;{$miscellaneousFile->getLocalizedAboutFileName()|escape}</b></a></td>
-				</tr>
-			{/foreach}
-		</table>
-	</div>
-{/if}
-
-{if $countNavMenuItems > 0}
-    <div id="links">
-        <h3>{translate key="common.links"}</h3>
-        <table width="100%">
-            <tr><td colspan="2">&nbsp;</tr>
-            {foreach from=$navMenuItems item=navItem}
-                {if $navItem.url != '' && $navItem.name != ''}
-                    <tr>
-                        <td width="5%">&nbsp;</td>
-                        <td width="95%"><a href="{if $navItem.isAbsolute}{$navItem.url|escape}{else}{$navItem.url|escape}{/if}">
-                            <b>&#8226;&nbsp;
-                                {if $navItem.isLiteral}
-                                    {$navItem.name|escape}
-                                {else}
-                                    {translate key=$navItem.name}
-                                {/if}
-                            </b>
-                        </a>
-                        </td>
-                    </tr>
-                {/if}                
-            {/foreach}
-        </table>
-    </div>
-{/if}
-
+<ul class="menu">
+    <li{if ($pageToDisplay == "governance")} class="current"{/if}><a href="{url op="index" path="governance"}">{translate key='about.governance'}</a></li>
+    <li{if ($pageToDisplay == "committees")} class="current"{/if}><a href="{url op="index" path="committees"}">{translate key='about.committees'}</a></li>
+    <li{if ($pageToDisplay == "files")} class="current"{/if}><a href="{url op="index" path="files"}">{translate key='about.files'}</a></li>
+    <li{if ($pageToDisplay == "contactlinks")} class="current"{/if}><a href="{url op="index" path="contactlinks"}">{translate key='about.contactlinks'}</a></li>
+</ul>
+<br/>
+<div>
+<p>{$aboutHeader}</p>
+</div>
+<br/>
+{include file="about/$pageToDisplay.tpl"}
+<br/>
 {include file="common/footer.tpl"}
 

@@ -19,13 +19,18 @@
         <!-- ADDED -->
         <!-- ***** -->
         
-        <!-- February April 2014 -->
+        <!-- February April 2014 - Added -->
             
 	<message key="common.outside">Outside</message>
 	<message key="common.links">Link(s)</message>
 	<message key="search.downloadFinalReport">Download Final Report</message>
         
-        <!-- Old -->
+        <!-- February April 2014 - Modified -->
+
+        <message key="about.contact.principalContact">Principal Contact</message>
+        <message key="about.contact.subPrincipalContact">Technical Support Contact</message>
+        
+        <!-- February April 2014 - End -->
             
         <message key="common.activeProposals">ACTIVE PROPOSALS (Awaiting Decision/Revise and Resubmit)</message>
         <message key="common.approvedProposals">APPROVED PROPOSALS (Research Ongoing)</message>
@@ -90,9 +95,6 @@
         <!-- Old -->
         
         <message key="about.contact">The National Ethics Committee for Health Research</message>
-        <message key="about.contact.principalContact">Secretary</message>
-        <message key="about.contact.subPrincipalContact">Secretary Administrative Assistant</message>
-        <message key="about.people">Institutional Review Boards</message>
         
         <!-- ******** -->
         <!-- /CHANGED -->
@@ -108,7 +110,7 @@
 	<message key="about.siteMap">Site Map</message>
 	<message key="about.templates">Report Template(s)</message>
 	<message key="about.userGuides">User Guide(s)</message>
-        
+        <message key="about.people">Institutional Review Boards</message>
 	<message key="announcement.announcements">Announcements</message>
 	<message key="announcement.announcementsHome">Announcements</message>
 	<message key="announcement.moreAnnouncements">More Announcements...</message>
@@ -364,7 +366,7 @@
 	<message key="locale.primary">Primary locale</message>
 	<message key="locale.supported">Supported locales</message>
         
-	<message key="navigation.about">About</message>
+	<message key="navigation.about">Governance &amp; Policies</message>
 	<message key="navigation.browse">Browse</message>
 	<message key="navigation.browseByTitle">By Title</message>
 	<message key="navigation.dashboard">Dashboard</message>
@@ -378,7 +380,7 @@
 	<message key="navigation.previousPage"><![CDATA[&lt;&lt;]]></message>
 	<message key="navigation.previousStep">Previous Step</message>
 	<message key="navigation.register">Register</message>
-	<message key="navigation.search">Past &amp; Ongoing Research</message>
+	<message key="navigation.search">Research Registry</message>
 	<message key="navigation.stepNumber">Step {$step}</message>
 	<message key="navigation.userHome">User Home</message>
 	<message key="navigation.user">User</message>

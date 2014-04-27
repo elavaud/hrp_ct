@@ -52,8 +52,6 @@
         
 	<message key="article.reports">Report(s)</message>
 	<message key="article.reports.instruct">These files are post initial approval reports uploaded by the investigator. A report can be a progress report or the final report. Click on the blue title of the file in order to download it.</message>
-
-        
                 
         <message key="notification.type.submissionComplete.continuingReview">The progress report of your proposal, "{$param}", has been considered as "Complete".</message>
         <message key="notification.type.submissionIncomplete.continuingReview">The progress report of your proposal, "{$param}", has been considered as "Incomplete". You may resubmit it.</message>
@@ -88,6 +86,14 @@
         <message key="notification.type.submissionAccept.eos">The final technical report of your proposal, "{$param}", has been accepted.</message>
         
 	<message key="log.author.submitted">{$authorName} has submitted a proposal, ID "{$submissionId}", for "{$reviewType}".</message>
+        
+        <message key="about.governance">Governance and Policies</message>   
+        <message key="about.committees">Committee(s)</message>   
+        <message key="about.files">Files</message>   
+        <message key="about.contactlinks">Contacts &amp; Links</message>   
+        <message key="about.contacts">Contacts</message>   
+        <message key="about.links">Links</message>   
+             
         <!-- End new keys -->
         
         <!-- Modified Keys in February March 2014 -->
@@ -1227,7 +1233,7 @@ current password.<br /><br />Enter your email address below to reset your passwo
 	
 	<message key="about.statistics">Statistics</message>
 	<message key="about.journalContact">The National Ethics Committee for Health Research</message>
-	<message key="about.aboutTheJournal">About the Health Research Portal</message>
+	<message key="about.aboutTheJournal">Governance, Policies, and Procedures for Health Research</message>
 	<message key="about.history">Health Research Portal History</message>
 	  
         <message key="about.editorialTeam">The Ethics Committee of the University of Health Sciences</message>
@@ -1246,7 +1252,7 @@ current password.<br /><br />Enter your email address below to reset your passwo
         <!-- Changed "Need a Username/Password" by "Need a username and a password?". EL April 11 2012-->
         <message key="about.onlineSubmissions.needAccount">Need a username and a password?</message>
 	
-    <message key="about.onlineSubmissions.registration">Go to Registration</message>
+        <message key="about.onlineSubmissions.registration">Go to Registration</message>
 	<message key="about.onlineSubmissions.registrationRequired">Registration and login are required to submit items online and to check the status of current proposals.</message>
 	<message key="about.authorGuidelines">Investigator Guidelines</message>
 	<message key="about.submissionPreparationChecklist">Submission Preparation Checklist</message>
