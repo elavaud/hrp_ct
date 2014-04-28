@@ -84,7 +84,7 @@
         </table>
     {/foreach}
     <br /><br />
-    {if $authorIndex<3}
+    {if $authorIndex<5}
         <p><input type="submit" class="button" name="addAuthor" value="{*translate key="author.submit.addAuthor"*}Add a Co-Investigator" /></p>
     {/if}
 </div>
