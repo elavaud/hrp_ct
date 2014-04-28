@@ -18,7 +18,7 @@
         <!-- ADDED -->
         <!-- ***** -->
         
-        <!-- February 6th 2014 -->
+        <!-- February - April 2014 -->
         
         <message key="author.submit.form.proposalDetails">One or multiple required data seem to be missing in the "Proposal Details" section. Please ensure to provide all required information (denoted with a star "*" ).</message>
 	<message key="author.submit.form.KIINameAlreadyUsed">Your "Key Implementing Institution" was not in the database and you provided its information. However the name provided is already in use by an institution. Please ensure that your "Key Implementing Institution" is not included in the list and if not, complete its name</message>
@@ -33,6 +33,8 @@
 	<message key="author.submit.form.sameSource">In the "Source of Monetary and Material Support" section, at least 2 of your sources have the same institution. If 2 (or more) sources are coming from the same institution, please regroup them in one source.</message>
 	<message key="author.submit.form.pdfRequired">The completion report should be uploaded in a PDF format. Please convert the report and submit it again.</message>        
 	<message key="author.submit.form.fileTooBig">The completion report should not exceed 20 Mb.</message>        
+        
+	<message key="author.submit.suppFile.grantRequest">Grant Request</message>                
 
         <!-- ***** -->
         <!-- END OF ADDED -->

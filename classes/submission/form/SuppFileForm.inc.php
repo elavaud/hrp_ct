@@ -92,18 +92,19 @@ class SuppFileForm extends Form {
 		$templateMgr->assign('articleId', $this->article->getArticleId());
 		$templateMgr->assign('suppFileId', $this->suppFileId);
 
-       $typeOptions = array(
-           "author.submit.suppFile.summary" => "author.submit.suppFile.summary",
-           "author.submit.suppFile.informedConsent" => "author.submit.suppFile.informedConsent",
-           "author.submit.suppFile.minutes" => "author.submit.suppFile.minutes",
-           "author.submit.suppFile.proofOfPayment" => "author.submit.suppFile.proofOfPayment",
-           "author.submit.suppFile.funding" => "author.submit.suppFile.funding",
-           "author.submit.suppFile.cv" => "author.submit.suppFile.cv",
-           "author.submit.suppFile.questionnaire" => "author.submit.suppFile.questionnaire",
-           "author.submit.suppFile.ethicalClearance" => "author.submit.suppFile.ethicalClearance",
-           "author.submit.suppFile.proofOfRegistration" => "author.submit.suppFile.proofOfRegistration",
-           "author.submit.suppFile.otherErcDecision" => "author.submit.suppFile.otherErcDecision",
-           "common.other" => "common.other"
+                $typeOptions = array(
+                    "author.submit.suppFile.summary" => "author.submit.suppFile.summary",
+                    "author.submit.suppFile.grantRequest" => "author.submit.suppFile.grantRequest",                    
+                    "author.submit.suppFile.informedConsent" => "author.submit.suppFile.informedConsent",
+                    "author.submit.suppFile.minutes" => "author.submit.suppFile.minutes",
+                    "author.submit.suppFile.proofOfPayment" => "author.submit.suppFile.proofOfPayment",
+                    "author.submit.suppFile.funding" => "author.submit.suppFile.funding",
+                    "author.submit.suppFile.cv" => "author.submit.suppFile.cv",
+                    "author.submit.suppFile.questionnaire" => "author.submit.suppFile.questionnaire",
+                    "author.submit.suppFile.ethicalClearance" => "author.submit.suppFile.ethicalClearance",
+                    "author.submit.suppFile.proofOfRegistration" => "author.submit.suppFile.proofOfRegistration",
+                    "author.submit.suppFile.otherErcDecision" => "author.submit.suppFile.otherErcDecision",
+                    "common.other" => "common.other"
 		);
 
 		$templateMgr->assign('typeOptions', $typeOptions);
