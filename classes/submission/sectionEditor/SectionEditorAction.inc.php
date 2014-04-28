@@ -2780,7 +2780,10 @@ class SectionEditorAction extends Action {
                 $pdf->MultiRow($cell_width, Locale::translate('proposal.nationwide').': ', Locale::translate($proposalDetails->getNationwideKey()));
 		if ($proposalDetails->getNationwide() == PROPOSAL_DETAIL_NO || $proposalDetails->getNationwide() == PROPOSAL_DETAIL_YES_WITH_RANDOM_AREAS) $pdf->MultiRow($cell_width, ' ', $proposalDetails->getLocalizedGeoAreasText());
                 $pdf->ln();
-                
+
+                $pdf->MultiRow($cell_width, Locale::translate('proposal.proposal.researchDomains').': ', $proposalDetails->getLocalizedResearchDomainsText());
+                $pdf->ln();
+
                 $pdf->MultiRow($cell_width, Locale::translate('proposal.researchField').': ', $proposalDetails->getLocalizedResearchFieldText());
                 $pdf->ln();
 

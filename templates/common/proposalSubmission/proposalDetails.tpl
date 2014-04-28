@@ -168,6 +168,25 @@
             <td><a id="addAnotherAreaClick" style="cursor: pointer;">{translate key="proposal.addAnotherArea"}</a></td>
         </tr>        
 
+        {foreach from=$proposalDetails.researchDomains key=i item=rDomain}
+            <tr valign="top"  {if $i == 0}id="firstResearchDomain"{else}class="researchDomainSupp"{/if}>
+                <td width="20%" class="researchDomainTitle">{if $i == 0}{fieldLabel name="proposalDetails-researchDomain" required="true" key="proposal.researchDomains"}{else}&nbsp;{/if}</td>
+                <td class="noResearchDomainTitle" style="display: none;">&nbsp;</td>
+                <td width="80%" class="value">
+                    <select name="proposalDetails[researchDomains][]" class="selectMenu">
+                        <option value=""></option>
+                        {html_options options=$researchDomainsList selected=$proposalDetails.researchDomains[$i]}
+                    </select>
+                    <a class="removeResearchDomain" style="{if $i == 0}display: none; {/if}cursor: pointer;">{translate key="common.remove"}</a>
+                </td>
+            </tr>           
+        {/foreach}
+        <tr id="addAnotherDomain">
+            <td width="20%">&nbsp;</td>
+            <td><a id="addAnotherDomainClick" style="cursor: pointer;">{translate key="proposal.addAnotherResearchDomain"}</a></td>
+        </tr>
+
+        
         {foreach from=$proposalDetails.researchFields key=i item=field}
             <tr valign="top"  {if $i == 0}id="firstResearchField"{else}class="researchFieldSupp"{/if}>
                 <td width="20%" class="researchFieldTitle">{if $i == 0}{fieldLabel name="proposalDetails-researchField" required="true" key="proposal.researchField"}{else}&nbsp;{/if}</td>

@@ -104,6 +104,23 @@
         </td>
     </tr> 
 
+    <tr valign="top" id="firstResearchDomain">
+        <td class="researchDomainTitle">{translate key="proposal.researchDomains"}</td>
+        <td class="value" colspan="2">
+            <select name="researchDomains[]" class="selectMenu">
+                <option value=""></option>
+                {html_options options=$researchDomainsList}
+            </select>
+            <a class="removeResearchDomain" style="display: none; cursor: pointer;">{translate key="common.remove"}</a>
+        </td>
+    </tr>            
+    <tr id="addAnotherResearchDomain">
+        <td class="label">&nbsp;</td>
+        <td class="value" colspan="2">               
+            <a id="addAnotherResearchDomainClick" style="cursor: pointer;">{translate key="proposal.addAnotherResearchDomain"}</a>
+        </td>
+    </tr>
+
     <tr valign="top" id="firstResearchField">
         <td class="researchFieldTitle">{translate key="proposal.researchField"}</td>
         <td class="value" colspan="2">

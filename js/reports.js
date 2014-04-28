@@ -61,6 +61,8 @@ function showOrHideDetailsTable(){
        showOrHideCountryFields();       
        $('#firstGeoArea').find('select').val("");   
        $('#filterBy tr.geoAreaSupp').remove();    
+       $('#firstResearchDomain').find('select').val("");   
+       $('#filterBy tr.researchDomainSupp').remove();        
        $('#firstResearchField').find('select').val("");   
        $('#filterBy tr.researchFieldSupp').remove();        
        $('#filterBy input:radio[name="withHumanSubjects"]').attr('checked', false);
@@ -160,6 +162,23 @@ function addGeoArea(){
     lastElement.find('.removeGeoArea').show();
     lastElement.find('.removeGeoArea').click(function(){$(this).closest('tr').remove();});    
 }
+
+function addResearchDomain(){
+    var rDomainHtml = '<tr valign="top" class="researchDomainSupp">' + $('#firstResearchDomain').html() + '</tr>';
+    if ($("#filterBy tr.researchDomainSupp")[0]){
+        $('#filterBy tr.researchDomainSupp:last').after(rDomainHtml);
+        var lastElement = $('#filterBy tr.researchDomainSupp:last');
+    } else {
+        $('#firstResearchDomain').after(rDomainHtml);
+        var lastElement = $('#firstResearchDomain').next();
+    }    
+    lastElement.find('select').attr('selectedIndex', 0);
+    lastElement.find('.researchDomainTitle').html(OR_STRING+'&nbsp;&nbsp;');
+    lastElement.find('.researchDomainTitle').attr('align','right');
+    lastElement.find('.removeResearchDomain').show();
+    lastElement.find('.removeResearchDomain').click(function(){$(this).closest('tr').remove();}); 
+}
+
 
 function addResearchField(){
     var rFieldHtml = '<tr valign="top" class="researchFieldSupp">' + $('#firstResearchField').html() + '</tr>';

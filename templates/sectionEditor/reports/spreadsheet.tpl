@@ -56,9 +56,13 @@
     </tr>
     <tr>
         <td><input type="checkbox" name="checkNationwide"/>{translate key="proposal.nationwide"}&nbsp;{translate key="editor.reports.spreadsheet.multiEntries"}</td>
+        <td><input type="checkbox" name="checkResearchDomain"/>{translate key="proposal.researchDomains"}&nbsp;{translate key="editor.reports.spreadsheet.multiEntries"}</td>
         <td><input type="checkbox" name="checkResearchField"/>{translate key="proposal.researchField"}&nbsp;{translate key="editor.reports.spreadsheet.multiEntries"}</td>
         <td><input type="checkbox" name="checkProposalType"/>{translate key="proposal.proposalType"}&nbsp;{translate key="editor.reports.spreadsheet.multiEntries"}</td>
+    </tr>
+    <tr>
         <td><input type="checkbox" name="checkDataCollection"/>{translate key="proposal.dataCollection"}</td>
+        <td colspan="3">&nbsp;</td>
     </tr>
     <tr><td colspan="4">&nbsp;</td></tr>
     <tr><td colspan="4"><b>{translate key="proposal.sourceOfMonetary"}</b></td></tr>

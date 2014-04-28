@@ -196,10 +196,15 @@ class MetadataForm extends Form {
                         $geoAreasArray = $proposalDetails->getGeoAreas();
                         $geoAreas = explode(",", $geoAreasArray);
             
-                        $researchFieldsArray = $proposalDetails->getResearchFields();
-                        $researchFields = explode("+", $researchFieldsArray);
+                        $researchDomainsArray = $proposalDetails->getResearchDomainsArray();
+                        if($researchDomainsArray == null){
+                            $researchDomainsArray = array(0 => '');
+                        }
+
+                        $researchFields = $proposalDetails->getResearchFields();
+                        $researchFieldsArray = explode("+", $researchFields);
 			$i = 0;     
-                        foreach ($researchFields as $field){
+                        foreach ($researchFieldsArray as $field){
                             if (preg_match('#^Other\s\(.+\)$#', $field)){
                                     $tempField = $field;
                                 $field = preg_replace('#^Other\s\(.+\)$#','OTHER', $field);
@@ -208,15 +213,15 @@ class MetadataForm extends Form {
                                 $proposalDetails->setOtherResearchField($tempField);
                             }
                             $test = array($i => $field);
-                            $researchFields = array_replace ($researchFields, $test);
+                            $researchFieldsArray = array_replace($researchFieldsArray, $test);
                             $i++;
                             unset ($field);
                         }
 
-                        $proposalTypesArray = $proposalDetails->getProposalTypes();
-                        $proposalTypes = explode("+", $proposalTypesArray);
+                        $proposalTypes = $proposalDetails->getProposalTypes();
+                        $proposalTypesArray = explode("+", $proposalTypes);
                         $f = 0;
-                        foreach ($proposalTypes as $type){
+                        foreach ($proposalTypesArray as $type){
                             if (preg_match('#^Other\s\(.+\)$#', $type)){
                                 $tempType = $type;
                                 $type = preg_replace('#^Other\s\(.+\)$#','OTHER', $type);
@@ -225,7 +230,7 @@ class MetadataForm extends Form {
                                 $proposalDetails->setOtherProposalType($tempType);
                             }
                             $test2 = array($f => $type);
-                            $proposalTypes = array_replace ($proposalTypes, $test2);
+                            $proposalTypesArray = array_replace ($proposalTypesArray, $test2);
                             $f++;
                             unset ($type);
                         }
@@ -251,10 +256,11 @@ class MetadataForm extends Form {
                             'countries' => $countries,
                             'nationwide' => $proposalDetails->getNationwide(),
                             'geoAreas' => $geoAreas,
-                            'researchFields' => $researchFields,
+                            'researchDomains' => $researchDomainsArray,
+                            'researchFields' => $researchFieldsArray,
                             'otherResearchField' => $proposalDetails->getOtherResearchField(),
                             'withHumanSubjects' => $proposalDetails->getHumanSubjects(),
-                            'proposalTypes' => $proposalTypes,
+                            'proposalTypes' => $proposalTypesArray,
                             'otherProposalType' => $proposalDetails->getOtherProposalType(),
                             'dataCollection' => $proposalDetails->getDataCollection(),
                             'reviewedByOtherErc' => $reviewedByOtherErc,
@@ -446,6 +452,7 @@ class MetadataForm extends Form {
                 $templateMgr->assign('abstractLocales', $journal->getSupportedLocaleNames());
                 $templateMgr->assign('coutryList', $countryDao->getCountries());
                 $templateMgr->assign('proposalTypesList', $proposalDetailsDao->getProposalTypes());
+                $templateMgr->assign('researchDomainsList', $proposalDetailsDao->getResearchDomainsLocalizedMap());                
                 $templateMgr->assign('researchFieldsList', $proposalDetailsDao->getResearchFields());
                 $templateMgr->assign('proposalDetailYesNoArray', $proposalDetailsDao->getYesNoArray());
                 $templateMgr->assign('nationwideRadioButtons', $proposalDetailsDao->getNationwideRadioButtons());
@@ -638,6 +645,9 @@ class MetadataForm extends Form {
                     $geoAreas = implode(",", $geoAreasArray);
                     $proposalDetails->setGeoAreas($geoAreas);
                 }
+
+                $researchDomainsArray = $proposalDetailsData['researchDomains'];
+                $proposalDetails->setResearchDomainsFromArray($researchDomainsArray);                
                 
                 $researchFieldsArray = $proposalDetailsData['researchFields'];
                 foreach($researchFieldsArray as $i => $field) {

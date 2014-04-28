@@ -28,6 +28,11 @@ define ('PROPOSAL_DETAIL_BOTH_DATA_COLLECTION', 3);
 define ('PROPOSAL_DETAIL_UNDER_REVIEW', 2);
 define ('PROPOSAL_DETAIL_REVIEW_AVAILABLE', 3);
 
+// Types of research domains
+define ('PROPOSAL_DETAIL_RD_MRCHR', 1);
+define ('PROPOSAL_DETAIL_RD_CDR', 2);
+define ('PROPOSAL_DETAIL_RD_RHL', 3);
+define ('PROPOSAL_DETAIL_RD_HSR', 4);
 
 class ProposalDetails extends DataObject {
     
@@ -267,6 +272,59 @@ class ProposalDetails extends DataObject {
 		return $areasOfTheCountryDAO->getAreaOfTheCountry($this->getGeoAreas());
 	}
         
+	/**
+	 * Set research domains of the research.
+	 * @param $domains string
+	 */
+	function setResearchDomains($domains) {
+		return $this->setData('rDomains', $domains);
+	}
+	
+        /**
+	 * Get research domains of the research.
+	 * @return string
+	 */
+	function getResearchDomains() {
+		return $this->getData('rDomains');
+        }
+
+        /**
+	 * Set research domains of the research.
+	 * @param $domainsArray Array
+	 */
+	function setResearchDomainsFromArray($domainsArray) {
+		return $this->setData('rDomains', implode("+", $domainsArray));
+        }
+
+        /**
+	 * Get research domains of the research in an array.
+	 * @return Array
+	 */
+	function getResearchDomainsArray() {
+                $researchDomainsString = $this->getResearchDomains();
+                if($researchDomainsString == '' || $researchDomainsString == null) {
+                    return null;
+                } else {
+                    return explode("+", $researchDomainsString);
+                }
+        }
+        
+        /**
+	 * Get "localized" research domains full text.
+	 * @return string
+	 */
+	function getLocalizedResearchDomainsText() {
+                $rDomainsFullText = (string) '';
+                $rDomainsArray = $this->getResearchDomainsArray();
+                foreach($rDomainsArray as $rDomain){
+                    if($rDomainsFullText == ''){
+                        $rDomainsFullText = Locale::translate($this->proposalDetailsDAO->getResearchDomainKey($rDomain));
+                    } else {
+                        $rDomainsFullText = $rDomainsFullText.', '.Locale::translate($this->proposalDetailsDAO->getResearchDomainKey($rDomain));                        
+                    }
+                }
+		return $rDomainsFullText;
+	}
         
 	/**
 	 * Set research fields.

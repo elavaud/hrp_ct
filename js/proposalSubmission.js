@@ -168,6 +168,25 @@ function addGeoArea(){
     }            
 } 
 
+function addResearchDomain(){
+    var researchDomainHtml = '<tr valign="top" class="researchDomainSupp">' + $('#firstResearchDomain').html() + '</tr>';
+    if ($("#proposalDetails tr.researchDomainSupp")[0]){
+        $('#proposalDetails tr.researchDomainSupp:last').after(researchDomainHtml);
+        $('#proposalDetails tr.researchDomainSupp:last').find('select').attr('selectedIndex', 0);
+        $('#proposalDetails tr.researchDomainSupp:last').find('.removeResearchDomain').show();
+        $('#proposalDetails tr.researchDomainSupp:last').find('.removeResearchDomain').click(function(){$(this).closest('tr').remove();});
+        $('#proposalDetails tr.researchDomainSupp:last').find('.researchDomainTitle').hide();
+        $('#proposalDetails tr.researchDomainSupp:last').find('.noResearchDomainTitle').show();
+    } else {
+        $('#firstResearchDomain').after(researchDomainHtml);
+        $('#firstResearchDomain').next().find('select').attr('selectedIndex', 0);
+        $('#proposalDetails tr.researchDomainSupp').find('.removeResearchDomain').show();
+        $('#proposalDetails tr.researchDomainSupp').find('.researchDomainTitle').hide();
+        $('#proposalDetails tr.researchDomainSupp').find('.noResearchDomainTitle').show();
+        $('#proposalDetails tr.researchDomainSupp').find('.removeResearchDomain').click(function(){$(this).closest('tr').remove();});
+    }              
+}
+
 function showOrHideOtherResearchField(){
     var other = false;
     $('select[name^=proposalDetails[researchFields]]').each(function() {

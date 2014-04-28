@@ -52,9 +52,9 @@ class ProposalDetailsDAO extends DAO{
 		$this->update(
                         sprintf(
 			'INSERT INTO article_details
-				(article_id, student, start_date, end_date, key_implementing_institution, multi_country, countries, nationwide, geo_areas, research_fields, human_subjects, proposal_types, data_collection, committee_reviewed)
+				(article_id, student, start_date, end_date, key_implementing_institution, multi_country, countries, nationwide, geo_areas, research_domains, research_fields, human_subjects, proposal_types, data_collection, committee_reviewed)
 				VALUES			
-                                (?, ?, %s, %s, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                                (?, ?, %s, %s, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
                         $this->dateToDB(strtotime($proposalDetails->getStartDate())), $this->dateToDB(strtotime($proposalDetails->getEndDate()))),
 			array(
 				(int) $proposalDetails->getArticleId(),
@@ -64,7 +64,8 @@ class ProposalDetailsDAO extends DAO{
 				(string) $proposalDetails->getCountries(),
 				(int) $proposalDetails->getNationwide(),
 				(string) $proposalDetails->getGeoAreas(),
-				(string) $proposalDetails->getResearchFields(),
+				(string) $proposalDetails->getResearchDomains(),
+                                (string) $proposalDetails->getResearchFields(),
 				(int) $proposalDetails->getHumanSubjects(),
 				(string) $proposalDetails->getProposalTypes(),
 				(int) $proposalDetails->getDataCollection(),
@@ -100,7 +101,8 @@ class ProposalDetailsDAO extends DAO{
 				countries = ?,
 				nationwide = ?,
 				geo_areas = ?,
-				research_fields = ?,
+				research_domains = ?,
+                                research_fields = ?,
 				human_subjects = ?,
 				proposal_types = ?,
 				data_collection = ?,
@@ -115,6 +117,7 @@ class ProposalDetailsDAO extends DAO{
 				(string) $proposalDetails->getCountries(),
 				(int) $proposalDetails->getNationwide(),
 				(string) $proposalDetails->getGeoAreas(),
+				(string) $proposalDetails->getResearchDomains(),
 				(string) $proposalDetails->getResearchFields(),
 				(int) $proposalDetails->getHumanSubjects(),
 				(string) $proposalDetails->getProposalTypes(),
@@ -179,7 +182,8 @@ class ProposalDetailsDAO extends DAO{
 		$proposalDetails->setCountries($row['countries']);
 		$proposalDetails->setNationwide($row['nationwide']);
 		$proposalDetails->setGeoAreas($row['geo_areas']);
-		$proposalDetails->setResearchFields($row['research_fields']);
+		$proposalDetails->setResearchDomains($row['research_domains']);
+                $proposalDetails->setResearchFields($row['research_fields']);
 		$proposalDetails->setHumanSubjects($row['human_subjects']);
 		$proposalDetails->setProposalTypes($row['proposal_types']);
 		$proposalDetails->setDataCollection($row['data_collection']);
@@ -265,10 +269,7 @@ class ProposalDetailsDAO extends DAO{
                     }
                     $i++;
 		}
-
-
 		return $researchFields;
-
 	}
 	
 	/**
@@ -348,8 +349,41 @@ class ProposalDetailsDAO extends DAO{
          */
         function replaceKII($oldInstitutionId, $replacementInstitutionId) {
 		return $this->update('UPDATE article_details SET key_implementing_institution = '.$replacementInstitutionId.' WHERE key_implementing_institution = '.$oldInstitutionId);
-		
         }        
+        
+        /**
+         * Get a map of local key for research domains
+         */
+        function getResearchDomainsKeyMap(){
+            return array(
+                PROPOSAL_DETAIL_RD_MRCHR => 'proposal.researchDomains.mrchr' ,
+                PROPOSAL_DETAIL_RD_CDR => 'proposal.researchDomains.cdr' ,
+                PROPOSAL_DETAIL_RD_RHL => 'proposal.researchDomains.rhl' ,
+                PROPOSAL_DETAIL_RD_HSR => 'proposal.researchDomains.hsr'
+            );
+        }     
+
+        /**
+         * Get a map of local key for research domains
+         */
+        function getResearchDomainsLocalizedMap(){
+            return array(
+                PROPOSAL_DETAIL_RD_MRCHR => Locale::translate('proposal.researchDomains.mrchr') ,
+                PROPOSAL_DETAIL_RD_CDR => Locale::translate('proposal.researchDomains.cdr') ,
+                PROPOSAL_DETAIL_RD_RHL => Locale::translate('proposal.researchDomains.rhl') ,
+                PROPOSAL_DETAIL_RD_HSR => Locale::translate('proposal.researchDomains.hsr')
+            );
+        }     
+        
+        /*
+         * Get local key for a specifc research domain
+         * @return string
+         */
+        function getResearchDomainKey($rDomain){
+            $rDomainMap = $this->getResearchDomainsKeyMap();
+            return $rDomainMap[$rDomain];
+        }
+        
 }
 
 ?>

@@ -168,6 +168,10 @@
                 </tr>
             {/if}
             <tr valign="top">
+                    <td class="label" width="20%">{translate key="proposal.researchDomains"}</td>
+                    <td class="value">{$proposalDetails->getLocalizedResearchDomainsText()}</td>
+            </tr>	
+            <tr valign="top">
                 <td class="label" width="20%">{translate key="proposal.researchField"}</td>
                 <td class="value">{$proposalDetails->getLocalizedResearchFieldText()}</td>
             </tr>	

@@ -69,6 +69,10 @@
         
         $('#proposalDetails a.removeProposalProvince').each(function() {$(this).click(function(){$(this).closest('tr').remove();});});        
         
+        $("#addAnotherDomainClick").click(addResearchDomain);
+        
+        $('#proposalDetails a.removeResearchDomain').each(function() {$(this).click(function(){$(this).closest('tr').remove();});});        
+
         $('[name^=proposalDetails[researchFields]]').each(function() {$(this).change(showOrHideOtherResearchField);});
         
         $("#addAnotherFieldClick").click(addResearchField);

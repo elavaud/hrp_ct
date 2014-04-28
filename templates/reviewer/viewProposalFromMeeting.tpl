@@ -223,8 +223,12 @@
         		<td class="label" width="30%">&nbsp;</td>
         		<td class="value">{$proposalDetails->getLocalizedGeoAreasText()}</td>
     		</tr>
-		{/if}
-    	<tr valign="top">
+        {/if}
+        <tr valign="top">
+                <td class="label" width="20%">{translate key="proposal.researchDomains"}</td>
+                <td class="value">{$proposalDetails->getLocalizedResearchDomainsText()}</td>
+        </tr>	    	
+        <tr valign="top">
         	<td class="label" width="30%">{translate key="proposal.researchField"}</td>
         	<td class="value">{$proposalDetails->getLocalizedResearchFieldText()}</td>
     	</tr>	

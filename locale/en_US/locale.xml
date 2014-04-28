@@ -95,6 +95,14 @@
         <message key="about.contacts">Contacts</message>   
         <message key="about.links">Links</message>   
              
+        <message key="proposal.researchDomains">Research Domain(s)</message>
+        <message key="proposal.researchDomains.mrchr">Maternal, Reproductive and Child Health</message>
+        <message key="proposal.researchDomains.cdr">Communicable Disease Research</message>
+        <message key="proposal.researchDomains.rhl">Research on Healthy Lifestyles</message>
+        <message key="proposal.researchDomains.hsr">Health Systems Research</message>
+        <message key="proposal.addAnotherResearchDomain">Add another research domain</message>
+        
+
         <!-- End new keys -->
         
         <!-- Modified Keys in February March 2014 -->

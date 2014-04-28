@@ -75,6 +75,7 @@ class SubmissionsReportForm extends Form {
                     'kii' => Locale::translate('proposal.keyImplInstitution'),
                     'multiCountry' => Locale::translate('proposal.multiCountryResearch'),
                     'nationwide' => Locale::translate('proposal.nationwide'),
+                    'researchDomains' => Locale::translate('proposal.researchDomains'),
                     'researchFields' => Locale::translate('proposal.researchField'),
                     'proposalTypes' => Locale::translate('proposal.proposalType'),
                     'dataCollection' => Locale::translate('proposal.dataCollection'),
@@ -109,6 +110,7 @@ class SubmissionsReportForm extends Form {
                 $templateMgr->assign('institutionsList', $institutionDao->getInstitutionsList());
                 $templateMgr->assign('coutryList', $countryDao->getCountries());
                 $templateMgr->assign('geoAreasList', $regionDAO->getAreasOfTheCountry());
+                $templateMgr->assign('researchDomainsList', $proposalDetailsDao->getResearchDomainsLocalizedMap());
                 $templateMgr->assign('researchFieldsList', $proposalDetailsDao->getResearchFields());
                 $templateMgr->assign('proposalTypesList', $proposalDetailsDao->getProposalTypes());
                 $templateMgr->assign('dataCollectionArray', $proposalDetailsDao->getDataCollectionArray());

@@ -616,7 +616,7 @@ return $returner;
 	*/
 	function &getEditorSubmissionsReport(
                         $journalId, $sectionId = 0, $decisionType = INITIAL_REVIEW, $decisionStatus = SUBMISSION_SECTION_DECISION_APPROVED, $decisionAfter = null, $decisionBefore = null,
-                        $studentResearch = null, $startAfter = null, $startBefore = null, $endAfter = null, $endBefore = null, $kiiField = array(), $multiCountry = null, $countries = array(), $geoAreas = array(), $researchFields = array(), $withHumanSubjects = null, $proposalTypes = array(), $dataCollection = null,
+                        $studentResearch = null, $startAfter = null, $startBefore = null, $endAfter = null, $endBefore = null, $kiiField = array(), $multiCountry = null, $countries = array(), $geoAreas = array(), $researchDomains = array(), $researchFields = array(), $withHumanSubjects = null, $proposalTypes = array(), $dataCollection = null,
                         $budgetOption = "<=", $budget = null, $sources = array(),
                         $identityRevealed = null, $unableToConsent = null, $under18 = null, $dependentRelationship = null, $ethnicMinority = null, $impairment = null, $pregnant = null, $newTreatment = null, $bioSamples = null, $exportHumanTissue = null, $exportReason = null, $radiation = null, $distress = null, $inducements = null, $sensitiveInfo = null, $reproTechnology = null, $genetic = null, $stemCell = null, $biosafety = null
                         ) {
@@ -687,6 +687,15 @@ return $returner;
                 for($i = 0; $i < count($geoAreas); $i++){
                     if($i == 0) {$sql .= "ad.geo_areas LIKE '%".$geoAreas[$i]."%'";}
                     else {$sql .= " OR ad.geo_areas LIKE '%".$geoAreas[$i]."%'";}
+                }
+                $sql .= ")";
+            }
+            $researchDomains = array_filter($researchDomains);
+            if(!empty($researchDomains)){
+                $sql .= " AND (";
+                for($i = 0; $i < count($researchDomains); $i++){
+                    if($i == 0) {$sql .= "ad.research_domains LIKE '%".$researchDomains[$i]."%'";}
+                    else {$sql .= " OR ad.research_domains LIKE '%".$researchDomains[$i]."%'";}
                 }
                 $sql .= ")";
             }

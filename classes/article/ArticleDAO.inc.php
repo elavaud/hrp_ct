@@ -944,7 +944,7 @@ class ArticleDAO extends DAO {
 		return $article;
 	}
 
-	function searchCustomizedProposalsPublic($query, $region, $statusFilter, $fromDate, $toDate, $investigatorName, $investigatorAffiliation, $investigatorEmail, $researchField, $proposalType, $duration, $area, $dataCollection, $status, $studentResearch, $kii, $dateSubmitted) {
+	function searchCustomizedProposalsPublic($query, $region, $statusFilter, $fromDate, $toDate, $investigatorName, $investigatorAffiliation, $investigatorEmail, $researchDomain, $researchField, $proposalType, $duration, $area, $dataCollection, $status, $studentResearch, $kii, $dateSubmitted) {
 		
 		$searchSqlBeg = "select distinct a.article_id, 
 						ab.keywords as keywords, 
@@ -965,7 +965,11 @@ class ArticleDAO extends DAO {
 			if ($investigatorAffiliation == true) $searchSqlBeg .= ", investigator.affiliation as investigatoraffiliation";	
 			if ($investigatorEmail == true) $searchSqlBeg .= ", investigator.email as email";
 		}
-		
+
+                if ($researchDomain == true){
+			$searchSqlBeg .= ", ad.research_domains as researchdomain";
+		}
+                
 		if ($researchField == true){
 			$searchSqlBeg .= ", ad.research_fields as researchfield";
 		}

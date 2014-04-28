@@ -45,6 +45,8 @@
             
             $('#addAnotherAreaClick').click(addGeoArea);            
 
+            $('#addAnotherResearchDomainClick').click(addResearchDomain);
+
             $('#addAnotherResearchFieldClick').click(addResearchField);
 
             $('#filterBy input:radio[name="withHumanSubjects"]').change(showOrHideProposalTypes);
