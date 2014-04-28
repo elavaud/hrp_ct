@@ -120,7 +120,11 @@ function checkSubmissionChecklist() {
 			{assign var=notFirstChecklistItem value=1}
 			<div id="checklist">
 			<h3>{translate key="author.submit.submissionChecklist"}</h3>
-			<p>{translate key="author.submit.submissionChecklistDescription"}</p>
+                        {if $currentJournal->getLocalizedSetting('submissionChecklistInfo') != ''}
+                            <p>{$currentJournal->getLocalizedSetting('submissionChecklistInfo')}</p>
+                        {else}
+                            <p>{translate key="author.submit.submissionChecklistDescription"}</p>
+                        {/if}
 			<table width="100%" class="data">
 		{/if}
 		<tr valign="top">

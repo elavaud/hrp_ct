@@ -98,8 +98,12 @@
 
 <div id="submissionPreparationChecklist">
     <h6>3.1.2 {translate key="navigation.stepNumber" step=1} - {translate key="manager.setup.submissionPreparationChecklist"}</h6>
+    
+    <p>{translate key="manager.setup.submissionPreparationChecklistDescription.part1"}</p>
 
-    <p>{translate key="manager.setup.submissionPreparationChecklistDescription"}</p>
+    <p><textarea name="submissionChecklistInfo[{$formLocale|escape}]" id="submissionChecklistInfo" rows="12" cols="50" class="textArea">{$submissionChecklistInfo[$formLocale]|escape}</textarea></p>
+
+    <p>{translate key="manager.setup.submissionPreparationChecklistDescription.part2"}</p>
 
     {foreach name=checklist from=$submissionChecklist[$formLocale] key=checklistId item=checklistItem}
         {if !$notFirstChecklistItem}

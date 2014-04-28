@@ -12,7 +12,7 @@
 
 <locale name="en_US" full_name = "English">
     
-	<!-- Added February 2014 -->
+	<!-- Added February - April 2014 -->
         
         <message key="manager.institutions">Institutions</message>
         <message key="manager.institutions.create">Create a new institution</message>
@@ -64,6 +64,8 @@
 
         <message key="manager.aboutFiles.fileDescription">Description</message>
 
+	<message key="manager.setup.submissionPreparationChecklistDescription.part1">On making a submission to the system, investigators are first asked to check each item on the Submission Preparation Checklist as completed, before proceeding. The text below is used to give explanation for the check list.</message>
+	<message key="manager.setup.submissionPreparationChecklistDescription.part2">The list can be edited below, but all items on the list will require a checkmark before investigators can proceed with their submission.</message>
 
         <!-- /Added -->
         
