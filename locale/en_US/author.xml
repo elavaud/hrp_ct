@@ -39,6 +39,16 @@
         <!-- ***** -->
         <!-- END OF ADDED -->
         <!-- ***** -->
+
+        <!-- ******** -->
+        <!-- MODIFIED -->
+        <!-- ******** -->
+        
+        <message key="author.submit.suppFile.cv">Curriculum Vitae</message>
+        
+        <!-- *************** -->
+        <!-- END OF MODIFIED -->
+        <!-- *************** -->        
         
 	<message key="author.article.decision">Committee Decision</message>
 	<message key="author.submit">New Proposal</message>
@@ -251,7 +261,6 @@
         <message key="author.submit.suppFile.proposal">Proposal</message>
         <message key="author.submit.suppFile.informedConsent">Informed Consent</message>
         <message key="author.submit.suppFile.funding">Detailed budget</message>
-        <message key="author.submit.suppFile.cv">CV of Principal Investigator</message>
         <message key="author.submit.suppFile.localEthicalApproval">Local Ethical Approval</message>
         <message key="author.submit.suppFile.questionnaire">Questionnaires</message>
         <message key="author.submit.suppFile.minutes">Minutes</message>
