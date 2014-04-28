@@ -102,6 +102,7 @@
         <message key="proposal.researchDomains.hsr">Health Systems Research</message>
         <message key="proposal.addAnotherResearchDomain">Add another research domain</message>
         
+        <message key="proposal.xWordsMax">words max.</message>
 
         <!-- End new keys -->
         
