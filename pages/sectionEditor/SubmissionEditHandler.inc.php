@@ -424,15 +424,20 @@ class SubmissionEditHandler extends SectionEditorHandler {
 				
 		//pass lastDecisionId of this article to update existing row in section_decisions
 		if (isset($previousDecision)) {
-			if ($pastDecisionResult == SUBMISSION_SECTION_DECISION_APPROVED
-				|| $pastDecisionResult == SUBMISSION_SECTION_DECISION_RESUBMIT
-				|| $pastDecisionResult == SUBMISSION_SECTION_DECISION_DECLINED
-				|| ($pastDecisionResult == SUBMISSION_SECTION_DECISION_EXEMPTED && $previousDecision->getComments())
-				|| $pastDecisionResult == SUBMISSION_SECTION_DECISION_DONE)
-			$lastDecisionId = null;
-			else $lastDecisionId = $previousDecision->getId();
-		} else $lastDecisionId = null;
-		
+                    if ($pastDecisionResult == SUBMISSION_SECTION_DECISION_APPROVED
+                    || $pastDecisionResult == SUBMISSION_SECTION_DECISION_RESUBMIT
+                    || $pastDecisionResult == SUBMISSION_SECTION_DECISION_DECLINED
+                    || ($pastDecisionResult == SUBMISSION_SECTION_DECISION_EXEMPTED && $previousDecision->getComments())
+                    || $pastDecisionResult == SUBMISSION_SECTION_DECISION_DONE) {
+                        $lastDecisionId = null;
+                    }
+                    else {
+                        $lastDecisionId = $previousDecision->getId();
+                    }
+		} else {
+                    $lastDecisionId = null;
+                }
+                
                 $comments = null;
                 if ($pastDecisionResult == SUBMISSION_SECTION_DECISION_EXEMPTED) {
                     $selectedReasons = Request::getUserVar('exemptionReasons');
@@ -446,36 +451,42 @@ class SubmissionEditHandler extends SectionEditorHandler {
                     }
                 }
                     
-		switch ($decision) {
-			case SUBMISSION_SECTION_DECISION_APPROVED:
-			case SUBMISSION_SECTION_DECISION_RESUBMIT:
-			case SUBMISSION_SECTION_DECISION_DECLINED:
-			case SUBMISSION_SECTION_DECISION_EXEMPTED:
-			case SUBMISSION_SECTION_DECISION_FULL_REVIEW:
-			case SUBMISSION_SECTION_DECISION_EXPEDITED:
-			case SUBMISSION_SECTION_DECISION_COMPLETE:
-			case SUBMISSION_SECTION_DECISION_INCOMPLETE:
-			case SUBMISSION_SECTION_DECISION_DONE:
-                        SectionEditorAction::recordDecision($submission, $decision, $previousDecision->getReviewType(), $previousDecision->getRound(), $comments, $approvalDate, $lastDecisionId);
-				break;
-		}
                 
 		$fileName = "finalDecisionFile";
-		if(($pastDecisionResult == SUBMISSION_SECTION_DECISION_EXPEDITED || $pastDecisionResult == SUBMISSION_SECTION_DECISION_FULL_REVIEW || ($pastDecisionResult == SUBMISSION_SECTION_DECISION_EXEMPTED && !$previousDecision->getComments())) && isset($_FILES[$fileName])) {			
-			if (SectionEditorAction::uploadDecisionFile($articleId, $fileName, $submission->getLastSectionDecisionId()) == '0') Request::redirect(null, null, 'submissionReview', $articleId);		
+		if(($pastDecisionResult == SUBMISSION_SECTION_DECISION_EXPEDITED 
+                || $pastDecisionResult == SUBMISSION_SECTION_DECISION_FULL_REVIEW 
+                || ($pastDecisionResult == SUBMISSION_SECTION_DECISION_EXEMPTED && !$previousDecision->getComments())) 
+                && isset($_FILES[$fileName])) {			
+                    if ((SectionEditorAction::uploadDecisionFile($articleId, $fileName, $submission->getLastSectionDecisionId()) == '0') && $previousDecision->getReviewType() == INITIAL_REVIEW) {
+                        Request::redirect(null, null, 'submissionReview', $articleId);		
+                    }
 		}
                 
-		switch ($decision) {
-			case SUBMISSION_SECTION_DECISION_APPROVED:
-			case SUBMISSION_SECTION_DECISION_DECLINED:
-			case SUBMISSION_SECTION_DECISION_INCOMPLETE:
-			case SUBMISSION_SECTION_DECISION_EXEMPTED:
-				SubmissionCommentsHandler::emailEditorDecisionComment($articleId);
-				break;
-			default:
-				Request::redirect(null, null, 'submissionReview', $articleId);
-			break;
-		}
+                switch ($decision) {
+                    case SUBMISSION_SECTION_DECISION_APPROVED:
+                    case SUBMISSION_SECTION_DECISION_RESUBMIT:
+                    case SUBMISSION_SECTION_DECISION_DECLINED:
+                    case SUBMISSION_SECTION_DECISION_EXEMPTED:
+                    case SUBMISSION_SECTION_DECISION_FULL_REVIEW:
+                    case SUBMISSION_SECTION_DECISION_EXPEDITED:
+                    case SUBMISSION_SECTION_DECISION_COMPLETE:
+                    case SUBMISSION_SECTION_DECISION_INCOMPLETE:
+                    case SUBMISSION_SECTION_DECISION_DONE:
+                        SectionEditorAction::recordDecision($submission, $decision, $previousDecision->getReviewType(), $previousDecision->getRound(), $comments, $approvalDate, $lastDecisionId);
+                        break;
+                }
+
+                switch ($decision) {
+                    case SUBMISSION_SECTION_DECISION_APPROVED:
+                    case SUBMISSION_SECTION_DECISION_DECLINED:
+                    case SUBMISSION_SECTION_DECISION_INCOMPLETE:
+                    case SUBMISSION_SECTION_DECISION_EXEMPTED:
+                        SubmissionCommentsHandler::emailEditorDecisionComment($articleId);
+                        break;
+                    default:
+                        Request::redirect(null, null, 'submissionReview', $articleId);
+                        break;
+                }                
 	}
 	
 	

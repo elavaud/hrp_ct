@@ -15,7 +15,7 @@
 <locale name="en_US" full_name = "English">
     
     
-        <!-- New keys, February-March 2014 -->
+        <!-- New keys, February-April 2014 -->
         
         <message key="editor.reports.decisionType">Decision Type</message>
         <message key="editor.reports.decisionStatus">Decision Status</message>
@@ -79,6 +79,8 @@
         <message key="editor.finalReport.for">for</message>
         <message key="editor.finalReport.researchProject">Research Project</message>
         <message key="editor.finalReport.disclaimer">Disclaimer</message>
+        
+        <message key="editor.submissionReview.decisionFileNotRequired">Uploading a decision file for this type of review is optionnal.</message>        
         
         <!--  -->
     
