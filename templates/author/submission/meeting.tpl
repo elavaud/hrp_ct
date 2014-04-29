@@ -42,6 +42,7 @@
 								<tr>
 									<td class="label" width="40%">{translate key="reviewer.meetings.lastReply"}:</td>
 									<td class="value" width="60%">
+                                                                            {if $meetingAttendance}
 										{if $meetingAttendance->getIsAttending() != 3}
 											{if $meetingAttendance->getIsAttending() == 1}
 												{translate key="common.yes"}
@@ -56,6 +57,7 @@
 										{else}
 											{translate key="reviewer.meetings.replyStatus.awaitingReply"}
 										{/if}
+                                                                            {/if}
 									</td>
 								</tr>
 							</table>
