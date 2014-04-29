@@ -2137,7 +2137,7 @@ class SectionEditorAction extends Action {
 				$email->assignParams(array(
 					'editorialContactSignature' => $user->getContactSignature(),
 					'authorName' => $authorUser->getFullName(),
-					'url' => Request::url(null, 'author', 'submission', $sectionEditorSubmission->getArticleId()),
+					'url' => Request::url(null, 'author', 'submissionReview', $sectionEditorSubmission->getArticleId()),
                                         'reviewType' => Locale::translate($decision->getReviewTypeKey()),
 					'journalTitle' => $journal->getLocalizedTitle()
 				));
