@@ -11,7 +11,15 @@
   -->
 
 <locale name="en_US" full_name = "English">
-	<!-- Author Submission -->
+    
+        <!-- Added February April 2014 -->
+        
+    	<message key="submission.progressReport">Progress Report</message>
+    	<message key="submission.finalReport">Final Report</message>        
+        
+        <!-- End of adding -->
+	
+        <!-- Author Submission -->
 	<message key="author.submit.submissionCitations">Provide a formatted list of references for works cited in this submission. Please separate individual references with a blank line.</message>
 
 	<!-- FIXME: move to meta-data plug-ins -->

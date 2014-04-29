@@ -44,10 +44,10 @@ class SubmissionsReportForm extends Form {
                 $sectionOptions = array('0' => Locale::translate('editor.reports.anyCommittee')) + $sectionDao->getSectionTitles($journal->getId());
                 $decisionTypes = array(
                     INITIAL_REVIEW => 'submission.initialReview',
-                    CONTINUING_REVIEW => 'submission.continuingReview',
+                    PROGRESS_REPORT => 'submission.progressReport',
                     PROTOCOL_AMENDMENT => 'submission.protocolAmendment',
                     SERIOUS_ADVERSE_EVENT => 'submission.seriousAdverseEvents',
-                    END_OF_STUDY => 'submission.endOfStudy'
+                    FINAL_REPORT => 'submission.finalReport'
 		);
 		$decisionOptions = array(
                     98 => 'editor.reports.aDecisionsIUR',

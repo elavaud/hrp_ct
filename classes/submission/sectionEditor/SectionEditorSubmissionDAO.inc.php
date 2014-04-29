@@ -1128,7 +1128,7 @@ class SectionEditorSubmissionDAO extends DAO {
 		foreach($mSectionDecisions as $mSectionDecision) {
 			$sectionDecision = $sectionDecisionsDao->getSectionDecision($mSectionDecision->getSectionDecisionId());
                         $decisionValue = $sectionDecision->getDecision();
-			if($sectionDecision->getReviewType() == REVIEW_TYPE_CONTINUING && ($decisionValue == SUBMISSION_SECTION_DECISION_FULL_REVIEW || $decisionValue == SUBMISSION_SECTION_DECISION_EXPEDITED))
+			if($sectionDecision->getReviewType() == REVIEW_TYPE_PR && ($decisionValue == SUBMISSION_SECTION_DECISION_FULL_REVIEW || $decisionValue == SUBMISSION_SECTION_DECISION_EXPEDITED))
 				array_push($sectionDecisions, $sectionDecision);
 		}
 		return $sectionDecisions;
@@ -1142,7 +1142,7 @@ class SectionEditorSubmissionDAO extends DAO {
 		
 		foreach($mSectionDecisions as $mSectionDecision) {
 			$sectionDecision = $sectionDecisionsDao->getSectionDecision($mSectionDecision->getSectionDecisionId());
-			if($sectionDecision->getReviewType() == REVIEW_TYPE_CONTINUING)
+			if($sectionDecision->getReviewType() == REVIEW_TYPE_PR)
 				array_push($sectionDecisions, $sectionDecision);
 		}
 		return $sectionDecisions;

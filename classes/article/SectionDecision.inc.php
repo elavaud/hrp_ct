@@ -14,10 +14,10 @@
 
 // Review type - If modified, should modify to Action.inc.php
 define('REVIEW_TYPE_INITIAL', 1); 	// Initial Review
-define('REVIEW_TYPE_CONTINUING', 2);	// Continuing Review
+define('REVIEW_TYPE_PR', 2);	// Progress report
 define('REVIEW_TYPE_AMENDMENT', 3);	// Post-Approval Amendment
 define('REVIEW_TYPE_SAE', 4);	// Serious Adverse Event(s)
-define('REVIEW_TYPE_EOS', 5);	// End of study
+define('REVIEW_TYPE_FR', 5);	// End of study
 
 
 // Reasons for exemption constants
@@ -279,10 +279,10 @@ class SectionDecision extends DataObject {
 	function getReviewTypeMap() {
                 return $reviewTypeMap = array(
                         REVIEW_TYPE_INITIAL => 'submission.initialReview',
-                        REVIEW_TYPE_CONTINUING => 'submission.continuingReview',
+                        REVIEW_TYPE_PR => 'submission.progressReport',
                         REVIEW_TYPE_AMENDMENT => 'submission.protocolAmendment',
                         REVIEW_TYPE_SAE => 'submission.seriousAdverseEvents',
-                        REVIEW_TYPE_EOS => 'submission.endOfStudy'
+                        REVIEW_TYPE_FR => 'submission.finalReport'
                 );
 	}
 	

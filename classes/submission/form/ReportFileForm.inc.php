@@ -166,7 +166,7 @@ class ReportFileForm extends Form {
                 if (    (
                             ($lastDecisionDecision == SUBMISSION_SECTION_DECISION_APPROVED || $lastDecisionDecision == SUBMISSION_SECTION_DECISION_EXEMPTED)
                             || (
-                                ($lastDecisionType == REVIEW_TYPE_CONTINUING || $lastDecisionType == REVIEW_TYPE_EOS)
+                                ($lastDecisionType == REVIEW_TYPE_PR || $lastDecisionType == REVIEW_TYPE_FR)
                                 && ($lastDecisionDecision == SUBMISSION_SECTION_DECISION_INCOMPLETE || $lastDecisionDecision == SUBMISSION_SECTION_DECISION_RESUBMIT)                                
                             )
                         )
@@ -185,9 +185,9 @@ class ReportFileForm extends Form {
                     $sectionDecision->setArticleId($this->article->getArticleId());
 
                     if ($this->getData('type') == 'progress') {
-                        $sectionDecision->setReviewType(REVIEW_TYPE_CONTINUING);
+                        $sectionDecision->setReviewType(REVIEW_TYPE_PR);
                     } else {
-                        $sectionDecision->setReviewType(REVIEW_TYPE_EOS);
+                        $sectionDecision->setReviewType(REVIEW_TYPE_FR);
                     }
 
                     if ($lastDecisionType == $sectionDecision->getReviewType()) {

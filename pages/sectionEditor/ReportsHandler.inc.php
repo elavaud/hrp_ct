@@ -297,10 +297,10 @@ class ReportsHandler extends Handler {
                 if ($decisionType && $decisionStatus) {
                     $decisionTypesMap = array(
                         INITIAL_REVIEW => 'submission.initialReview',
-                        CONTINUING_REVIEW => 'submission.continuingReview',
+                        PROGRESS_REPORT => 'submission.progressReport',
                         PROTOCOL_AMENDMENT => 'submission.protocolAmendment',
                         SERIOUS_ADVERSE_EVENT => 'submission.seriousAdverseEvents',
-                        END_OF_STUDY => 'submission.endOfStudy'
+                        FINAL_REPORT => 'submission.finalReport'
                     );
                     $decisionStatusMap = array(
                         98 => 'editor.reports.aDecisionsIUR',

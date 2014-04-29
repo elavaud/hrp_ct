@@ -31,10 +31,10 @@ define('SUBMISSION_SECTION_DECISION_DONE', 9);          //RESEARCH COMPLETED
 
 /* These constants correspond to the type of review. If modified, should modify to SectionDecision.inc.php */
 define('INITIAL_REVIEW', 1);
-define('CONTINUING_REVIEW', 2);
+define('PROGRESS_REPORT', 2);
 define('PROTOCOL_AMENDMENT', 3);
 define('SERIOUS_ADVERSE_EVENT', 4);
-define('END_OF_STUDY', 5);
+define('FINAL_REPORT', 5);
 
 /* These constants are used as search fields for the various submission lists */
 define('SUBMISSION_FIELD_AUTHOR', 1);

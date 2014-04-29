@@ -55,13 +55,13 @@ class SectionEditorAction extends Action {
 
 		if (!HookRegistry::call('SectionEditorAction::recordDecision', array($sectionEditorSubmission, $decision, $reviewType, $round, $dateDecided, $lastDecisionId))) {
 			
-                        if ($reviewType == REVIEW_TYPE_EOS && ($decision == SUBMISSION_SECTION_DECISION_APPROVED || ($decision == SUBMISSION_SECTION_DECISION_EXEMPTED && $sectionDecision->getComments()))){
+                        if ($reviewType == REVIEW_TYPE_FR && ($decision == SUBMISSION_SECTION_DECISION_APPROVED || ($decision == SUBMISSION_SECTION_DECISION_EXEMPTED && $sectionDecision->getComments()))){
                             if(!SectionEditorAction::_publishResearch($sectionEditorSubmission)){
 				Request::redirect(null, null, 'submissionReview', $sectionEditorSubmission->getArticleId());
                             }
                         }
                         
-                        if ($reviewType == REVIEW_TYPE_EOS && ($decision == SUBMISSION_SECTION_DECISION_APPROVED || ($decision == SUBMISSION_SECTION_DECISION_EXEMPTED && $sectionDecision->getComments()))) {
+                        if ($reviewType == REVIEW_TYPE_FR && ($decision == SUBMISSION_SECTION_DECISION_APPROVED || ($decision == SUBMISSION_SECTION_DECISION_EXEMPTED && $sectionDecision->getComments()))) {
 				$sectionEditorSubmission->setStatus(STATUS_COMPLETED);
                         } elseif (($decision == SUBMISSION_SECTION_DECISION_EXEMPTED && $sectionDecision->getComments())
 				|| $decision == SUBMISSION_SECTION_DECISION_APPROVED 
@@ -114,7 +114,7 @@ class SectionEditorAction extends Action {
                         }
                         
                         switch ($reviewType) {
-                            case REVIEW_TYPE_CONTINUING:
+                            case REVIEW_TYPE_PR:
                                 $message = $message.'.continuingReview';
                                 break;
                             case REVIEW_TYPE_AMENDMENT:
@@ -123,7 +123,7 @@ class SectionEditorAction extends Action {
                             case REVIEW_TYPE_SAE:
                                 $message = $message.'.sae';
                                 break;
-                            case REVIEW_TYPE_EOS:
+                            case REVIEW_TYPE_FR:
                                 $message = $message.'.eos';
                                 break;                            
                         }

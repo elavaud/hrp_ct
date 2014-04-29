@@ -95,7 +95,7 @@ class ContinuingReviewDecisionForm extends Form {
 			case SUBMISSION_SECTION_DECISION_APPROVED:
 			case SUBMISSION_SECTION_DECISION_RESUBMIT:
 			case SUBMISSION_SECTION_DECISION_DECLINED:
-				SectionEditorAction::recordDecision($submission, $decision, REVIEW_TYPE_CONTINUING, $previousDecision->getRound(), null, $dateDecided, $previousDecision->getId());
+				SectionEditorAction::recordDecision($submission, $decision, REVIEW_TYPE_PR, $previousDecision->getRound(), null, $dateDecided, $previousDecision->getId());
 				break;
 		}
 	}

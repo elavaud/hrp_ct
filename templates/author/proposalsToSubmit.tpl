@@ -44,9 +44,9 @@
                 {translate key="submission.status.draft"}<br/><a href="{url op="deleteSubmission" path=$articleId}" class="action" onclick="return confirm('{translate|escape:"jsparam" key="author.submissions.confirmDelete"}')">{translate key="common.delete"}</a>        
             {else}
             	{translate key=$lastDecision->getReviewStatusKey()}<br />
-                {if $lastDecisionType == REVIEW_TYPE_CONTINUING}
+                {if $lastDecisionType == REVIEW_TYPE_PR}
                     <a href="{url op="addProgressReport" path=$articleId}" class="action">{translate key="form.resubmit"}</a><br />
-                {elseif $lastDecisionType == REVIEW_TYPE_EOS}
+                {elseif $lastDecisionType == REVIEW_TYPE_FR}
                     <a href="{url op="addCompletionReport" path=$articleId}" class="action">{translate key="form.resubmit"}</a><br />
                 {else}
                     <a href="{url op="resubmit" path=$articleId}" class="action">{translate key="form.resubmit"}</a><br />

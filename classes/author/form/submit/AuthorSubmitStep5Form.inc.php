@@ -280,7 +280,7 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
                         if ($lastDecision->getRound() == 1) {$message = 'notification.type.articleSubmitted.initialReview';}
                         else {$message = 'notification.type.articleReSubmitted.initialReview';}
                         break;
-                    case REVIEW_TYPE_CONTINUING:
+                    case REVIEW_TYPE_PR:
                         if ($lastDecision->getRound() == 1) {$message = 'notification.type.articleSubmitted.continuingReview';}
                         else {$message = 'notification.type.articleReSubmitted.continuingReview';}
                         break;
@@ -292,7 +292,7 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
                         if ($lastDecision->getRound() == 1) {$message = 'notification.type.articleSubmitted.SAE';}
                         else {$message = 'notification.type.articleReSubmitted.SAE';}                        
                         break;
-                    case REVIEW_TYPE_EOS:
+                    case REVIEW_TYPE_FR:
                         if ($lastDecision->getRound() == 1) {$message = 'notification.type.articleSubmitted.EOS';}
                         else {$message = 'notification.type.articleReSubmitted.EOS';}                        
                         break;
