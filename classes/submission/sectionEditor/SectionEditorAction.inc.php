@@ -2106,10 +2106,17 @@ class SectionEditorAction extends Action {
 
 		$decision = $sectionEditorSubmission->getLastSectionDecision();
 		
-		$email = new ArticleMailTemplate(
-		$sectionEditorSubmission, null, 
-		isset($decisionTemplateMap[$decision->getDecision()])?$decisionTemplateMap[$decision->getDecision()]:null
-		);
+                if ($decision->getDecision() == SUBMISSION_SECTION_DECISION_APPROVED && $decision->getReviewType() == REVIEW_TYPE_FR) {
+                    $email = new ArticleMailTemplate(
+                        $sectionEditorSubmission, null, 
+                        SECTION_DECISION_FR_APPROVED
+                    );                    
+                } else {
+                    $email = new ArticleMailTemplate(
+                        $sectionEditorSubmission, null, 
+                        isset($decisionTemplateMap[$decision->getDecision()])?$decisionTemplateMap[$decision->getDecision()]:null
+                    );
+                }
 
 		$copyeditor = $sectionEditorSubmission->getUserBySignoffType('SIGNOFF_COPYEDITING_INITIAL');
 
@@ -2137,7 +2144,9 @@ class SectionEditorAction extends Action {
 				$email->assignParams(array(
 					'editorialContactSignature' => $user->getContactSignature(),
 					'authorName' => $authorUser->getFullName(),
-					'url' => Request::url(null, 'author', 'submissionReview', $sectionEditorSubmission->getArticleId()),
+					'urlOngoing' => Request::url(null, 'author', 'index', 'ongoingResearches'),
+    					'urlDrafts' => Request::url(null, 'author', 'index', 'proposalsToSubmit'),
+    					'url' => Request::url(null, 'author', 'submissionReview', $sectionEditorSubmission->getArticleId()),
                                         'reviewType' => Locale::translate($decision->getReviewTypeKey()),
 					'journalTitle' => $journal->getLocalizedTitle()
 				));
