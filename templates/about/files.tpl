@@ -18,8 +18,8 @@
                   {foreach from=$policyFiles item=policyFile}
                        <tr>
                             <td width="5%">&nbsp;</td>
-                            <td width="2%" valign='top'>&#8226;</td>
-                            <td width="93%">
+                            <td width="5%" valign='top'><img src="{$baseUrl}/lib/pkp/templates/images/icons/download.gif" alt="RSS 1.0"/></td>
+                            <td width="90%">
                                 <a href="{url op="downloadAboutFile" path=$policyFile->getId()}"><b>{$policyFile->getLocalizedAboutFileName()|escape}</b></a>
                                  &nbsp;({$policyFile->getFileExtension()}, {$policyFile->getNiceFileSize()})
                                 {if $policyFile->getLocalizedAboutFileDescription() != ''}<br/>{$policyFile->getLocalizedAboutFileDescription()}{/if}
@@ -39,8 +39,8 @@
                 {foreach from=$userManuals item=userManual}
                     <tr>
                         <td width="5%">&nbsp;</td>
-                        <td width="2%" valign='top'>&#8226;</td>
-                        <td width="93%">
+                        <td width="5%" valign='top'><img src="{$baseUrl}/lib/pkp/templates/images/icons/download.gif" alt="RSS 1.0"/></td>
+                        <td width="90%">
                             <a href="{url op="downloadAboutFile" path=$userManual->getId()}"><b>{$userManual->getLocalizedAboutFileName()|escape}</b></a>
                              &nbsp;({$userManual->getFileExtension()}, {$userManual->getNiceFileSize()})
                             {if $userManual->getLocalizedAboutFileDescription() != ''}<br/>{$userManual->getLocalizedAboutFileDescription()}{/if}
@@ -60,8 +60,8 @@
                 {foreach from=$templates item=template}
                     <tr>
                         <td width="5%">&nbsp;</td>
-                        <td width="2%" valign='top'>&#8226;</td>
-                        <td width="93%">
+                        <td width="5%" valign='top'><img src="{$baseUrl}/lib/pkp/templates/images/icons/download.gif" alt="RSS 1.0"/></td>
+                        <td width="90%">
                             <a href="{url op="downloadAboutFile" path=$template->getId()}"><b>{$template->getLocalizedAboutFileName()|escape}</b></a>
                              &nbsp;({$template->getFileExtension()}, {$template->getNiceFileSize()})
                             {if $template->getLocalizedAboutFileDescription() != ''}<br/>{$template->getLocalizedAboutFileDescription()}{/if}
@@ -81,8 +81,8 @@
                 {foreach from=$miscellaneousFiles item=miscellaneousFile}
                     <tr>
                         <td width="5%">&nbsp;</td>
-                        <td width="2%" valign='top'>&#8226;</td>
-                        <td width="93%">
+                        <td width="5%" valign='top'><img src="{$baseUrl}/lib/pkp/templates/images/icons/download.gif" alt="RSS 1.0"/></td>
+                        <td width="90%">
                             <a href="{url op="downloadAboutFile" path=$miscellaneousFile->getId()}"><b>{$miscellaneousFile->getLocalizedAboutFileName()|escape}</b></a>
                             &nbsp;({$miscellaneousFile->getFileExtension()}, {$miscellaneousFile->getNiceFileSize()})
                             {if $miscellaneousFile->getLocalizedAboutFileDescription() != ''}<br/>{$miscellaneousFile->getLocalizedAboutFileDescription()}{/if}
