@@ -23,6 +23,7 @@
                                 <a href="{url op="downloadAboutFile" path=$policyFile->getId()}"><b>{$policyFile->getLocalizedAboutFileName()|escape}</b></a>
                                  &nbsp;({$policyFile->getFileExtension()}, {$policyFile->getNiceFileSize()})
                                 {if $policyFile->getLocalizedAboutFileDescription() != ''}<br/>{$policyFile->getLocalizedAboutFileDescription()}{/if}
+                                <br/>&nbsp;
                             </td>
                        </tr>
                   {/foreach}
@@ -40,9 +41,10 @@
                         <td width="5%">&nbsp;</td>
                         <td width="2%" valign='top'>&#8226;</td>
                         <td width="93%">
-                            <a href="{url op="downloadAboutFile" path=$userManual->getId()}"><b>&#8226;&nbsp;{$userManual->getLocalizedAboutFileName()|escape}</b></a>
+                            <a href="{url op="downloadAboutFile" path=$userManual->getId()}"><b>{$userManual->getLocalizedAboutFileName()|escape}</b></a>
                              &nbsp;({$userManual->getFileExtension()}, {$userManual->getNiceFileSize()})
                             {if $userManual->getLocalizedAboutFileDescription() != ''}<br/>{$userManual->getLocalizedAboutFileDescription()}{/if}
+                            <br/>&nbsp;
                         </td>
                     </tr>
                 {/foreach}
@@ -60,9 +62,10 @@
                         <td width="5%">&nbsp;</td>
                         <td width="2%" valign='top'>&#8226;</td>
                         <td width="93%">
-                            <a href="{url op="downloadAboutFile" path=$template->getId()}"><b>&#8226;&nbsp;{$template->getLocalizedAboutFileName()|escape}</b></a>
+                            <a href="{url op="downloadAboutFile" path=$template->getId()}"><b>{$template->getLocalizedAboutFileName()|escape}</b></a>
                              &nbsp;({$template->getFileExtension()}, {$template->getNiceFileSize()})
                             {if $template->getLocalizedAboutFileDescription() != ''}<br/>{$template->getLocalizedAboutFileDescription()}{/if}
+                            <br/>&nbsp;
                         </td>
                     </tr>
                 {/foreach}
@@ -80,9 +83,10 @@
                         <td width="5%">&nbsp;</td>
                         <td width="2%" valign='top'>&#8226;</td>
                         <td width="93%">
-                            <a href="{url op="downloadAboutFile" path=$miscellaneousFile->getId()}"><b>&#8226;&nbsp;{$miscellaneousFile->getLocalizedAboutFileName()|escape}</b></a>
+                            <a href="{url op="downloadAboutFile" path=$miscellaneousFile->getId()}"><b>{$miscellaneousFile->getLocalizedAboutFileName()|escape}</b></a>
                             &nbsp;({$miscellaneousFile->getFileExtension()}, {$miscellaneousFile->getNiceFileSize()})
                             {if $miscellaneousFile->getLocalizedAboutFileDescription() != ''}<br/>{$miscellaneousFile->getLocalizedAboutFileDescription()}{/if}
+                            <br/>&nbsp;
                         </td>
                     </tr>
                 {/foreach}
