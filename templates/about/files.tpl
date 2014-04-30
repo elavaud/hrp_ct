@@ -60,7 +60,7 @@
                 {foreach from=$templates item=template}
                     <tr>
                         <td width="5%">&nbsp;</td>
-                        <td width="5%" valign='top'><img src="{$baseUrl}/lib/pkp/templates/images/icons/download.giff" alt="&#8226;"/></td>
+                        <td width="5%" valign='top'><img src="{$baseUrl}/lib/pkp/templates/images/icons/download.gif" alt="&#8226;"/></td>
                         <td width="90%">
                             <a href="{url op="downloadAboutFile" path=$template->getId()}"><b>{$template->getLocalizedAboutFileName()|escape}</b></a>
                              &nbsp;({$template->getFileExtension()}, {$template->getNiceFileSize()})
