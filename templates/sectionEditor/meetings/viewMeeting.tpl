@@ -37,7 +37,7 @@
 	</tr>
 	<tr valign="top">
 		<td class="label" width="20%">{translate key="editor.meeting.length"}</td>
-		<td class="value" width="80%">{$meeting->getLength()} mn</td>
+		<td class="value" width="80%">{$meeting->getLength()} {translate key="common.time.minutes"}</td>
 	</tr>
 	<tr valign="top">
 		<td class="label" width="20%">{translate key="editor.meeting.location"}</td>
