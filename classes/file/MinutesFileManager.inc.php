@@ -186,7 +186,7 @@ class MinutesFileManager extends FileManager {
 		$date = new DateTime($this->meeting->getDate());
 		$dateCreated = $date->format('dMY');
 		
-		if ($minutesFile->getOriginalFileName() != null) $newFileName = $metingPublicId.'.'.$date->format('dMY').'.'.$typePath.'.upload.'.$minutesFileDao->getUploadedFileIterator($this->meeting->getId(), $typePath, $articleId).'.'.$extension;
+		if ($minutesFile->getOriginalFileName() != null) $newFileName = $metingPublicId.'.'.$date->format('dMY').'.minutes.upload.'.$minutesFileDao->getUploadedFileIterator($this->meeting->getId(), $typePath, $articleId).'.'.$extension;
 		else $newFileName = $metingPublicId.'.'.$date->format('dMY').'.'.$typePath.'.'.$extension;	
 		
 		$minutesFile->setFileName($newFileName);

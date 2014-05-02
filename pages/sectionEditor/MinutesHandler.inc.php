@@ -602,6 +602,123 @@ class MinutesHandler extends Handler {
 		$minutesFileManager->handleUpload('uploadMinutesFile', $type);		
 		Request::redirect(null, null, 'manageMinutes', $meetingId);
 	}
+        
+        function donwloadMinutesTemplate($args){
+            
+		$meetingId = isset($args[0]) ? (int) $args[0] : 0;
+		$this->validate($meetingId);
+
+                $meetingDao =& DAORegistry::getDAO('MeetingDAO');
+		$meetingAttendanceDao =& DAORegistry::getDAO("MeetingAttendanceDAO");
+		$ercDao =& DAORegistry::getDAO("SectionDAO");
+		$sectionDecisionDao =& DAORegistry::getDAO("SectionDecisionDAO");
+		$sectionEditorSubmissionDao =& DAORegistry::getDAO("SectionEditorSubmissionDAO");
+
+                $meeting = $meetingDao->getMeetingById($meetingId);
+
+                header('content-type: text/comma-separated-values');
+		header('content-disposition: attachment; filename='.$meeting->getPublicId().'-' . date('dMY') . '-minutesTemplate.csv');
+		
+                Locale::requireComponents(array(LOCALE_COMPONENT_PKP_SUBMISSION, LOCALE_COMPONENT_OJS_EDITOR, LOCALE_COMPONENT_APPLICATION_COMMON));
+
+                $fp = fopen('php://output', 'wt');
+                
+		$erc =& $ercDao->getSection($meeting->getUploader());                
+
+                String::fputcsv($fp, array($erc->getLocalizedTitle()));
+                String::fputcsv($fp, array(''));
+                String::fputcsv($fp, array(Locale::translate('editor.minutes.meetingMinutes'), Locale::translate('editor.meeting.id').': '.$meeting->getPublicId()));
+                String::fputcsv($fp, array('',Locale::translate('editor.meeting.dateAndTime').': '.date('D, d M Y H:i', strtotime($meeting->getDate()))));
+                String::fputcsv($fp, array('',Locale::translate('editor.meeting.length').': '.$meeting->getLength().' '.Locale::translate('common.time.minutes')));
+                String::fputcsv($fp, array('',Locale::translate('editor.meeting.location').': '.$meeting->getLocation()));
+                
+		$meetingAttendances =& $meetingAttendanceDao->getMeetingAttendancesByMeetingId($meeting->getId());
+                
+                $presentMembers = (string) '';
+                $absentMembers = (string) '';                
+                foreach ($meetingAttendances as $meetingAttendance) {
+                    if($meetingAttendance->getIsAttending() == MEETING_REPLY_ATTENDING) {
+                        $member =& $meetingAttendance->getUser();
+                        if ($presentMembers == '') {
+                            $presentMembers = $member->getFullName();
+                        } else {
+                            $presentMembers = $presentMembers.', '.$member->getFullName();                            
+                        }
+                    } elseif ($meetingAttendance->getIsAttending() == MEETING_REPLY_NOT_ATTENDING) {
+                        $member =& $meetingAttendance->getUser();
+                        if ($absentMembers == '') {
+                            $absentMembers = $member->getFullName();                            
+                        } else {
+                            $absentMembers = $absentMembers.', '.$member->getFullName();                            
+                        }
+                    }
+                }
+    
+                String::fputcsv($fp, array(Locale::translate('editor.meeting.attendees'), $presentMembers));
+                String::fputcsv($fp, array(Locale::translate('editor.meeting.absent'), $absentMembers));                
+                String::fputcsv($fp, array(Locale::translate('editor.minutes.welcome')));                
+                String::fputcsv($fp, array(Locale::translate('editor.minutes.apologies')));                
+                String::fputcsv($fp, array(Locale::translate('editor.meeting.minutesPrevious')));                                
+                
+                $initialReviews = array();
+                $progressReports = array();
+                $amendments = array();
+                $seriousAdverseEvents = array();
+                $finalReports = array();
+                
+                $meetingSectionDecisions =& $meeting->getMeetingSectionDecisions();
+                foreach ($meetingSectionDecisions as $meetingSectionDecision) {
+                    $sDecision =& $sectionDecisionDao->getSectionDecision($meetingSectionDecision->getSectionDecisionId());
+                    $reviewAssignments =& $sDecision->getReviewAssignments();
+                    $reviewAssignmentsString = (string) '';
+                    foreach ($reviewAssignments as $reviewAssignment){
+                        if ($reviewAssignmentsString == ''){
+                            $reviewAssignmentsString = $reviewAssignment->getReviewerFullName();
+                        } else {
+                            $reviewAssignmentsString = $reviewAssignmentsString.', '.$reviewAssignment->getReviewerFullName();
+                        }
+                        
+                    }
+                    switch ($sDecision->getReviewType()){
+                        case REVIEW_TYPE_INITIAL:
+                            array_push($initialReviews, array('decision' => $sDecision, 'proposal' => $sectionEditorSubmissionDao->getSectionEditorSubmission($sDecision->getArticleId()), 'reviewAssignments' => $reviewAssignmentsString));
+                            break;
+                        case REVIEW_TYPE_PR:
+                            array_push($progressReports, array('decision' => $sDecision, 'proposal' => $sectionEditorSubmissionDao->getSectionEditorSubmission($sDecision->getArticleId()), 'reviewAssignments' => $reviewAssignmentsString));                            
+                            break;
+                        case REVIEW_TYPE_AMENDMENT:
+                            array_push($amendments, array('decision' => $sDecision, 'proposal' => $sectionEditorSubmissionDao->getSectionEditorSubmission($sDecision->getArticleId()), 'reviewAssignments' => $reviewAssignmentsString));
+                            break;
+                        case REVIEW_TYPE_SAE:
+                            array_push($seriousAdverseEvents, array('decision' => $sDecision, 'proposal' => $sectionEditorSubmissionDao->getSectionEditorSubmission($sDecision->getArticleId()), 'reviewAssignments' => $reviewAssignmentsString));
+                            break;
+                        case REVIEW_TYPE_FR:
+                            array_push($finalReports, array('decision' => $sDecision, 'proposal' => $sectionEditorSubmissionDao->getSectionEditorSubmission($sDecision->getArticleId()), 'reviewAssignments' => $reviewAssignmentsString));
+                            break;
+                    }
+                }
+                $proposalCategories = array();
+                array_push($proposalCategories, array('title' => 'submission.initialReview', 'category' => $initialReviews));
+                array_push($proposalCategories, array('title' => 'submission.progressReport', 'category' => $progressReports));
+                array_push($proposalCategories, array('title' => 'submission.protocolAmendment', 'category' => $amendments));
+                array_push($proposalCategories, array('title' => 'submission.seriousAdverseEvents', 'category' => $seriousAdverseEvents));
+                array_push($proposalCategories, array('title' => 'submission.finalReport', 'category' => $finalReports));
+                
+                foreach ($proposalCategories as $proposalCategory) {
+                    if (!empty($proposalCategory['category'])) {
+                        String::fputcsv($fp, array(''));
+                        String::fputcsv($fp, array(Locale::translate($proposalCategory['title'])));
+                        String::fputcsv($fp, array(Locale::translate('submissions.reviewRound'), Locale::translate('article.scientificTitle'), Locale::translate('editor.minutes.generalDiscussion'), Locale::translate('submissions.editorDecision'), Locale::translate('editor.minutes.primaryReviewer'), Locale::translate('editor.minutes.timeFrame')));                    
+
+                        foreach ($proposalCategory['category'] as $selection){
+                            $abstract = $selection['proposal']->getLocalizedAbstract();
+                            String::fputcsv($fp, array($selection['decision']->getRound(), $abstract->getScientificTitle(), '', '', $selection['reviewAssignments'], ''));                                            
+                        }                        
+                    }
+                }
+                
+		fclose($fp);            
+        }
 }
 
 ?>

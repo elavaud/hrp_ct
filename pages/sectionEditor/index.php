@@ -198,7 +198,8 @@ switch ($op) {
 	case 'setMinutesFinal':
 	case 'deleteUploadedFile':
 	case 'uploadFile':
-		define('HANDLER_CLASS', 'MinutesHandler');
+	case 'donwloadMinutesTemplate':
+                define('HANDLER_CLASS', 'MinutesHandler');
 		import('pages.sectionEditor.MinutesHandler');
 		break;
 	case 'meetings':

@@ -14,7 +14,6 @@
 
 <locale name="en_US" full_name = "English">
     
-    
         <!-- New keys, February-April 2014 -->
         
         <message key="editor.reports.decisionType">Decision Type</message>
@@ -82,7 +81,19 @@
         
         <message key="editor.submissionReview.decisionFileNotRequired">Uploading a decision file for this type of review is optionnal.</message>        
         
-        <!--  -->
+        <message key="editor.minutes.template">Minutes template</message>
+        <message key="editor.minutes.downloadTemplate">Download minutes template</message>
+        <message key="editor.minutes.meetingMinutes">Minutes of the meeting</message>
+        <message key="editor.minutes.welcome">Welcome</message>
+        <message key="editor.minutes.apologies">Apologies</message>
+        <message key="editor.minutes.primaryReviewer">Primary reviewer(s)</message>
+        <message key="editor.minutes.timeFrame">Time Frame</message>
+        
+        <message key="editor.meeting.attendees">Attendees</message>
+        <message key="editor.meeting.absent">Absent(s)</message>
+        <message key="editor.meeting.minutesPrevious">Confirmation of Minutes of the Previous Meeting</message>
+
+        <!-- End new keys -->
     
 	<message key="editor.article.activeReviewers">Active Reviewer(s)</message>
         <message key="editor.article.addReviewer">Add Reviewer</message>
