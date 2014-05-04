@@ -164,6 +164,7 @@ class TrackSubmissionHandler extends AuthorHandler {
 		$templateMgr->assign_by_ref('submissionFile', $authorSubmission->getSubmissionFile());
 		$templateMgr->assign_by_ref('revisedFile', $authorSubmission->getRevisedFile());
 		$templateMgr->assign_by_ref('suppFiles', $authorSubmission->getSuppFiles());
+		$templateMgr->assign_by_ref('reportFiles', $authorSubmission->getReportFiles());
 		$templateMgr->assign_by_ref('sectionDecisions', $authorSubmission->getDecisions());
 		$templateMgr->assign('helpTopicId', 'editorial.authorsRole.review');
                 $templateMgr->display('author/submissionReview.tpl');
