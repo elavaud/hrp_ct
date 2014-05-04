@@ -52,7 +52,7 @@
 				</tr>
 			{/if}
 			
-			{assign var="meetings" value=$sDecision->getMeetings()}
+			{assign var="meetings" value=$sDecision->getInvestigatorMeetings()}
 
 			{if $meetings|@count gt 0}
 

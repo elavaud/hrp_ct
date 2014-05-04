@@ -439,5 +439,19 @@ class SectionDecision extends DataObject {
 		return $this->getData('meetings');
 	}
 
+	/**
+	 * Get all meetings for this decision, where the investigator has been invited.
+	 * @return array ReviewAssignments
+	 */
+	function &getInvestigatorMeetings() {
+		$meetings = $this->getData('meetings');
+                $investigatorMeetings = array();
+                foreach($meetings as $meeting){
+                    if ($meeting->getInvestigator() == 1){
+                        array_push($investigatorMeetings, $meeting);
+                    }
+                }
+                return $investigatorMeetings;
+	}
 }
 ?>
