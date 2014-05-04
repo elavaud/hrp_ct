@@ -448,7 +448,7 @@ function addSource(){
                                                          .append('<option value="NA"></option>')
                                                          .val('NA');
     lastElement.find("td[id$=-locationInternationalCol]").attr("id", "sources-"+numItems+"-locationInternationalCol");
-    if (lastElement.find('#sources input[id=sources-0-radioInternationalSupp').length > 0) {
+    if (lastElement.find('#sources input[id=sources-0-radioInternationalSupp]').length > 0) {
         $('#sources-0-radioInternationalSupp').remove();
     }    
     lastElement.find("input:radio").each(function(){$(this).attr("name", "sources["+numItems+"][international]");})
