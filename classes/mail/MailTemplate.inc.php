@@ -117,9 +117,11 @@ class MailTemplate extends PKPMailTemplate {
 			$paramArray['journalName'] = $this->journal->getLocalizedTitle();
 			$paramArray['location'] = $this->journal->getLocalizedSetting('location');                        
 			$paramArray['principalContactSignature'] = $this->journal->getSetting('contactName');
-		} else {
+			$paramArray['supportName'] = $this->journal->getSetting('supportName');
+                } else {
 			$site =& Request::getSite();
 			$paramArray['principalContactSignature'] = $site->getLocalizedContactName();
+			$paramArray['supportName'] = $this->getLocalizedContactName();
 		}
 		if (!isset($paramArray['journalUrl'])) $paramArray['journalUrl'] = Request::url(Request::getRequestedJournalPath());
 

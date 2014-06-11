@@ -325,6 +325,7 @@ class RegistrationForm extends Form {
 				$mail->setFrom($journal->getSetting('contactEmail'), $journal->getSetting('contactName'));
 				$mail->assignParams(array(
 					'userFullName' => $user->getFullName(),
+					'supportName' => $journal->getSetting('supportName'),
 					'activateUrl' => Request::url($journal->getPath(), 'user', 'activateUser', array($this->getData('username'), $accessKey))
 				));
 				$mail->addRecipient($user->getEmail(), $user->getFullName());
