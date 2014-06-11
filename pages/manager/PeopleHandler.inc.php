@@ -327,62 +327,67 @@ class PeopleHandler extends ManagerHandler {
 		// the role path "reviewer" includes all the erc members but also the secretaries
 		// if the enrollment concern secretaries, the role path and the role id is further modified
 		if ($users != null && is_array($users) && $rolePath == 'reviewer') {
+                    // Check if info provided
+                    if (!empty($ethicsCommitteeId) && !empty($ercMemberStatus) && $ethicsCommitteeId != "NA" && $ercMemberStatus != "NA") {
 			if ($ercMemberStatus == "Chair" OR $ercMemberStatus == "Vice-Chair" OR $ercMemberStatus == "Member"){
-				$reviewers = $ercReviewersDAO->getReviewersBySectionId($journal->getId(), $ethicsCommitteeId);
-				$chairs = $ercReviewersDAO->getReviewersBySectionIdByStatus($journal->getId(), $ethicsCommitteeId, 1);
-				$viceChairs = $ercReviewersDAO->getReviewersBySectionIdByStatus($journal->getId(), $ethicsCommitteeId, 2);
-				
-				// Here the number of members per committee is set to 20, 
-				// and of chair or vice-chair to 1
-				if ((((count($reviewers) + count($users)) < 21) && $ercMemberStatus == "Member") || (((count($chairs) + count($users)) < 2) && $ercMemberStatus == "Chair") || (((count($viceChairs) + count($users)) < 2) && $ercMemberStatus == "Vice-Chair")) {
-					for ($i=0; $i<count($users); $i++) {
-						if (!$ercReviewersDAO->ercReviewerExists($journal->getId(), $ethicsCommitteeId, $users[$i])) {
-							
-							if (!$roleDao->roleExists($journal->getId(), $users[$i], $roleId)) {
-								// Create the role and insert it
-								$role = new Role();
-								$role->setJournalId($journal->getId());
-								$role->setUserId($users[$i]);
-								$role->setRoleId($roleId);
-								$roleDao->insertRole($role);							
-							}
-							
-							// Assign the reviewer to the specified committee
-							if ($ercMemberStatus == "Chair") $status = 1;
-							elseif ($ercMemberStatus == "Vice-Chair") $status = 2;
-							elseif ($ercMemberStatus == "Member") $status = 3;
-							
-							$ercReviewersDAO->insertReviewer($journal->getId(), $ethicsCommitteeId, $users[$i], $status);
-						}
-					}					
-				}
+                            $reviewers = $ercReviewersDAO->getReviewersBySectionId($journal->getId(), $ethicsCommitteeId);
+                            $chairs = $ercReviewersDAO->getReviewersBySectionIdByStatus($journal->getId(), $ethicsCommitteeId, 1);
+                            $viceChairs = $ercReviewersDAO->getReviewersBySectionIdByStatus($journal->getId(), $ethicsCommitteeId, 2);
+
+                            // Here the number of members per committee is set to 20, 
+                            // and of chair or vice-chair to 1
+                            if ((((count($reviewers) + count($users)) < 21) && $ercMemberStatus == "Member") || (((count($chairs) + count($users)) < 2) && $ercMemberStatus == "Chair") || (((count($viceChairs) + count($users)) < 2) && $ercMemberStatus == "Vice-Chair")) {
+                                for ($i=0; $i<count($users); $i++) {
+                                    if (!$ercReviewersDAO->ercReviewerExists($journal->getId(), $ethicsCommitteeId, $users[$i])) {
+
+                                        if (!$roleDao->roleExists($journal->getId(), $users[$i], $roleId)) {
+                                            // Create the role and insert it
+                                            $role = new Role();
+                                            $role->setJournalId($journal->getId());
+                                            $role->setUserId($users[$i]);
+                                            $role->setRoleId($roleId);
+                                            $roleDao->insertRole($role);							
+                                        }
+
+                                        // Assign the reviewer to the specified committee
+                                        if ($ercMemberStatus == "Chair") $status = 1;
+                                        elseif ($ercMemberStatus == "Vice-Chair") $status = 2;
+                                        elseif ($ercMemberStatus == "Member") $status = 3;
+
+                                        $ercReviewersDAO->insertReviewer($journal->getId(), $ethicsCommitteeId, $users[$i], $status);
+                                    }
+                                }					
+                            }
 			} elseif ($ercMemberStatus == "Secretary") {
-				
-				//Get all the secretaries already enrolled in this particular committee
-				$secretaries = $sectionEditorsDAO->getEditorsBySectionId($journal->getId(), $ethicsCommitteeId);
-				
-				// The role id and the role path is modified
-				$roleId = ROLE_ID_SECTION_EDITOR;
-				$rolePath = $roleDao->getRolePath($roleId);
-				
-				//Here, the number of secretaries per committee is limited to 5
-				if ((count($secretaries) + count($users)) < 6) {
-					for ($i=0; $i<count($users); $i++) {
-						if (!$roleDao->roleExists($journal->getId(), $users[$i], $roleId) && !$sectionEditorsDAO->ercSecretaryExists($ethicsCommitteeId, $users[$i])) {
-							
-							// Create the role and insert it
-							$role = new Role();
-							$role->setJournalId($journal->getId());
-							$role->setUserId($users[$i]);
-							$role->setRoleId($roleId);
-							$roleDao->insertRole($role);
-							
-							// Assign the secretary to the specified committee
-							$sectionEditorsDAO->insertEditor($journal->getId(), $ethicsCommitteeId, $users[$i], 1, 1);
-						}
-					}				
-				}
+
+                            //Get all the secretaries already enrolled in this particular committee
+                            $secretaries = $sectionEditorsDAO->getEditorsBySectionId($journal->getId(), $ethicsCommitteeId);
+
+                            // The role id and the role path is modified
+                            $roleId = ROLE_ID_SECTION_EDITOR;
+                            $rolePath = $roleDao->getRolePath($roleId);
+
+                            //Here, the number of secretaries per committee is limited to 5
+                            if ((count($secretaries) + count($users)) < 6) {
+                                for ($i=0; $i<count($users); $i++) {
+                                    if (!$roleDao->roleExists($journal->getId(), $users[$i], $roleId) && !$sectionEditorsDAO->ercSecretaryExists($ethicsCommitteeId, $users[$i])) {
+
+                                        // Create the role and insert it
+                                        $role = new Role();
+                                        $role->setJournalId($journal->getId());
+                                        $role->setUserId($users[$i]);
+                                        $role->setRoleId($roleId);
+                                        $roleDao->insertRole($role);
+
+                                        // Assign the secretary to the specified committee
+                                        $sectionEditorsDAO->insertEditor($journal->getId(), $ethicsCommitteeId, $users[$i], 1, 1);
+                                    }
+                                }				
+                            }
 			}
+                    } else {
+                        Request::redirect(null, null, 'enrollSearch');
+                    }
 		}
 		else if ($users != null && is_array($users) && $roleId == 'ExtReviewer'){
 			$roleId = '4096';

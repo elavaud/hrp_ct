@@ -69,6 +69,7 @@ function showOrHideErcMemberStatus(value){
 		document.getElementById('ercMemberStatusField').style.display = '';
 	} else {
 		document.getElementById('ercMemberStatusField').style.display = 'none';
+                $('#ercMemberStatus').val("NA");
 	}
 }
 
