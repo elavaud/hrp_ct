@@ -175,6 +175,13 @@
     
 </div>
 
+<div id="protocolAmendment">
+    <h6>3.2.3 {translate key="manager.setup.submission.protocolAmendment"}</h6>
+    <p>{translate key="manager.setup.submission.protocolAmendment.instruct"}</p>
+    
+    <p><textarea name="protocolAmendmentGuidelines[{$formLocale|escape}]" id="protocolAmendmentGuidelines" rows="12" cols="50" class="textArea">{$protocolAmendmentGuidelines[$formLocale]|escape}</textarea></p>
+    
+</div>
 <!--{*
 <div id="requiredAbstracts">
 

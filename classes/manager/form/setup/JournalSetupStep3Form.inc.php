@@ -29,8 +29,9 @@ class JournalSetupStep3Form extends JournalSetupForm {
         			'submissionChecklist' => 'object',
                                 'sourceCurrency' => 'string',
                                 'convertionRate' => 'int',
-                                'progressReportGuidelines' => 'int',
-                                'completionReportGuidelines' => 'int'/*,
+                                'progressReportGuidelines' => 'string',
+                                'completionReportGuidelines' => 'string',
+                                'protocolAmendmentGuidelines' => 'string'/*,
                                 'abstractLocales' => 'array',
                                 'copyrightNotice' => 'string',
 				'includeCreativeCommons' => 'bool',
@@ -84,7 +85,7 @@ class JournalSetupStep3Form extends JournalSetupForm {
 	 * @return array
 	 */
 	function getLocaleFieldNames() {
-		return array('authorGuidelines', 'submissionChecklistInfo','submissionChecklist', 'progressReportGuidelines', 'completionReportGuidelines'/*, 'copyrightNotice', 'metaDisciplineExamples', 'metaSubjectClassTitle', 'metaSubjectClassUrl', 'metaSubjectExamples', 'metaCoverageGeoExamples', 'metaCoverageChronExamples', 'metaCoverageResearchSampleExamples', 'metaTypeExamples', 'competingInterestGuidelines'*/);
+		return array('authorGuidelines', 'submissionChecklistInfo','submissionChecklist', 'progressReportGuidelines', 'completionReportGuidelines', 'protocolAmendmentGuidelines'/*, 'copyrightNotice', 'metaDisciplineExamples', 'metaSubjectClassTitle', 'metaSubjectClassUrl', 'metaSubjectExamples', 'metaCoverageGeoExamples', 'metaCoverageChronExamples', 'metaCoverageResearchSampleExamples', 'metaTypeExamples', 'competingInterestGuidelines'*/);
 	}
 
 	/**

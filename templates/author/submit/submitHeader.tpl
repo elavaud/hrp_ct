@@ -32,3 +32,5 @@
 
 <p><span class="formRequired">{translate key="common.requiredField"}</span></p>
 <p><span class="formRequired">{translate key="common.mouseOver"}</span></p>
+
+<p>{$protocolAmendmentGuidelines}</p>

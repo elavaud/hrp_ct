@@ -104,6 +104,7 @@ class SuppFileForm extends Form {
                     "author.submit.suppFile.ethicalClearance" => "author.submit.suppFile.ethicalClearance",
                     "author.submit.suppFile.proofOfRegistration" => "author.submit.suppFile.proofOfRegistration",
                     "author.submit.suppFile.otherErcDecision" => "author.submit.suppFile.otherErcDecision",
+                    "author.submit.suppFile.amendment" => "author.submit.suppFile.amendment",
                     "common.other" => "common.other"
 		);
 

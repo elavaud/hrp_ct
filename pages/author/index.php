@@ -63,6 +63,7 @@ switch ($op) {
 	case 'removeArticleCoverPage':
 	case 'uploadCopyeditVersion':
 	case 'completeAuthorCopyedit':
+        case 'protocolAmendment': 
 	//
 	// Misc.
 	//

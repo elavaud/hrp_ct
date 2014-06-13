@@ -29,8 +29,7 @@ class SubmitHandler extends AuthorHandler {
 	}
 
 
-    function resubmit($args, $request, $reviewType = STATUS_QUEUED) {
-	$articleDAO = DAORegistry::getDAO('ArticleDAO');
+    function resubmit($args) {
         $articleId = isset($args[0]) ? (int) $args[0] : 0;
 
         $sectionDecisionDao = DAORegistry::getDAO('SectionDecisionDAO');

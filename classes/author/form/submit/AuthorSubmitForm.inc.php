@@ -84,6 +84,15 @@ class AuthorSubmitForm extends Form {
 
 		$journal =& Request::getJournal();
 		$settingsDao =& DAORegistry::getDAO('JournalSettingsDAO');
+                
+                $lastSectionDecision = $this->article->getLastSectionDecision();
+                if($lastSectionDecision->getReviewType() == REVIEW_TYPE_AMENDMENT) {
+                    $protocolAmendmentGuidelines = $journal->getLocalizedSetting('protocolAmendmentGuidelines');                    
+                } else {
+                    $protocolAmendmentGuidelines = (string)'';
+                }
+                $templateMgr->assign('protocolAmendmentGuidelines', $protocolAmendmentGuidelines);
+                
 		$templateMgr->assign_by_ref('journalSettings', $settingsDao->getJournalSettings($journal->getId()));
 
 		parent::display();

@@ -216,6 +216,7 @@ class TinyMCEPlugin extends GenericPlugin {
 						$fields[] = 'submissionChecklistInfo';
                                                 $fields[] = 'progressReportGuidelines';
 						$fields[] = 'completionReportGuidelines';
+						$fields[] = 'protocolAmendmentGuidelines';                                                
 						$submissionChecklist = $templateMgr->get_template_vars('submissionChecklist');
 						$count = max(1, isset($submissionChecklist[$formLocale])?count($submissionChecklist[$formLocale]):0);
 						for ($i=0; $i<$count; $i++) {

@@ -1024,5 +1024,48 @@ class TrackSubmissionHandler extends AuthorHandler {
 		$meetingAttendanceDao->updateReplyOfAttendance($meetingAttendance);
 		Request::redirect(null, 'author', 'submissionReview', $submissionId);
 	}
+        
+        /*
+         * Protocol Amendment
+         * 
+         */
+        function protocolAmendment($args){
+            $articleId = isset($args[0]) ? (int) $args[0] : 0;
+            
+            $sectionDecisionDao = DAORegistry::getDAO('SectionDecisionDAO');
+            $lastDecision = $sectionDecisionDao->getLastSectionDecision($articleId);
+
+            $authorSubmissionDao =& DAORegistry::getDAO('AuthorSubmissionDAO');
+            $authorSubmission = $authorSubmissionDao->getAuthorSubmission($articleId);
+            $lastDecisionValue = $lastDecision->getDecision();
+
+            if ($lastDecisionValue == SUBMISSION_SECTION_DECISION_APPROVED || ($lastDecisionValue == SUBMISSION_SECTION_DECISION_EXEMPTED && $lastDecision->getComments())) {
+                $sectionDecision =& new SectionDecision();
+                $sectionDecision->setSectionId($lastDecision->getSectionId());
+                $sectionDecision->setDecision(0);
+                $sectionDecision->setDateDecided(date(Core::getCurrentDate()));      
+                $sectionDecision->setArticleId($articleId);
+                $sectionDecision->setReviewType(REVIEW_TYPE_AMENDMENT);
+
+                if ($lastDecision->getReviewType() == REVIEW_TYPE_AMENDMENT) {
+                    $lastRound = (int) $lastDecision->getRound();
+                    $sectionDecision->setRound($lastRound + 1);
+                } else {
+                    $sectionDecision->setRound(1);
+                }
+
+                $sectionDecisionDao->insertSectionDecision($sectionDecision);
+                $articleDao = DAORegistry::getDAO('ArticleDAO');
+                $articleDao->changeArticleStatus($articleId, STATUS_QUEUED);
+                $articleDao->changeArticleProgress($articleId, 2);
+                
+                Request::redirect(null, null, 'submit', 2, array('articleId' => $articleId));
+            } else {
+                Request::redirect(null, 'author', 'ongoingResearches');
+            }
+   
+            
+            
+        }
 }
 ?>

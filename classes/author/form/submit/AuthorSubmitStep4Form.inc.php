@@ -41,6 +41,7 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
                     "author.submit.suppFile.questionnaire" => "author.submit.suppFile.questionnaire",
                     "author.submit.suppFile.proofOfRegistration" => "author.submit.suppFile.proofOfRegistration",
                     "author.submit.suppFile.otherErcDecision" => "author.submit.suppFile.otherErcDecision",
+                    "author.submit.suppFile.amendment" => "author.submit.suppFile.amendment",
                     "common.other" => "common.other"
 		);
 

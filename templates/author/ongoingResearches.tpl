@@ -31,7 +31,7 @@
                 <a href="{url op="addProgressReport" path=$articleId}" class="action">{translate key="author.submit.submitInterimProgressReport.short"} &#8226;</a><br />
                 <a href="{url op="addCompletionReport" path=$articleId}" class="action">{translate key="author.submit.submitFinalReport.short"} &#8226;</a><br />
                 {*<a href="{url op="addAdverseEvents" path=$articleId}" class="action">*}Adverse Events &#8226;{*</a>*}<br />
-                {*<a href="{url op="addProtocolAmendment" path=$articleId}" class="action">*}Protocol Amendment &#8226;{*</a>*}<br />
+                <a href="{url op="protocolAmendment" path=$articleId}" class="action" onclick="return confirm('{translate|escape:"jsparam" key="author.submissions.confirmAmendment.part1"} {$submission->getProposalId()} \n{translate|escape:"jsparam" key="author.submissions.confirmAmendment.part2"}')">{translate key="submission.protocolAmendment"} &#8226;</a><br />
                 <a href="{url op="withdrawSubmission" path=$articleId}" class="action">{translate key="common.withdraw"} &#8226;</a><br />            
             </td>
         </tr>
