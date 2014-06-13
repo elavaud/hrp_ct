@@ -316,14 +316,17 @@ class ProposalDetails extends DataObject {
 	function getLocalizedResearchDomainsText() {
                 $rDomainsFullText = (string) '';
                 $rDomainsArray = $this->getResearchDomainsArray();
-                foreach($rDomainsArray as $rDomain){
-                    if($rDomainsFullText == ''){
-                        $rDomainsFullText = Locale::translate($this->proposalDetailsDAO->getResearchDomainKey($rDomain));
-                    } else {
-                        $rDomainsFullText = $rDomainsFullText.', '.Locale::translate($this->proposalDetailsDAO->getResearchDomainKey($rDomain));                        
+                if($rDomainsArray){
+                    foreach($rDomainsArray as $rDomain){
+                        if($rDomainsFullText == ''){
+                            $rDomainsFullText = Locale::translate($this->proposalDetailsDAO->getResearchDomainKey($rDomain));
+                        } else {
+                            $rDomainsFullText = $rDomainsFullText.', '.Locale::translate($this->proposalDetailsDAO->getResearchDomainKey($rDomain));                        
+                        }
                     }
+                    return $rDomainsFullText;
                 }
-		return $rDomainsFullText;
+                return null;
 	}
         
 	/**
