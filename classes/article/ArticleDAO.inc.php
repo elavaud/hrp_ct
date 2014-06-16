@@ -954,10 +954,10 @@ class ArticleDAO extends DAO {
                                         LEFT JOIN article_abstract ab ON (ab.article_id = a.article_id)                    
                                         LEFT JOIN article_details ad ON (ad.article_id = a.article_id)                    
                                         LEFT JOIN article_student ast ON (ast.article_id = a.article_id)                    
-                                        LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)
-                                        LEFT JOIN section_decisions sdec2 ON (a.article_id = sdec2.article_id AND sdec.section_decision_id < sdec2.section_decision_id)";
-		$searchSqlEnd = " WHERE sdec2.section_decision_id IS NULL 
-                                    AND (sdec.review_type <> 1 OR (sdec.review_type = 1 AND (sdec.decision = 1 OR sdec.decision = 6 OR sdec.decision = 9)))";
+                                        LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)";
+		$searchSqlEnd = " WHERE sdec.review_type = ".REVIEW_TYPE_INITIAL." AND (sdec.decision = ".SUBMISSION_SECTION_DECISION_APPROVED." 
+                                            OR sdec.decision = ".SUBMISSION_SECTION_DECISION_EXEMPTED." 
+                                            OR sdec.decision = ".SUBMISSION_SECTION_DECISION_DONE.")";
 
 		if ($investigatorName == true || $investigatorAffiliation == true || $investigatorEmail == true){
 			$searchSqlMid .= " left join authors investigator on (investigator.submission_id = a.article_id and investigator.primary_contact = '1')";
@@ -1069,7 +1069,7 @@ class ArticleDAO extends DAO {
 
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
-                $article->setPublishedFinalReport($publicFiles[0]); // FIX ME: Only one file in folder 'public' -> alwas the final report: Pretty ugly
+                if($publicFiles) $article->setPublishedFinalReport($publicFiles[0]); // FIX ME: Only one file in folder 'public' -> alwas the final report: Pretty ugly
 
                 HookRegistry::call('ArticleDAO::_returnSearchArticleFromRow', array(&$article, &$row));
 	}

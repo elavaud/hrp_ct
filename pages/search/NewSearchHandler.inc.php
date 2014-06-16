@@ -170,6 +170,12 @@ class NewSearchHandler extends Handler {
 		if (Request::getUserVar('scientificTitle')) {
 			$columns = $columns + array('title' => Locale::translate('article.scientificTitle'));
 		}
+
+                $researchDomain = false;
+		if (Request::getUserVar('researchDomain')) {
+			$columns = $columns + array('research_domain' => Locale::translate('proposal.researchDomains'));
+			$researchDomain = true;
+		}
 		
 		$researchField = false;
 		if (Request::getUserVar('researchField')) {
@@ -236,9 +242,9 @@ class NewSearchHandler extends Handler {
 
                 $articleDao =& DAORegistry::getDAO('ArticleDAO');
 		
-		$results = $articleDao->searchCustomizedProposalsPublic($query, $region, $statusFilter, $fromDate, $toDate, $investigatorName, $investigatorAffiliation, $investigatorEmail, $researchField, $proposalType, $duration, $area, $dataCollection, $status, $studentResearch, $kii, $dateSubmitted);
-		
-		foreach ($results as $result) {
+		$results = $articleDao->searchCustomizedProposalsPublic($query, $region, $statusFilter, $fromDate, $toDate, $investigatorName, $investigatorAffiliation, $investigatorEmail, $researchDomain, $researchField, $proposalType, $duration, $area, $dataCollection, $status, $studentResearch, $kii, $dateSubmitted);
+
+                foreach ($results as $result) {
 			$abstract = $result->getLocalizedAbstract();
 			$proposalDetails = $result->getProposalDetails();
 			$studentInfo = $proposalDetails->getStudentResearchInfo();
@@ -251,6 +257,8 @@ class NewSearchHandler extends Handler {
 					$columns[$index] = $result->getAuthorEmail();
 				} elseif ($index == 'title') {
 					$columns[$index] = $abstract->getScientificTitle();
+				} elseif ($index == 'research_domain') {
+					$columns[$index] = $proposalDetails->getLocalizedResearchDomainsText();
 				} elseif ($index == 'research_field') {
 					$columns[$index] = $proposalDetails->getLocalizedResearchFieldText();
 				} elseif ($index == 'proposal_type') {
@@ -267,7 +275,7 @@ class NewSearchHandler extends Handler {
 					if ($result->getStatus() == '11') $columns[$index] = 'Complete';
 					else $columns[$index] = 'Ongoing';
 				} elseif ($index == 'student_institution') {
-					if ($proposalDetails->getStudentResearch() == PROPOSAL_DETAIL_YES) $columns[$index] = $studentInfo->getStudentInstitution(); else $columns[$index] = "Non Student Research";
+					if ($proposalDetails->getStudentResearch() == PROPOSAL_DETAIL_YES) $columns[$index] = $studentInfo->getInstitution(); else $columns[$index] = "Non Student Research";
 				} elseif ($index == 'academic_degree') {
 					if ($proposalDetails->getStudentResearch() == PROPOSAL_DETAIL_YES) $columns[$index] = Locale::translate($studentInfo->getDegreeKey());else $columns[$index] = "Non Student Research";
 				} elseif ($index == 'kii') {

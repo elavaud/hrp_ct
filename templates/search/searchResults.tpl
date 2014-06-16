@@ -107,6 +107,9 @@ $(document).ready(
 			<td width="20%" class="value">
 				<input type="checkbox" name="researchField" checked="checked"/>&nbsp;{translate key="proposal.researchField"}
 			</td>
+			<td width="20%" class="value">
+				<input type="checkbox" name="researchDomain" checked="checked"/>&nbsp;{translate key="proposal.researchDomains"}
+			</td>                        
 		</tr>
 		<tr valign="top">
 			<td width="20%" class="value">
