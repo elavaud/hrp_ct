@@ -109,8 +109,10 @@ class NewSearchHandler extends Handler {
 		
 		$templateMgr->assign('dateFrom', $fromDate);
 		$templateMgr->assign('dateTo', $toDate);
-		
-		if ($fromDate !== null) $fromDate = date('Y-m-d H:i:s', $fromDate);
+                
+                if ($fromDate == '--') $fromDate = null;
+                if ($toDate == '--') $toDate = null;                
+                if ($fromDate !== null) $fromDate = date('Y-m-d H:i:s', $fromDate);
 		if ($toDate !== null) $toDate = date('Y-m-d H:i:s', $toDate);
 		
 		$articleDao =& DAORegistry::getDAO('ArticleDAO');
