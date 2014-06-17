@@ -2109,7 +2109,7 @@ class SectionEditorAction extends Action {
                 if ($decision->getDecision() == SUBMISSION_SECTION_DECISION_APPROVED && $decision->getReviewType() == REVIEW_TYPE_FR) {
                     $email = new ArticleMailTemplate(
                         $sectionEditorSubmission, null, 
-                        SECTION_DECISION_FR_APPROVED
+                        'SECTION_DECISION_FR_APPROVED'
                     );                    
                 } else {
                     $email = new ArticleMailTemplate(
