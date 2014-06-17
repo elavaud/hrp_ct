@@ -58,9 +58,9 @@ class NewSearchHandler extends Handler {
 		$toDate = Request::getUserDateVar('dateTo', 32, 12, null, 23, 59, 59);
 		if ($toDate !== null) $toDate = date('Y-m-d H:i:s', $toDate);
 		
-        $countryDAO =& DAORegistry::getDAO('AreasOfTheCountryDAO');
-        $proposalCountries =& $countryDAO->getAreasOfTheCountry();
-        $templateMgr->assign_by_ref('proposalCountries', $proposalCountries);	
+                $countryDAO =& DAORegistry::getDAO('AreasOfTheCountryDAO');
+                $proposalCountries =& $countryDAO->getAreasOfTheCountry();
+                $templateMgr->assign_by_ref('proposalCountries', $proposalCountries);	
 		
 		$templateMgr->assign('dateFrom', $fromDate);
 		$templateMgr->assign('dateTo', $toDate);
@@ -127,12 +127,17 @@ class NewSearchHandler extends Handler {
 		$templateMgr->assign('query', $query);
 		$templateMgr->assign('region', $country);
 		$templateMgr->assign('country', $countryDAO->getAreaOfTheCountry($country));
-		
-
+		$templateMgr->assign('countryCode', $country);
+                $templateMgr->assign('proposalCountries', $countryDAO->getAreasOfTheCountry());	
 		$templateMgr->assign('sort', $sort);
 		$templateMgr->assign('sortDirection', $sortDirection);
 
-		$templateMgr->assign('count', $results->getCount());
+		$templateMgr->assign('count', $results->getCount());		
+		
+		$templateMgr->assign('dateFrom', $fromDate);
+		$templateMgr->assign('dateTo', $toDate);
+                
+                
 		$templateMgr->display('search/searchResults.tpl');
 	}
 	
@@ -318,12 +323,12 @@ class NewSearchHandler extends Handler {
 		$templateMgr =& TemplateManager::getManager();
 		$templateMgr->assign('helpTopicId', 'user.searchAndBrowse');
 		if ($articleId == null) {$templateMgr->assign('pageHierarchy',
-			$subclass ? array(array(Request::url(null, 'search'), 'navigation.search'))
+			$subclass ? array(array(Request::url(null, 'search', 'advancedResults'), 'navigation.search'))
 				: array()
 		);
 		} else {
 			$templateMgr->assign('pageHierarchy',
-			$subclass ? array(array(Request::url(null, 'search'), 'navigation.search'), array(Request::url('hrp', 'search','advancedResults'), 'search.searchResults'))
+			$subclass ? array(array(Request::url(null, 'search', 'advancedResults'), 'navigation.search'), array(Request::url('hrp', 'search','advancedResults'), 'search.searchResults'))
 				: array()
 			);
 		}

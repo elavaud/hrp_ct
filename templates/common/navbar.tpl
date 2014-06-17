@@ -22,7 +22,7 @@
 		{/if}{* $isUserLoggedIn *}
 
 		{if !$currentJournal || $currentJournal->getSetting('publishingMode') != $smarty.const.PUBLISHING_MODE_NONE}
-			<li id="search"><a href="{url page="search"}">{translate key="navigation.search"}</a></li>
+			<li id="search"><a href="{url page="search" op="advancedResults"}">{translate key="navigation.search"}</a></li>
 		{/if}
 
 {** - Removed Current and Archives links in navigation bar - spf 

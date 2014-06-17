@@ -97,7 +97,7 @@ class SearchHandler extends Handler {
 			$templateMgr->assign_by_ref('articles', $articles);
 			$templateMgr->assign('fAuthor', $fAuthor);
 			$templateMgr->assign('emailString', $fAuthor->getFullName().' <'.$fAuthor->getEmail().'>');
-                        $templateMgr->assign('pageHierarchy',array(array(Request::url(null, 'search'), 'navigation.search'), array(Request::url(null, 'search', 'authors'), 'search.investigators')));
+                        $templateMgr->assign('pageHierarchy',array(array(Request::url(null, 'search', 'advancedResults'), 'navigation.search'), array(Request::url(null, 'search', 'authors'), 'search.investigators')));
 
 
 			$templateMgr->display('search/authorDetails.tpl');
@@ -230,7 +230,7 @@ class SearchHandler extends Handler {
 		$templateMgr =& TemplateManager::getManager();
 		$templateMgr->assign('helpTopicId', 'user.searchAndBrowse');
 		$templateMgr->assign('pageHierarchy',
-			$subclass ? array(array(Request::url(null, 'search'), 'navigation.search'))
+			$subclass ? array(array(Request::url(null, 'search', 'advancedResults'), 'navigation.search'))
 				: array()
 		);
 

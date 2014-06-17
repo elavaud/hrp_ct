@@ -9,22 +9,14 @@
  * $Id$
  *}
 {strip}
-{assign var=pageTitle value="search.searchResults"}
+{assign var=pageTitle value="search.research"}
 {include file="common/header.tpl"}
 {/strip}
 
+{include file="search/search.tpl"}
+
 <script type="text/javascript">
 {literal}
-<!--
-function ensureKeyword() {
-	if (document.search.query.value == '') {
-		alert({/literal}'{translate|escape:"jsparam" key="search.noKeywordError"}'{literal});
-		return false;
-	}
-	document.search.submit();
-	return true;
-}
-
 function showExportOptions(){
 	$('#exportOptions').show();
 	$('#showExportOptions').hide();
@@ -56,17 +48,6 @@ $(document).ready(
 {/if}
 
 <br/>
-<form name="revise" action="{url op="advanced"}" method="post">
-	<input type="hidden" name="query" value="{$query|escape}"/>
-	<div style="display:none">
-		{html_select_date prefix="dateFrom" time=$dateFrom all_extra="class=\"selectMenu\"" year_empty="" month_empty="" day_empty="" start_year="-5" end_year="+1"}
-		{html_select_date prefix="dateTo" time=$dateTo all_extra="class=\"selectMenu\"" year_empty="" month_empty="" day_empty="" start_year="-5" end_year="+1"}
-	</div>
-</form>
-
-<a href="javascript:document.revise.submit()" class="action">{translate key="search.reviseSearch"}</a>&nbsp;&nbsp;
-<a href="#top" onclick="showExportOptions()" class="action" id="showExportOptions">|  &nbsp;{translate key="search.exportSearchResults"}&nbsp;&nbsp;</a>
-<a href="#top" onclick="hideExportOptions()" class="action" id="hideExportOptions">|  &nbsp;{translate key="search.hideExportOptions"}</a><br />
 
 <form name="generate" action="{url op="generateCustomizedCSV"}" method="post"  id="exportOptions">
 	<input type="hidden" name="query" value="{$query|escape}"/>
@@ -203,7 +184,7 @@ $(document).ready(
 		{else}
 			<tr>
 				<td colspan="4" align="left">{page_info iterator=$results}</td>
-				<td align="right" colspan="2">{page_links anchor="results" iterator=$results name="search" query=$query dateFrom=$dateFrom dateTo=$dateTo proposalCountry=$country sort=$sort sortDirection=$sortDirection}</td>
+				<td align="right" colspan="2">{page_links anchor="results" iterator=$results name="search" query=$query dateFrom=$dateFrom dateTo=$dateTo proposalCountry=$country status=$statusFilter sort=$sort sortDirection=$sortDirection}</td>
 			</tr>
 		{/if}
 	</table>

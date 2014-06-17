@@ -12,15 +12,20 @@
 {assign var="pageTitle" value="search.investigators"}
 {include file="common/header.tpl"}
 {/strip}
+<ul class="menu">
+    <li><a href="{url op="advancedResults"}">{translate key="search.research"}</a></li>
+    <li class="current"><a href="{url op="authors"}">{translate key='search.investigators'}</a></li>
+</ul>
+<br/>
 
 <p>{foreach from=$alphaList item=letter}<a href="{url op="authors" searchInitial=$letter}">{if $letter == $searchInitial}<strong>{$letter|escape}</strong>{else}{$letter|escape}{/if}</a> {/foreach}<a href="{url op="authors"}">{if $searchInitial==''}<strong>{translate key="common.all"}</strong>{else}{translate key="common.all"}{/if}</a></p>
 
 <div id="authors">
     <table width="100%" class="listing">
         <tr class="heading" valign="bottom">
-            <td width="20%">{translate key="common.name"}</td>
-            <td width="20%">{translate key="user.affiliation"}</td>
-            <td width="60%">{translate key="proposal.researchField"}</td>
+            <td width="20%"><b>{translate key="common.name"}</b></td>
+            <td width="20%"><b>{translate key="user.affiliation"}</b></td>
+            <td width="60%"><b>{translate key="proposal.researchField"}</b></td>
 	</tr>
 	<tr><td colspan="3" class="headseparator">&nbsp;</td></tr>
 

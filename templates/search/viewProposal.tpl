@@ -20,8 +20,7 @@
 		{html_select_date prefix="dateTo" time=$dateTo all_extra="class=\"selectMenu\"" year_empty="" month_empty="" day_empty="" start_year="-5" end_year="+1"}
 	</div>
 </form>
-<a href="javascript:document.revise.submit()" class="action">{translate key="search.reviseSearch"}</a>&nbsp;&nbsp;
-<!--<a href="javascript:document.generate.submit()" class="action">| Export Search Results</a><br />-->
+
 <form name="generate" action="{url op="generateCSV"}" method="post">
 	<input type="hidden" name="query" value="{$query|escape}"/>
 	<div style="display:none">

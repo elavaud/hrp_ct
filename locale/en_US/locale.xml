@@ -106,6 +106,7 @@
         
 	<message key="search.authorResearchProposals">Research proposal(s)</message>
 	<message key="search.investigators">Investigators</message>
+	<message key="search.research">Research</message>
         
 
         <!-- End new keys -->
