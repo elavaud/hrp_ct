@@ -13,6 +13,11 @@
 {include file="common/header.tpl"}
 {/strip}
 
+<ul class="menu">
+    <li class="current"><a href="{url op="authors"}">Research</a></li>
+    <li><a href="{url op="authors"}">{translate key='search.investigators'}</a></li>
+</ul>
+<br/>
 <script type="text/javascript">
 {literal}
 <!--

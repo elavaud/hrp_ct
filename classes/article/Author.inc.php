@@ -75,6 +75,83 @@ class Author extends PKPAuthor {
 	function setCompetingInterests($competingInterests, $locale) {
 		return $this->setData('competingInterests', $competingInterests, $locale);
 	}
+        
+        /**
+         * Get all the research fields of authors having the same email address (localized)
+         */
+        function getAllResearchFieldsText(){
+		$authorDao =& DAORegistry::getDAO('AuthorDAO');
+		$articleDao =& DAORegistry::getDAO('ArticleDAO');
+		$proposalDetailsDao =& DAORegistry::getDAO('ProposalDetailsDAO');
+                
+                // get all the authors with the same email
+                $authors = $authorDao->getAuthorsByEmail($this->getEmail());
+
+                $researchFields = array();
+                
+                // Get all the research fields of every submissions by the author
+                foreach ($authors as $author) {
+                    $article =& $articleDao->getArticle($author->getSubmissionId());
+                    $proposalDetails = $article->getProposalDetails();
+                    $rFields = $proposalDetails->getResearchFields(); 
+                    $researchFieldCodeArray = explode("+", $rFields);
+                    foreach ($researchFieldCodeArray as $rField) {
+                        $researchFields[] = $rField;
+                    }
+                }
+
+                // clean the arry of duplicates
+                $researchFieldsCleaned = array_unique($researchFields);
+                
+                $researchFieldTextArray = array();
+
+                foreach($researchFieldsCleaned as $rFieldCode) {
+                    $fieldText = $proposalDetailsDao->getResearchFieldSingle($rFieldCode);
+                    array_push($researchFieldTextArray, $fieldText);
+                }
+                
+                $researchFieldText = "";
+                foreach($researchFieldTextArray as $i => $rfText) {
+                    $researchFieldText = $researchFieldText . $rfText;
+                    if($i < count($researchFieldTextArray)-1) $researchFieldText = $researchFieldText . ", ";
+                }
+
+                return $researchFieldText;
+        }
+        
+        
+        /**
+         * Get all the affiliations of authors having the same email address
+         */
+        function getAllAffiliations(){
+		$authorDao =& DAORegistry::getDAO('AuthorDAO');
+                
+                // get all the authors with the same email
+                $authors = $authorDao->getAuthorsByEmail($this->getEmail());
+
+                $affiliations = array();
+                
+                // Get all the research fields of every submissions by the author
+                foreach ($authors as $author) {
+                    $affiliations[] = $author->getAffiliation();
+                }
+
+                // clean the arry of duplicates
+                $affiliationsCleaned = array_unique($affiliations);
+                
+                $affiliationsText = (string) '';
+
+                foreach($affiliationsCleaned as $affiliation) {
+                    if ($affiliationsText === ''){
+                        $affiliationsText = $affiliation;
+                    } else {
+                        $affiliationsText = $affiliationsText.', '.$affiliation;
+                    }
+                }
+                
+                return $affiliationsText;
+        }
+
 }
 
 ?>

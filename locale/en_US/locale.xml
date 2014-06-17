@@ -91,6 +91,7 @@
         <message key="about.committees">Ethics</message>   
         <message key="about.grants">Grants</message>   
         <message key="about.files">Files</message>   
+        <message key="about.directory">Researchers directory</message>   
         <message key="about.contactlinks">Contacts &amp; Links</message>   
         <message key="about.contacts">Contacts</message>   
         <message key="about.links">Links</message>   
@@ -103,6 +104,10 @@
         <message key="proposal.addAnotherResearchDomain">Add another research domain</message>
         
         <message key="proposal.xWordsMax">words max.</message>
+        
+	<message key="search.authorResearchProposals">Research proposal(s)</message>
+	<message key="search.investigators">Investigators</message>
+        
 
         <!-- End new keys -->
         

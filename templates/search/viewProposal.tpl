@@ -45,7 +45,7 @@
 	<tr valign="top">
 		<td width="20%" class="label">{if $author->getPrimaryContact()}{translate key="user.role.primaryInvestigator"}{else}{translate key="user.role.coinvestigator"}{/if}</td>
 		<td width="80%" class="value">
-			{$author->getFullName()|escape}<br />
+                        <a href="{url op="authors" path="view"|to_array:$author->getId()}">{$author->getFullName()|escape}</a><br />
 			{if $author->getAffiliation()}{$author->getAffiliation()|escape|nl2br|default:"&mdash;"}<br/>{/if}
 			{assign var=emailString value=$author->getFullName()|concat:" <":$author->getEmail():">"}
 			{url|assign:"url" page="user" op="email" redirectUrl=$currentUrl to=$emailString|to_array subject=$abstract->getScientificTitle()|strip_tags articleId=$submission->getId()}

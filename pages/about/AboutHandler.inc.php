@@ -76,7 +76,7 @@ class AboutHandler extends Handler {
 		$templateMgr->assign('countTemplates', count($templates));
 		$templateMgr->assign_by_ref('miscellaneousFiles', $miscellaneousFiles);
 		$templateMgr->assign('countMiscellaneousFiles', count($miscellaneousFiles));
-
+                
                 $templateMgr->assign('pageToDisplay', $page);
                 
                 $templateMgr->display('about/index.tpl');

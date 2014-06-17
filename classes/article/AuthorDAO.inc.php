@@ -232,6 +232,111 @@ class AuthorDAO extends PKPAuthorDAO {
 			$this->deleteAuthor($author);
 		}
 	}
+
+        /**
+	 * Retrieve all authors for a journal in an associative array by
+	 * the first letter of the last name, for example:
+	 * $returnedArray['S'] gives array($misterSmithObject, $misterSmytheObject, ...)
+	 * Keys will appear in sorted order. Note that if journalId is null,
+	 * alphabetized authors for all journals are returned.
+         * duplicates of email are suppressed
+	 * @param $journalId int
+	 * @param $initial An initial the last names must begin with
+	 * @param $rangeInfo Range information
+	 * @param $includeEmail Whether or not to include the email in the select distinct
+	 * @return array Authors ordered by sequence
+	 */
+	function &getAuthorsAlphabetized($initial = null, $rangeInfo = null, $includeEmail = false) {
+                
+		$params = array();
+                        
+		if (isset($initial)) {
+			$params[] = String::strtolower($initial) . '%';
+			$initialSql = ' AND LOWER(aa.last_name) LIKE LOWER(?)';
+		} else {
+			$initialSql = '';
+		}
+
+		$result =& $this->retrieveRange(
+			'SELECT aa.*
+                        FROM	authors aa
+				LEFT JOIN section_decisions sdec ON (aa.submission_id = sdec.article_id)
+			WHERE	sdec.review_type = 1 AND (sdec.decision = 1 
+				OR sdec.decision = 6 
+				OR sdec.decision = 9) AND 
+				(aa.last_name IS NOT NULL AND aa.last_name <> \'\')' .
+				$initialSql . '
+                                GROUP BY aa.email
+			ORDER BY aa.last_name, aa.first_name',
+			$params,
+			$rangeInfo
+		);
+
+		$returner = new DAOResultFactory($result, $this, '_returnSimpleAuthorFromRow');
+		return $returner;
+	}
+
+	/**
+	 * Retrieve all approved submissions associated with authors with
+	 * the given email.
+	 * @param $email string
+	 */
+	function &getArticlesForAuthor($email) {
+		$articles = array();
+		$articleDao =& DAORegistry::getDAO('ArticleDAO');
+                
+		$result =& $this->retrieve(
+			'SELECT DISTINCT
+				aa.submission_id
+			FROM	authors aa
+				LEFT JOIN section_decisions sdec ON (aa.submission_id = sdec.article_id)
+			WHERE	sdec.review_type = 1 AND (sdec.decision = 1 
+				OR sdec.decision = 6 
+				OR sdec.decision = 9) AND
+                                aa.email = ?',
+			(string) $email
+		);
+
+		while (!$result->EOF) {
+			$row =& $result->getRowAssoc(false);
+			$article =& $articleDao->getArticle($row['submission_id']);
+			if ($article) {
+				$articles[] =& $article;
+			}
+			$result->moveNext();
+			unset($article);
+		}
+
+		$result->Close();
+		unset($result);
+
+		return $articles;
+	}
+        
+        /**
+         * Get authors by email
+         * @param email
+         */
+        function getAuthorsByEmail($email){
+                $authors = array();
+
+		$result =& $this->retrieve(
+			'SELECT *
+			FROM	authors aa
+				LEFT JOIN section_decisions sdec ON (aa.submission_id = sdec.article_id)
+			WHERE	sdec.review_type = 1 AND (sdec.decision = 1 
+				OR sdec.decision = 6 
+				OR sdec.decision = 9) AND 
+                                aa.email = ?', $email 
+		);
+
+		while (!$result->EOF) {
+			$authors[] =& $this->_returnAuthorFromRow($result->GetRowAssoc(false));
+			$result->moveNext();
+		}
+                
+                return $authors;
+        }
 }
 
 ?>

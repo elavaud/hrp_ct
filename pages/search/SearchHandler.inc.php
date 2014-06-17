@@ -80,64 +80,25 @@ class SearchHandler extends Handler {
 
 		$authorDao =& DAORegistry::getDAO('AuthorDAO');
 
-		if (isset($args[0]) && $args[0] == 'view') {
+		if (isset($args[0]) && $args[0] == 'view' && isset($args[1])) {
 			// View a specific author
 			$firstName = Request::getUserVar('firstName');
 			$middleName = Request::getUserVar('middleName');
 			$lastName = Request::getUserVar('lastName');
-			$affiliation = Request::getUserVar('affiliation');
-			$country = Request::getUserVar('country');
-
-			$publishedArticles = $authorDao->getPublishedArticlesForAuthor($journal?$journal->getId():null, $firstName, $middleName, $lastName, $affiliation);
+                        
+                        $fAuthorId = $args[1];
+                        $fAuthor = $authorDao->getAuthor($fAuthorId);
+                        $email = $fAuthor->getEmail();
+                        
+			$articles = $authorDao->getArticlesForAuthor($email);
 
 			// Load information associated with each article.
-			$journals = array();
-			$issues = array();
-			$sections = array();
-			$issuesUnavailable = array();
-
-			$issueDao =& DAORegistry::getDAO('IssueDAO');
-			$sectionDao =& DAORegistry::getDAO('SectionDAO');
-			$journalDao =& DAORegistry::getDAO('JournalDAO');
-
-			foreach ($publishedArticles as $article) {
-				$articleId = $article->getId();
-				$issueId = $article->getIssueId();
-				$sectionId = $article->getSectionId();
-				$journalId = $article->getJournalId();
-
-				if (!isset($issues[$issueId])) {
-					import('classes.issue.IssueAction');
-					$issue =& $issueDao->getIssueById($issueId);
-					$issues[$issueId] =& $issue;
-					$issuesUnavailable[$issueId] = IssueAction::subscriptionRequired($issue) && (!IssueAction::subscribedUser($journal, $issueId, $articleId) && !IssueAction::subscribedDomain($journal, $issueId, $articleId));
-				}
-				if (!isset($journals[$journalId])) {
-					$journals[$journalId] =& $journalDao->getJournal($journalId);
-				}
-				if (!isset($sections[$sectionId])) {
-					$sections[$sectionId] =& $sectionDao->getSection($sectionId, $journalId, true);
-				}
-			}
-
-			if (empty($publishedArticles)) {
-				Request::redirect(null, Request::getRequestedPage());
-			}
-
 			$templateMgr =& TemplateManager::getManager();
-			$templateMgr->assign_by_ref('publishedArticles', $publishedArticles);
-			$templateMgr->assign_by_ref('issues', $issues);
-			$templateMgr->assign('issuesUnavailable', $issuesUnavailable);
-			$templateMgr->assign_by_ref('sections', $sections);
-			$templateMgr->assign_by_ref('journals', $journals);
-			$templateMgr->assign('firstName', $firstName);
-			$templateMgr->assign('middleName', $middleName);
-			$templateMgr->assign('lastName', $lastName);
-			$templateMgr->assign('affiliation', $affiliation);
+			$templateMgr->assign_by_ref('articles', $articles);
+			$templateMgr->assign('fAuthor', $fAuthor);
+			$templateMgr->assign('emailString', $fAuthor->getFullName().' <'.$fAuthor->getEmail().'>');
+                        $templateMgr->assign('pageHierarchy',array(array(Request::url(null, 'search'), 'navigation.search'), array(Request::url(null, 'search', 'authors'), 'search.investigators')));
 
-			$countryDao =& DAORegistry::getDAO('CountryDAO');
-			$country = $countryDao->getCountry($country);
-			$templateMgr->assign('country', $country);
 
 			$templateMgr->display('search/authorDetails.tpl');
 		} else {
@@ -145,13 +106,12 @@ class SearchHandler extends Handler {
 			$searchInitial = Request::getUserVar('searchInitial');
 			$rangeInfo = Handler::getRangeInfo('authors');
 
-			$authors =& $authorDao->getAuthorsAlphabetizedByJournal(
-				isset($journal)?$journal->getId():null,
+			$authors =& $authorDao->getAuthorsAlphabetized(
 				$searchInitial,
 				$rangeInfo
 			);
 
-			$templateMgr =& TemplateManager::getManager();
+                        $templateMgr =& TemplateManager::getManager();
 			$templateMgr->assign('searchInitial', Request::getUserVar('searchInitial'));
 			$templateMgr->assign('alphaList', explode(' ', Locale::translate('common.alphaList')));
 			$templateMgr->assign_by_ref('authors', $authors);
