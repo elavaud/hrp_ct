@@ -40,6 +40,8 @@
         <message key="author.submissions.confirmAmendment.part1">You are about to amend your proposal: </message>                
 	<message key="author.submissions.confirmAmendment.part2">If you do so, you will be able to modify your research proposal and this one will be subject to a new round of review by the committee in charge. Your proposal will enter again the "Submission process". Please follow the instructions displayed on the top of the following webpages. Until the end of the submission steps your proposal will remain in the "Draft" folder.</message>                
 
+        <message key="author.submit.modifyCompletionReport">Modify Final Report</message>
+
         <!-- ***** -->
         <!-- END OF ADDED -->
         <!-- ***** -->

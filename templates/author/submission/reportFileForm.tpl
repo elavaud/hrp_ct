@@ -11,8 +11,13 @@
         {assign var="pageTitle" value="author.submit.addProgressReport"}
         {assign var="pageCrumbTitle" value="submission.progressReports"}
     {else}
-        {assign var="pageTitle" value="author.submit.addCompletionReport"}
-        {assign var="pageCrumbTitle" value="submission.completionReports"}
+        {if $status == STATUS_COMPLETED}
+            {assign var="pageTitle" value="author.submit.modifyCompletionReport"}
+            {assign var="pageCrumbTitle" value="submission.completionReports"}
+        {else}
+            {assign var="pageTitle" value="author.submit.addCompletionReport"}
+            {assign var="pageCrumbTitle" value="submission.completionReports"}
+        {/if}
     {/if}
     {include file="common/header.tpl"}
 {/strip}

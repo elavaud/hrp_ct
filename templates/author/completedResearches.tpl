@@ -25,6 +25,7 @@
             <td>{if $submission->getDateSubmitted()}{$submission->getDateSubmitted()|date_format:$dateFormatLong}{else}&mdash;{/if}</td>                
             <td><a href="{url op="submission" path=$articleId}" class="action">{if $abstract}{$abstract->getScientificTitle()|escape}{else}{translate key="common.untitled"}{/if}</a></td>
             <td align="right">
+                <a href="{url op="addCompletionReport" path=$articleId}" class="action">{translate key="author.submit.modifyCompletionReport"} &#8226;</a><br />
                 <a href="{url op="addRawDataFile" path=$articleId}" title="{translate key="author.submit.uploadRawDataInstruct"}" class="action">{translate key="author.submit.uploadRawData.short"} &#8226;</a><br />
                 <a href="{url op="addOtherSuppResearchOutput" path=$articleId}" title="{translate key="author.submit.submitOtherOutputsInstruct"}" class="action">{translate key="author.submit.submitOtherOutputs.short"} &#8226;</a><br />
                 <a href="{url op="sendToArchive" path=$articleId}" class="action">{translate key="common.sendtoarchive"} &#8226;</a><br />            

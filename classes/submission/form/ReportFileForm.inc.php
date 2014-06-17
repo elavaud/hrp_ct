@@ -93,6 +93,7 @@ class ReportFileForm extends Form {
 		$templateMgr->assign('rolePath', Request::getRequestedPage());
 		$templateMgr->assign('articleId', $this->article->getArticleId());
 		$templateMgr->assign('fileId', $this->fileId);
+		$templateMgr->assign('status', $this->article->getStatus());
 
                 // Sometimes it's necessary to track the page we came from in
 		// order to redirect back to the right place
