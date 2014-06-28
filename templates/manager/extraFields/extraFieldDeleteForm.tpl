@@ -78,7 +78,7 @@
             </tr>
             <tr valign="top"><td colspan="2">&nbsp;</td></tr>
             <tr valign="top" id="replaceField">
-                <td width="20%" class="label">{fieldLabel name="replacement" required="true" key="institution.replacement"}</td>
+                <td width="20%" class="label">{fieldLabel name="replacement" required="true" key="manager.extraFields.replacement"}</td>
                 <td width="80%" class="value">
                     <select name="replacement" id="replacement" class="selectMenu">
                         <option value=""></option>
