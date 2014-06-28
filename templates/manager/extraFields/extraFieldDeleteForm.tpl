@@ -89,7 +89,7 @@
         </table>
     </div>
 
-<p><input type="submit" value="{translate key="institution.delete"}" id="deleteButton" class="button defaultButton" /> <input type="button" value="{translate key="common.cancel"}" class="button" onclick="document.location.href='{url op="extraFields" path="$type" escape=false}'" /></p>
+<p><input type="submit" value="{translate key="common.delete"}" id="deleteButton" class="button defaultButton" /> <input type="button" value="{translate key="common.cancel"}" class="button" onclick="document.location.href='{url op="extraFields" path="$type" escape=false}'" /></p>
 
 </form>
 
