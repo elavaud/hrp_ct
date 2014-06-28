@@ -73,13 +73,13 @@ class ExtraFieldHandler extends ManagerHandler {
 	 * Delete an extra field.
 	 */
 	function deleteExtraField($args) {
-		$this->validate();
-		$this->setupTemplate(true);
-                
 		if (isset($args) && !empty($args)) {
                         import('classes.manager.form.ExtraFieldDeleteForm');   
                         $type = $args[0];
                         $extraFieldId = $args[1];
+                        
+                        $this->validate();
+                        $this->setupTemplate($type);  
                         
                         $extraFieldDeleteForm = new ExtraFieldDeleteForm($type, $extraFieldId);
                         
@@ -156,7 +156,7 @@ class ExtraFieldHandler extends ManagerHandler {
 	
 	/**
 	 * Display form to delete a institution.
-	 * @param $args array optional, if set the first parameter is the ID of the institution to edit
+	 * @param $args array, the first parameter is the type and the second the ID of the extra field to edit
 	*/
 	function deleteExtraFieldForm($args) {
 		if (isset($args) && !empty($args)) {
@@ -176,9 +176,59 @@ class ExtraFieldHandler extends ManagerHandler {
                     
                     
                 } else {
-                    Request::redirect(null, null, 'institutions');
+                    Request::redirect(null, null);
                 }
 	}
+        
+        /*
+         * Lunch the form for managing the "Other" fields, manually entered by submitters of research proposal
+	 * @param $args array, the first parameter is the type of the "other" extra fields to manage
+         */
+        function manageOthersForm($args){
+		if (isset($args) && !empty($args)) {
+                    $type = $args[0];
+                    
+                    $this->validate();
+                    $this->setupTemplate($type);
+
+                    import('classes.manager.form.ManageOtherExtraFieldsForm');                    
+                    
+                    $manageOtherExtraFieldsForm = new ManageOtherExtraFieldsForm($type);
+                    
+                    $manageOtherExtraFieldsForm->initData();
+
+                    $manageOtherExtraFieldsForm->display();
+                } else {
+                    Request::redirect(null, null);
+                }
+        }
+        
+        /*
+         * Execute the form for managing the "Other" fields, manually entered by submitters of research proposal
+	 * @param $args array, the first parameter is the type of the "other" extra fields to manage
+         */
+        function manageOthers($args){
+		if (isset($args) && !empty($args)) {
+                        import('classes.manager.form.ManageOtherExtraFieldsForm');   
+                        $type = $args[0];
+                        
+                        $this->validate();
+                        $this->setupTemplate($type);  
+                        
+                        $manageOtherExtraFieldsForm = new ManageOtherExtraFieldsForm($type);
+                        
+                        $manageOtherExtraFieldsForm->readInputData();
+                        if ($manageOtherExtraFieldsForm->validate()) {
+                                $manageOtherExtraFieldsForm->execute();
+                                Request::redirect(null, null, 'extraFields', $type);
+                        } else {
+                                $manageOtherExtraFieldsForm->display();
+                        }                        
+		}
+		else {
+                    Request::redirect(null, null);
+                }
+        }        
         
 	function setupTemplate($subclass = false) {
 		Locale::requireComponents(array(LOCALE_COMPONENT_PKP_SUBMISSION, LOCALE_COMPONENT_PKP_READER));

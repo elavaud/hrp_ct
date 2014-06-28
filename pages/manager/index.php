@@ -60,7 +60,9 @@ switch ($op) {
 	case 'updateExtraField':
 	case 'editExtraField':
 	case 'deleteExtraFieldForm':
-		define('HANDLER_CLASS', 'ExtraFieldHandler');
+	case 'manageOthersForm':            
+	case 'manageOthers':            
+                define('HANDLER_CLASS', 'ExtraFieldHandler');
 		import('pages.manager.ExtraFieldHandler');
 		break;
 	//

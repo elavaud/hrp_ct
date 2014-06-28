@@ -83,13 +83,15 @@
         <message key="manager.extraFields.modify.warning">Attention! This entry is in used by some research proposal(s). The modification will therefore affect all of the proposal(s) referring to it.</message>
         <message key="manager.extraFields.others.def">(manually entered by the submitters)</message>
         <message key="manager.extraFields.others">Manage "Other" fields</message>
+        <message key="manager.extraFields.others.replacementRequired">Please choose a replacement for the "Other" fields you selected.</message>
         <message key="manager.extraFields.others.warning">Attention! The modification will affect all of the concerned proposal(s). This operation can not be undone. It is strongly recommended to operate daily backup of the database. Please contact your server administrator for more information.</message>
         <message key="manager.extraFields.proposalTypes">Proposal Types</message>
         <message key="manager.extraFields.proposalTypes.new">Create a new proposal type</message>
         <message key="manager.extraFields.proposalTypes.edit">Create / Edit a new proposal type</message>
         <message key="manager.extraFields.proposalTypes.delete">Delete proposal type</message>
-        <message key="manager.extraFields.proposalTypes.manageOthers">Below is a list of all proposal types that submitters of research proposals manually entered. Select the one(s) you would like to modify by clicking on the concerned checkboxe(s) and select under the proposal type you would like to replace them with.</message>
+        <message key="manager.extraFields.proposalTypes.manageOthers">Below is a list of all proposal types that submitters of research proposals manually entered. Select the one(s) you would like to modify by clicking on the concerned checkbox(es) and select under the proposal type you would like to replace them with.</message>
         <message key="manager.extraFields.proposalTypes.missing.name">Please enter the name of the proposal type.</message>
+        <message key="manager.extraFields.replace">Replace</message>
         <message key="manager.extraFields.replacement">Replacement</message>
         <message key="manager.extraFields.replacement.warning">Attention! The deletion of an entry and its replacement can not be undone. Please be sure you want to delete this particular entry and, if applicable, you selected the right replacement. It is strongly recommended to operate daily backup of the database. Please contact your server administrator for more information.</message>
         <message key="manager.extraFields.replacement.message">It appears that the entry you would like to delete is currently in used by one or multiple research proposal(s). If you want to delete this entry, you therefore need to select a replacement for the concerned proposal(s).</message>

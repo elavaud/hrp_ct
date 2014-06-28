@@ -292,7 +292,48 @@ class ProposalDetailsDAO extends DAO{
             unset($result);
             return $proposalDetails;
         }
-         
+        
+        
+        /*
+         * Get an array of all the "other" fields the submitter enter manually for research fields and proposal types
+         * @param $type int specify wether it is for the research fields or for the proposal types
+         */
+         function getAllOtherFields($type){
+             $proposalDetails = array();
+             $otherFields = array();
+             if ($type == "researchFields") {
+                 $sql = 'SELECT * FROM article_details WHERE research_fields LIKE "%Other (%"';
+                 $function = 'getResearchFieldsArray';
+             } elseif ($type == "proposalTypes"){
+                 $sql = 'SELECT * FROM article_details WHERE proposal_types LIKE "%Other (%"';
+                 $function = 'getProposalTypesArray';
+             } else {
+                 return $otherFields;
+             }
+             
+             $result = $this->retrieve($sql);
+             
+             while (!$result->EOF) {
+                    $row = $result->GetRowAssoc(false);
+                    $proposalDetails[] =& $this->_returnProposalDetailsFromRow($row);
+                    $result->moveNext();
+             }
+             
+             foreach ($proposalDetails as $proposalDetail) {
+                 $array = $proposalDetail->$function();
+                 $otherValue = '';
+                 foreach ($array as $value){
+                    if (preg_match('#^Other\s\(.+\)$#', $value)){
+                        $value = preg_replace('#^Other\s\(#','', $value);
+                        $value = preg_replace('#\)$#','', $value);
+                        $otherValue = $value;
+                    }
+                 }
+                 $otherFields = $otherFields + array($proposalDetail->getArticleId() => $otherValue);
+             }
+             
+             return $otherFields;
+         }
 }
 
 ?>

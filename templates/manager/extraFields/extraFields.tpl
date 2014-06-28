@@ -56,6 +56,10 @@
         {/if}
     </table>
     <br><a class="action" href="{url op="editExtraField" path=$type}">{translate key=$newExtraField}</a>
+    {if $type == 'researchFields' || $type == 'proposalTypes'}
+        &nbsp;&nbsp;||&nbsp;&nbsp;
+        <a class="action" href="{url op="manageOthersForm" path=$type}">{translate key="manager.extraFields.others"}</a>&nbsp;{translate key="manager.extraFields.others.def"}
+    {/if}
 </div>
 
 {include file="common/footer.tpl"}
