@@ -50,10 +50,10 @@ class CopyeditorHandler extends Handler {
 		$toDate = Request::getUserDateVar('dateTo', 32, 12, null, 23, 59, 59);
 		if ($toDate !== null) $toDate = date('Y-m-d H:i:s', $toDate);
 		
-        $countryDAO =& DAORegistry::getDAO('AreasOfTheCountryDAO');
-        $countries =& $countryDAO->getAreasOfTheCountry();
+                $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
+                $countries =& $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_GEO_AREA);
        
-        $templateMgr->assign_by_ref('countries', $countries);
+                $templateMgr->assign_by_ref('countries', $countries);
 		
 		$rangeInfo = Handler::getRangeInfo('submissions');
 

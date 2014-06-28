@@ -1021,7 +1021,7 @@ class ArticleDAO extends DAO {
 			}
 		}
 		
-		if ($region != 'ALL') $searchSqlEnd .= " AND region.setting_value LIKE '"."%".$region."%"."'";
+		if ($region != 'ALL') $searchSqlEnd .= " AND ad.geo_areas LIKE '"."%".$region."%"."'";
 			
 		if ($statusFilter == 1) $searchSqlEnd .= " AND a.status = 11";
 		else if ($statusFilter == 2) $searchSqlEnd .= " AND a.status <> 11";		

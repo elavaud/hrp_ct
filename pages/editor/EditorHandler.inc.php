@@ -59,8 +59,8 @@ class EditorHandler extends SectionEditorHandler {
 		$templateMgr->assign('fieldOptions', $this->getSearchFieldOptions());
 		$templateMgr->assign('dateFieldOptions', $this->getDateFieldOptions());
 
-                $countryDAO =& DAORegistry::getDAO('AreasOfTheCountryDAO');
-                $countries =& $countryDAO->getAreasOfTheCountry();
+                $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
+                $countries =& $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_GEO_AREA);
        
                 $templateMgr->assign_by_ref('countries', $countries);		
 		
@@ -309,8 +309,8 @@ class EditorHandler extends SectionEditorHandler {
 		$proposalDetailsDao =& DAORegistry::getDAO('ProposalDetailsDAO');
 		$researchFields =& $proposalDetailsDao->getResearchFields();
 		
-                $countryDAO =& DAORegistry::getDAO('AreasOfTheCountryDAO');
-                $countries =& $countryDAO->getAreasOfTheCountry();
+                $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
+                $countries =& $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_GEO_AREA);
        
 		$templateMgr->assign_by_ref('researchFields', $researchFields);
                 $templateMgr->assign_by_ref('countries', $countries);

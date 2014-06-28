@@ -256,20 +256,38 @@ class ProposalDetails extends DataObject {
 		return $this->setData('geoAreas', $geoAreas);
 	}
 	/**
+	 * Set geographical areas of the research from an array.
+	 * @param $geoAreas array
+	 */
+	function setGeoAreasFromArray($geoAreasArray) {
+                return $this->setGeoAreas(implode(",", $geoAreasArray));
+	}        
+	/**
 	 * Get geographical areas of the research.
 	 * @return string
 	 */
 	function getGeoAreas() {
 		return $this->getData('geoAreas');
         }
+	/**
+	 * Get geographical areas of the research in an array.
+	 * @return array
+	 */
+	function getGeoAreasArray() {
+                $geoAreas = $this->getGeoAreas();
+                if($geoAreas == '' || $geoAreas == null) {
+                    return null;
+                } else {                
+                    return explode(",", $geoAreas);
+                }
+        }
         /**
 	 * Get "localized" geographical areas full text.
-	 * Added by igm 9/28/11
-	 * @return string
+s	 * @return string
 	 */
 	function getLocalizedGeoAreasText() {
-                $areasOfTheCountryDAO =& DAORegistry::getDAO('AreasOfTheCountryDAO');
-		return $areasOfTheCountryDAO->getAreaOfTheCountry($this->getGeoAreas());
+                $extraFieldDAO =& DAORegistry::getDAO('ExtraFieldDAO');
+		return $extraFieldDAO->getLocalizedNames($this->getGeoAreasArray());
 	}
         
 	/**
@@ -293,7 +311,7 @@ class ProposalDetails extends DataObject {
 	 * @param $domainsArray Array
 	 */
 	function setResearchDomainsFromArray($domainsArray) {
-		return $this->setData('rDomains', implode("+", $domainsArray));
+		return $this->setResearchDomains(implode("+", $domainsArray));
         }
 
         /**
@@ -314,19 +332,8 @@ class ProposalDetails extends DataObject {
 	 * @return string
 	 */
 	function getLocalizedResearchDomainsText() {
-                $rDomainsFullText = (string) '';
-                $rDomainsArray = $this->getResearchDomainsArray();
-                if($rDomainsArray){
-                    foreach($rDomainsArray as $rDomain){
-                        if($rDomainsFullText == ''){
-                            $rDomainsFullText = Locale::translate($this->proposalDetailsDAO->getResearchDomainKey($rDomain));
-                        } else {
-                            $rDomainsFullText = $rDomainsFullText.', '.Locale::translate($this->proposalDetailsDAO->getResearchDomainKey($rDomain));                        
-                        }
-                    }
-                    return $rDomainsFullText;
-                }
-                return null;
+                $extraFieldDAO =& DAORegistry::getDAO('ExtraFieldDAO');
+		return $extraFieldDAO->getLocalizedNames($this->getResearchDomainsArray());
 	}
         
 	/**
@@ -337,11 +344,30 @@ class ProposalDetails extends DataObject {
 		return $this->setData('researchFields', $researchFields);
 	} 
 	/**
+	 * Set research fields from an array.
+	 * @param $researchFieldsArray array
+	 */
+	function setResearchFieldsFromArray($researchFieldsArray) {
+		return $this->setResearchFields(implode("+", $researchFieldsArray));
+	} 
+        /**
 	 * Get research fields.
 	 * @return string
 	 */
 	function getResearchFields() {
 		return $this->getData('researchFields');
+	}
+        /**
+	 * Get research fields in an array.
+	 * @return array
+	 */
+	function getResearchFieldsArray() {
+                $researchFields = $this->getResearchFields();
+                if($researchFields == '' || $researchFields == null) {
+                    return null;
+                } else {
+                    return explode("+", $researchFields);
+                }                        
 	}
         /**
 	 * Set other research field
@@ -362,7 +388,8 @@ class ProposalDetails extends DataObject {
 	 * @return string
 	 */
 	function getLocalizedResearchFieldText() {
-		return $this->proposalDetailsDAO->getResearchField($this->getResearchFields());
+                $extraFieldDAO =& DAORegistry::getDAO('ExtraFieldDAO');
+		return $extraFieldDAO->getLocalizedNames($this->getResearchFieldsArray());            
 	}
  
         
@@ -390,12 +417,31 @@ class ProposalDetails extends DataObject {
 		return $this->setData('proposalTypes', $proposalTypes);
 	}
 	/**
+	 * Set the types of the proposal from an array.
+	 * @param $proposalTypesArray array
+	 */
+	function setProposalTypesFromArray($proposalTypesArray) {
+		return $this->setProposalTypes(implode("+", $proposalTypesArray));
+	}
+        /**
 	 * Get the types of the proposal.
 	 * @return string
 	 */
 	function getProposalTypes() {
 		return $this->getData('proposalTypes');
 	}
+	/**
+	 * Get the types of the proposal in an array.
+	 * @return array
+	 */
+	function getProposalTypesArray() {
+                $proposalTypes = $this->getProposalTypes();
+                if($proposalTypes == '' || $proposalTypes == null) {
+                    return null;
+                } else {
+                    return explode("+", $proposalTypes);
+                }         
+	}        
         /**
 	 * Set other proposal type
 	 * @param $otherProposalType string
@@ -415,7 +461,8 @@ class ProposalDetails extends DataObject {
 	 * @return string
 	 */
 	function getLocalizedProposalTypeText() {
-		return $this->proposalDetailsDAO->getProposalType($this->getProposalTypes());
+                $extraFieldDAO =& DAORegistry::getDAO('ExtraFieldDAO');
+		return $extraFieldDAO->getLocalizedNames($this->getProposalTypesArray());    
 	}
 
         

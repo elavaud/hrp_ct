@@ -123,8 +123,8 @@ class SectionForm extends Form {
 
 		// Get list of geographical areas of the country
 		// Added by EL February 11th 2013
-       		$regionDAO =& DAORegistry::getDAO('AreasOfTheCountryDAO');
-        	$regions =& $regionDAO->getAreasOfTheCountry();
+                $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
+                $regions = $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_GEO_AREA);
         	$templateMgr->assign_by_ref('regions', $regions);
         
 		parent::display();

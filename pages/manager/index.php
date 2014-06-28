@@ -53,6 +53,17 @@ switch ($op) {
 		break;
 
 	//
+	// Extra Fields Management
+	//
+	case 'extraFields':
+	case 'deleteExtraField':
+	case 'updateExtraField':
+	case 'editExtraField':
+	case 'deleteExtraFieldForm':
+		define('HANDLER_CLASS', 'ExtraFieldHandler');
+		import('pages.manager.ExtraFieldHandler');
+		break;
+	//
 	// Institution Management
 	//
 	case 'institutions':

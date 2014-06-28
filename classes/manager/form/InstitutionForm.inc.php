@@ -44,11 +44,11 @@ class InstitutionForm extends Form {
 	 * Display the form.
 	 */
 	function display() {
-                $regionDao =& DAORegistry::getDAO('AreasOfTheCountryDAO');
+                $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
                 $institutionDao =& DAORegistry::getDAO('InstitutionDAO');
 		$countryDao =& DAORegistry::getDAO('CountryDAO');
                          
-                $regions = $regionDao->getAreasOfTheCountry();
+                $regions = $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_GEO_AREA);
                 $institutionTypes = $institutionDao->getInstitutionTypes();
                 $internationalArray = $institutionDao->getInstitutionInternationalArray();
 		$countries =& $countryDao->getCountries();

@@ -106,10 +106,10 @@ class AuthorHandler extends Handler {
 			SUBMISSION_FIELD_DATE_SUBMITTED => 'submissions.submitted',
 		));
 		
-        $countryDAO =& DAORegistry::getDAO('AreasOfTheCountryDAO');
-        $countries =& $countryDAO->getAreasOfTheCountry();
+                $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
+                $countries =& $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_GEO_AREA);
        	
-        $templateMgr->assign_by_ref('countries', $countries);
+                $templateMgr->assign_by_ref('countries', $countries);
         
 		// assign payment 
 		import('classes.payment.ojs.OJSPaymentManager');

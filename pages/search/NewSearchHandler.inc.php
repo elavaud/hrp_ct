@@ -58,9 +58,9 @@ class NewSearchHandler extends Handler {
 		$toDate = Request::getUserDateVar('dateTo', 32, 12, null, 23, 59, 59);
 		if ($toDate !== null) $toDate = date('Y-m-d H:i:s', $toDate);
 		
-                $countryDAO =& DAORegistry::getDAO('AreasOfTheCountryDAO');
-                $proposalCountries =& $countryDAO->getAreasOfTheCountry();
-                $templateMgr->assign_by_ref('proposalCountries', $proposalCountries);	
+                $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
+                $countries =& $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_GEO_AREA);
+                $templateMgr->assign_by_ref('proposalCountries', $countries);	
 		
 		$templateMgr->assign('dateFrom', $fromDate);
 		$templateMgr->assign('dateTo', $toDate);
@@ -116,7 +116,7 @@ class NewSearchHandler extends Handler {
 		if ($toDate !== null) $toDate = date('Y-m-d H:i:s', $toDate);
 		
 		$articleDao =& DAORegistry::getDAO('ArticleDAO');
-		$countryDAO =& DAORegistry::getDAO('AreasOfTheCountryDAO');
+                $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
 		$results =& $articleDao->searchProposalsPublic($query, $fromDate, $toDate, $country, $status, $rangeInfo, $sort, $sortDirection);
 
 		$templateMgr->assign('formattedDateFrom', $fromDate);
@@ -126,9 +126,10 @@ class NewSearchHandler extends Handler {
 		$templateMgr->assign_by_ref('results', $results);
 		$templateMgr->assign('query', $query);
 		$templateMgr->assign('region', $country);
-		$templateMgr->assign('country', $countryDAO->getAreaOfTheCountry($country));
+                $extraField =& $extraFieldDao->getExtraField($country);
+		$templateMgr->assign('country', (isset($extraField) ? $extraField->getLocalizedExtraFieldName() : null));
 		$templateMgr->assign('countryCode', $country);
-                $templateMgr->assign('proposalCountries', $countryDAO->getAreasOfTheCountry());	
+                $templateMgr->assign('proposalCountries', $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_GEO_AREA));	
 		$templateMgr->assign('sort', $sort);
 		$templateMgr->assign('sortDirection', $sortDirection);
 

@@ -218,6 +218,25 @@ class InstitutionDAO extends DAO {
 	function getInsertInstitutionId() {
 		return $this->getInsertId('institutions', 'institution_id');
 	}        
+        
+        /*
+         * Get all the institutions that are using a specific geographical area
+         */
+        function getGeoAreas($geoAreaId) {
+            $institutions = array();
+            $result = $this->retrieve('SELECT * FROM institutions WHERE international = '.INSTITUTION_NATIONAL.' AND location LIKE "'.$geoAreaId.'"');
+
+            while (!$result->EOF) {
+                    $row = $result->GetRowAssoc(false);
+                    $institutions[] =& $this->_returnInstitutionFromRow($row);
+                    $result->moveNext();
+            }
+
+            $result->Close();
+            unset($result);
+            return $institutions;
+        }        
+        
 }
 
 ?>

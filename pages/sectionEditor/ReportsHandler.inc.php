@@ -362,11 +362,13 @@ class ReportsHandler extends Handler {
                 }
                 $geoAreas = array_filter($geoAreas);
                 if(!empty($geoAreas)){
-                    $areasOfTheCountryDao =& DAORegistry::getDAO('AreasOfTheCountryDAO');
+                    $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
                     $string = Locale::translate('proposal.geoArea').': ';
                     for($i = 0; $i < count($geoAreas); $i++){
-                        if($i == 0) {$string .= $areasOfTheCountryDao->getAreaOfTheCountry($geoAreas[$i]);}
-                        else {$string .= ' '.Locale::translate('common.or').' '.$areasOfTheCountryDao->getAreaOfTheCountry($geoAreas[$i]);}
+                        $extraField =& $extraFieldDao->getExtraField($geoAreas[$i]);
+                        if($i == 0) {$string .= (isset($extraField) ? $extraField->getLocalizedExtraFieldName() : null);}
+                        else {$string .= ' '.Locale::translate('common.or').' '.(isset($extraField) ? $extraField->getLocalizedExtraFieldName() : null);}
+                        unset($extraField);
                     }
                     array_push($criterias, $string);
                     unset($string);
@@ -375,8 +377,10 @@ class ReportsHandler extends Handler {
                 if(!empty($researchDomains)){
                     $string = Locale::translate('proposal.researchDomains').': ';
                     for($i = 0; $i < count($researchDomains); $i++){
-                        if($i == 0) {$string .= Locale::translate($proposalDetailsDao->getResearchDomainKey($researchDomains[$i]));}
-                        else {$string .= ' '.Locale::translate('common.or').' '.Locale::translate($proposalDetailsDao->getResearchDomainKey($researchDomains[$i]));}
+                        $extraField =& $extraFieldDao->getExtraField($researchDomains[$i]);
+                        if($i == 0) {$string .= (isset($extraField) ? $extraField->getLocalizedExtraFieldName() : null);}
+                        else {$string .= ' '.Locale::translate('common.or').' '.(isset($extraField) ? $extraField->getLocalizedExtraFieldName() : null);}
+                        unset($extraField);
                     }
                     array_push($criterias, $string);
                     unset($string);
@@ -385,8 +389,10 @@ class ReportsHandler extends Handler {
                 if(!empty($researchFields)){
                     $string = Locale::translate('proposal.researchField').': ';
                     for($i = 0; $i < count($researchFields); $i++){
-                        if($i == 0) {$string .= $proposalDetailsDao->getResearchFieldSingle($researchFields[$i]);}
-                        else {$string .= ' '.Locale::translate('common.or').' '.$proposalDetailsDao->getResearchFieldSingle($researchFields[$i]);}
+                        $extraField =& $extraFieldDao->getExtraField($researchFields[$i]);
+                        if($i == 0) {$string .= (isset($extraField) ? $extraField->getLocalizedExtraFieldName() : null);}
+                        else {$string .= ' '.Locale::translate('common.or').' '.(isset($extraField) ? $extraField->getLocalizedExtraFieldName() : null);}
+                        unset($extraField);
                     }
                     array_push($criterias, $string);
                     unset($string);
@@ -398,8 +404,10 @@ class ReportsHandler extends Handler {
                         if(!empty($proposalTypes)){                            
                             $string = Locale::translate('proposal.proposalType').': ';
                             for($i = 0; $i < count($proposalTypes); $i++){
-                                if($i == 0) {$string .= $proposalDetailsDao->getProposalTypeSingle($proposalTypes[$i]);}
-                                else {$string .= ' '.Locale::translate('common.or').' '.$proposalDetailsDao->getProposalTypeSingle($proposalTypes[$i]);}
+                                $extraField =& $extraFieldDao->getExtraField($proposalTypes[$i]);
+                                if($i == 0) {$string .= (isset($extraField) ? $extraField->getLocalizedExtraFieldName() : null);}
+                                else {$string .= ' '.Locale::translate('common.or').' '.(isset($extraField) ? $extraField->getLocalizedExtraFieldName() : null);}
+                                unset($extraField);
                             }
                             array_push($criterias, $string);
                             unset($string);
@@ -457,7 +465,7 @@ class ReportsHandler extends Handler {
                 
                 $institutionDao =& DAORegistry::getDAO('InstitutionDAO');
                 $countryDao =& DAORegistry::getDAO('CountryDAO');
-                $areasOfTheCountryDao =& DAORegistry::getDAO('AreasOfTheCountryDAO');
+                $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
                 $proposalDetailsDao =& DAORegistry::getDAO('ProposalDetailsDAO');
 
                 $journal =& Request::getJournal();
@@ -592,17 +600,29 @@ class ReportsHandler extends Handler {
                                                             if($proposalDetails->getMultiCountryResearch() == PROPOSAL_DETAIL_YES){$columns[$index] = $countryDao->getCountry($countriesArray[$cI]);}
                                                             else {$columns[$index] = Locale::translate('editor.reports.notApplicable');}
                                                         } elseif ($index == 'nationwide') {
-                                                            if($proposalDetails->getMultiCountryResearch() != PROPOSAL_DETAIL_YES){$columns[$index] = $areasOfTheCountryDao->getAreaOfTheCountry($geoAreasArray[$aI]);}
-                                                            else {$columns[$index] = Locale::translate('editor.reports.nationwide');}
+                                                            if($proposalDetails->getMultiCountryResearch() != PROPOSAL_DETAIL_YES){
+                                                                $extraField =& $extraFieldDao->getExtraField($geoAreasArray[$aI]);
+                                                                $columns[$index] = (isset($extraField) ? $extraField->getLocalizedExtraFieldName() : null);
+                                                                unset($extraField);
+                                                            } else {$columns[$index] = Locale::translate('editor.reports.nationwide');}
                                                         } elseif ($index == 'researchDomain') {
-                                                            if($researchDomainsArray){$columns[$index] = Locale::translate($proposalDetailsDao->getResearchDomainKey($researchDomainsArray[$rdI]));}
-                                                            else {$columns[$index] = Locale::translate('common.dataNotProvided');}
+                                                            if($researchDomainsArray){
+                                                                $extraField =& $extraFieldDao->getExtraField($researchDomainsArray[$rdI]);
+                                                                $columns[$index] = (isset($extraField) ? $extraField->getLocalizedExtraFieldName() : null);
+                                                                unset($extraField);
+                                                            } else {$columns[$index] = Locale::translate('common.dataNotProvided');}
                                                         } elseif ($index == 'researchField') {
-                                                            if($researchFieldsArray){$columns[$index] = $proposalDetailsDao->getResearchFieldSingle($researchFieldsArray[$fI]);}
-                                                            else {$columns[$index] = Locale::translate('editor.reports.notApplicable');}
+                                                            if($researchFieldsArray){
+                                                                $extraField =& $extraFieldDao->getExtraField($researchFieldsArray[$fI]);
+                                                                $columns[$index] = (isset($extraField) ? $extraField->getLocalizedExtraFieldName() : null);
+                                                                unset($extraField);
+                                                            } else {$columns[$index] = Locale::translate('editor.reports.notApplicable');}
                                                         } elseif ($index == 'proposalType') {
-                                                            if($proposalDetails->getHumanSubjects() != PROPOSAL_DETAIL_YES){$columns[$index] = $proposalDetailsDao->getProposalTypeSingle($proposalTypesArray[$tI]);}
-                                                            else {$columns[$index] = Locale::translate('editor.reports.notApplicable');}
+                                                            if($proposalDetails->getHumanSubjects() != PROPOSAL_DETAIL_YES){
+                                                                $extraField =& $extraFieldDao->getExtraField($proposalTypesArray[$tI]);
+                                                                $columns[$index] = (isset($extraField) ? $extraField->getLocalizedExtraFieldName() : null);
+                                                                unset($extraField);
+                                                            } else {$columns[$index] = Locale::translate('editor.reports.notApplicable');}
                                                         } elseif ($index == 'dataCollection') {
                                                             $columns[$index] = Locale::translate($proposalDetails->getDataCollectionKey());
                                                         } 
@@ -866,8 +886,7 @@ class ReportsHandler extends Handler {
         function _simpleChart($proposals, $criterias, $reportType){
             
             $countryDao =& DAORegistry::getDAO('CountryDAO');
-            $areasOfTheCountryDao =& DAORegistry::getDAO('AreasOfTheCountryDAO');
-            $proposalDetailsDao =& DAORegistry::getDAO('ProposalDetailsDAO');
+            $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
             
             $this->setupTemplate();
             $journal =& Request::getJournal();
@@ -927,13 +946,14 @@ class ReportsHandler extends Handler {
                     }
                 } elseif ($chartOptions == 'nationwide') {
                     if ($proposalDetails->getNationwide() != PROPOSAL_DETAIL_YES) {
-                        $geoAreas = $proposalDetails->getGeoAreas();
-                        $geoAreas = explode(',', $geoAreas);
+                        $geoAreas = $proposalDetails->getGeoAreasArray();
                         foreach ($geoAreas as $geoArea) {
-                            $key = $areasOfTheCountryDao->getAreaOfTheCountry($geoArea);
+                            $extraField =& $extraFieldDao->getExtraField($geoArea);
+                            $key = (isset($extraField) ? $extraField->getLocalizedExtraFieldName() : '-');
                             if(array_key_exists($key, $dataSetArray)){$dataSetArray[$key] = $dataSetArray[$key] + $toSumUp;} 
                             else {$dataSetArray[$key] = (int) $toSumUp;}
                             unset($key);
+                            unset($extraField);
                         }
                     } else {
                         if(array_key_exists($keyN, $dataSetArray)){$dataSetArray[$keyN] = $dataSetArray[$keyN] + $toSumUp;} 
@@ -941,13 +961,14 @@ class ReportsHandler extends Handler {
                     }               
                 } elseif ($chartOptions == 'proposalTypes') {
                     if ($proposalDetails->getHumanSubjects() == PROPOSAL_DETAIL_YES) {
-                        $proposalTypes = $proposalDetails->getProposalTypes();
-                        $proposalTypes = explode('+', $proposalTypes);
+                        $proposalTypes = $proposalDetails->getProposalTypesArray();
                         foreach ($proposalTypes as $proposalType) {
-                            $key = $proposalDetailsDao->getProposalTypeSingle($proposalType);
+                            $extraField =& $extraFieldDao->getExtraField($proposalType);
+                            $key = (isset($extraField) ? $extraField->getLocalizedExtraFieldName() : '-');
                             if(array_key_exists($key, $dataSetArray)){$dataSetArray[$key] = $dataSetArray[$key] + $toSumUp;} 
                             else {$dataSetArray[$key] = (int) $toSumUp;}
                             unset($key);
+                            unset($extraField);
                         }
                     } else {
                         if(array_key_exists($keyWHS, $dataSetArray)){$dataSetArray[$keyWHS] = $dataSetArray[$keyWHS] + $toSumUp;} 
@@ -956,19 +977,22 @@ class ReportsHandler extends Handler {
                 } elseif ($chartOptions == 'researchDomains') {
                     $researchDomains = $proposalDetails->getResearchDomainsArray();
                     foreach ($researchDomains as $researchDomain) {
-                        $key = Locale::translate($proposalDetailsDao->getResearchDomainKey($researchDomain));
+                        $extraField =& $extraFieldDao->getExtraField($researchDomain);
+                        $key = (isset($extraField) ? $extraField->getLocalizedExtraFieldName() : '-');
                         if(array_key_exists($key, $dataSetArray)){$dataSetArray[$key] = $dataSetArray[$key] + $toSumUp;} 
                         else {$dataSetArray[$key] = (int) $toSumUp;}     
                         unset($key);
+                        unset($extraField);
                     }
                 } elseif ($chartOptions == 'researchFields') {
-                    $researchFields = $proposalDetails->getResearchFields();
-                    $researchFields = explode('+', $researchFields);
+                    $researchFields = $proposalDetails->getResearchFieldsArray();
                     foreach ($researchFields as $researchField) {
-                        $key = $proposalDetailsDao->getResearchFieldSingle($researchField);
+                        $extraField =& $extraFieldDao->getExtraField($researchField);
+                        $key = (isset($extraField) ? $extraField->getLocalizedExtraFieldName() : '-');
                         if(array_key_exists($key, $dataSetArray)){$dataSetArray[$key] = $dataSetArray[$key] + $toSumUp;} 
                         else {$dataSetArray[$key] = (int) $toSumUp;}     
                         unset($key);
+                        unset($extraField);
                     }
                 } elseif ($chartOptions == 'dataCollection') {
                     $key = Locale::translate($proposalDetails->getDataCollectionKey());

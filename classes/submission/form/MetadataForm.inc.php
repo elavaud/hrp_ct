@@ -193,16 +193,14 @@ class MetadataForm extends Form {
                         $countriesArray = $proposalDetails->getCountries();
 			$countries = explode(",", $countriesArray);
                         
-                        $geoAreasArray = $proposalDetails->getGeoAreas();
-                        $geoAreas = explode(",", $geoAreasArray);
+                        $geoAreas = $proposalDetails->getGeoAreasArray();
             
                         $researchDomainsArray = $proposalDetails->getResearchDomainsArray();
                         if($researchDomainsArray == null){
                             $researchDomainsArray = array(0 => '');
                         }
 
-                        $researchFields = $proposalDetails->getResearchFields();
-                        $researchFieldsArray = explode("+", $researchFields);
+                        $researchFieldsArray = $proposalDetails->getResearchFieldsArray();
 			$i = 0;     
                         foreach ($researchFieldsArray as $field){
                             if (preg_match('#^Other\s\(.+\)$#', $field)){
@@ -218,8 +216,7 @@ class MetadataForm extends Form {
                             unset ($field);
                         }
 
-                        $proposalTypes = $proposalDetails->getProposalTypes();
-                        $proposalTypesArray = explode("+", $proposalTypes);
+                        $proposalTypesArray = $proposalDetails->getProposalTypesArray();
                         $f = 0;
                         foreach ($proposalTypesArray as $type){
                             if (preg_match('#^Other\s\(.+\)$#', $type)){
@@ -405,7 +402,7 @@ class MetadataForm extends Form {
 		$countryDao =& DAORegistry::getDAO('CountryDAO');
                 $proposalDetailsDao =& DAORegistry::getDAO('ProposalDetailsDAO');
                 $studentResearchDao =& DAORegistry::getDAO('StudentResearchDAO');
-                $regionDAO =& DAORegistry::getDAO('AreasOfTheCountryDAO');
+                $extraFieldDAO =& DAORegistry::getDAO('ExtraFieldDAO');
 		$institutionDao =& DAORegistry::getDAO('InstitutionDAO');
 		$riskAssessmentDao =& DAORegistry::getDAO('RiskAssessmentDAO');
 		$currencyDao =& DAORegistry::getDAO('CurrencyDAO');                
@@ -429,10 +426,13 @@ class MetadataForm extends Form {
 			$templateMgr->assign('hideAuthorOptions', $hideAuthorOptions);
 			$templateMgr->assign('isEditor', true);
 		}
-
-
                 
-                $geoAreas =& $regionDAO->getAreasOfTheCountry();
+                $geoAreas =& $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_GEO_AREA, EXTRA_FIELD_ACTIVE);
+                $proposalTypesList =& $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_PROPOSAL_TYPE, EXTRA_FIELD_ACTIVE);
+                $proposalTypesListWithOther = $proposalTypesList + array('OTHER' => Locale::translate('common.other'));
+                $researchDomainsList =& $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_RESEARCH_DOMAIN, EXTRA_FIELD_ACTIVE);
+                $researchFieldsList =&  $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_RESEARCH_FIELD, EXTRA_FIELD_ACTIVE);
+                $researchFieldsListWithOther = $researchFieldsList + array('OTHER' => Locale::translate('common.other'));
                 
                 $institutionsList = $institutionDao->getInstitutionsList();
                 $institutionsListWithOther = $institutionsList + array('OTHER' => Locale::translate('common.other'));
@@ -451,9 +451,9 @@ class MetadataForm extends Form {
 		$templateMgr->assign('canViewAuthors', $this->canViewAuthors);
                 $templateMgr->assign('abstractLocales', $journal->getSupportedLocaleNames());
                 $templateMgr->assign('coutryList', $countryDao->getCountries());
-                $templateMgr->assign('proposalTypesList', $proposalDetailsDao->getProposalTypes());
-                $templateMgr->assign('researchDomainsList', $proposalDetailsDao->getResearchDomainsLocalizedMap());                
-                $templateMgr->assign('researchFieldsList', $proposalDetailsDao->getResearchFields());
+                $templateMgr->assign('proposalTypesList', $proposalTypesListWithOther);
+                $templateMgr->assign('researchDomainsList',$researchDomainsList);                
+                $templateMgr->assign('researchFieldsList', $researchFieldsListWithOther);
                 $templateMgr->assign('proposalDetailYesNoArray', $proposalDetailsDao->getYesNoArray());
                 $templateMgr->assign('nationwideRadioButtons', $proposalDetailsDao->getNationwideRadioButtons());
                 $templateMgr->assign('dataCollectionArray', $proposalDetailsDao->getDataCollectionArray());
@@ -642,8 +642,7 @@ class MetadataForm extends Form {
                 
                 if ($proposalDetailsData['nationwide'] != PROPOSAL_DETAIL_YES) {
                     $geoAreasArray = $proposalDetailsData['geoAreas'];
-                    $geoAreas = implode(",", $geoAreasArray);
-                    $proposalDetails->setGeoAreas($geoAreas);
+                    $proposalDetails->setGeoAreasFromArray($geoAreasArray);
                 }
 
                 $researchDomainsArray = $proposalDetailsData['researchDomains'];
@@ -658,8 +657,7 @@ class MetadataForm extends Form {
                                 }
                         }
                 }   
-                $researchFields = implode("+", $researchFieldsArray);
-                $proposalDetails->setResearchFields($researchFields);
+                $proposalDetails->setResearchFieldsFromArray($researchFieldsArray);
                 
                 $proposalDetails->setHumanSubjects($proposalDetailsData['withHumanSubjects']);    
 
@@ -673,8 +671,7 @@ class MetadataForm extends Form {
                                     }
                             }
                     }
-                    $proposalTypes = implode("+", $proposalTypesArray);
-                    $proposalDetails->setProposalTypes($proposalTypes);
+                    $proposalDetails->setProposalTypesFromArray($proposalTypesArray);
                 }
                 
                 $proposalDetails->setDataCollection($proposalDetailsData['dataCollection']);

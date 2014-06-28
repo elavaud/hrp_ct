@@ -195,112 +195,6 @@ class ProposalDetailsDAO extends DAO{
 
 		return $proposalDetails;
 	}
-
-        /**
-	 * Get all possible proposal types.
-	 * @param none
-	 * @return array proposalTypes
-	 */
-	function getProposalTypes() {
-		$locale = Locale::getLocale();
-		$filename = "lib/pkp/locale/".$locale."/proposaltypes.xml";
-
-		$xmlDao = new XMLDAO();
-		$data = $xmlDao->parseStruct($filename, array('proposaltypes', 'proposaltype'));
-
-		$proposalTypes = array();
-		if (isset($data['proposaltypes'])) {
-                    $i=0;
-                    foreach ($data['proposaltype'] as $proposalTypeData) {
-                        $proposalTypes = $proposalTypes + array($proposalTypeData['attributes']['code'] => $proposalTypeData['attributes']['name']);
-                    }
-                    $i++;
-		}
-		return $proposalTypes;
-	}
-	
-	/**
-	 * Get proposal type by code
-	 */
-	function getProposalType($code) {
-                $proposalTypeCodeArray = explode("+", $code);
-                $proposalTypeTextArray = array();
-                foreach($proposalTypeCodeArray as $ptypeCode) {
-                    $typeText = $this->getProposalTypeSingle($ptypeCode);
-                    array_push($proposalTypeTextArray, $typeText);
-                }
-                
-                $proposalTypeText = "";
-                foreach($proposalTypeTextArray as $i => $ptype) {
-                    $proposalTypeText = $proposalTypeText . $ptype;
-                    if($i < count($proposalTypeTextArray)-1) $proposalTypeText = $proposalTypeText . ", ";
-                }
-
-                return $proposalTypeText;
-	}
-
-        function getProposalTypeSingle($code) {
-            $proposalTypes = $this->getProposalTypes();
-            foreach($proposalTypes as $ptKey => $ptValue) {
-                if ($ptKey == $code) {
-                    return $ptValue;
-                }
-            }
-            return $code;
-        }
-
-	/**
-	 * Get all possible research fields.
-	 * @param none
-	 * @return array researchFields
-	 */
-	function getResearchFields() {
-		$locale = Locale::getLocale();
-		$filename = "lib/pkp/locale/".$locale."/researchFields.xml";
-
-		$xmlDao = new XMLDAO();
-		$data = $xmlDao->parseStruct($filename, array('researchFields', 'researchField'));
-
-		$researchFields = array();
-		if (isset($data['researchFields'])) {
-                    $i=0;
-                    foreach ($data['researchField'] as $researchFieldData) {
-                        $researchFields = $researchFields + array($researchFieldData['attributes']['code'] => $researchFieldData['attributes']['name']);
-                    }
-                    $i++;
-		}
-		return $researchFields;
-	}
-	
-	/**
-	 * Get research field by code
-	 */
-	function getResearchField($code) {
-                $researchFieldCodeArray = explode("+", $code);
-                $researchFieldTextArray = array();
-                foreach($researchFieldCodeArray as $rFieldCode) {
-                    $fieldText = $this->getResearchFieldSingle($rFieldCode);
-                    array_push($researchFieldTextArray, $fieldText);
-                }
-                
-                $researchFieldText = "";
-                foreach($researchFieldTextArray as $i => $rField) {
-                    $researchFieldText = $researchFieldText . $rField;
-                    if($i < count($researchFieldTextArray)-1) $researchFieldText = $researchFieldText . ", ";
-                }
-
-                return $researchFieldText;
-	}
-
-        function getResearchFieldSingle($code) {
-            $researchFields = $this->getResearchFields();
-            foreach($researchFields as $rfKey => $rfValue) {
-                if ($rfKey == $code) {
-                    return $rfValue;
-                }
-            }
-            return $code;
-        }
         
         function getYesNoArray() {
             return array(
@@ -349,41 +243,56 @@ class ProposalDetailsDAO extends DAO{
          */
         function replaceKII($oldInstitutionId, $replacementInstitutionId) {
 		return $this->update('UPDATE article_details SET key_implementing_institution = '.$replacementInstitutionId.' WHERE key_implementing_institution = '.$oldInstitutionId);
-        }        
+        }         
         
-        /**
-         * Get a map of local key for research domains
-         */
-        function getResearchDomainsKeyMap(){
-            return array(
-                PROPOSAL_DETAIL_RD_MRCHR => 'proposal.researchDomains.mrchr' ,
-                PROPOSAL_DETAIL_RD_CDR => 'proposal.researchDomains.cdr' ,
-                PROPOSAL_DETAIL_RD_RHL => 'proposal.researchDomains.rhl' ,
-                PROPOSAL_DETAIL_RD_HSR => 'proposal.researchDomains.hsr'
-            );
-        }     
-
-        /**
-         * Get a map of local key for research domains
-         */
-        function getResearchDomainsLocalizedMap(){
-            return array(
-                PROPOSAL_DETAIL_RD_MRCHR => Locale::translate('proposal.researchDomains.mrchr') ,
-                PROPOSAL_DETAIL_RD_CDR => Locale::translate('proposal.researchDomains.cdr') ,
-                PROPOSAL_DETAIL_RD_RHL => Locale::translate('proposal.researchDomains.rhl') ,
-                PROPOSAL_DETAIL_RD_HSR => Locale::translate('proposal.researchDomains.hsr')
-            );
-        }     
         
         /*
-         * Get local key for a specifc research domain
-         * @return string
+         * Get all the proposal details using a specific extra field
          */
-        function getResearchDomainKey($rDomain){
-            $rDomainMap = $this->getResearchDomainsKeyMap();
-            return $rDomainMap[$rDomain];
+        function getExtraFields($type, $extraFieldId) {
+            $proposalDetails = array();
+            
+            switch ($type) {
+                case 'geoAreas':
+                    $result = $this->retrieve('SELECT * FROM article_details WHERE '
+                            . 'geo_areas LIKE "'.$extraFieldId.'" OR '
+                            . 'geo_areas LIKE "'.$extraFieldId.',%" OR '
+                            . 'geo_areas LIKE "%,'.$extraFieldId.',%" OR '
+                            . 'geo_areas LIKE "%,'.$extraFieldId.'"');
+                    break;
+                case 'researchFields':
+                    $result = $this->retrieve('SELECT * FROM article_details WHERE '
+                            . 'research_fields LIKE "'.$extraFieldId.'" OR '
+                            . 'research_fields LIKE "'.$extraFieldId.'+%" OR '
+                            . 'research_fields LIKE "%+'.$extraFieldId.'+%" OR '
+                            . 'research_fields LIKE "%+'.$extraFieldId.'"');
+                    break;
+                case 'researchDomains':
+                    $result = $this->retrieve('SELECT * FROM article_details WHERE '
+                            . 'research_domains LIKE "'.$extraFieldId.'" OR '
+                            . 'research_domains LIKE "'.$extraFieldId.'+%" OR '
+                            . 'research_domains LIKE "%+'.$extraFieldId.'+%" OR '
+                            . 'research_domains LIKE "%+'.$extraFieldId.'"');
+                    break;
+                case 'proposalTypes':
+                    $result = $this->retrieve('SELECT * FROM article_details WHERE '
+                            . 'proposal_types LIKE "'.$extraFieldId.'" OR '
+                            . 'proposal_types LIKE "'.$extraFieldId.'+%" OR '
+                            . 'proposal_types LIKE "%+'.$extraFieldId.'+%" OR '
+                            . 'proposal_types LIKE "%+'.$extraFieldId.'"');
+                    break;
+            }            
+            while (!$result->EOF) {
+                    $row = $result->GetRowAssoc(false);
+                    $proposalDetails[] =& $this->_returnProposalDetailsFromRow($row);
+                    $result->moveNext();
+            }
+
+            $result->Close();
+            unset($result);
+            return $proposalDetails;
         }
-        
+         
 }
 
 ?>

@@ -714,10 +714,28 @@ class SectionDAO extends DAO {
 		return $returner;
 	}
 
-	/**
-	 * Function especially for the creation of a reviewer by a secretary
-	 * Requests info from erc-reviewers and section_editors table
-	 */
+        /*
+         * Get all the committees that are using a specific geographical area
+         */
+        function getGeoAreas($geoAreaId) {
+                $committees = array();
+                
+		$sql = 'SELECT s.* FROM sections s, section_settings l WHERE l.section_id = s.section_id AND l.setting_name = ? AND l.setting_value = ?';
+		$params = array('region', $geoAreaId);
+
+		$result =& $this->retrieve($sql, $params);
+
+                while (!$result->EOF) {
+                        $row = $result->GetRowAssoc(false);
+                        $committees[] =& $this->_returnSectionFromRow($row);
+                        $result->moveNext();
+                }
+
+		$result->Close();
+		unset($result);
+
+		return $committees;
+        }        
 
 }
 ?>

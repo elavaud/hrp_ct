@@ -104,10 +104,12 @@ class Author extends PKPAuthor {
                 $researchFieldsCleaned = array_unique($researchFields);
                 
                 $researchFieldTextArray = array();
-
+                $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
                 foreach($researchFieldsCleaned as $rFieldCode) {
-                    $fieldText = $proposalDetailsDao->getResearchFieldSingle($rFieldCode);
+                    $extraField =& $extraFieldDao->getExtraField($rFieldCode);
+                    $fieldText = (isset($extraField) ? $extraField->getLocalizedExtraFieldName() : '');
                     array_push($researchFieldTextArray, $fieldText);
+                    unset($extraField);
                 }
                 
                 $researchFieldText = "";

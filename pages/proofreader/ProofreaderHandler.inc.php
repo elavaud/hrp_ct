@@ -98,10 +98,10 @@ class ProofreaderHandler extends Handler {
 			SUBMISSION_FIELD_DATE_PROOFREADING_COMPLETE => 'submissions.proofreadingComplete'
 		));
 
-        $countryDAO =& DAORegistry::getDAO('AreasOfTheCountryDAO');
-        $countries =& $countryDAO->getAreasOfTheCountry();
+                $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
+                $countries =& $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_GEO_AREA);
        
-        $templateMgr->assign_by_ref('countries', $countries);
+                $templateMgr->assign_by_ref('countries', $countries);
         
 		import('classes.issue.IssueAction');
 		$issueAction = new IssueAction();

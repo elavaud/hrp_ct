@@ -146,13 +146,14 @@ class Institution extends DataObject {
                 $location = $this->getInstitutionLocation(); 
                 $returner = (string) '';
                 if ($international == INSTITUTION_NATIONAL) {
-                    $regionDAO =& DAORegistry::getDAO('AreasOfTheCountryDAO');
-                    $returner = $regionDAO->getAreaOfTheCountry($location);
+                    $extraFieldDAO =& DAORegistry::getDAO('ExtraFieldDAO');
+                    $extraField =& $extraFieldDAO->getExtraField($location);
+                    if (isset($extraField)){$returner = $extraField->getLocalizedExtraFieldName();}
+                    else {$returner = '-';}
                 } elseif ($international == INSTITUTION_INTERNATIONAL) {
                     $countryDAO =& DAORegistry::getDAO('CountryDAO');
                     $returner = $countryDAO->getCountry($location);
                 }
-                
                 return $returner;            
 	}
         

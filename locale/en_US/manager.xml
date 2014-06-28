@@ -12,7 +12,7 @@
 
 <locale name="en_US" full_name = "English">
     
-	<!-- Added February - April 2014 -->
+	<!-- Added February - June 2014 -->
         
         <message key="manager.institutions">Institutions</message>
         <message key="manager.institutions.create">Create a new institution</message>
@@ -68,6 +68,42 @@
 
 	<message key="manager.setup.submissionPreparationChecklistDescription.part1">On making a submission to the system, investigators are first asked to check each item on the Submission Preparation Checklist as completed, before proceeding. The text below is used to give explanation for the check list.</message>
 	<message key="manager.setup.submissionPreparationChecklistDescription.part2">The list can be edited below, but all items on the list will require a checkmark before investigators can proceed with their submission.</message>
+
+        <message key="manager.extraFields.active.required">Please specify if this entry should be active or inactive.</message>
+        <message key="manager.extraFields.active.definition">During the submission process of a research proposal, the submitter will be able select this entry if this one is active. If this one is inactive, the submitter will not be able to select it. However the research proposals that are already referring to it will continue to use this entry.</message>        
+        <message key="manager.extraFields.geoAreas">Geographical Areas</message>
+        <message key="manager.extraFields.geoAreas.new">Create a new geographical area</message>    
+        <message key="manager.extraFields.geoAreas.edit">Create / Edit a new geographical area</message>    
+        <message key="manager.extraFields.geoAreas.delete">Delete geographical area</message>    
+        <message key="manager.extraFields.geoAreas.missing.name">Please enter the name of the geographical area.</message>    
+        <message key="manager.extraFields.geoAreas.modify.warning">Attention! This geographical area is in used by some research proposal(s) and/or institution(s) and or review committee(s). The modification will therefore affect all of the proposal(s) / institution(s) / committee(s) referring to it.</message>
+        <message key="manager.extraFields.geoAreas.replacement.warning">Attention! The deletion of a geographical area and its replacement can not be undone. Please be sure you want to delete this particular area and, if applicable, you selected the right replacement area. It is strongly recommended to operate daily backup of the database. Please contact your server administrator for more information.</message>
+        <message key="manager.extraFields.geoAreas.replacement.message">It appears that the geographical area you would like to delete is currently in used by one or multiple proposal(s) / institution(s) / review committee(s). If you want to delete this area, you therefore need to select a replacement area for the concerned proposal(s) / institution(s) / committee(s).</message>        
+        <message key="manager.extraFields.geoAreas.replacement.required">Please choose a replacement for this geographical area. The area you intend to delete is used by one or multiple research proposal(s) / institution(s) / committee(s) in the database. You therefore need to choose a replacing area for these proposal(s) / institution(s) / committee(s). Please choose carefully: this operation can not be undone.</message>
+        <message key="manager.extraFields.modify.warning">Attention! This entry is in used by some research proposal(s). The modification will therefore affect all of the proposal(s) referring to it.</message>
+        <message key="manager.extraFields.proposalTypes">Proposal Types</message>
+        <message key="manager.extraFields.proposalTypes.new">Create a new proposal type</message>
+        <message key="manager.extraFields.proposalTypes.edit">Create / Edit a new proposal type</message>
+        <message key="manager.extraFields.proposalTypes.delete">Delete proposal type</message>
+        <message key="manager.extraFields.proposalTypes.missing.name">Please enter the name of the proposal type.</message>
+        <message key="manager.extraFields.replacement.warning">Attention! The deletion of an entry and its replacement can not be undone. Please be sure you want to delete this particular entry and, if applicable, you selected the right replacement. It is strongly recommended to operate daily backup of the database. Please contact your server administrator for more information.</message>
+        <message key="manager.extraFields.replacement.message">It appears that the entry you would like to delete is currently in used by one or multiple research proposal(s). If you want to delete this entry, you therefore need to select a replacement for the concerned proposal(s).</message>
+        <message key="manager.extraFields.replacement.proposalsNumber">Number of research proposal(s) using this entry:</message>
+        <message key="manager.extraFields.replacement.institutionsNumber">Number of institution(s) using this geographical area:</message>
+        <message key="manager.extraFields.replacement.committeesNumber">Number of review committee(s) using this geographical area:</message>
+        <message key="manager.extraFields.replacement.required">Please choose a replacement for this entry. The entry you intend to delete is used by one or multiple research proposal(s) in the database. You therefore need to choose a replacing entry for these/this proposal(s). Please choose carefully: this operation can not be undone.</message>
+        <message key="manager.extraFields.researchDomains">Research Domains</message>
+        <message key="manager.extraFields.researchDomains.new">Create a new research domain</message>
+        <message key="manager.extraFields.researchDomains.edit">Create / Edit a new research domain</message>        
+        <message key="manager.extraFields.researchDomains.delete">Delete research domain</message>        
+        <message key="manager.extraFields.researchDomains.missing.name">Please enter the name of the research domain.</message>
+        <message key="manager.extraFields.researchFields">Research Fields</message>
+        <message key="manager.extraFields.researchFields.new">Create a new research field</message>
+        <message key="manager.extraFields.researchFields.edit">Create / Edit a new research field</message>
+        <message key="manager.extraFields.researchFields.delete">Delete research field</message>
+        <message key="manager.extraFields.researchFields.missing.name">Please enter the name of the research field.</message>
+
+
 
         <!-- /Added -->
         

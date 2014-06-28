@@ -35,7 +35,7 @@ class SubmissionsReportForm extends Form {
             
 		$countryDao =& DAORegistry::getDAO('CountryDAO');
                 $proposalDetailsDao =& DAORegistry::getDAO('ProposalDetailsDAO');
-                $regionDAO =& DAORegistry::getDAO('AreasOfTheCountryDAO');
+                $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
 		$institutionDao =& DAORegistry::getDAO('InstitutionDAO');
 		$riskAssessmentDao =& DAORegistry::getDAO('RiskAssessmentDAO');
 		$currencyDao =& DAORegistry::getDAO('CurrencyDAO');
@@ -100,7 +100,12 @@ class SubmissionsReportForm extends Form {
                     'getBiosafety' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.biosafetyAbb')
                 );
                 
-                
+                $geoAreas =& $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_GEO_AREA);
+                $proposalTypesList =& $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_PROPOSAL_TYPE);
+                $proposalTypesListWithOther = $proposalTypesList + array('OTHER' => Locale::translate('common.other'));
+                $researchDomainsList =& $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_RESEARCH_DOMAIN);
+                $researchFieldsList =&  $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_RESEARCH_FIELD);
+                $researchFieldsListWithOther = $researchFieldsList + array('OTHER' => Locale::translate('common.other'));
                 
                 $templateMgr =& TemplateManager::getManager();
                 $templateMgr->assign('sectionOptions', $sectionOptions);
@@ -109,10 +114,10 @@ class SubmissionsReportForm extends Form {
                 $templateMgr->assign('proposalDetailYesNoArray', $proposalDetailsDao->getYesNoArray());
                 $templateMgr->assign('institutionsList', $institutionDao->getInstitutionsList());
                 $templateMgr->assign('coutryList', $countryDao->getCountries());
-                $templateMgr->assign('geoAreasList', $regionDAO->getAreasOfTheCountry());
-                $templateMgr->assign('researchDomainsList', $proposalDetailsDao->getResearchDomainsLocalizedMap());
-                $templateMgr->assign('researchFieldsList', $proposalDetailsDao->getResearchFields());
-                $templateMgr->assign('proposalTypesList', $proposalDetailsDao->getProposalTypes());
+                $templateMgr->assign('geoAreasList', $geoAreas);
+                $templateMgr->assign('researchDomainsList', $researchDomainsList);
+                $templateMgr->assign('researchFieldsList', $researchFieldsListWithOther);
+                $templateMgr->assign('proposalTypesList', $proposalTypesListWithOther);
                 $templateMgr->assign('dataCollectionArray', $proposalDetailsDao->getDataCollectionArray());
                 $templateMgr->assign('budgetOptions', $budgetOptions);                
                 $templateMgr->assign('sourceCurrency', $currencyDao->getCurrencyByAlphaCode($sourceCurrencyId));
