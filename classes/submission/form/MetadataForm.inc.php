@@ -194,42 +194,53 @@ class MetadataForm extends Form {
 			$countries = explode(",", $countriesArray);
                         
                         $geoAreas = $proposalDetails->getGeoAreasArray();
-            
+                        if($geoAreas == null){
+                            $geoAreas = array(0 => '');
+                        }
+                        
                         $researchDomainsArray = $proposalDetails->getResearchDomainsArray();
                         if($researchDomainsArray == null){
                             $researchDomainsArray = array(0 => '');
                         }
-
+                        
                         $researchFieldsArray = $proposalDetails->getResearchFieldsArray();
-			$i = 0;     
-                        foreach ($researchFieldsArray as $field){
-                            if (preg_match('#^Other\s\(.+\)$#', $field)){
-                                    $tempField = $field;
-                                $field = preg_replace('#^Other\s\(.+\)$#','OTHER', $field);
-                                $tempField = preg_replace('#^Other\s\(#','', $tempField);
-                                $tempField = preg_replace('#\)$#','', $tempField);
-                                $proposalDetails->setOtherResearchField($tempField);
-                            }
-                            $test = array($i => $field);
-                            $researchFieldsArray = array_replace($researchFieldsArray, $test);
-                            $i++;
-                            unset ($field);
+                        if ($researchFieldsArray == null) {
+                            $researchFieldsArray = array(0 => '');
+                        } else {
+                            $i = 0;     
+                            foreach ($researchFieldsArray as $field){
+                                if (preg_match('#^Other\s\(.+\)$#', $field)){
+                                        $tempField = $field;
+                                    $field = preg_replace('#^Other\s\(.+\)$#','OTHER', $field);
+                                    $tempField = preg_replace('#^Other\s\(#','', $tempField);
+                                    $tempField = preg_replace('#\)$#','', $tempField);
+                                    $proposalDetails->setOtherResearchField($tempField);
+                                }
+                                $test = array($i => $field);
+                                $researchFieldsArray = array_replace($researchFieldsArray, $test);
+                                $i++;
+                                unset ($field);
+                            }                            
                         }
 
                         $proposalTypesArray = $proposalDetails->getProposalTypesArray();
-                        $f = 0;
-                        foreach ($proposalTypesArray as $type){
-                            if (preg_match('#^Other\s\(.+\)$#', $type)){
-                                $tempType = $type;
-                                $type = preg_replace('#^Other\s\(.+\)$#','OTHER', $type);
-                                $tempType = preg_replace('#^Other\s\(#','', $tempType);
-                                $tempType = preg_replace('#\)$#','', $tempType);
-                                $proposalDetails->setOtherProposalType($tempType);
+                        if ($proposalTypesArray == null) {
+                            $proposalTypesArray = array(0 => '');
+                        } else {
+                            $f = 0;
+                            foreach ($proposalTypesArray as $type){
+                                if (preg_match('#^Other\s\(.+\)$#', $type)){
+                                    $tempType = $type;
+                                    $type = preg_replace('#^Other\s\(.+\)$#','OTHER', $type);
+                                    $tempType = preg_replace('#^Other\s\(#','', $tempType);
+                                    $tempType = preg_replace('#\)$#','', $tempType);
+                                    $proposalDetails->setOtherProposalType($tempType);
+                                }
+                                $test2 = array($f => $type);
+                                $proposalTypesArray = array_replace ($proposalTypesArray, $test2);
+                                $f++;
+                                unset ($type);
                             }
-                            $test2 = array($f => $type);
-                            $proposalTypesArray = array_replace ($proposalTypesArray, $test2);
-                            $f++;
-                            unset ($type);
                         }
                         
                         $committeeReviewed = $proposalDetails->getCommitteeReviewed();
