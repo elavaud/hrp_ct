@@ -780,7 +780,7 @@ class TrackSubmissionHandler extends AuthorHandler {
 
             $articleDao = DAORegistry::getDAO('ArticleDAO');
             $article = $articleDao->getArticle($articleId);
-            $article->setStatus(PROPOSAL_STATUS_WITHDRAWN);
+            $article->setStatus(STATUS_WITHDRAWN);
             $articleDao->updateArticle($article);
 
 				// Send a regular notification to section editors
