@@ -23,11 +23,16 @@
             $('input:radio[name="status"]').attr('checked', false);
         }
     </script>
+    <style type="text/css">
+        img.imagecenter {
+            vertical-align: middle;
+        }
+    </style>    
 {/literal}
 
 <ul class="menu">
-    <li class="current"><a href="{url op="advancedResults"}">{translate key="search.research"}</a></li>
-    <li><a href="{url op="authors"}">{translate key='search.investigators'}</a></li>
+    <li class="current"><img src="{$baseUrl}/lib/pkp/templates/images/icons/action_forward.gif" alt="&#8226;" class="imagecenter"/>&nbsp;<a href="{url op="advancedResults"}">{translate key="search.research"}</a></li>
+    <li><img src="{$baseUrl}/lib/pkp/templates/images/icons/arrow_right.gif" alt="&#8226;" class="imagecenter"/>&nbsp;<a href="{url op="authors"}">{translate key='search.investigators'}</a></li>
 </ul>
 <br/>
 
