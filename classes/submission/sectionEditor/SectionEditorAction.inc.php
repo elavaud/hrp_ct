@@ -2111,7 +2111,9 @@ class SectionEditorAction extends Action {
                         $sectionEditorSubmission, null, 
                         'SECTION_DECISION_FR_APPROVED'
                     );                    
-                } else {
+                } elseif ($decision->getDecision() == SUBMISSION_SECTION_DECISION_EXEMPTED && $decision->getComments() == null) {
+                    return true;
+                }else {
                     $email = new ArticleMailTemplate(
                         $sectionEditorSubmission, null, 
                         isset($decisionTemplateMap[$decision->getDecision()])?$decisionTemplateMap[$decision->getDecision()]:null
