@@ -480,6 +480,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
                     case SUBMISSION_SECTION_DECISION_APPROVED:
                     case SUBMISSION_SECTION_DECISION_DECLINED:
                     case SUBMISSION_SECTION_DECISION_INCOMPLETE:
+                    case SUBMISSION_SECTION_DECISION_RESUBMIT:
                     case SUBMISSION_SECTION_DECISION_EXEMPTED:
                         SubmissionCommentsHandler::emailEditorDecisionComment($articleId);
                         break;
