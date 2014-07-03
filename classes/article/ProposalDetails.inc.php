@@ -28,11 +28,6 @@ define ('PROPOSAL_DETAIL_BOTH_DATA_COLLECTION', 3);
 define ('PROPOSAL_DETAIL_UNDER_REVIEW', 2);
 define ('PROPOSAL_DETAIL_REVIEW_AVAILABLE', 3);
 
-// Types of research domains
-define ('PROPOSAL_DETAIL_RD_MRCHR', 1);
-define ('PROPOSAL_DETAIL_RD_CDR', 2);
-define ('PROPOSAL_DETAIL_RD_RHL', 3);
-define ('PROPOSAL_DETAIL_RD_HSR', 4);
 
 class ProposalDetails extends DataObject {
     
