@@ -130,6 +130,23 @@ class ExtraField extends DataObject {
 		return $this->getLocalizedData('extraFieldName');
 	}        
         
+        /**
+	 * Get the three first letters
+	 * @return string
+	 */
+	function getThreeFirstLettersOfName(){
+                $primaryLocale = Locale::getPrimaryLocale();
+                $name = $this->getExtraFieldName($primaryLocale);
+                if (!isset($name)) {
+                    $name = $this->getLocalizedExtraFieldName();
+                }
+                $subName = substr($name, 0, 3);
+                if ($subName != null && $subName != '') {
+                    return $subName;
+                } else {
+                    return $this->getExtraFieldId();
+                }
+	}   
 }
 
 ?>

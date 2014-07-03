@@ -169,7 +169,7 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
             
                         $proposalDetails =& $article->getProposalDetails();
             
-                        $countryArray = explode(",", $proposalDetails->getGeoAreas());
+                        $geoAreas = explode(",", $proposalDetails->getGeoAreas());
             
                         //$section = $sectionDao->getSection($article->getSectionId());
             
@@ -179,11 +179,13 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
                                 $country = 'MC';
                         } elseif ($proposalDetails->getNationwide() == PROPOSAL_DETAIL_YES) {
                                 $country = 'NW';
-                        } elseif(count($countryArray) > 1) {
+                        } elseif(count($geoAreas) > 1) {
                                 $country = 'MP';
                                 $countyearcountry = $articleDao->getICPSubmissionsForYearCount($year) + 1;
                         } else {
-                                $country = $countryArray[0];
+                                $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
+                                $geoArea =& $extraFieldDao->getExtraField($geoAreas[0]);
+                                $country = $geoArea->getThreeFirstLettersOfName();
                                 $countyearcountry = $articleDao->getSubmissionsForYearForCountryCount($year, $country) + 1;
                         }
             
