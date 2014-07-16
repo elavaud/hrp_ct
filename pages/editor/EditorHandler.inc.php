@@ -302,17 +302,11 @@ class EditorHandler extends SectionEditorHandler {
 		$templateMgr->assign('dateTo', $toDate);
 		$templateMgr->assign('fieldOptions', $this->getSearchFieldOptions());
 		$templateMgr->assign('dateFieldOptions', $this->getDateFieldOptions());
-		
-		/*********************************************************************
-		 * Get list of all research fields from the XML file and get all regions
-         *********************************************************************/
-		$proposalDetailsDao =& DAORegistry::getDAO('ProposalDetailsDAO');
-		$researchFields =& $proposalDetailsDao->getResearchFields();
-		
+				
                 $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
                 $countries =& $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_GEO_AREA);
        
-		$templateMgr->assign_by_ref('researchFields', $researchFields);
+		$templateMgr->assign_by_ref('researchFields', $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_RESEARCH_FIELD));
                 $templateMgr->assign_by_ref('countries', $countries);
 
 		import('classes.issue.IssueAction');
