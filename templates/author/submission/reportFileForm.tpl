@@ -41,7 +41,7 @@
         });
 
         function checkSize(){
-                var fileToUpload = document.getElementById('uploadSuppFile');
+                var fileToUpload = document.getElementById('uploadReportFile');
                 var check = fileToUpload.files[0].fileSize;
                 var valueInKb = Math.ceil(check/1024);
                 if (check > 5242880){
