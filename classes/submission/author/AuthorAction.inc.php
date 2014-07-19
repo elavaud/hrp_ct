@@ -548,6 +548,13 @@ class AuthorAction extends Action {
 				}
 			}                        
 
+                        // Check SAE files
+			foreach ($authorSubmission->getSAEFiles() as $reportFile) {
+				if ($reportFile->getFileId() == $fileId) {
+					$canDownload = true;
+				}
+			} 
+                        
 			// Check galley files
 			foreach ($authorSubmission->getGalleys() as $galleyFile) {
 				if ($galleyFile->getFileId() == $fileId) {

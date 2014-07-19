@@ -48,6 +48,8 @@
                     <a href="{url op="addProgressReport" path=$articleId}" class="action">{translate key="form.resubmit"}</a><br />
                 {elseif $lastDecisionType == REVIEW_TYPE_FR}
                     <a href="{url op="addCompletionReport" path=$articleId}" class="action">{translate key="form.resubmit"}</a><br />
+                {elseif $lastDecisionType == REVIEW_TYPE_SAE}
+                    <a href="{url op="addAdverseEvent" path=$articleId}" class="action">{translate key="form.resubmit"}</a><br />
                 {else}
                     <a href="{url op="resubmit" path=$articleId}" class="action">{translate key="form.resubmit"}</a><br />
                 {/if}

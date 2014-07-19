@@ -182,6 +182,14 @@
     <p><textarea name="protocolAmendmentGuidelines[{$formLocale|escape}]" id="protocolAmendmentGuidelines" rows="12" cols="50" class="textArea">{$protocolAmendmentGuidelines[$formLocale]|escape}</textarea></p>
     
 </div>
+
+<div id="sae">
+    <h6>3.2.4 {translate key="manager.setup.submission.sae"}</h6>
+    <p>{translate key="manager.setup.submission.sae.instruct"}</p>
+    
+    <p><textarea name="saeGuidelines[{$formLocale|escape}]" id="saeGuidelines" rows="12" cols="50" class="textArea">{$saeGuidelines[$formLocale]|escape}</textarea></p>
+    
+</div>
 <!--{*
 <div id="requiredAbstracts">
 

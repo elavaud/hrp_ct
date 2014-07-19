@@ -105,6 +105,7 @@ class SectionEditorSubmissionDAO extends DAO {
 		$sectionEditorSubmission->setReportFiles($this->articleFileDao->getArticleFilesByType($row['article_id'], ARTICLE_FILE_REPORT));
 		$sectionEditorSubmission->setSuppFiles($this->suppFileDao->getSuppFilesByArticle($row['article_id']));
 		$sectionEditorSubmission->setEditorFile($this->articleFileDao->getArticleFile($row['editor_file_id']));	
+		$sectionEditorSubmission->setSAEFiles($this->articleFileDao->getArticleFilesByType($row['article_id'], ARTICLE_FILE_SAE));
 			
 		// Section Decisions
 		$sectionEditorSubmission->setDecisions($this->sectionDecisionDao->getSectionDecisionsByArticleId($row['article_id']));

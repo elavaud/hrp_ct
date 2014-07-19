@@ -114,6 +114,7 @@ class TrackSubmissionHandler extends AuthorHandler {
 		$templateMgr->assign_by_ref('revisedFile', $submission->getRevisedFile());
 		$templateMgr->assign_by_ref('suppFiles', $submission->getSuppFiles());
 		$templateMgr->assign_by_ref('reportFiles', $submission->getReportFiles());
+		$templateMgr->assign_by_ref('saeFiles', $submission->getSAEFiles());
 
 		$suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
 		$templateMgr->assign_by_ref('suppFileDao', $suppFileDao);
@@ -165,6 +166,7 @@ class TrackSubmissionHandler extends AuthorHandler {
 		$templateMgr->assign_by_ref('revisedFile', $authorSubmission->getRevisedFile());
 		$templateMgr->assign_by_ref('suppFiles', $authorSubmission->getSuppFiles());
 		$templateMgr->assign_by_ref('reportFiles', $authorSubmission->getReportFiles());
+		$templateMgr->assign_by_ref('saeFiles', $authorSubmission->getSAEFiles());
 		$templateMgr->assign_by_ref('sectionDecisions', $authorSubmission->getDecisions());
 		$templateMgr->assign('helpTopicId', 'editorial.authorsRole.review');
                 $templateMgr->display('author/submissionReview.tpl');
@@ -903,7 +905,62 @@ class TrackSubmissionHandler extends AuthorHandler {
                     $submitForm->display();
                 }
 	}
-        
+
+        /**
+         * Add an adverse event file
+         * @param $args array ($articleId)
+         */
+
+        function addAdverseEvent($args, $request) {
+		$articleId = (int) array_shift($args);
+                
+		$this->validate($articleId);
+		$authorSubmission =& $this->submission;
+
+		$this->setupTemplate(true, $articleId, 'summary');
+
+		import('classes.submission.form.SAEFileForm');
+
+                $submitForm = new SAEFileForm($authorSubmission);
+
+                if ($submitForm->isLocaleResubmit()) {
+                    $submitForm->readInputData();
+		} else {
+                    $submitForm->initData();
+		}
+
+                $submitForm->display();
+	}
+
+        /**
+	 * Save an adverse event file.
+	 * @param $args array ($fileId)
+	 */
+	function saveAdverseEvent($args, &$request) {
+		$articleId = Request::getUserVar('articleId');
+		if ($articleId) {
+                    $this->validate($articleId);
+                } else {
+                    Request::redirect(null, Request::getRequestedPage());
+                }
+		$authorSubmission =& $this->submission;
+		$this->setupTemplate(true, $articleId, 'summary');
+                
+                $fileId = isset($args[0]) ? (int) $args[0] : 0;
+
+                import('classes.submission.form.SAEFileForm');
+
+                $submitForm = new SAEFileForm($authorSubmission, $fileId);
+                $submitForm->readInputData();
+
+                if ($submitForm->validate()) {
+                    $submitForm->execute();
+                    Request::redirect(null, null, 'index','proposalsInReview');
+                } else {
+                    $submitForm->display();
+                }
+	}
+      
         /**
          * Submit a request for extension
          * @param $args array ($articleId)

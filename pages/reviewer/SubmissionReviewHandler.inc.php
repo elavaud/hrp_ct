@@ -68,6 +68,7 @@ class SubmissionReviewHandler extends ReviewerHandler {
 		$templateMgr->assign_by_ref('reviewerFile', $submission->getReviewerFile());
 		$templateMgr->assign_by_ref('suppFiles', $submission->getSuppFiles());
 		$templateMgr->assign_by_ref('reportFiles', $submission->getReportFiles());
+		$templateMgr->assign_by_ref('saeFiles', $submission->getSAEFiles());
                 
 		$articleFileDao =& DAORegistry::getDao('ArticleFileDAO');
 		$templateMgr->assign_by_ref('previousFiles', $articleFileDao->getPreviousFilesByArticleId($submission->getId()));

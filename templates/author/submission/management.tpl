@@ -72,7 +72,19 @@
                 {/foreach}
             </td>
         </tr>        
-
+	
+        <tr>
+            <td class="label">{translate key="article.sae"}</td>
+            <td width="80%" class="value">
+                {foreach name="saeFiles" from=$saeFiles item=saeFile}
+                    <a href="{url op="downloadFile" path=$submission->getArticleId()|to_array:$saeFile->getFileId()}" class="file">{$saeFile->getFileName()|escape}</a>&nbsp;&nbsp;({$saeFile->getDateUploaded()|date_format:$datetimeFormatLong})
+                    <br />
+                {foreachelse}
+                    {translate key="common.none"}
+                {/foreach}
+            </td>
+        </tr>
+        
 	<tr>
             <td class="label">{translate key="submission.submitter"}</td>
             <td colspan="2" class="value">

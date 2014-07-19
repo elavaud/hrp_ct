@@ -126,7 +126,19 @@
                     {translate key="common.none"}
                 {/foreach}
             </td>
-        </tr>                 
+        </tr>  
+        
+        <tr>
+            <td class="label" title="{translate key="article.sae.instruct"}">[?] {translate key="article.sae"}</td>
+            <td width="80%" class="value">
+                {foreach name="saeFiles" from=$saeFiles item=saeFile}
+                    <a href="{url op="downloadFile"  path=$reviewId|to_array:$articleId:$saeFile->getFileId()}" class="file">{$saeFile->getFileName()|escape}</a>&nbsp;&nbsp;({$saeFile->getDateUploaded()|date_format:$datetimeFormatLong})
+                    <br />
+                {foreachelse}
+                    {translate key="common.none"}
+                {/foreach}
+            </td>
+        </tr>          
     </table>
 </div>
 

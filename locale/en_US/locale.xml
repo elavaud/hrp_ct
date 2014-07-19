@@ -26,7 +26,7 @@
 	 *  DEFAULT - Default settings for configuration items.
 	-->
         
-        <!-- New keys added in February - April 2014 -->
+        <!-- New keys added in February - July 2014 -->
                 
         <message key="proposal.exportHumanTissueAbb">Export Bio. Sample</message>
         <message key="proposal.exportReason">Reason for export</message>
@@ -52,6 +52,8 @@
         
 	<message key="article.reports">Report(s)</message>
 	<message key="article.reports.instruct">These files are post initial approval reports uploaded by the investigator. A report can be a progress report or the final report. Click on the blue title of the file in order to download it.</message>
+	<message key="article.sae">Adverse Event(s)</message>
+	<message key="article.sae.instruct">These files are serious adverse events uploaded by the investigator. Click on the blue title of the file in order to download it.</message>
                 
         <message key="notification.type.submissionComplete.continuingReview">The progress report of your proposal, "{$param}", has been considered as "Complete".</message>
         <message key="notification.type.submissionIncomplete.continuingReview">The progress report of your proposal, "{$param}", has been considered as "Incomplete". You may resubmit it.</message>
@@ -108,7 +110,7 @@
 	<message key="search.investigators">Investigators</message>
 	<message key="search.research">Research</message>
         
-
+        <message key="notification.type.sae">A serious adverse event has been reported for the proposal "{$param}"</message>
         <!-- End new keys -->
         
         <!-- Modified Keys in February March 2014 -->

@@ -18,7 +18,7 @@
         <!-- ADDED -->
         <!-- ***** -->
         
-        <!-- February - April 2014 -->
+        <!-- February - July 2014 -->
         
         <message key="author.submit.form.proposalDetails">One or multiple required data seem to be missing in the "Proposal Details" section. Please ensure to provide all required information (denoted with a star "*" ).</message>
 	<message key="author.submit.form.KIINameAlreadyUsed">Your "Key Implementing Institution" was not in the database and you provided its information. However the name provided is already in use by an institution. Please ensure that your "Key Implementing Institution" is not included in the list and if not, complete its name</message>
@@ -41,6 +41,10 @@
 	<message key="author.submissions.confirmAmendment.part2">If you do so, you will be able to modify your research proposal and this one will be subject to a new round of review by the committee in charge. Your proposal will enter again the "Submission process". Please follow the instructions displayed on the top of the following webpages. Until the end of the submission steps your proposal will remain in the "Draft" folder.</message>                
 
         <message key="author.submit.modifyCompletionReport">Modify Final Report</message>
+        
+        <message key="author.submit.submitSAE">Report Serious Adverse Event</message>
+        <message key="author.submit.submitSAE.short">Adverse Event</message>        
+        
 
         <!-- ***** -->
         <!-- END OF ADDED -->

@@ -22,7 +22,8 @@
  * [article id]/submission/layout
  * [article id]/supp
  * [article id]/report
- *  * [article id]/attachment
+ * [article id]/sae
+ * [article id]/attachment
  */
 
 
@@ -37,6 +38,7 @@ define('ARTICLE_FILE_LAYOUT',		'Layout');
 define('ARTICLE_FILE_PUBLIC',		'PublicFile');
 define('ARTICLE_FILE_SUPP',		'SupplementaryFile');
 define('ARTICLE_FILE_REPORT',		'Report');
+define('ARTICLE_FILE_SAE',		'SAE');
 define('ARTICLE_FILE_NOTE',		'FileNote');
 define('ARTICLE_FILE_ATTACHMENT',	'Attachment');
 
@@ -144,6 +146,16 @@ class ArticleFileManager extends FileManager {
 	function uploadReportFile($fileName, $fileId = null) {	
 		return $this->handleUpload($fileName, ARTICLE_FILE_REPORT, null, $fileId);
 	}        
+        
+        /**
+	 * Upload a serious adverse event file.
+	 * @param $fileName string the name of the file used in the POST form
+	 * @param $fileId int
+	 * @return int file ID, is false if failure
+	 */
+	function uploadSAEFile($fileName, $fileId = null) {	
+		return $this->handleUpload($fileName, ARTICLE_FILE_SAE, null, $fileId);
+	}
         
 	/**
 	 * Upload a note file.
@@ -341,7 +353,8 @@ class ArticleFileManager extends FileManager {
 			case ARTICLE_FILE_PUBLIC: return 'public';
 			case ARTICLE_FILE_SUPP: return 'supp';
 			case ARTICLE_FILE_REPORT: return 'report';
-			case ARTICLE_FILE_NOTE: return 'note';
+			case ARTICLE_FILE_SAE: return 'sae';
+                        case ARTICLE_FILE_NOTE: return 'note';
 			case ARTICLE_FILE_REVIEW: return 'submission/review';
 			case ARTICLE_FILE_DECISION: return 'submission/decision';
 			case ARTICLE_FILE_COPYEDIT: return 'submission/copyedit';
@@ -360,8 +373,9 @@ class ArticleFileManager extends FileManager {
 		switch ($path) {
 			case "public": return ARTICLE_FILE_PUBLIC;
 			case "supp": return ARTICLE_FILE_SUPP;
+			case "sae": return ARTICLE_FILE_SAE;
 			case "report": return ARTICLE_FILE_REPORT;
-			case "note": return ARTICLE_FILE_NOTE;
+                        case "note": return ARTICLE_FILE_NOTE;
 			case "submission/review": return ARTICLE_FILE_REVIEW;
 			case "submission/decision": return ARTICLE_FILE_DECISION;
 			case "submission/copyedit": return ARTICLE_FILE_COPYEDIT;

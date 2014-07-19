@@ -529,6 +529,23 @@ class ReviewerSubmission extends Article {
 	    //For all other statuses
 	    return $status;
 	}
+                
+        /**
+	 * Get serious adverse event files for this article.
+	 * @return array SAEFiles
+	 */
+	function &getSAEFiles() {
+		$returner =& $this->getData('saeFiles');
+		return $returner;
+	}
+
+	/**
+	 * Set serious adverse event files for this article.
+	 * @param $saeFiles array SAEFiles
+	 */
+	function setSAEFiles($saeFiles) {
+		return $this->setData('saeFiles', $saeFiles);
+	} 
 }
 
 ?>

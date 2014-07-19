@@ -69,6 +69,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		$templateMgr->assign_by_ref('submissionFile', $submission->getSubmissionFile());
 		$templateMgr->assign_by_ref('suppFiles', $submission->getSuppFiles());
 		$templateMgr->assign_by_ref('reportFiles', $submission->getReportFiles());
+		$templateMgr->assign_by_ref('saeFiles', $submission->getSAEFiles());
 		$templateMgr->assign_by_ref('previousFiles', $submission->getPreviousFiles());
 		$templateMgr->assign_by_ref('reviewFile', $submission->getReviewFile());
 		$templateMgr->assign_by_ref('journalSettings', $journalSettings);
@@ -226,6 +227,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
                 $templateMgr->assign_by_ref('abstract', $submission->getLocalizedAbstract());
 		$templateMgr->assign_by_ref('suppFiles', $submission->getSuppFiles());
 		$templateMgr->assign_by_ref('reportFiles', $submission->getReportFiles());
+		$templateMgr->assign_by_ref('saeFiles', $submission->getSAEFiles());
 		$templateMgr->assign_by_ref('reviewFile', $submission->getReviewFile());
 		$templateMgr->assign_by_ref('previousFiles', $submission->getPreviousFiles());
 		$templateMgr->assign_by_ref('copyeditFile', $submission->getFileBySignoffType('SIGNOFF_COPYEDITING_INITIAL'));

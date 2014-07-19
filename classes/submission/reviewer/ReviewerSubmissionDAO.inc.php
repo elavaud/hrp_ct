@@ -152,6 +152,7 @@ class ReviewerSubmissionDAO extends DAO {
 		$reviewerSubmission->setSubmissionFile($this->articleFileDao->getArticleFile($row['submission_file_id']));
 		$reviewerSubmission->setRevisedFile($this->articleFileDao->getArticleFile($row['revised_file_id']));
 		$reviewerSubmission->setReportFiles($this->articleFileDao->getArticleFilesByType($row['article_id'], ARTICLE_FILE_REPORT));
+		$reviewerSubmission->setSAEFiles($this->articleFileDao->getArticleFilesByType($row['article_id'], ARTICLE_FILE_SAE));
 		$reviewerSubmission->setSuppFiles($this->suppFileDao->getSuppFilesByArticle($row['article_id']));
 		$reviewerSubmission->setReviewFile($this->articleFileDao->getArticleFile($row['review_file_id']));
 		if (isset($row['reviewer_file_id'])) $reviewerSubmission->setReviewerFile($this->articleFileDao->getArticleFile($row['reviewer_file_id']));

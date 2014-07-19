@@ -108,6 +108,7 @@ class AuthorSubmissionDAO extends DAO {
 		$authorSubmission->setRevisedFile($this->articleFileDao->getArticleFile($row['revised_file_id']));
 		$authorSubmission->setReportFiles($this->articleFileDao->getArticleFilesByType($row['article_id'], ARTICLE_FILE_REPORT));
 		$authorSubmission->setSuppFiles($this->suppFileDao->getSuppFilesByArticle($row['article_id']));
+		$authorSubmission->setSAEFiles($this->articleFileDao->getArticleFilesByType($row['article_id'], ARTICLE_FILE_SAE));
 
                 $authorSubmission->setGalleys($this->galleyDao->getGalleysByArticle($row['article_id']));
 
