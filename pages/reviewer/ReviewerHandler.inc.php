@@ -163,10 +163,9 @@ class ReviewerHandler extends Handler {
 		if ($toDate != null) $toDate = date('Y-m-d H:i:s', $toDate);
 		$status = Request::getUserVar('status');
 		$replyStatus = Request::getUserVar('replyStatus');
-		$meetings = $meetingDao->getMeetingsByReviewerId($userId, $sort, $rangeInfo, $sortDirection, $status, $replyStatus, $fromDate, $toDate);
-		
+		$meetingsToArray = $meetings = $meetingDao->getMeetingsByReviewerId($userId, $sort, $rangeInfo, $sortDirection, $status, $replyStatus, $fromDate, $toDate);
 		$map = array();
-		$meetingsArray = $meetings->toArray();
+		$meetingsArray = $meetingsToArray->toArray();
 		
 		foreach($meetingsArray as $meeting) {
 			$mSectionDecisions = $meetingSectionDecisionDao->getMeetingSectionDecisionsByMeetingId($meeting->getId());
@@ -177,6 +176,7 @@ class ReviewerHandler extends Handler {
 			}
 			$map[$meeting->getId()] = $sectionDecisions;
 		}
+                                
 		$meetings = $meetingDao->getMeetingsByReviewerId($userId, $sort, $rangeInfo, $sortDirection, $status, $replyStatus, $fromDate, $toDate);
 		
 		$templateMgr =& TemplateManager::getManager();
@@ -213,30 +213,34 @@ class ReviewerHandler extends Handler {
 		$user =& Request::getUser();
 
 		$ercReviewersDao = DAORegistry::getDAO('ErcReviewersDAO');
-		
+		$reviewerSubmissionDao =& DAORegistry::getDAO('ReviewerSubmissionDAO');
+		$reviewAssignmentDao =& DAORegistry::getDAO('ReviewAssignmentDAO');
+                
 		$searchField = Request::getUserVar('searchField');
 		$searchMatch = Request::getUserVar('searchMatch');
 		$search = Request::getUserVar('search');
 
-		$reviewerSubmissionDao =& DAORegistry::getDAO('ReviewerSubmissionDAO');
 		$rangeInfo = Handler::getRangeInfo('submissions');
 				
 		$sort = Request::getUserVar('sort');
 		$sort = isset($sort) ? $sort : 'title';
 		$sortDirection = Request::getUserVar('sortDirection');
 		
-		$sectionDecisions =& $reviewerSubmissionDao->getReviewerMeetingSectionDecisionsByReviewerId($user->getId(), $journalId, $searchField, $searchMatch, $search, $rangeInfo, $sort, $sortDirection);	
+		$meetingSubmissions =& $reviewerSubmissionDao->getReviewerMeetingSubmissionsByReviewerId($user->getId(), $journalId, $searchField, $searchMatch, $search, $rangeInfo, $sort, $sortDirection);	
 						
 		$templateMgr =& TemplateManager::getManager();
 		$templateMgr->assign('fieldOptions', Array(
 			SUBMISSION_FIELD_TITLE => 'article.title',
 			SUBMISSION_FIELD_AUTHOR => 'user.role.author'
 		));	
+                
+		$map = $reviewAssignmentDao->getMapOfArticlesByReviewerId($user->getId());
+		$templateMgr->assign_by_ref('map', $map);
 		$templateMgr->assign('sort', $sort);
-		$templateMgr->assign('rangeInfo', count($sectionDecisions));
+		$templateMgr->assign('rangeInfo', count($meetingSubmissions));
 		$templateMgr->assign('sortDirection', $sortDirection);
 		$templateMgr->assign('rangeInfo', $rangeInfo);
-		$templateMgr->assign_by_ref('sectionDecisions', $sectionDecisions);
+		$templateMgr->assign_by_ref('meetingSubmissions', $meetingSubmissions);
 		
 		$templateMgr->assign('isReviewer', !$ercReviewersDao->isExternalReviewer($journalId, $user->getId()));
 		
@@ -296,18 +300,18 @@ class ReviewerHandler extends Handler {
 	 * Setup common template variables.
 	 * @param $subclass boolean set to true if caller is below this handler in the hierarchy
 	 */
-	function setupTemplate($meeting = false, $subMeeting = 0, $articleId = 0, $reviewId = 0) {
+	function setupTemplate($meeting = false, $subMeeting = 0, $articleId = 0) {
 		parent::setupTemplate();
 		Locale::requireComponents(array(LOCALE_COMPONENT_PKP_SUBMISSION, LOCALE_COMPONENT_OJS_EDITOR));
 		$templateMgr =& TemplateManager::getManager();
 		$pageHierarchy = $meeting ? array(array(Request::url(null, 'user'), 'user.role.reviewer'), array(Request::url(null, 'reviewer', 'meetings'), 'reviewer.meeting')) 
 			: array(array(Request::url(null, 'user'), 'user.role.reviewer'), array(Request::url(null, 'reviewer'), 'common.queue.short.reviewAssignments'));
 
-		if ($articleId && $reviewId) {
+		if ($articleId) {
 			$articleDao =& DAORegistry::getDAO('ArticleDAO');
-			$article =& $articleDao->getArticle($articleId);
+                        $article =& $articleDao->getArticle($articleId);
 			$proposalId = $article->getProposalId();
-			$pageHierarchy[] = array(Request::url(null, 'reviewer', 'submission', $reviewId), "$proposalId", true);
+			$pageHierarchy[] = array(Request::url(null, 'reviewer', 'submission', $articleId), "$proposalId", true);
 		}
 		
 		if ($subMeeting == 1) {

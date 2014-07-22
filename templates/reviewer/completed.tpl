@@ -48,84 +48,76 @@
 <br/><br/><br/>
 
 <div id="submissions">
-	<table class="listing" width="100%">
-		<tr><td colspan="5"><strong>{translate key="common.archivedProposals"}</strong></td></tr>
-		<tr><td colspan="5" class="headseparator">&nbsp;</td></tr>
-		<tr class="heading" valign="bottom">
-			<td width="10%">{translate key="common.id"}</td>
-			<td width="10%"><span class="disabled">{translate key="submission.date.mmdd"}</span><br />{sort_heading key="common.assigned" sort="assignDate"}</td>
-			<td width="40%">{sort_heading key="article.title" sort="title"}</td>
-			<td width="20%">{sort_heading key="submission.review" sort="review"}</td>
-			<td width="20%">{sort_heading key="submission.editorDecision" sort="decision"}</td>
-		</tr>
-		<tr><td colspan="5" class="headseparator">&nbsp;</td></tr>
-		{iterate from=submissions item=submission}
-			{assign var="articleId" value=$submission->getProposalId()}
-			{assign var="abstract" value=$submission->getLocalizedAbstract()}
-			{assign var="reviewId" value=$submission->getReviewId()}
-			<tr valign="top">
-				<td width="10%">{$articleId|escape}</td>
-				<td width="10%">{$submission->getDateNotified()|date_format:$dateFormatLong}</td>
-				<td width="40%">
-					{if !$submission->getDeclined()}
-						<a href="{url op="submission" path=$reviewId}" class="action">
-					{/if}
-					{$abstract->getScientificTitle()|escape}
-					{if !$submission->getDeclined()}
-						</a>
-					{/if}
-				</td>
-				<td width="20%">
-					{if $submission->getCancelled()}
-						{translate key="common.cancelled"}
-					{elseif $submission->getDeclined()}
-						{translate key="submissions.declined"}
-					{else}
-						{assign var=recommendation value=$submission->getRecommendation()}
-						{if $recommendation === '' || $recommendation === null}
-							&mdash;
-						{else}
-							{translate key=$reviewerRecommendationOptions.$recommendation}
-						{/if}
-					{/if}
-				</td>
-				<td width="20%">
-					{assign var=decisions value=$submission->getDecisions()}
-					{foreach from=$decisions item=decision}
-						{if $decision->getDecision() == SUBMISSION_SECTION_DECISION_APPROVED}
-							{translate key="editor.article.decision.approved"}
-						{elseif $decision->getDecision() == SUBMISSION_SECTION_DECISION_PENDING_REVISIONS}
-							{translate key="editor.article.decision.pendingRevisions"}
-						{elseif $decision->getDecision() == SUBMISSION_SECTION_DECISION_RESUBMIT}
-							{translate key="editor.article.decision.resubmit"}
-						{elseif $decision->getDecision() == SUBMISSION_SECTION_DECISION_DECLINED}
-							{translate key="editor.article.decision.declined"}
-						{else}
-							&mdash;
-						{/if}
-					{foreachelse}
-						&mdash;
-					{/foreach}
-				</td>
-			</tr>
-			<tr>
-				<td colspan="5" class="{if $submissions->eof()}end{/if}separator">&nbsp;</td>
-			</tr>
-		{/iterate}
-		{if $submissions->wasEmpty()}
-			<tr>
-				<td colspan="5" class="nodata">{translate key="submissions.noSubmissions"}</td>
-			</tr>
-			<tr>
-				<td colspan="5" class="endseparator">&nbsp;</td>
-			</tr>
-		{else}
-			<tr>
-				<td colspan="4" align="left">{page_info iterator=$submissions}</td>
-				<td colspan="3" align="right">{page_links anchor="submissions" name="submissions" iterator=$submissions sort=$sort sortDirection=$sortDirection}</td>
-			</tr>
-		{/if}
-	</table>
+    <table class="listing" width="100%">
+        <tr><td colspan="6"><strong>{translate key="common.archivedProposals"}</strong></td></tr>
+        <tr><td colspan="6" class="headseparator">&nbsp;</td></tr>
+        <tr class="heading" valign="bottom">
+            <td width="10%">{translate key="common.id"}</td>
+            <td width="45%">{sort_heading key="article.title" sort="title"}</td>
+            <td width="15%" align="right">{translate key="submissions.reviewRound"}</td>
+            <td width="10%" align="right"><span class="disabled">{translate key="submission.date.mmdd"}</span><br />{translate key="common.assigned"}</td>
+            <td width="10%" align="right">{translate key="submission.review" sort="review"}</td>
+            <td width="10%" align="right">{translate key="submission.decision"}</td>
+        </tr>
+        <tr><td colspan="6" class="headseparator">&nbsp;</td></tr>
+        {iterate from=submissions item=submission}
+                {assign var="articleId" value=$submission->getProposalId()}
+                {assign var="abstract" value=$submission->getLocalizedAbstract()}
+                {assign var="first" value="0"}                        
+                {foreach from=$submission->getPastDecisionsAndAssignments() item=dAa}
+                    {assign var="ds" value="decision"}
+                    {assign var="as" value="assignment"}                                                        
+                    {assign var="decision" value=$dAa[$ds]}
+                    {assign var="assignment" value=$dAa[$as]}                            
+                    <tr valign="top">
+                        <td>{if $first == "0"}{$articleId|escape}{else}&nbsp;{/if}</td>
+                        <td>
+                            {if $first == "0"}
+                                <a href="{url op="submission" path=$submission->getArticleId()}" class="action">{$abstract->getScientificTitle()|escape}</a>
+                            {else}
+                                &nbsp;
+                            {/if}
+                        </td>
+                        <td align="right">{translate key=$decision->getReviewTypeKey()} - {$decision->getRound()}</td>
+                        <td align="right">{$assignment->getDateNotified()|date_format:$dateFormatLong}</td>
+                        <td align="right">
+                            {if $assignment->getCancelled()}
+                                    {translate key="common.cancelled"}
+                            {elseif $assignment->getDeclined()}
+                                    {translate key="submissions.declined"}
+                            {else}
+                                {assign var=recommendation value=$assignment->getRecommendation()}
+                                {if $recommendation === '' || $recommendation === null}
+                                    &mdash;
+                                {else}
+                                    {translate key=$reviewerRecommendationOptions.$recommendation}
+                                {/if}
+                            {/if}
+                        </td>
+                        <td align="right">
+                            {translate key=$decision->getReviewStatusKey()}
+                        </td>
+                    </tr>
+                    {assign var="first" value="1"}                        
+                {/foreach}
+                <tr>
+                    <td colspan="6" class="{if $submissions->eof()}end{/if}separator">&nbsp;</td>
+                </tr>
+        {/iterate}
+        {if $submissions->wasEmpty()}
+            <tr>
+                <td colspan="6" class="nodata">{translate key="submissions.noSubmissions"}</td>
+            </tr>
+            <tr>
+                <td colspan="6" class="endseparator">&nbsp;</td>
+            </tr>
+        {else}
+            <tr>
+                <td colspan="4" align="left">{page_info iterator=$submissions}</td>
+                <td colspan="2" align="right">{page_links anchor="submissions" name="submissions" iterator=$submissions sort=$sort sortDirection=$sortDirection}</td>
+            </tr>
+        {/if}
+    </table>
 </div>
 
 

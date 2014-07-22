@@ -398,10 +398,7 @@ class SuppFile extends ArticleFile {
 	function getBestSuppFileId($journal = null) {
 		// Retrieve the journal, if necessary.
 		if (!isset($journal)) {
-			$articleDao =& DAORegistry::getDAO('ArticleDAO');
-			$article =& $articleDao->getArticle($this->getArticleId());
-			$journalDao =& DAORegistry::getDAO('JournalDAO');
-			$journal =& $journalDao->getJournal($article->getJournalId());
+                    $journal =& Request::getJournal();
 		}
 
 		if ($journal->getSetting('enablePublicSuppFileId')) {

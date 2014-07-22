@@ -53,43 +53,36 @@
 		<tr><td colspan="6"><strong>{translate key="common.reviewerActiveProposals"}</strong></td></tr>
 		<tr><td colspan="6" class="headseparator">&nbsp;</td></tr>
 		<tr class="heading" valign="bottom">
-			<td width="5%">{translate key="common.id"}</td>
-			<td width="5%"><span class="disabled">{translate key="submission.date.mmdd"}</span><br />{sort_heading key="common.assigned" sort='assignDate'}</td>
-			<td width="55%">{sort_heading key="article.title" sort='title'}</td>
-			<td width="15%" align="right"><span class="disabled">{translate key="submission.date.mmdd"}</span><br />{sort_heading key="submission.due" sort='dueDate'}</td>
-			<td width="15%" align="right"><span class="disabled">{translate key="submission.date.mmdd"}</span><br />{translate key="common.confirmed"}</td>
-			<td width="15%" align="right">{translate key="submission.recommendation"}</td>
-		</tr>
+			<td width="10%">{translate key="common.id"}</td>
+			<td width="45%">{sort_heading key="article.title" sort='title'}</td>
+                        <td width="15%" align="right">{translate key="submissions.reviewRound"}</td>
+			<td width="10%" align="right"><span class="disabled">{translate key="submission.date.mmdd"}</span><br />{sort_heading key="common.assigned" sort='assignDate'}</td>
+			<td width="10%" align="right"><span class="disabled">{translate key="submission.date.mmdd"}</span><br />{sort_heading key="submission.due" sort='dueDate'}</td>
+			<td width="10%" align="right"><span class="disabled">{translate key="submission.date.mmdd"}</span><br />{translate key="common.confirmed"}</td>
+                </tr>
 		<tr><td colspan="6" class="headseparator">&nbsp;</td></tr>
 		{assign var="count" value=0}
 		{iterate from=submissions item=submission}
 			{assign var="articleId" value=$submission->getProposalId()}
 			{assign var="abstract" value=$submission->getLocalizedAbstract()}
-			{assign var="reviewId" value=$submission->getReviewId()}
-		
-		
-			<tr valign="top">
+                        {assign var="undergoingDecision" value=$submission->getUndergoingDecision()}
+                        {assign var="rrAssignment" value=$submission->getUndergoingAssignment()}
+
+                        <tr valign="top">
 				<td>{$articleId|escape}</td>
-				<td>{$submission->getDateNotified()|date_format:$dateFormatLong}</td>
-				<td><a href="{url op="submission" path=$reviewId}" class="action">{$abstract->getScientificTitle()|escape}</a></td>
-				<td class="nowrap" align="right">{$submission->getDateDue()|date_format:$dateFormatLong}</td>
-				<td class="nowrap" align="right">
-					{if $submission->getDateConfirmed()!=null && !$submission->getDeclined()}
-				 		{$submission->getDateConfirmed()|date_format:$dateFormatLong}
-					{elseif $submission->getDeclined()}
+				<td><a href="{url op="submission" path=$submission->getArticleId()}" class="action">{$abstract->getScientificTitle()|escape}</a></td>
+                                <td align="right">{translate key=$undergoingDecision->getReviewTypeKey()} - {$undergoingDecision->getRound()}</td>
+				<td align="right">{$rrAssignment->getDateNotified()|date_format:$dateFormatLong}</td>
+                                <td align="right">{$rrAssignment->getDateDue()|date_format:$dateFormatLong}</td>
+				<td align="right">
+					{if $rrAssignment->getDateConfirmed()!=null && !$rrAssignment->getDeclined()}
+				 		{$rrAssignment->getDateConfirmed()|date_format:$dateFormatLong}
+					{elseif $rrAssignment->getDeclined()}
 						<span class="disabled">{translate key="submissions.declined"}</span>
 					{else}
 						&mdash;
 					{/if}
-				</td>
-				<td align="right">			
-					{assign var="recommendation" value=$submission->getRecommendation()}
-					{if $recommendation != 0}
-						{translate key=$reviewerRecommendationOptions.$recommendation}
-					{else}
-						&mdash;
-					{/if}				
-				</td>			
+				</td>		
 			</tr>
 			<tr>
 				<td colspan="6" class="{if $submissions->eof()}end{/if}separator">&nbsp;</td>

@@ -34,7 +34,7 @@
 
 <ul class="menu">
 	<li><a href="{url journal=$journalPath page="reviewer" path="active"}">{translate key="common.queue.short.reviewAssignments"}</a></li>
-	<li class="current"><a href="{url op="meetings}">{translate key="reviewer.meetings"}</a></li>
+	<li class="current"><a href="{url op="meetings"}">{translate key="reviewer.meetings"}</a></li>
 </ul>
 <ul class="menu">
 	<li class="current"><a href="{url op="meetings"}">{translate key="common.queue.long.meetingList"}</a></li>
@@ -47,7 +47,7 @@
 <br/>
 
 <div id="details">
-	<h2>{translate key="reviewer.meetings.details}</h2>
+	<h2>{translate key="reviewer.meetings.details"}</h2>
 	<div class="separator"></div>
 	<table width="100%" class="data">
 		<tr valign="top">
@@ -98,8 +98,14 @@
 				<tr valign="top">
 					<td>{$decision->getProposalId()|escape}</td>
    					<td>{$decision->getAuthorString()|truncate:40:"..."|escape}</td>		
-   					<td><a href="{url op="viewProposalFromMeeting" path=$decision->getId()}" class="action">{$decision->getLocalizedProposalTitle()|strip_unsafe_html|truncate:60:"..."}</a></td>
-	        		<td>{translate key=$decision->getReviewTypeKey()} - {$decision->getRound()}</td>
+   					<td>
+                                            {if $map.$key}
+                                                <a href="{url op="submission" path=$map.$key}" class="action">{$decision->getLocalizedProposalTitle()|strip_unsafe_html|truncate:60:"..."}</a>
+                                            {else}
+                                                <a href="{url op="viewProposalFromMeeting" path=$decision->getArticleId()}" class="action">{$decision->getLocalizedProposalTitle()|strip_unsafe_html|truncate:60:"..."}</a>
+                                            {/if}
+                                        </td>
+                                        <td>{translate key=$decision->getReviewTypeKey()} - {$decision->getRound()}</td>
 					<td>{translate key=$decision->getReviewStatusKey()}</td>
 				</tr>
 				<tr><td colspan="5" class="separator"></td></tr>
@@ -109,7 +115,7 @@
 					<td>{$decision->getProposalId()|escape}</td>
    					<td>{$decision->getAuthorString()|truncate:40:"..."|escape}</td>
    					<td><a href="{url op="submission" path=$map.$key}" class="action">{$decision->getLocalizedProposalTitle()|strip_unsafe_html|truncate:60:"..."}</a></td>
-	        		<td>{translate key=$decision->getReviewTypeKey()} - {$decision->getRound()}</td>
+                                        <td>{translate key=$decision->getReviewTypeKey()} - {$decision->getRound()}</td>
 					<td>{translate key=$decision->getReviewStatusKey()}</td>
 				</tr>
 				<tr><td colspan="5" class="separator"></td></tr>

@@ -45,8 +45,7 @@ class ReviewerSubmissionDAO extends DAO {
 
 	/**
 	 * Retrieve a reviewer submission by review ID.
-	 * @param $articleId int
-	 * @param $reviewerId int
+	 * @param $reviewId int
 	 * @return ReviewerSubmission
 	 */
 	function &getReviewerSubmission($reviewId) {
@@ -54,7 +53,7 @@ class ReviewerSubmissionDAO extends DAO {
 		$locale = Locale::getLocale();
 		$result =& $this->retrieve(
 			'SELECT	a.*,
-				r.*,
+				r.reviewer_id,
 				u.first_name, u.last_name,
 				COALESCE(stl.setting_value, stpl.setting_value) AS section_title,
 				COALESCE(sal.setting_value, sapl.setting_value) AS section_abbrev
@@ -93,6 +92,56 @@ class ReviewerSubmissionDAO extends DAO {
 		return $returner;
 	}
 	
+        /**
+	 * Retrieve a reviewer submission by article and reviewer ID.
+	 * @param $articleId int
+	 * @param $reviewerId int
+	 * @return ReviewerSubmission
+	 */
+	function &getReviewerSubmissionByArticleAndReviewerId($articleId, $reviewerId) {
+		$primaryLocale = Locale::getPrimaryLocale();
+		$locale = Locale::getLocale();
+		$result =& $this->retrieve(
+			'SELECT	a.*,
+				r.reviewer_id,
+				u.first_name, u.last_name,
+				COALESCE(stl.setting_value, stpl.setting_value) AS section_title,
+				COALESCE(sal.setting_value, sapl.setting_value) AS section_abbrev
+			FROM	articles a
+				LEFT JOIN section_decisions sd ON (a.article_id = sd.article_id)
+				LEFT JOIN review_assignments r ON (sd.section_decision_id = r.decision_id)
+				LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)
+				LEFT JOIN users u ON (r.reviewer_id = u.user_id)
+				LEFT JOIN section_settings stpl ON (sdec.section_id = stpl.section_id AND stpl.setting_name = ? AND stpl.locale = ?)
+				LEFT JOIN section_settings stl ON (sdec.section_id = stl.section_id AND stl.setting_name = ? AND stl.locale = ?)
+				LEFT JOIN section_settings sapl ON (sdec.section_id = sapl.section_id AND sapl.setting_name = ? AND sapl.locale = ?)
+				LEFT JOIN section_settings sal ON (sdec.section_id = sal.section_id AND sal.setting_name = ? AND sal.locale = ?)
+			WHERE	a.article_id = ? AND r.reviewer_id = ? GROUP BY a.article_id',
+			array(
+				'title',
+				$primaryLocale,
+				'title',
+				$locale,
+				'abbrev',
+				$primaryLocale,
+				'abbrev',
+				$locale,
+				$articleId,
+                                $reviewerId
+			)
+		);
+
+		$returner = null;
+		if ($result->RecordCount() != 0) {
+			$returner =& $this->_returnReviewerSubmissionFromRow($result->GetRowAssoc(false));
+		}
+
+		$result->Close();
+		unset($result);
+
+		return $returner;
+	}
+        
 	/**
 	 * Retrieve a reviewer submission from meeting by article ID.
 	 * @param $articleId int
@@ -129,7 +178,7 @@ class ReviewerSubmissionDAO extends DAO {
 
 		$returner = null;
 		if ($result->RecordCount() != 0) {
-			$returner =& $this->_returnReviewerSubmissionFromRow($result->GetRowAssoc(false));
+			$returner =& $this->_returnReviewerSubmissionFromRow($result->GetRowAssoc(false), false);
 		}
 
 		$result->Close();
@@ -144,8 +193,14 @@ class ReviewerSubmissionDAO extends DAO {
 	 * @return ReviewerSubmission
 	 * Last modified EL on March 4th 2013
 	 */
-	function &_returnReviewerSubmissionFromRow(&$row) {
+	function &_returnReviewerSubmissionFromRow(&$row, $assignedReviewer = true) {
 		$reviewerSubmission = new ReviewerSubmission();
+                
+                // Reviewer
+                if ($assignedReviewer) {
+                    $reviewerSubmission->setReviewerId($row['reviewer_id']);
+                    if (isset($row['first_name']) && isset($row['last_name'])) $reviewerSubmission->setReviewerFullName($row['first_name'].' '.$row['last_name']);                    
+                }
                 
                 // Files
                 import('classes.file.ArticleFileManager');
@@ -160,27 +215,8 @@ class ReviewerSubmissionDAO extends DAO {
 		// Comments
 		if (isset($row['review_id'])) $reviewerSubmission->setMostRecentPeerReviewComment($this->articleCommentDao->getMostRecentArticleComment($row['article_id'], COMMENT_TYPE_PEER_REVIEW, $row['review_id']));
 
-		// Editor Decisions
-		$reviewerSubmission->setDecisions($this->sectionDecisionDao->getSectionDecisionsByArticleId($row['article_id']));
-		
-		// Review Assignment 
-		if (isset($row['review_id'])) $reviewerSubmission->setReviewId($row['review_id']);
-		if (isset($row['reviewer_id'])) $reviewerSubmission->setReviewerId($row['reviewer_id']);
-		if (isset($row['first_name']) && isset($row['last_name'])) $reviewerSubmission->setReviewerFullName($row['first_name'].' '.$row['last_name']);
-		if (isset($row['competing_interests'])) $reviewerSubmission->setCompetingInterests($row['competing_interests']);
-		if (isset($row['recommendation'])) $reviewerSubmission->setRecommendation($row['recommendation']);
-		if (isset($row['date_assigned'])) $reviewerSubmission->setDateAssigned($this->datetimeFromDB($row['date_assigned']));
-		if (isset($row['date_notified'])) $reviewerSubmission->setDateNotified($this->datetimeFromDB($row['date_notified']));
-		if (isset($row['date_confirmed'])) $reviewerSubmission->setDateConfirmed($this->datetimeFromDB($row['date_confirmed']));
-		if (isset($row['date_completed'])) $reviewerSubmission->setDateCompleted($this->datetimeFromDB($row['date_completed']));
-		if (isset($row['date_acknowledged'])) $reviewerSubmission->setDateAcknowledged($this->datetimeFromDB($row['date_acknowledged']));
-		if (isset($row['date_due'])) $reviewerSubmission->setDateDue($this->datetimeFromDB($row['date_due']));
-		if (isset($row['declined'])) $reviewerSubmission->setDeclined($row['declined']);
-		if (isset($row['replaced'])) $reviewerSubmission->setReplaced($row['replaced']);
-		if (isset($row['cancelled'])) $reviewerSubmission->setCancelled($row['cancelled']==1?1:0);
-		if (isset($row['reviewer_file_id'])) $reviewerSubmission->setReviewerFileId($row['reviewer_file_id']);
-		if (isset($row['quality'])) $reviewerSubmission->setQuality($row['quality']);
-		if (isset($row['review_file_id'])) $reviewerSubmission->setReviewFileId($row['review_file_id']);
+		// Committee Decisions
+		$reviewerSubmission->setDecisionsAndAssignments($this->sectionDecisionDao->getSectionDecisionsByArticleId($row['article_id']));
 
 		// Article attributes
 		$this->articleDao->_articleFromRow($reviewerSubmission, $row);
@@ -235,7 +271,7 @@ class ReviewerSubmissionDAO extends DAO {
 	$primaryLocale = Locale::getPrimaryLocale();
 		$locale = Locale::getLocale();
 		$sql = 'SELECT	a.*,
-				r.*,
+				r.reviewer_id,
 				u.first_name, u.last_name,
 				ab.clean_scientific_title AS submission_title,
 				COALESCE(stl.setting_value, stpl.setting_value) AS section_title,
@@ -352,7 +388,7 @@ class ReviewerSubmissionDAO extends DAO {
 		}
 				
 		$sql = 'SELECT	DISTINCT a.*,
-				r.*,
+				r.reviewer_id,
 				u.first_name, u.last_name,
 				ab.clean_scientific_title AS submission_title
 			FROM	articles a
@@ -393,7 +429,7 @@ class ReviewerSubmissionDAO extends DAO {
 	 * @param $rangeInfo object
 	 * @return array ReviewerSubmissions
 	 */
-	function &getReviewerMeetingSectionDecisionsByReviewerId($reviewerId, $journalId, $searchField = null, $searchMatch = null, $search = null, $rangeInfo = null, $sortBy = null, $sortDirection = SORT_DIRECTION_ASC) {
+	function &getReviewerMeetingSubmissionsByReviewerId($reviewerId, $journalId, $searchField = null, $searchMatch = null, $search = null, $rangeInfo = null, $sortBy = null, $sortDirection = SORT_DIRECTION_ASC) {
 		$params = array($reviewerId);
 		$searchSql = '';
 		
@@ -415,16 +451,18 @@ class ReviewerSubmissionDAO extends DAO {
 				break;
 		}
 		
-		$sql = 'SELECT	DISTINCT sd.*,
-                                ab.scientific_title AS submission_title
-			FROM	section_decisions sd
-                                LEFT JOIN articles a ON (sd.article_id = a.article_id)
+		$sql = 'SELECT	DISTINCT a.*,
+				ma.user_id as reviewer_id,
+				u.first_name, u.last_name,
+				ab.clean_scientific_title AS submission_title
+			FROM	articles a
+                                LEFT JOIN section_decisions sd ON (sd.article_id = a.article_id)
 				LEFT JOIN authors aa ON (aa.submission_id = a.article_id AND aa.primary_contact = 1)
 				LEFT JOIN article_abstract ab ON (ab.article_id = a.article_id)
-				LEFT JOIN meeting_section_decisions msd ON (a.article_id = msd.section_decision_id)
+				LEFT JOIN meeting_section_decisions msd ON (sd.section_decision_id = msd.section_decision_id)
 				LEFT JOIN meeting_attendance ma ON (msd.meeting_id = ma.meeting_id)
-			WHERE	ma.user_id = ?
-				AND EXISTS (SELECT NULL FROM erc_reviewers er WHERE er.user_id = ma.user_id)';	
+				LEFT JOIN users u ON (ma.user_id = u.user_id)
+			WHERE	ma.user_id = ?';	
 		
 		$result =& $this->retrieveRange(
 			$sql . ' ' . $searchSql. ' GROUP BY a.article_id' . ($sortBy?(' ORDER BY ' . $this->getSortMapping($sortBy) . ' ' . $this->getDirectionMapping($sortDirection)) : ''),
@@ -432,9 +470,7 @@ class ReviewerSubmissionDAO extends DAO {
 			$rangeInfo
 		);
                 
-		$sectionDecisionDao = DAORegistry::getDAO('SectionDecisionDAO');
-
-		$returner = new DAOResultFactory($result, $sectionDecisionDao, '_returnSectionDecisionFromRow');
+		$returner = new DAOResultFactory($result, $this, '_returnReviewerSubmissionFromRow');
 		return $returner;
 	}
 		

@@ -111,11 +111,17 @@
 	<message key="search.research">Research</message>
         
         <message key="notification.type.sae">A serious adverse event has been reported for the proposal "{$param}"</message>
+        
+	<message key="submission.decision">Committee Decision</message>
+	<message key="submission.decision.s">Committee Decision(s)</message>
+	<message key="submission.otherdecision.s">Other Committee Decision(s)</message>
+        <message key="reviewer.article.pastAssignments">Past Assignment(s)</message>
+        
         <!-- End new keys -->
         
         <!-- Modified Keys in February March 2014 -->
         
-        
+        <message key="common.queue.long.meetingProposals">Researches</message>
         
         <!-- End modified keys -->
                                 
@@ -244,7 +250,6 @@
 	<message key="common.queue.short.completed">Archive</message>
         <message key="common.queue.short.meetingProposals">Proposals</message>
         <message key="common.queue.short.reviewAssignments">Review Assignments</message>
-        <message key="common.queue.long.meetingProposals">Proposals from meetings</message>
         <message key="common.queue.short.meetingList">Meetings</message>
         <message key="common.queue.long.meetingList">List of meetings</message>
         <message key="common.queue.long.viewMeeting">View Meeting</message>

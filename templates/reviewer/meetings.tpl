@@ -19,7 +19,7 @@
 {/if}
 <ul class="menu">
 	<li><a href="{url journal=$journalPath page="reviewer" path="active"}">{translate key="common.queue.short.reviewAssignments"}</a></li>
-	<li class="current"><a href="{url op="meetings}">{translate key="reviewer.meetings"}</a></li>
+	<li class="current"><a href="{url op="meetings"}">{translate key="reviewer.meetings"}</a></li>
 </ul>
 <ul class="menu">
 	<li class="current"><a href="{url op="meetings"}">{translate key="common.queue.long.meetingList"}</a></li>
@@ -97,7 +97,7 @@
 		{iterate from=meetings item=meeting}
 			{assign var="key" value=$meeting->getId()}
 			{assign var="meetingAttendance" value=$meeting->getMeetingAttendanceOfUser($userId)}	
-			<tr class="heading" valign="bottom">
+			<tr class="heading" valign="middle">
 				<td width="5%">{$meeting->getPublicId()}</td>
 				<td width="40%">
 					<a href="{url op="viewMeeting" path=$meeting->getId()}" class="action">

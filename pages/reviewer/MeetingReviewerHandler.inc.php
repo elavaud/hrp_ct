@@ -120,14 +120,15 @@ class MeetingReviewerHandler extends ReviewerHandler {
 		$reviewIds = array();
 		$map = array();
 		$meetingSectionDecisionDao =& DAORegistry::getDAO('MeetingSectionDecisionDAO');
-		$reviewerSubmissionDao =& DAORegistry::getDAO('ReviewerSubmissionDAO');
+		$reviewAssignmentDao =& DAORegistry::getDAO('ReviewAssignmentDAO');
 		$sectionDecisionDao =& DAORegistry::getDAO('SectionDecisionDAO');
 		$mSectionDecisions = $meetingSectionDecisionDao->getMeetingSectionDecisionsByMeetingId($meeting->getId());
 		
 		foreach($mSectionDecisions as $mSectionDecision) {
 			$sectionDecision = $sectionDecisionDao->getSectionDecision($mSectionDecision->getSectionDecisionId());
-			$review = $reviewerSubmissionDao->getReviewerSubmissionByReviewerAndDecisionId($user->getId(), $mSectionDecision->getSectionDecisionId(), $journal->getId());
-			$map[$mSectionDecision->getSectionDecisionId()] = $review->getReviewId();
+                        if ($reviewAssignmentDao->assignmentExistsByArticleAndReviewerId($user->getId(), $sectionDecision->getArticleId())){
+                            $map[$mSectionDecision->getSectionDecisionId()] = $sectionDecision->getArticleId();
+                        }
 			array_push($sectionDecisions, $sectionDecision);
 		}
 		$this->decisionReviewMap =& $map;

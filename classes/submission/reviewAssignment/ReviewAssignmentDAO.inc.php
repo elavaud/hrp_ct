@@ -344,7 +344,49 @@ class ReviewAssignmentDAO extends PKPReviewAssignmentDAO {
 		HookRegistry::call('ReviewAssignmentDAO::_fromRow', array(&$reviewAssignment, &$row));
 		return $reviewAssignment;
 	}
-	
+	        
+        /*
+         * Check if a review assignment exists for a reviewer and a proposal
+	 * @param $reviewerId int
+	 * @param $articleId int
+         * @return boolean
+         */
+        function assignmentExistsByArticleAndReviewerId($reviewerId, $articleId){
+            		
+		$result =& $this->retrieve(
+                        'SELECT count(*) FROM review_assignments ra '
+                        . 'LEFT JOIN section_decisions sd ON (sd.section_decision_id = ra.decision_id) '
+                        . 'WHERE sd.article_id = ' . $articleId . ' AND ra.reviewer_id = ' . $reviewerId);
+		
+		$returner = $result->fields[0]?true:false;
+		$result->Close();
+		
+		return $returner;
+        }
+        
+        
+        /*
+         * Get a map of every article id the reviewer has at least one assignment for
+	 * @param $reviewerId int
+         * @return Array
+         */
+        function getMapOfArticlesByReviewerId($reviewerId){
+            	$map = Array();
+		$result =& $this->retrieve(
+                        'SELECT a.article_id FROM articles a '
+                        . 'LEFT JOIN section_decisions sd ON (sd.article_id = a.article_id) '
+                        . 'LEFT JOIN review_assignments ra ON (ra.decision_id = sd.section_decision_id) '
+                        . 'WHERE ra.reviewer_id = ' . $reviewerId
+                        . ' GROUP BY a.article_id');
+
+                while (!$result->EOF) {
+			$row = $result->GetRowAssoc(false);
+                        $map[$row['article_id']] = true;
+			$result->MoveNext();
+		}
+		$result->Close();
+		return $map;
+        }
 }
 
 ?>

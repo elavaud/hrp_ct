@@ -36,47 +36,81 @@ class SubmissionReviewHandler extends ReviewerHandler {
 	 */
 	function submission($args) {
 		$journal =& Request::getJournal();
-		$reviewId = $args[0];
+		$articleId = $args[0];
 		$page = isset($args[1]) ? $args[1] : 'submissionReview';
 
-                $this->validate($reviewId);
+                $this->validate($articleId);
 		$user =& $this->user;
 		$submission =& $this->submission;
 
-		$reviewAssignmentDao =& DAORegistry::getDAO('ReviewAssignmentDAO');
-		$reviewAssignment = $reviewAssignmentDao->getById($reviewId);
-
 		$reviewFormResponseDao =& DAORegistry::getDAO('ReviewFormResponseDAO');
-		if ($submission->getDateConfirmed() == null) {
-			$confirmedStatus = 0;
-		} else {
-			$confirmedStatus = 1;
-		}
-                
                 $currencyDao =& DAORegistry::getDAO('CurrencyDAO');
-                
-		$this->setupTemplate(false, 0, $submission->getArticleId(), $reviewId);
+		$articleFileDao =& DAORegistry::getDao('ArticleFileDAO');
+		$meetingSectionDecisionDao =& DAORegistry::getDAO('MeetingSectionDecisionDAO');
+
+                $this->setupTemplate(false, 0, $submission->getArticleId());
 		$templateMgr =& TemplateManager::getManager();
 
+                // Get the decisions concerned by a meeting but where the user has not been assigned to review. Only to attend the meeting (array will be cleaned after in this function)
+		$meetingDecisions =& $meetingSectionDecisionDao->getUserMeetingSectionDecisions($articleId, $user->getId());
+
+                $undergoingDecisionAndAssignment = $submission->getUndergoingDecisionAndAssignment();
+                if ($undergoingDecisionAndAssignment){
+                    $templateMgr->assign('undergoing', '1');
+                    $templateMgr->assign_by_ref('undergoingDecision', $undergoingDecisionAndAssignment['decision']);
+                    $templateMgr->assign_by_ref('undergoingAssignment', $undergoingDecisionAndAssignment['assignment']);
+                    if ($undergoingDecisionAndAssignment['assignment']->getDateConfirmed() == null) {
+                            $confirmedStatus = 0;
+                    } else {
+                            $confirmedStatus = 1;
+                    }         
+                    $templateMgr->assign('confirmedStatus', $confirmedStatus);
+                    $templateMgr->assign('declined', $undergoingDecisionAndAssignment['assignment']->getDeclined());
+                    $templateMgr->assign('reviewFormResponseExists', $reviewFormResponseDao->reviewFormResponseExists($undergoingDecisionAndAssignment['assignment']->getReviewId()));
+                    foreach ($meetingDecisions as $mdkey => $meetingDecision) {
+                        if ($undergoingDecisionAndAssignment['decision']->getId() == $meetingDecision->getId()) {
+                            unset($meetingDecisions[$mdkey]);
+                        }                            
+                    }
+                } else {
+                    $templateMgr->assign('undergoing', '0');
+                }
+                
+                $pastDecisionsAndAssignments =& $submission->getPastDecisionsAndAssignments();
+                if ($pastDecisionsAndAssignments) {
+                    $templateMgr->assign('past', '1');
+                    $templateMgr->assign_by_ref('pastDecisionsAndAssignments', $pastDecisionsAndAssignments);
+                    foreach ($pastDecisionsAndAssignments as $pastDecisionAndAssignment) {
+                        $pastDecision =& $pastDecisionAndAssignment['decision'];
+                        foreach ($meetingDecisions as $mdkey => $meetingDecision) {
+                            if ($pastDecision->getId() == $meetingDecision->getId()) {
+                                unset($meetingDecisions[$mdkey]);
+                            }                            
+                        }
+                    }
+                } else {
+                    $templateMgr->assign('past', '0');
+                }
+                
+                if(!empty($meetingDecisions)){
+                    $templateMgr->assign('otherDecisionsExist', true);
+                    $templateMgr->assign_by_ref('otherDecisions', $meetingDecisions);
+                } else {
+                    $templateMgr->assign('otherDecisionsExist', false);
+                }
+                
 		$templateMgr->assign_by_ref('user', $user);
 		$templateMgr->assign_by_ref('submission', $submission);
-		$templateMgr->assign_by_ref('reviewAssignment', $reviewAssignment);
-		$templateMgr->assign('confirmedStatus', $confirmedStatus);
-		$templateMgr->assign('declined', $submission->getDeclined());
-		$templateMgr->assign('reviewFormResponseExists', $reviewFormResponseDao->reviewFormResponseExists($reviewId));
 		$templateMgr->assign_by_ref('reviewFile', $submission->getSubmissionFile());
 		$templateMgr->assign_by_ref('reviewerFile', $submission->getReviewerFile());
 		$templateMgr->assign_by_ref('suppFiles', $submission->getSuppFiles());
 		$templateMgr->assign_by_ref('reportFiles', $submission->getReportFiles());
 		$templateMgr->assign_by_ref('saeFiles', $submission->getSAEFiles());
-                
-		$articleFileDao =& DAORegistry::getDao('ArticleFileDAO');
 		$templateMgr->assign_by_ref('previousFiles', $articleFileDao->getPreviousFilesByArticleId($submission->getId()));
-
                 $templateMgr->assign_by_ref('abstract', $submission->getLocalizedAbstract());
-            			
 		$templateMgr->assign_by_ref('journal', $journal);
 		$templateMgr->assign_by_ref('reviewGuidelines', $journal->getLocalizedSetting('reviewGuidelines'));
+                
 		import('classes.submission.reviewAssignment.ReviewAssignment');
 		$templateMgr->assign_by_ref('reviewerRecommendationOptions', ReviewAssignment::getReviewerRecommendationOptions());
                 $templateMgr->assign_by_ref('abstractLocales', $journal->getSupportedLocaleNames());
@@ -99,39 +133,23 @@ class SubmissionReviewHandler extends ReviewerHandler {
 		$reviewId = Request::getUserVar('reviewId');
 		$declineReview = Request::getUserVar('declineReview');
 
-		$this->validate($reviewId);
+		$this->validateAction($reviewId);
 		$reviewerSubmission =& $this->submission;
 
+                $reviewAssignmentDao =& DAORegistry::getDao('ReviewAssignmentDAO');
+                $assignment =& $reviewAssignmentDao->getReviewAssignmentById($reviewId);
+                
 		$this->setupTemplate();
 
 		$decline = isset($declineReview) ? 1 : 0;
 
-		if (!$reviewerSubmission->getCancelled()) {
-			if (ReviewerAction::confirmReview($reviewerSubmission, $decline, Request::getUserVar('send'))) {
-				Request::redirect(null, null, 'submission', $reviewId);
+		if (!$assignment->getCancelled()) {
+			if (ReviewerAction::confirmReview($assignment, $decline, Request::getUserVar('send'))) {
+                            Request::redirect(null, null, 'submission', $reviewerSubmission->getArticleId());
 			}
 		} else {
-			Request::redirect(null, null, 'submission', $reviewId);
+                    Request::redirect(null, null, 'submission', $reviewerSubmission->getArticleId());
 		}
-	}
-	
-	/**
-	 *  Response to Meeting Scheduler
-	 */
-	
-	function reviewMeetingSchedule(){
-		$reviewId = Request::getUserVar('reviewId');
-		$this->validate($reviewId);
-		$reviewerSubmission =& $this->submission;
-		
-		$reviewerSubmissionDao =& DAORegistry::getDAO('ReviewerSubmissionDAO');
-		
-		$reviewerSubmission->setIsAttending(Request::getUserVar('isAttending'));
-		$reviewerSubmission->setRemarks(Request::getUserVar('remarks'));				
-		$reviewerSubmissionDao->updateReviewerSubmission($reviewerSubmission);
-	
-		Request::redirect(null, 'reviewer', 'submission', $reviewId);
-		
 	}
 
 	/**
@@ -139,16 +157,18 @@ class SubmissionReviewHandler extends ReviewerHandler {
 	 */
 	function saveCompetingInterests() {
 		$reviewId = Request::getUserVar('reviewId');
-		$this->validate($reviewId);
+		$this->validateAction($reviewId);
 		$reviewerSubmission =& $this->submission;
 
-		if ($reviewerSubmission->getDateConfirmed() && !$reviewerSubmission->getDeclined() && !$reviewerSubmission->getCancelled() && !$reviewerSubmission->getRecommendation()) {
-			$reviewerSubmissionDao =& DAORegistry::getDAO('ReviewerSubmissionDAO');
-			$reviewerSubmission->setCompetingInterests(Request::getUserVar('competingInterests'));
-			$reviewerSubmissionDao->updateReviewerSubmission($reviewerSubmission);
+                $reviewAssignmentDao =& DAORegistry::getDao('ReviewAssignmentDAO');
+                $assignment =& $reviewAssignmentDao->getReviewAssignmentById($reviewId);
+                
+		if ($assignment->getDateConfirmed() && !$assignment->getDeclined() && !$assignment->getCancelled() && !$assignment->getRecommendation()) {
+			$assignment->setCompetingInterests(Request::getUserVar('competingInterests'));
+			$reviewAssignmentDao->updateReviewAssignment($assignment);
 		}
 
-		Request::redirect(null, 'reviewer', 'submission', array($reviewId));
+                Request::redirect(null, null, 'submission', $reviewerSubmission->getArticleId());
 	}
 
 	/**
@@ -158,17 +178,20 @@ class SubmissionReviewHandler extends ReviewerHandler {
 		$reviewId = Request::getUserVar('reviewId');
 		$recommendation = Request::getUserVar('recommendation');
 
-		$this->validate($reviewId);
+		$this->validateAction($reviewId);
 		$reviewerSubmission =& $this->submission;
+
+                $reviewAssignmentDao =& DAORegistry::getDao('ReviewAssignmentDAO');
+                $assignment =& $reviewAssignmentDao->getReviewAssignmentById($reviewId);
 
 		$this->setupTemplate();
 
-		if (!$reviewerSubmission->getCancelled()) {
-			if (ReviewerAction::recordRecommendation($reviewerSubmission, $recommendation, Request::getUserVar('send'))) {
-				Request::redirect(null, null, 'submission', $reviewId);
+		if (!$assignment->getCancelled()) {
+			if (ReviewerAction::recordRecommendation($assignment, $recommendation, Request::getUserVar('send'))) {
+				Request::redirect(null, null, 'submission', $reviewerSubmission->getArticleId());
 			}
 		} else {
-			Request::redirect(null, null, 'submission', $reviewId);
+			Request::redirect(null, null, 'submission', $reviewerSubmission->getArticleId());
 		}
 	}
 
@@ -184,7 +207,7 @@ class SubmissionReviewHandler extends ReviewerHandler {
 		$this->validate($reviewId);
 		$reviewerSubmission =& $this->submission;
 
-		$this->setupTemplate(false, 0, $articleId, $reviewId);
+		$this->setupTemplate(false, 0, $articleId);
 		
 		ReviewerAction::viewMetadata($reviewerSubmission, $journal);
 	}
@@ -195,11 +218,12 @@ class SubmissionReviewHandler extends ReviewerHandler {
 	function uploadReviewerVersion() {
 		$reviewId = Request::getUserVar('reviewId');
 
-		$this->validate($reviewId);
+		$this->validateAction($reviewId);
 		$this->setupTemplate();
-		
-		ReviewerAction::uploadReviewerVersion($reviewId);
-		Request::redirect(null, null, 'submission', $reviewId);
+		$reviewerSubmission =& $this->submission;
+
+                ReviewerAction::uploadReviewerVersion($reviewId);
+		Request::redirect(null, null, 'submission', $reviewerSubmission->getArticleId());
 	}
 
 	/*
@@ -210,11 +234,13 @@ class SubmissionReviewHandler extends ReviewerHandler {
 		$fileId = isset($args[1]) ? (int) $args[1] : 0;
 		$articleId = isset($args[2]) ? (int) $args[2] : 0;
 
-		$this->validate($reviewId);
+		$this->validateAction($reviewId);
 		$reviewerSubmission =& $this->submission;
-
-		if (!$reviewerSubmission->getCancelled()) ReviewerAction::deleteReviewerVersion($reviewId, $fileId, $articleId);
-		Request::redirect(null, null, 'submission', $reviewId);
+                $reviewAssignmentDao =& DAORegistry::getDao('ReviewAssignmentDAO');
+                $assignment =& $reviewAssignmentDao->getReviewAssignmentById($reviewId);
+                
+		if (!$assignment->getCancelled()) ReviewerAction::deleteReviewerVersion($reviewId, $fileId, $articleId);
+		Request::redirect(null, null, 'submission', $reviewerSubmission->getArticleId());
 	}
 
 	//
@@ -226,16 +252,16 @@ class SubmissionReviewHandler extends ReviewerHandler {
 	 * @param $args array ($articleId, $fileId)
 	 */
 	function downloadFile($args) {
-		$reviewId = isset($args[0]) ? $args[0] : 0;
-		$articleId = isset($args[1]) ? $args[1] : 0;
-		$fileId = isset($args[2]) ? $args[2] : 0;
+		$articleId = isset($args[0]) ? $args[0] : 0;
+		$fileId = isset($args[1]) ? $args[1] : 0;
+		$reviewId = isset($args[2]) ? $args[2] : null;
 
-		$this->validate($reviewId);
+		$this->validate($articleId);
 
 		$reviewerSubmission =& $this->submission;
 
-		if (!ReviewerAction::downloadReviewerFile($reviewId, $reviewerSubmission, $fileId)) {
-			Request::redirect(null, null, 'submission', $reviewId);
+		if (!ReviewerAction::downloadReviewerFile($reviewerSubmission, $fileId, $reviewId)) {
+			Request::redirect(null, null, 'submission', $articleId);
 		}
 	}
 	
@@ -250,8 +276,7 @@ class SubmissionReviewHandler extends ReviewerHandler {
 	function editReviewFormResponse($args) {
 		$reviewId = isset($args[0]) ? $args[0] : 0;
 		
-		$this->validate($reviewId);
-		$reviewerSubmission =& $this->submission;
+		$this->validateAction($reviewId);
 
 		$reviewAssignmentDao =& DAORegistry::getDAO('ReviewAssignmentDAO');
 		$reviewAssignment =& $reviewAssignmentDao->getById($reviewId);
@@ -268,13 +293,15 @@ class SubmissionReviewHandler extends ReviewerHandler {
 	function saveReviewFormResponse($args, $request) {
 		$reviewId = (int) array_shift($args);
 		$reviewFormId = (int) array_shift($args);
-		$this->validate($reviewId);
+		$this->validateAction($reviewId);
+
+                $reviewerSubmission =& $this->submission;
 
 		// For form errors (#6562)
 		Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
                 
 		if (ReviewerAction::saveReviewFormResponse($reviewId, $reviewFormId)) {
-			$request->redirect(null, null, 'submission', $reviewId);
+			$request->redirect(null, null, 'submission', $reviewerSubmission->getArticleId());
 		}
 	}
 
@@ -284,10 +311,10 @@ class SubmissionReviewHandler extends ReviewerHandler {
 
 	/**
 	 * Validate that the user is an assigned reviewer for
-	 * the article.
+	 * the article and that the assignment is still undergoing.
 	 * Redirects to reviewer index page if validation fails.
 	 */
-	function validate($reviewId) {
+	function validateAction($reviewId) {
 		$reviewerSubmissionDao =& DAORegistry::getDAO('ReviewerSubmissionDAO');
 		$journal =& Request::getJournal();
 		$user =& Request::getUser();
@@ -297,7 +324,7 @@ class SubmissionReviewHandler extends ReviewerHandler {
 
 		$reviewerSubmission =& $reviewerSubmissionDao->getReviewerSubmission($reviewId);
 		
-		if (!$reviewerSubmission || $reviewerSubmission->getJournalId() != $journal->getId()) {
+		if (!$reviewerSubmission) {
 			$isValid = false;
 		} elseif ($user && empty($newKey)) {
 			if ($reviewerSubmission->getReviewerId() != $user->getId()) {
@@ -305,7 +332,13 @@ class SubmissionReviewHandler extends ReviewerHandler {
 			}
 		} else {
 			$user =& SubmissionReviewHandler::validateAccessKey($reviewerSubmission->getReviewerId(), $reviewId, $newKey);
-			if (!$user) $isValid = false;
+                        if (!$user) {
+                            $isValid = false;
+                        }
+                        $undergoingDecisionAndAssignment = $reviewerSubmission->getUndergoingDecisionAndAssignment();
+                        if (empty($undergoingDecisionAndAssignment)) {
+                            $isValid = false;
+                        }
 		}
 		
 		if (!$isValid) {
@@ -316,5 +349,53 @@ class SubmissionReviewHandler extends ReviewerHandler {
 		$this->user =& $user;
 		return true;
 	}
+        
+        /**
+	 * Validate that the user has been assigned at least once for a review in this article.
+	 * Redirects to reviewer index page if validation fails.
+	 */
+	function validate($articleId) {
+		$reviewerSubmissionDao =& DAORegistry::getDAO('ReviewerSubmissionDAO');
+		$user =& Request::getUser();
+
+		$isValid = true;
+		$newKey = Request::getUserVar('key');
+
+		$reviewerSubmission =& $reviewerSubmissionDao->getReviewerSubmissionByArticleAndReviewerId($articleId, $user->getId());
+		
+		if (!$reviewerSubmission) {
+			$isValid = false;
+		} elseif ($user && empty($newKey)) {
+			if ($reviewerSubmission->getReviewerId() != $user->getId()) {
+				$isValid = false;
+			}
+		} else {
+                        $decisionsAndAssignments = $reviewerSubmission->getPastDecisionsAndAssignments();
+                        $undergoingDecisionAndAssignment = $reviewerSubmission->getUndergoingDecisionAndAssignment();
+                        $user = null;
+                        foreach ($decisionsAndAssignments as $decisionsAndAssignment) {
+                            if(!$user) {
+                                $assignment = $decisionsAndAssignment['assignment'];
+                                $user =& SubmissionReviewHandler::validateAccessKey($reviewerSubmission->getReviewerId(), $assignment->getReviewId(), $newKey);                                
+                            }
+                        }
+                        if (!$user) {
+                            $assignment = $undergoingDecisionAndAssignment['assignment'];
+                            $user =& SubmissionReviewHandler::validateAccessKey($reviewerSubmission->getReviewerId(), $assignment->getReviewId(), $newKey);                                
+                        }
+                        if (!$user) {
+                            $isValid = false;
+                        }                        
+		}
+		
+		if (!$isValid) {
+			Request::redirect(null, Request::getRequestedPage());
+		}
+		
+		$this->submission =& $reviewerSubmission;
+		$this->user =& $user;
+		return true;
+	}
+
 }
 ?>

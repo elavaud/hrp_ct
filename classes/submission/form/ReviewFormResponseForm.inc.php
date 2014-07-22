@@ -61,7 +61,7 @@ class ReviewFormResponseForm extends Form {
 		$editorPreview = Request::getRequestedPage() != 'reviewer';
 
 		if (!$editorPreview) {
-			ReviewerHandler::setupTemplate(true, $sectionDecision->getArticleId(), $this->reviewId);
+			ReviewerHandler::setupTemplate(true, 0, $sectionDecision->getArticleId());
 		}
 
 		$templateMgr =& TemplateManager::getManager();

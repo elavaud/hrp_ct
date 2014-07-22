@@ -263,13 +263,19 @@ class SectionDecision extends DataObject {
 	}
 	
 	/**
+	 * Set the public proposal ID of the article concerned by the decision
+	 * @return string
+	 */
+	function setProposalId($proposalId){
+		return $this->setData('proposalId', $proposalId);
+	}
+        
+        /**
 	 * Get the public proposal ID of the article concerned by the decision
 	 * @return int
 	 */
 	function getProposalId(){
-		$articleDao = DAORegistry::getDAO('ArticleDAO');
-		$article =& $articleDao->getArticle($this->getArticleId());
-		return $article->getProposalId();
+		return $this->getData('proposalId');
 	}
         
 	/**
@@ -405,9 +411,10 @@ class SectionDecision extends DataObject {
          * Get localized proposal title
 	 */	 
 	function &getLocalizedProposalTitle() {
-            $articleDao =& DAORegistry::getDAO('ArticleDAO');
-            $article =& $articleDao->getArticle($this->getArticleId());
-            $abstract = $article->getLocalizedAbstract();
+            $abstractDao =& DAORegistry::getDAO('ProposalAbstractDAO');
+            $locale = Locale::getLocale();
+            $abstracts = $abstractDao->getAbstractsByArticle($this->getArticleId());
+            $abstract = $abstracts[$locale];
             $scientificTitle = $abstract->getScientificTitle();
             return $scientificTitle;
 	}
@@ -416,10 +423,14 @@ class SectionDecision extends DataObject {
          * Get localized proposal title
 	 */	 
 	function &getAuthorString() {
-            $articleDao =& DAORegistry::getDAO('ArticleDAO');
-            $article =& $articleDao->getArticle($this->getArticleId());
-            $authorString = $article->getAuthorString();
-            return $authorString;
+            $authorDao =& DAORegistry::getDAO('AuthorDAO');
+            $authors = $authorDao->getAuthorsByArticle($this->getArticleId());
+            foreach ($authors as $author) {
+                if ($author->getPrimaryContact()){
+                    return $author->getFullName();
+                }
+            }
+            return '-';
 	}
 
         

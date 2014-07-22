@@ -20,7 +20,7 @@
 {/if}
 <ul class="menu">
 	<li><a href="{url journal=$journalPath page="reviewer" path="active"}">{translate key="common.queue.short.reviewAssignments"}</a></li>
-	<li class="current"><a href="{url op="meetings}">{translate key="reviewer.meetings"}</a></li>
+	<li class="current"><a href="{url op="meetings"}">{translate key="reviewer.meetings"}</a></li>
 </ul>
 <ul class="menu">
 	<li><a href="{url op="meetings"}">{translate key="common.queue.long.meetingList"}</a></li>
@@ -60,22 +60,46 @@
 
 <div id="submissions">
 	<table class="listing" width="100%">
-		<tr><td colspan="3" class="headseparator">&nbsp;</td></tr>
+		<tr><td colspan="5" class="headseparator">&nbsp;</td></tr>
 		<tr class="heading" valign="bottom">
-			<td width="20%">{translate key="common.proposalId"}</td>
-			<td width="60%">{translate key="article.title" sort='title'}</td>
-			<td width="20%">Investigator</td>
+			<td width="10%">{translate key="common.proposalId"}</td>
+			<td width="40%">{sort_heading key="article.title" sort='title'}</td>
+			<td width="20%">{translate key="submissions.reviewRound"}</td>
+			<td width="15%">{translate key="submission.decision"}</td>
+			<td width="15%">{translate key="editor.meeting.id"}</td>
 		</tr>
-		<tr><td colspan="3" class="headseparator">&nbsp;</td></tr>
-		{iterate from=sectionDecisions item=sectionDecision}
-			<tr valign="top">
-				<td>{$sectionDecision->getProposalId()|escape}</td>
-				<td><a href="{url op="viewProposalFromMeeting" path=$sectionDecision->getId()}" class="action">{$sectionDecision->getLocalizedProposalTitle()|strip_unsafe_html|truncate:60:"..."}</a></td>
-   				<td>{$sectionDecision->getAuthorString()|truncate:40:"..."|escape}</td>		
-			</tr>	
-			<td colspan="3" class="separator">&nbsp;</td>
+		<tr><td colspan="5" class="headseparator">&nbsp;</td></tr>
+		{iterate from=meetingSubmissions item=meetingSubmission}
+			{assign var="abstract" value=$meetingSubmission->getLocalizedAbstract()}
+			{assign var="sectionDecisions" value=$meetingSubmission->getMeetingsDecisions()}
+			{assign var="firstDecision" value = 1}
+                        {foreach from=$sectionDecisions item=decision}
+                            {assign var="meetings" value=$decision->getMeetings()}
+                            {assign var="firstMeeting" value = 1}
+                            {foreach from=$meetings item=meeting}
+                                <tr valign="top">
+                                        <td>{if $firstDecision ne 0}{$meetingSubmission->getProposalId()|escape}{else}&nbsp;{/if}</td>
+                                        <td>{if $firstDecision ne 0}
+                                            {assign var="articleId" value = $meetingSubmission->getArticleId()}
+                                            {if $map.$articleId}
+                                                <a href="{url op="submission" path=$articleId}" class="action">{$abstract->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}</a>
+                                            {else}
+                                                <a href="{url op="viewProposalFromMeeting" path=$articleId}" class="action">{$abstract->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}</a>
+                                            {/if}
+                                            {else}&nbsp;{/if}
+                                        </td>
+                                        <td>{if $firstMeeting == 1}{translate key=$decision->getReviewTypeKey()} - {$decision->getRound()}{else}&nbsp;{/if}</td>	
+                                        <td>{if $firstMeeting == 1}{translate key=$decision->getReviewStatusKey()}{else}&nbsp;{/if}</td>
+                                        <td><a href="{url op="viewMeeting" path=$meeting->getId()}" class="action">{$meeting->getPublicId()|escape}</a></td>
+                                </tr>	
+                                {assign var="firstMeeting" value = 0}
+                                {assign var="firstDecision" value = 0}
+                            {/foreach}
+                        {/foreach}
+
+			<td colspan="5" class="separator">&nbsp;</td>
 		{/iterate}
-		{if $sectionDecisions->wasEmpty()}
+		{if $meetingSubmissions->wasEmpty()}
 			<tr>
 				<td colspan="3" class="nodata">{translate key="submissions.noSubmissions"}</td>
 			</tr>
@@ -84,8 +108,8 @@
 			</tr>
 		{else}
 			<tr>
-				<td colspan="3" align="left">{page_info iterator=$sectionDecisions}</td>
-				<td colspan="3" align="right">{page_links anchor="sectionDecisions" name="sectionDecisions" iterator=$sectionDecisions sort=$sort sortDirection=$sortDirection}</td>
+				<td colspan="3" align="left">{page_info iterator=$meetingSubmissions}</td>
+				<td colspan="3" align="right">{page_links anchor="meetingSubmissions" name="meetingSubmissions" iterator=$meetingSubmissions sort=$sort sortDirection=$sortDirection}</td>
 			</tr>
 		{/if}
 	</table>

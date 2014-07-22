@@ -81,7 +81,6 @@ class Author extends PKPAuthor {
          */
         function getAllResearchFieldsText(){
 		$authorDao =& DAORegistry::getDAO('AuthorDAO');
-		$articleDao =& DAORegistry::getDAO('ArticleDAO');
 		$proposalDetailsDao =& DAORegistry::getDAO('ProposalDetailsDAO');
                 
                 // get all the authors with the same email
@@ -91,8 +90,7 @@ class Author extends PKPAuthor {
                 
                 // Get all the research fields of every submissions by the author
                 foreach ($authors as $author) {
-                    $article =& $articleDao->getArticle($author->getSubmissionId());
-                    $proposalDetails = $article->getProposalDetails();
+                    $proposalDetails = $proposalDetailsDao->getProposalDetailsByArticleId($author->getSubmissionId());
                     $rFields = $proposalDetails->getResearchFields(); 
                     $researchFieldCodeArray = explode("+", $rFields);
                     foreach ($researchFieldCodeArray as $rField) {

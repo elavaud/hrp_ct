@@ -35,7 +35,9 @@ class SectionDecisionDAO extends DAO{
 	function &getSectionDecision($sectionDecisionId) {
 
 		$result =& $this->retrieve(
-			'SELECT * FROM section_decisions WHERE section_decision_id = ?',
+			'SELECT sd.*, a.public_id FROM section_decisions sd'
+                        . ' LEFT JOIN articles a ON (a.article_id = sd.article_id)'
+                        . ' WHERE section_decision_id = ?',
 			(int) $sectionDecisionId
 		);
 
@@ -56,7 +58,9 @@ class SectionDecisionDAO extends DAO{
 		$sectionDecisions = array();
 		
 		$result =& $this->retrieve(
-			'SELECT * FROM section_decisions WHERE article_id = ?',
+			'SELECT sd.*, a.public_id FROM section_decisions sd'
+                        . ' LEFT JOIN articles a ON (a.article_id = sd.article_id)'
+                        . ' WHERE sd.article_id = ?',
 			(int) $articleId
 		);
 		
@@ -166,6 +170,8 @@ class SectionDecisionDAO extends DAO{
 		$sectionDecision->setComments($row['comments']);
                 $sectionDecision->setDateDecided($this->datetimeFromDB($row['date_decided']));
 
+                $sectionDecision->setProposalId($row['public_id']);
+                
 		$sectionDecision->setReviewAssignments($this->reviewAssignmentDao->getReviewAssignmentsByDecisionId($row['section_decision_id']));
 
 		$articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');		
@@ -188,11 +194,11 @@ class SectionDecisionDAO extends DAO{
 		
 		if ($reviewType) {
 			$result =& $this->retrieve(
-				'SELECT * FROM section_decisions WHERE article_id = ? AND review_type = ? ORDER BY section_decision_id DESC LIMIT 1', array($articleId, $reviewType)
+				'SELECT sd.*, a.public_id FROM section_decisions sd LEFT JOIN articles a ON (a.article_id = sd.article_id) WHERE sd.article_id = ? AND sd.review_type = ? ORDER BY sd.section_decision_id DESC LIMIT 1', array($articleId, $reviewType)
 			);		
 		} else {
 			$result =& $this->retrieve(
-				'SELECT * FROM section_decisions WHERE article_id = ? ORDER BY section_decision_id DESC LIMIT 1', $articleId
+				'SELECT sd.*, a.public_id FROM section_decisions sd LEFT JOIN articles a ON (a.article_id = sd.article_id) WHERE sd.article_id = ? ORDER BY sd.section_decision_id DESC LIMIT 1', $articleId
 			);
 		}
 		
@@ -278,7 +284,7 @@ class SectionDecisionDAO extends DAO{
 	function getSectionDecisionsAvailableForMeeting($sectionId) {
             
             	$result =& $this->retrieve(
-			sprintf('SELECT * FROM section_decisions WHERE section_id = ? AND (decision = ? OR decision = ?)'),
+			sprintf('SELECT sd.*, a.public_id FROM section_decisions LEFT JOIN articles a ON (a.article_id = sd.article_id) WHERE sd.section_id = ? AND (sd.decision = ? OR decision = ?)'),
 			array($sectionId, SUBMISSION_SECTION_DECISION_FULL_REVIEW, SUBMISSION_SECTION_DECISION_EXPEDITED)
 		);
                 

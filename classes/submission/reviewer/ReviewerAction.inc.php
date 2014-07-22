@@ -33,17 +33,17 @@ class ReviewerAction extends Action {
 	/**
 	 * Records whether or not the reviewer accepts the review assignment.
 	 * @param $user object
-	 * @param $reviewerSubmission object
+	 * @param $assignment object
 	 * @param $decline boolean
 	 * @param $send boolean
 	 */
-	function confirmReview($reviewerSubmission, $decline, $send) {
+	function confirmReview($reviewAssignment, $decline, $send) {
 		$reviewAssignmentDao =& DAORegistry::getDAO('ReviewAssignmentDAO');
+		$reviewerSubmissionDao =& DAORegistry::getDAO('ReviewerSubmissionDAO');
 		$userDao =& DAORegistry::getDAO('UserDAO');
 
-		$reviewId = $reviewerSubmission->getReviewId();
-
-		$reviewAssignment =& $reviewAssignmentDao->getById($reviewId);
+		$reviewId = $reviewAssignment->getReviewId();
+		$reviewerSubmission =& $reviewerSubmissionDao->getReviewerSubmission($reviewId);
 		$reviewer =& $userDao->getUser($reviewAssignment->getReviewerId());
 		if (!isset($reviewer)) return true;
 
@@ -145,15 +145,18 @@ class ReviewerAction extends Action {
 	 * @param $recommendation int
 	 * @param $send boolean
 	 */
-	function recordRecommendation(&$reviewerSubmission, $recommendation, $send) {
+	function recordRecommendation(&$reviewAssignment, $recommendation, $send) {
 		$reviewAssignmentDao =& DAORegistry::getDAO('ReviewAssignmentDAO');
+		$reviewerSubmissionDao =& DAORegistry::getDAO('ReviewerSubmissionDAO');
 		$userDao =& DAORegistry::getDAO('UserDAO');
+
+                $reviewId = $reviewAssignment->getReviewId();
+		$reviewerSubmission =& $reviewerSubmissionDao->getReviewerSubmission($reviewId);
 
 		// Check validity of selected recommendation
 		$reviewerRecommendationOptions =& ReviewAssignment::getReviewerRecommendationOptions();
 		if (!isset($reviewerRecommendationOptions[$recommendation])) return true;
 
-		$reviewAssignment =& $reviewAssignmentDao->getById($reviewerSubmission->getReviewId());
 		$reviewer =& $userDao->getUser($reviewAssignment->getReviewerId());
 		if (!isset($reviewer)) return true;
 
@@ -169,7 +172,7 @@ class ReviewerAction extends Action {
 			if (!$email->isEnabled() || ($send && !$email->hasErrors())) {
 				HookRegistry::call('ReviewerAction::recordRecommendation', array(&$reviewerSubmission, &$email, $recommendation));
 				if ($email->isEnabled()) {
-					$email->setAssoc(ARTICLE_EMAIL_REVIEW_COMPLETE, ARTICLE_EMAIL_TYPE_REVIEW, $reviewerSubmission->getReviewId());
+					$email->setAssoc(ARTICLE_EMAIL_REVIEW_COMPLETE, ARTICLE_EMAIL_TYPE_REVIEW, $reviewId);
 					$email->send();
 				}
 				
@@ -220,7 +223,7 @@ class ReviewerAction extends Action {
 				}
 
 				$email->displayEditForm(Request::url(null, 'reviewer', 'recordRecommendation'),
-					array('reviewId' => $reviewerSubmission->getReviewId(), 'recommendation' => $recommendation)
+					array('reviewId' => $reviewId, 'recommendation' => $recommendation)
 				);
 				return false;
 			}
@@ -295,11 +298,11 @@ class ReviewerAction extends Action {
 			$user =& Request::getUser();
 			$message = $article->getProposalId().':<br/>'.$user->getUsername();
 			foreach ($notificationUsers as $userRole) {
-				$url = Request::url(null, $userRole['role'], 'submissionReview', $article->getId(), null, 'peerReview');
-            	$notificationManager->createNotification(
-            		$userRole['id'], 'notification.type.reviewerFile',
-                	$message, $url, 1, NOTIFICATION_TYPE_REVIEWER_COMMENT
-            	);
+                            $url = Request::url(null, $userRole['role'], 'submissionReview', $article->getId(), null, 'peerReview');
+                            $notificationManager->createNotification(
+                                    $userRole['id'], 'notification.type.reviewerFile',
+                                    $message, $url, 1, NOTIFICATION_TYPE_REVIEWER_COMMENT
+                            );
 			}
 		}
 	}
@@ -465,29 +468,36 @@ class ReviewerAction extends Action {
 	 * @param $article object
 	 * @param $fileId int
 	 */
-	function downloadReviewerFile($reviewId, $article, $fileId) {
+	function downloadReviewerFile($article, $fileId, $reviewId = null) {
 		$reviewAssignmentDao =& DAORegistry::getDAO('ReviewAssignmentDAO');		
-		$articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');		
-		$reviewAssignment =& $reviewAssignmentDao->getById($reviewId);
-		$journal =& Request::getJournal();
+		$articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
+                if ($reviewId) {
+                    $reviewAssignment =& $reviewAssignmentDao->getById($reviewId);                    
+                }
 
 		$canDownload = false;
 		
 		$submissionFile = $article->getSubmissionFile();
+		$reviewFile = $article->getReviewFile();
+		$suppFiles = $article->getSuppFiles();
 		
 		// Reviewers have access to:
 		// 1) The current revision of the file to be reviewed.
-		// 2) Any file that he uploads.
+		// 2) Any file that (s)he uploads.
 		// 3) Any supplementary file that is visible to reviewers.
 		// 4) Any of the previous main proposal files
-		if ($reviewAssignment->getReviewFileId() == $fileId) {
+		// 5) Any of the report files
+		// 6) Any of the sae files
+                if ($reviewFile->getId() == $fileId) {
 			$canDownload = true;
-		} else if ($reviewAssignment->getReviewerFileId() == $fileId) {
-			$canDownload = true;
+		} else if ($reviewId){
+                        if ($reviewAssignment->getReviewerFileId() == $fileId) {
+                            $canDownload = true;
+                        }
 		} else if ($submissionFile->getFileId() == $fileId) {
 			$canDownload = true;
 		} else {
-			foreach ($reviewAssignment->getSuppFiles() as $suppFile) {
+			foreach ($suppFiles as $suppFile) {
 				if ($suppFile->getFileId() == $fileId && $suppFile->getShowReviewers()) {
 					$canDownload = true;
 				}

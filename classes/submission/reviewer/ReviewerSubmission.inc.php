@@ -23,9 +23,15 @@ class ReviewerSubmission extends Article {
 	/** @var array ArticleComments peer review comments of this article */
 	var $peerReviewComments;
 
-	/** @var array the editor decisions of this article */
-	var $sectionDecisions;
+	/** @var array past decisions and assignments for this article and reviewer*/
+	var $pastDecisionsAndAssignments;
 
+	/** @var array undergoing decision and assignment for this article and reviewer*/
+	var $undergoingDecisionAndAssignment;
+        
+	/** @var array section decisions that have at least one meeting*/
+	var $meetingsDecisions;
+        
 	/**
 	 * Constructor.
 	 */
@@ -51,22 +57,6 @@ class ReviewerSubmission extends Article {
 	 */
 	function setCompetingInterests($competingInterests) {
 		return $this->setData('competingInterests', $competingInterests);
-	}
-
-	/**
-	 * Get ID of review assignment.
-	 * @return int
-	 */
-	function getReviewId() {
-		return $this->getData('reviewId');
-	}
-
-	/**
-	 * Set ID of review assignment
-	 * @param $reviewId int
-	 */
-	function setReviewId($reviewId) {
-		return $this->setData('reviewId', $reviewId);
 	}
 
 	/**
@@ -102,30 +92,130 @@ class ReviewerSubmission extends Article {
 	}
 
 	/**
-	 * Get editor decisions.
+	 * prvate function for sorting decisions.
 	 * @return array
 	 */
 	private function usortDecisions($a, $b){
-    	return $a->getId() == $b->getId() ? 0 : ( $a->getId() > $b->getId() ) ? 1 : -1;
+                $aDecision = $a['decision'];
+                $bDecision = $b['decision'];
+                return $aDecision->getId() == $bDecision->getId() ? 0 : ( $aDecision->getId() > $bDecision->getId() ) ? 1 : -1;
    	}
-	
-	function getDecisions() {
-		$sectionDecisions =& $this->sectionDecisions;
-		usort($sectionDecisions, array($this, "usortDecisions"));
-		
-		if ($sectionDecisions) return $sectionDecisions;
+        
+	function getPastDecisionsAndAssignments() {
+		$decisionsAndAssignments =& $this->pastDecisionsAndAssignments;
+		usort($decisionsAndAssignments, array($this, "usortDecisions"));
+		if ($decisionsAndAssignments) return $decisionsAndAssignments;
 		else return null;
 	}
-
+        
+        /**
+	 * Get private function for sorting the decisions that have at least one meeting.
+	 * @return array
+	 */
+	private function usortMeetingsDecisions($a, $b){
+                return $a->getId() == $b->getId() ? 0 : ( $a->getId() > $b->getId() ) ? 1 : -1;
+   	}
+        
+        function getMeetingsDecisions() {
+		$decisions =& $this->meetingsDecisions;
+		usort($decisions, array($this, "usortMeetingsDecisions"));
+		if ($decisions) return $decisions;
+		else return null;
+	}
+        
 	/**
-	 * Set editor decisions.
+	 * Set comittee decisions for this research where the reviewer is concerned by a review assignment.
 	 * @param $sectionDecisions array
 	 */
-	function setDecisions($sectionDecisions) {
-		return $this->sectionDecisions = $sectionDecisions;
+	function setDecisionsAndAssignments($sectionDecisions) {
+                $meetingsDecisions = array();
+                $decisionsAndAssignments = array();
+                $pastDecisionsAndAssignments = array();
+                $undergoingDecisionAndAssignment = array();
+                // Select only concerned decisions
+                foreach($sectionDecisions as $skey => $sectionDecision){
+                    $reviewAssignments = $sectionDecision->getReviewAssignments();
+                    foreach ($reviewAssignments as $rkey => $reviewAssignment){
+                        // Clean the decision of review assignments not addressed to the reviewer
+                        if ($reviewAssignment->getReviewerId() == $this->getReviewerId()) {
+                            array_push($decisionsAndAssignments, array('decision' => $sectionDecision, 'assignment' => $reviewAssignment));
+                        }
+                    }
+                }
+                // Separate the past ones and the undergoing one
+                foreach($decisionsAndAssignments as $dakey => $decisionsAndAssignment) {
+                    $sectionDecision = $decisionsAndAssignment['decision'];
+                    $assignment = $decisionsAndAssignment['assignment'];
+                    if ($sectionDecision->getDecision() != SUBMISSION_SECTION_DECISION_EXPEDITED && $sectionDecision->getDecision() != SUBMISSION_SECTION_DECISION_FULL_REVIEW) {
+                        array_push($pastDecisionsAndAssignments, array('decision' => $sectionDecision, 'assignment' => $assignment));
+                    } else {
+                        // Refer to reviewerSubmissionDAO
+                        if ($assignment->getReviewerId() != $this->getReviewerId() 
+                                || $assignment->getDateCompleted() != '' 
+                                || $assignment->getDeclined() == 1 
+                                || $assignment->getCancelled() == 1) {
+                            array_push($pastDecisionsAndAssignments, array('decision' => $sectionDecision, 'assignment' => $assignment));
+                        } else {
+                            $undergoingDecisionAndAssignment = array('decision' => $sectionDecision, 'assignment' => $assignment);
+                        }
+                    }
+                    
+                }
+                // get the ones for meetings
+                foreach ($sectionDecisions as $meetingsDecision) {
+                    $meetings =& $meetingsDecision->getMeetings();
+                    $foundDecision = false;
+                    $concernedMeetings = array();
+                    foreach ($meetings as $meeting) {
+                        $foundMeeting = false;
+                        $attendances =& $meeting->getMeetingAttendances();
+                        foreach ($attendances as $attendance) {
+                            if ($attendance->getUserId() == $this->getReviewerId() && !$foundMeeting) {
+                                array_push($concernedMeetings, $meeting);
+                                $foundDecision = true;
+                                $foundMeeting = true;
+                            }
+                        }
+                    }
+                    if ($foundDecision) {
+                        $meetingsDecision->setMeetings($concernedMeetings);
+                        array_push($meetingsDecisions, $meetingsDecision);
+                    }                    
+                }
+                $this->meetingsDecisions = $meetingsDecisions;
+		$this->pastDecisionsAndAssignments = $pastDecisionsAndAssignments;
+		$this->undergoingDecisionAndAssignment = $undergoingDecisionAndAssignment;
 	}
-
-
+        
+	/**
+	 * Get the undergoing committee decision.
+	 * @return $sectionDecision SectionDecision
+	 */
+        function getUndergoingDecisionAndAssignment(){
+		$decisionAndAssignment =& $this->undergoingDecisionAndAssignment;
+                if (!empty($decisionAndAssignment)) {
+                    return $decisionAndAssignment;
+                } else {
+                    return null;
+                }
+        }
+        function getUndergoingDecision(){
+            $uDA = $this->getUndergoingDecisionAndAssignment();
+            if ($uDA) {
+                return $uDA['decision'];
+            } else {
+                return null;
+            }
+        }
+        function getUndergoingAssignment(){
+            $uDA = $this->getUndergoingDecisionAndAssignment();
+            if ($uDA) {
+                return $uDA['assignment'];
+            } else {
+                return null;
+            }            
+        }
+        
 	/**
 	 * Get the last section decision id for this article.
 	 * @return Section Decision object
@@ -136,199 +226,6 @@ class ReviewerSubmission extends Article {
 		if ($sDecision) return $sDecision->getId();
 		else return null;
 	}	
-
-	/**
-	 * Get reviewer recommendation.
-	 * @return string
-	 */
-	function getRecommendation() {
-		return $this->getData('recommendation');
-	}
-
-	/**
-	 * Set reviewer recommendation.
-	 * @param $recommendation string
-	 */
-	function setRecommendation($recommendation) {
-		return $this->setData('recommendation', $recommendation);
-	}
-
-	/**
-	 * Get the reviewer's assigned date.
-	 * @return string
-	 */
-	function getDateAssigned() {
-		return $this->getData('dateAssigned');
-	}
-
-	/**
-	 * Set the reviewer's assigned date.
-	 * @param $dateAssigned string
-	 */
-	function setDateAssigned($dateAssigned) {
-		return $this->setData('dateAssigned', $dateAssigned);
-	}
-
-	/**
-	 * Get the reviewer's notified date.
-	 * @return string
-	 */
-	function getDateNotified() {
-		return $this->getData('dateNotified');
-	}
-
-	/**
-	 * Set the reviewer's notified date.
-	 * @param $dateNotified string
-	 */
-	function setDateNotified($dateNotified) {
-		return $this->setData('dateNotified', $dateNotified);
-	}
-
-	/**
-	 * Get the reviewer's confirmed date.
-	 * @return string
-	 */
-	function getDateConfirmed() {
-		return $this->getData('dateConfirmed');
-	}
-
-	/**
-	 * Set the reviewer's confirmed date.
-	 * @param $dateConfirmed string
-	 */
-	function setDateConfirmed($dateConfirmed) {
-		return $this->setData('dateConfirmed', $dateConfirmed);
-	}
-
-	/**
-	 * Get the reviewer's completed date.
-	 * @return string
-	 */
-	function getDateCompleted() {
-		return $this->getData('dateCompleted');
-	}
-
-	/**
-	 * Set the reviewer's completed date.
-	 * @param $dateCompleted string
-	 */
-	function setDateCompleted($dateCompleted) {
-		return $this->setData('dateCompleted', $dateCompleted);
-	}
-
-	/**
-	 * Get the reviewer's acknowledged date.
-	 * @return string
-	 */
-	function getDateAcknowledged() {
-		return $this->getData('dateAcknowledged');
-	}
-
-	/**
-	 * Set the reviewer's acknowledged date.
-	 * @param $dateAcknowledged string
-	 */
-	function setDateAcknowledged($dateAcknowledged) {
-		return $this->setData('dateAcknowledged', $dateAcknowledged);
-	}
-
-	/**
-	 * Get the reviewer's due date.
-	 * @return string
-	 */
-	function getDateDue() {
-		return $this->getData('dateDue');
-	}
-
-	/**
-	 * Set the reviewer's due date.
-	 * @param $dateDue string
-	 */
-	function setDateDue($dateDue) {
-		return $this->setData('dateDue', $dateDue);
-	}
-	
-	/**
-	 * Get the declined value.
-	 * @return boolean
-	 */
-	function getDeclined() {
-		return $this->getData('declined');
-	}
-
-	/**
-	 * Set the reviewer's declined value.
-	 * @param $declined boolean
-	 */
-	function setDeclined($declined) {
-		return $this->setData('declined', $declined);
-	}
-
-	/**
-	 * Get the replaced value.
-	 * @return boolean
-	 */
-	function getReplaced() {
-		return $this->getData('replaced');
-	}
-
-	/**
-	 * Set the reviewer's replaced value.
-	 * @param $replaced boolean
-	 */
-	function setReplaced($replaced) {
-		return $this->setData('replaced', $replaced);
-	}
-
-	/**
-	 * Get the cancelled value.
-	 * @return boolean
-	 */
-	function getCancelled() {
-		return $this->getData('cancelled');
-	}
-
-	/**
-	 * Set the reviewer's cancelled value.
-	 * @param $replaced boolean
-	 */
-	function setCancelled($cancelled) {
-		return $this->setData('cancelled', $cancelled);
-	}
-
-	/**
-	 * Get reviewer file id.
-	 * @return int
-	 */
-	function getReviewerFileId() {
-		return $this->getData('reviewerFileId');
-	}
-
-	/**
-	 * Set reviewer file id.
-	 * @param $reviewerFileId int
-	 */
-	function setReviewerFileId($reviewerFileId) {
-		return $this->setData('reviewerFileId', $reviewerFileId);
-	}
-
-	/**
-	 * Get quality.
-	 * @return int
-	 */
-	function getQuality() {
-		return $this->getData('quality');
-	}
-
-	/**
-	 * Set quality.
-	 * @param $quality int
-	 */
-	function setQuality($quality) {
-		return $this->setData('quality', $quality);
-	}
-
 
 	/**
 	 * Get review file id.
@@ -452,47 +349,8 @@ class ReviewerSubmission extends Article {
 		return $this->setData('reviewerFile', $reviewerFile);
 	}
 
-	//
-	// Comments
-	//
 
-	/**
-	 * Get most recent peer review comment.
-	 * @return ArticleComment
-	 */
-	function getMostRecentPeerReviewComment() {
-		return $this->getData('peerReviewComment');
-	}
-
-	/**
-	 * Set most recent peer review comment.
-	 * @param $peerReviewComment ArticleComment
-	 */
-	function setMostRecentPeerReviewComment($peerReviewComment) {
-		return $this->setData('peerReviewComment', $peerReviewComment);
-	}
-	
-	function getRemarks(){
-		
-		return $this->getData('remarks');
-	}
-	
-	function setRemarks($remarks){
-		
-		return $this->setData('remarks', $remarks);
-	}
-
-	function getIsAttending(){
-		
-		return $this->getData('isAttending');
-	}
-	
-	function setIsAttending($isAttending){
-		
-		return $this->setData('isAttending', $isAttending);
-	}
-
-/**
+        /**
 	 * Get the submission status. Returns one of the defined constants
          * PROPOSAL_STATUS_DRAFT, PROPOSAL_STATUS_WITHDRAWN, PROPOSAL_STATUS_SUBMITTED,
          * PROPOSAL_STATUS_RETURNED, PROPOSAL_STATUS_REVIEWED, PROPOSAL_STATUS_EXEMPTED

@@ -121,6 +121,33 @@ class MeetingSectionDecisionDAO extends DAO {
 
 		return $returner;
 	}
+        
+        /**
+         * Get meeting "real" section decisions by attendance id and article id
+	 * @param Meeting $articleId
+	 * @param Meeting $userId
+	 * @return array
+         */
+        function getUserMeetingSectionDecisions($articleId, $userId){
+                $sectionDecisionDao =& DAORegistry::getDAO('SectionDecisionDAO');
+                $decisions = array();
+                
+                $result =& $this->retrieve(
+			'SELECT sd.*, a.public_id FROM section_decisions sd'
+                        . ' LEFT JOIN articles a ON (a.article_id = sd.article_id)'
+                        . ' LEFT JOIN meeting_section_decisions msd ON (msd.section_decision_id = sd.section_decision_id)'
+                        . ' LEFT JOIN meeting_attendance ma ON (ma.meeting_id = msd.meeting_id)'
+                        . ' WHERE a.article_id = ' . $articleId . ' AND ma.user_id = ' . $userId
+                        . ' GROUP BY sd.section_decision_id'
+		);
+                
+                while (!$result->EOF) {
+			$decisions[] =& $sectionDecisionDao->_returnSectionDecisionFromRow($result->GetRowAssoc(false));
+			$result->moveNext();		
+		}
+                
+		return $decisions;
+        }
 
 	
 }
