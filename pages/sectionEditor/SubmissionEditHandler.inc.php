@@ -536,7 +536,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 			
 			//Notify reviewer and send email by default
 			$reviewId = $sectionEditorSubmissionDao->getReviewAssignmentIdByDecisionAndReviewer($submission->getLastSectionDecisionId(), $reviewerId);
-			SectionEditorAction::notifyReviewer($submission, $reviewId, true);
+			SectionEditorAction::notifyReviewer($submission, $reviewId, 0, true);
 			Request::redirect(null, null, 'submissionReview', $articleId);
 
 			// FIXME: Prompt for due date.
@@ -622,17 +622,28 @@ class SubmissionEditHandler extends SectionEditorHandler {
 
 	function notifyReviewers($args = array()) {
 		$articleId = isset($args[0]) ? $args[0] : 0;
+                $incrementNumber = isset($args[1]) ? $args[1] : 0;
 		$this->validate($articleId, SECTION_EDITOR_ACCESS_REVIEW);
 		$submission =& $this->submission;
 		$lastDecision =& $submission->getLastSectionDecision();
 		$reviewAssignments = $lastDecision->getReviewAssignments();
-		
-		//send emails by default
-		foreach($reviewAssignments as $reviewAssignment) {			
-			SectionEditorAction::notifyReviewer($submission, $reviewAssignment->getId(), true);
-		}
-		
-		Request::redirect(null, null, 'submissionReview', $articleId);
+                $reviewAssignmentsArray = array();
+                foreach ($reviewAssignments as $key => $reviewAssignment) {
+                    array_push($reviewAssignmentsArray, array($key => $reviewAssignment));
+                }
+                $assignmentArray = $reviewAssignmentsArray[$incrementNumber];
+                $assignment = reset($assignmentArray);
+                $reviewAssignmentSent = SectionEditorAction::notifyReviewer($submission, $assignment->getId(), $incrementNumber, Request::getUserVar('send'));
+
+		if ($reviewAssignmentSent) {
+			$incrementNumber = $incrementNumber+1;
+			if ($incrementNumber < count($reviewAssignments)) {
+				Request::redirect(null, null, 'notifyReviewers', array($articleId, $incrementNumber));
+                        }
+                        else Request::redirect(null, null, 'submissionReview', $articleId);
+                } else {
+                    
+                }
 	}
 	
 	function notifyReviewer($args = array()) {
@@ -642,7 +653,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		$submission =& $this->submission;
 		
 		//send emails by default
-		SectionEditorAction::notifyReviewer($submission, $reviewId, true);
+		SectionEditorAction::notifyReviewer($submission, $reviewId, 0, true);
 		Request::redirect(null, null, 'submissionReview', $articleId);
 	}
 

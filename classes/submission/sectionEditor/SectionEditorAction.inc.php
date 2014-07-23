@@ -234,7 +234,7 @@ class SectionEditorAction extends Action {
 	 * @param $reviewId int
 	 * @return boolean true iff ready for redirect
 	 */
-	function notifyReviewer($sectionEditorSubmission, $reviewId, $send = false) {
+	function notifyReviewer($sectionEditorSubmission, $reviewId, $incrementNumber = 0, $send = false) {
 		$sectionEditorSubmissionDao =& DAORegistry::getDAO('SectionEditorSubmissionDAO');
 		$reviewAssignmentDao =& DAORegistry::getDAO('ReviewAssignmentDAO');
 		$userDao =& DAORegistry::getDAO('UserDAO');
@@ -271,7 +271,7 @@ class SectionEditorAction extends Action {
 			if (!isset($reviewer)) return true;
 
 			if (!$email->isEnabled() || ($send && !$email->hasErrors())) {
-				HookRegistry::call('SectionEditorAction::notifyReviewer', array(&$sectionEditorSubmission, &$reviewAssignment, &$email));
+				HookRegistry::call('SectionEditorAction::notifyReviewer', array(&$sectionEditorSubmission, &$reviewAssignment, $incrementNumber, &$email));
 				if ($email->isEnabled()) {
 					$email->setAssoc(ARTICLE_EMAIL_REVIEW_NOTIFY_REVIEWER, ARTICLE_EMAIL_TYPE_REVIEW, $reviewId);			
 					if ($reviewerAccessKeysEnabled) {
@@ -322,9 +322,9 @@ class SectionEditorAction extends Action {
 				$notificationManager = new NotificationManager();
 				$url = Request::url($journal->getPath(), 'reviewer', 'submission', array($reviewId));
 				$notificationManager->createNotification(
-                	$reviewAssignment->getReviewerId(), 'notification.type.reviewAssignment',
-                	$sectionEditorSubmission->getProposalId(), $url, 1, NOTIFICATION_TYPE_SECTION_DECISION_COMMENT
-            	);
+                                    $reviewAssignment->getReviewerId(), 'notification.type.reviewAssignment',
+                                    $sectionEditorSubmission->getProposalId(), $url, 1, NOTIFICATION_TYPE_SECTION_DECISION_COMMENT
+                                );
             	
 				$reviewAssignment->setDateNotified(Core::getCurrentDate());
 				$reviewAssignment->setCancelled(0);
@@ -374,7 +374,7 @@ class SectionEditorAction extends Action {
 						}
 					}
 				}
-				$email->displayEditForm(Request::url(null, null, 'notifyReviewer'), array('reviewId' => $reviewId, 'articleId' => $sectionEditorSubmission->getArticleId()));
+				$email->displayEditForm(Request::url(null, null, 'notifyReviewers', array($sectionEditorSubmission->getArticleId(), $incrementNumber)));
 				return false;
 			}
 		}
