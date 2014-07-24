@@ -153,6 +153,12 @@ class TinyMCEPlugin extends GenericPlugin {
 				$fields[] = 'descriptionShort';
 				$fields[] = 'description';
 				break;
+			case 'manager/approvalNoticeEdit':
+			case 'manager/updateApprovalNotice':
+				$fields[] = 'APHeader';
+				$fields[] = 'APBody';
+				$fields[] = 'APFooter';
+				break;
 			case 'manager/importexport':
 				$count = max(1, count($templateMgr->get_template_vars('authors')));
 				for ($i=0; $i<$count; $i++) {
