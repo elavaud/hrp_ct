@@ -12,7 +12,30 @@
 
 <locale name="en_US" full_name = "English">
     
-	<!-- Added February - June 2014 -->
+	<!-- Added February - July 2014 -->
+        <message key="manager.approvalNotice">Approval Notice</message>
+        <message key="manager.approvalNotice.body">Body</message>
+        <message key="manager.approvalNotice.body.description">The information entered in the text below will be the body of the approval notice. It is in this section you should provide all the relevant information about your approval notice.</message>
+        <message key="manager.approvalNotice.committee.add">Add another committee</message>
+        <message key="manager.approvalNotice.committees.long">Assigned Committee(s)</message>
+        <message key="manager.approvalNotice.committees.short">Committee(s)</message>        
+        <message key="manager.approvalNotice.delete">Are you you want to delete this approval notice? This action can not be undone.</message>
+        <message key="manager.approvalNotice.description">These web pages will allow you to create approval notice templates for the committees to use.</message>
+        <message key="manager.approvalNotice.docType.pdf">Portable Document Format (PDF)</message>
+        <message key="manager.approvalNotice.docType.txt">Editable text document</message>
+        <message key="manager.approvalNotice.footer">Footer</message>
+        <message key="manager.approvalNotice.footer.description">The information entered in the text below will be the footer of all the pages. It is a good place for the page number, the decision, or the address of the person to contact.</message>
+        <message key="manager.approvalNotice.header">Header</message>
+        <message key="manager.approvalNotice.header.description">The information entered in the text below will be the header of all the pages. It is a good place for the logo of the committee or the name of this particular approval notice form..</message>
+        <message key="manager.approvalNotice.new">Create Approval Notice</message>
+        <message key="manager.approvalNotice.reviewTypes.add">Add another review Type</message>
+        <message key="manager.approvalNotice.reviewTypes.long">Concerned Review Type(s)</message>
+        <message key="manager.approvalNotice.reviewTypes.short">Review Type(s)</message>
+        <message key="manager.approvalNotice.s">Approval Notice(s)</message>
+        <message key="manager.approvalNotice.title.required">The title of the approval notice is required.</message>
+        <message key="manager.approvalNotice.type">Document type</message>
+        <message key="manager.approvalNotice.type.required">The type of the document is required.</message>
+        <message key="manager.approvalNotices">Approval Notices</message>
         
         <message key="manager.institutions">Institutions</message>
         <message key="manager.institutions.create">Create a new institution</message>

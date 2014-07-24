@@ -292,6 +292,20 @@ class SectionDecisionDAO extends DAO{
 
                 return $returner;
 	}
+        
+        /**
+	 * Get a map for review type  to locale key.
+	 * @return array
+	 */
+	function getReviewTypeMap() {
+                return $reviewTypeMap = array(
+                        REVIEW_TYPE_INITIAL => Locale::translate('submission.initialReview'),
+                        REVIEW_TYPE_PR => Locale::translate('submission.progressReport'),
+                        REVIEW_TYPE_AMENDMENT => Locale::translate('submission.protocolAmendment'),
+                        REVIEW_TYPE_SAE => Locale::translate('submission.seriousAdverseEvents'),
+                        REVIEW_TYPE_FR => Locale::translate('submission.finalReport')
+                );
+	}
 }
 
 ?>

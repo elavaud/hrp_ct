@@ -263,6 +263,17 @@ switch ($op) {
 		define('HANDLER_CLASS', 'AnnouncementHandler');
 		import('pages.manager.AnnouncementHandler');
 		break;
+        //
+	//	approval notices
+	//
+	case 'approvalNotices':
+	case 'approvalNoticeEdit':
+	case 'approvalNoticeDelete':
+	case 'approvalNoticePreview':
+        case 'updateApprovalNotice':
+		define('HANDLER_CLASS', 'ApprovalNoticesHandler');
+		import('pages.manager.ApprovalNoticesHandler');
+		break;
 	case 'index':
 	case 'email':
 		define('HANDLER_CLASS', 'ManagerHandler');

@@ -77,6 +77,7 @@ class Application extends PKPApplication {
 			'AboutFileDAO' => 'classes.file.AboutFileDAO',
                         'AnnouncementDAO' => 'classes.announcement.AnnouncementDAO',
 			'AnnouncementTypeDAO' => 'classes.announcement.AnnouncementTypeDAO',
+			'ApprovalNoticeDAO' => 'classes.approvalNotice.ApprovalNoticeDAO',
 			'ArticleEmailLogDAO' => 'classes.article.log.ArticleEmailLogDAO',
 			'ArticleEventLogDAO' => 'classes.article.log.ArticleEventLogDAO',
 			'ArticleCommentDAO' => 'classes.article.ArticleCommentDAO',
