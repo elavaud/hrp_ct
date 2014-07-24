@@ -377,7 +377,7 @@ class TinyMCEPlugin extends GenericPlugin {
 			<script language="javascript" type="text/javascript">
 				tinyMCE.init({
 					entity_encoding : "raw",
-					plugins : "paste,ibrowser,fullscreen",
+					plugins : "paste,ibrowser,fullscreen,table",
 					mode : "exact",
 					language : "' . String::substr(Locale::getLocale(), 0, 2) . '",
 					elements : "' . $enableFields . '",
@@ -386,9 +386,9 @@ class TinyMCEPlugin extends GenericPlugin {
 					paste_auto_cleanup_on_paste : true,
 					apply_source_formatting : false,
 					theme : "advanced",
-					theme_advanced_buttons1 : "cut,copy,paste,|,bold,italic,underline,bullist,numlist,|,link,unlink,help,code,fullscreen,ibrowser",
-					theme_advanced_buttons2 : "",
-					theme_advanced_buttons3 : ""
+                                        theme_advanced_buttons1 : "newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,forecolor,backcolor,|,formatselect,fontselect,fontsizeselect",
+                                        theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,ibrowser,cleanup,help,code,|,hr,removeformat,|,sub,sup,|,charmap,|,fullscreen",
+                                        theme_advanced_buttons3 : "tablecontrols"
 				});
 			</script>';
 
