@@ -249,7 +249,7 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
                         $from = $mail->getFrom();
                         if ($ercReviewersDao->isErcReviewer($journal->getId(), $sectionEditor->getId(), REVIEWER_CHAIR)){
                             $mail->setFrom($sectionEditor->getEmail(), $sectionEditor->getFullName());
-                        } elseif (array_key_exists ('email', $from)){
+                        } elseif ($from['email'] == $user->getEmail()){
                             $mail->setFrom($sectionEditor->getEmail(), $sectionEditor->getFullName());
                         }
 			
