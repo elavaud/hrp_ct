@@ -284,7 +284,7 @@ class SectionDecisionDAO extends DAO{
 	function getSectionDecisionsAvailableForMeeting($sectionId) {
             
             	$result =& $this->retrieve(
-			sprintf('SELECT sd.*, a.public_id FROM section_decisions LEFT JOIN articles a ON (a.article_id = sd.article_id) WHERE sd.section_id = ? AND (sd.decision = ? OR decision = ?)'),
+			sprintf('SELECT sd.*, a.public_id FROM section_decisions sd LEFT JOIN articles a ON (a.article_id = sd.article_id) WHERE sd.section_id = ? AND (sd.decision = ? OR decision = ?)'),
 			array($sectionId, SUBMISSION_SECTION_DECISION_FULL_REVIEW, SUBMISSION_SECTION_DECISION_EXPEDITED)
 		);
                 
