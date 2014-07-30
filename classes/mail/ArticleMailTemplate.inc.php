@@ -51,7 +51,7 @@ class ArticleMailTemplate extends MailTemplate {
 	 * @param $ignorePostedData boolean optional
 	 * @see MailTemplate::MailTemplate()
 	 */
-	function ArticleMailTemplate($article, $sectionDecision = null, $emailKey = null, $locale = null, $enableAttachments = null, $journal = null, $includeSignature = true, $ignorePostedData = false) {
+	function ArticleMailTemplate($article, $sectionDecision = null, $emailKey = null, $locale = null, $enableAttachments = true, $journal = null, $includeSignature = true, $ignorePostedData = false) {
 		parent::MailTemplate($emailKey, $locale, $enableAttachments, $journal, $includeSignature, $ignorePostedData);
 		$this->article = $article;
                 if (!$sectionDecision){

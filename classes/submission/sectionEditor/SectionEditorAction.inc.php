@@ -2158,6 +2158,16 @@ class SectionEditorAction extends Action {
 						$email->addCc ($author->getEmail(), $author->getFullName());
 					}
 				}
+                                import('classes.file.TemporaryFileManager');
+                                $temporaryFileManager = new TemporaryFileManager();
+                                $decisionFiles =& $decision->getDecisionFiles();
+                                foreach ($decisionFiles as $file) {
+                                    if ($file) {
+                                            $temporaryFile = $temporaryFileManager->articleToTemporaryFile($file, $user->getId());
+                                            $email->addPersistAttachment($temporaryFile);
+                                    }    
+                                }
+
 			} elseif (Request::getUserVar('importPeerReviews')) {
 				$reviewAssignmentDao =& DAORegistry::getDAO('ReviewAssignmentDAO');
 				$reviewAssignments =& $reviewAssignmentDao->getByDecisionId($sectionEditorSubmission->getLastSectionDecisionId());
