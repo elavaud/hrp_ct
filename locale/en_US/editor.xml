@@ -14,7 +14,7 @@
 
 <locale name="en_US" full_name = "English">
     
-        <!-- New keys, February-April 2014 -->
+        <!-- New keys, February-July 2014 -->
         
         <message key="editor.reports.decisionType">Decision Type</message>
         <message key="editor.reports.decisionStatus">Decision Status</message>
@@ -92,6 +92,11 @@
         <message key="editor.meeting.attendees">Attendees</message>
         <message key="editor.meeting.absent">Absent(s)</message>
         <message key="editor.meeting.minutesPrevious">Confirmation of Minutes of the Previous Meeting</message>
+
+        <message key="editor.approvalNotice.templates">Notice Templates</message>
+        <message key="editor.approvalNotice.templates.no">No approval notice template found. Ask your administrator to create one!</message>
+        <message key="editor.approvalNotice.templates.instruct">If you have any approval notice template available, these ones will be displayed in the following list. The HRP will then fill this template with the information of this research proposal. Your administrator can easily create new template. Ask him/her! It will save you a lot of time.</message>
+        
 
         <!-- End new keys -->
     

@@ -237,6 +237,16 @@ class InstitutionDAO extends DAO {
             return $institutions;
         }        
         
+        /**
+         * Get a random ID of an institution
+         * @return int
+         */
+        function getRandomInstitutionId(){
+                $result = $this->retrieve('SELECT `institution_id` FROM `institutions` ORDER BY RAND() LIMIT 0,1;');
+                $row = $result->GetRowAssoc(false);
+                return $row['institution_id'];
+        }
+        
 }
 
 ?>

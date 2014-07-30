@@ -45,7 +45,7 @@
 	</tr>
 {foreachelse}
 	<tr valign="top">
-		<td colspan="4" class="nodata">{translate key="common.none}</td>
+		<td colspan="4" class="nodata">{translate key="common.none"}</td>
 	</tr>
 	<tr>
 		<td colspan="4" class="endseparator">&nbsp;</td>

@@ -34,7 +34,7 @@ class ApprovalNoticeForm extends Form {
 
 		// Title is provided
 		$this->addCheck(new FormValidator($this, 'title', 'required', 'manager.approvalNotice.title.required'));
-		$this->addCheck(new FormValidator($this, 'type', 'required', 'manager.approvalNotice.type.required'));
+		$this->addCheck(new FormValidator($this, 'active', 'required', 'manager.approvalNotice.active.required'));
 
 		$this->addCheck(new FormValidatorPost($this));
 	}
@@ -60,7 +60,7 @@ class ApprovalNoticeForm extends Form {
 		$templateMgr->assign('approvalNoticeId', $this->approvalNoticeId);
 		$templateMgr->assign_by_ref('committeesList', $committees);
 		$templateMgr->assign_by_ref('reviewTypesList', $reviewTypes);
-                $templateMgr->assign_by_ref('docTypesMap', $approvalNoticeDao->getDocTypeMap());
+                $templateMgr->assign_by_ref('activeMap', $approvalNoticeDao->getActiveMap());
                 
                 
                 
@@ -81,7 +81,7 @@ class ApprovalNoticeForm extends Form {
 					'title' => $approvalNotice->getApprovalNoticeTitle(),
                                         'committees' => $approvalNotice->getCommitteesArray(),
                                         'reviewTypes' => $approvalNotice->getReviewTypesArray(),  
-                                        'type' => $approvalNotice->getDocumentType(),
+                                        'active' => $approvalNotice->getActive(),
 					'APHeader' => $approvalNotice->getApprovalNoticeHeader(),
 					'APBody' => $approvalNotice->getApprovalNoticeBody(),
 					'APFooter' => $approvalNotice->getApprovalNoticeFooter()
@@ -106,7 +106,7 @@ class ApprovalNoticeForm extends Form {
 	 * Assign form data to user-submitted data.
 	 */
 	function readInputData() {
-		$this->readUserVars(array('title', 'committees', 'reviewTypes', 'type', 'APHeader', 'APBody', 'APFooter'));
+		$this->readUserVars(array('title', 'committees', 'reviewTypes', 'active', 'APHeader', 'APBody', 'APFooter'));
 	}
 
 	/**
@@ -114,7 +114,8 @@ class ApprovalNoticeForm extends Form {
 	 */
 	function execute() {
 		$approvalNoticeDao =& DAORegistry::getDAO('ApprovalNoticeDAO');
-
+                
+                // Create or edit approval notice
 		if (isset($this->approvalNoticeId)) {
 			$approvalNotice =& $approvalNoticeDao->getApprovalNotice($this->approvalNoticeId);
 		}
@@ -122,11 +123,33 @@ class ApprovalNoticeForm extends Form {
 		if (!isset($approvalNotice)) {
 			$approvalNotice = new ApprovalNotice();
 		}
-
+                
+                // Clean the committees and review types array before saving them
+                $committees = array_unique($this->getData('committees'));
+                $reviewTypes = array_unique($this->getData('reviewTypes'));
+                $allComFound = false;
+                $allTypeFound = false;
+                foreach ($committees as $committeeId){
+                    if ($committeeId == APPROVAL_NOTICE_COMMITTEE_ALL){
+        		$approvalNotice->setCommitteesFromArray(array(0 => APPROVAL_NOTICE_COMMITTEE_ALL)); 
+                        $allComFound = true;
+                    }
+                }
+                if (!$allComFound) {
+                    $approvalNotice->setCommitteesFromArray($committees); 
+                }
+                foreach ($reviewTypes as $reviewTypeId){
+                    if ($reviewTypeId == APPROVAL_NOTICE_TYPE_ALL){
+        		$approvalNotice->setReviewTypesFromArray(array(0 => APPROVAL_NOTICE_TYPE_ALL)); 
+                        $allTypeFound = true;
+                    }
+                }
+                if (!$allTypeFound) {
+                    $approvalNotice->setReviewTypesFromArray($reviewTypes); 
+                }
+                
 		$approvalNotice->setApprovalNoticeTitle($this->getData('title'));
-		$approvalNotice->setCommitteesFromArray($this->getData('committees')); 
-		$approvalNotice->setReviewTypesFromArray($this->getData('reviewTypes'));
-		$approvalNotice->setDocumentType($this->getData('type'));
+		$approvalNotice->setActive($this->getData('active'));
 		$approvalNotice->setApprovalNoticeHeader($this->getData('APHeader'));
 		$approvalNotice->setApprovalNoticeBody($this->getData('APBody')); 
 		$approvalNotice->setApprovalNoticeFooter($this->getData('APFooter')); 

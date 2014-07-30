@@ -42,7 +42,7 @@ class ApprovalNoticeDAO extends DAO {
 		$approvalNotice->setId($row['approval_notice_id']);
 		$approvalNotice->setCommittees($row['committees']);
 		$approvalNotice->setReviewTypes($row['review_types']);
-		$approvalNotice->setDocumentType($row['type']);
+		$approvalNotice->setActive($row['active']);
 		$approvalNotice->setApprovalNoticeTitle($row['title']);
 		$approvalNotice->setApprovalNoticeHeader($row['header']);
 		$approvalNotice->setApprovalNoticeBody($row['body']);
@@ -58,13 +58,13 @@ class ApprovalNoticeDAO extends DAO {
 	 */
 	function insertApprovalNotice(&$approvalNotice) {
 		$this->update('INSERT INTO approval_notices
-				(committees, review_types, type, title, header, body, footer)
+				(committees, review_types, active, title, header, body, footer)
 				VALUES
 				(?, ?, ?, ?, ?, ?, ?)',
 			array(
 				$approvalNotice->getCommittees(),
 				$approvalNotice->getReviewTypes(),
-				$approvalNotice->getDocumentType(),
+				$approvalNotice->getActive(),
                                 $approvalNotice->getApprovalNoticeTitle(),
                                 $approvalNotice->getApprovalNoticeHeader(),
                                 $approvalNotice->getApprovalNoticeBody(),
@@ -86,7 +86,7 @@ class ApprovalNoticeDAO extends DAO {
 				SET
 					committees = ?,
 					review_types = ?,
-					type = ?,
+					active = ?,
                                         title = ?,
                                         header = ?,
                                         body = ?,
@@ -95,7 +95,7 @@ class ApprovalNoticeDAO extends DAO {
 			array(
 				$approvalNotice->getCommittees(),
 				$approvalNotice->getReviewTypes(),
-				$approvalNotice->getDocumentType(),
+				$approvalNotice->getActive(),
                                 $approvalNotice->getApprovalNoticeTitle(),
                                 $approvalNotice->getApprovalNoticeHeader(),
                                 $approvalNotice->getApprovalNoticeBody(),
@@ -144,15 +144,18 @@ class ApprovalNoticeDAO extends DAO {
                 $approvalNotices = array();
 		
                 $result =& $this->retrieve(
-			'SELECT * FROM approval_notices '
-                        . 'WHERE committees LIKE "%'.$committee.'%" '
-                        . 'AND (review_types LIKE "%'.$type.'%" '
-                        . 'OR review_types LIKE "%'.APPROVAL_NOTICE_TYPE_ALL.'%") '
-                        . 'ORDER BY approval_notice_id DESC'
+			'SELECT approval_notice_id, title FROM approval_notices'
+                        . ' WHERE active = '.APPROVAL_NOTICE_ACTIVE
+                        . ' AND (committees LIKE "%'.$committee.'%"'
+                        . ' OR committees LIKE "%'.APPROVAL_NOTICE_COMMITTEE_ALL.'%")'
+                        . ' AND (review_types LIKE "%'.$type.'%"'
+                        . ' OR review_types LIKE "%'.APPROVAL_NOTICE_TYPE_ALL.'%")'
+                        . ' ORDER BY title DESC'
 		);
                 
 		while (!$result->EOF) {
-			$approvalNotices[] =& $this->_returnApprovalNoticeFromRow($result->GetRowAssoc(false));
+                        $row = $result->GetRowAssoc(false);
+			$approvalNotices[$row['approval_notice_id']] =& $row['title'];
 			$result->moveNext();		
 		}
                 $result->Close();
@@ -204,13 +207,13 @@ class ApprovalNoticeDAO extends DAO {
 	}
         
         /**
-	 * Get a map for review type  to locale key.
+	 * Get a map for if the notice is active.
 	 * @return array
 	 */
-	function getDocTypeMap() {
+	function getActiveMap() {
                 return $docTypeMap = array(
-                        APPROVAL_NOTICE_DOCTYPE_TXT => Locale::translate('manager.approvalNotice.docType.txt'),
-                        APPROVAL_NOTICE_DOCTYPE_PDF => Locale::translate('manager.approvalNotice.docType.pdf')
+                        APPROVAL_NOTICE_ACTIVE => Locale::translate('common.yes'),
+                        APPROVAL_NOTICE_INACTIVE => Locale::translate('common.no')
                 );
 	}
 }

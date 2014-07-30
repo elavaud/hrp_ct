@@ -116,6 +116,9 @@
 	<message key="submission.decision.s">Committee Decision(s)</message>
 	<message key="submission.otherdecision.s">Other Committee Decision(s)</message>
         <message key="reviewer.article.pastAssignments">Past Assignment(s)</message>
+
+        <message key="submission.approvalNotice.pageNumberOfTotalPages.page">Page</message>
+        <message key="submission.approvalNotice.pageNumberOfTotalPages.of">of</message>
         
         <!-- End new keys -->
         

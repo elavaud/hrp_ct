@@ -18,8 +18,8 @@ import('classes.article.SectionDecision');
 define ('APPROVAL_NOTICE_TYPE_ALL', 0);
 define ('APPROVAL_NOTICE_COMMITTEE_ALL', 0);
 
-define ('APPROVAL_NOTICE_DOCTYPE_TXT', 0);
-define ('APPROVAL_NOTICE_DOCTYPE_PDF', 1);
+define ('APPROVAL_NOTICE_ACTIVE', 0);
+define ('APPROVAL_NOTICE_INACTIVE', 1);
 
 class ApprovalNotice extends DataObject {
     
@@ -117,18 +117,18 @@ class ApprovalNotice extends DataObject {
         
         
 	/**
-	 * Get the document type of the approval notice.
+	 * Get if the notice is active.
 	 * @return int
 	 */
-	function getDocumentType() {
-		return $this->getData('type');
+	function getActive() {
+		return $this->getData('active');
 	}
 	/**
-	 * Set the document type of the approval notice.
-	 * @param $documentType int
+	 * Set if the notice is active.
+	 * @param $active int
 	 */
-	function setDocumentType($documentType) {
-		return $this->setData('type', $documentType);
+	function setActive($active) {
+		return $this->setData('active', $active);
 	}
         
         
@@ -254,6 +254,53 @@ class ApprovalNotice extends DataObject {
                 }
             }
             return $reviewTypesString;
+        }
+        
+        /**
+         * Clean the html for htmldocx converter
+         * @param $function string function to get the rw html
+         * @return $html the html cleaned
+         */
+        function getCleanHtml($function) {
+            $html = $this->$function();
+            $ps = $matches =array();
+            $count = preg_match_all('/<td style="text-align:[^>]*>(.*?)<\/td>/is', $html, $matches);
+            for ($i = 0; $i < $count; ++$i) {
+                $ps[] = $matches[0][$i];
+            }
+            foreach ($ps as $item) {
+                    $toReplace = $item;
+                    $alignment = preg_replace('/<td style="text-align: /is', '', $item);
+                    $alignment = preg_replace('/">.*/is', '', $alignment);
+                    $replacement = preg_replace('/ style="text-align: '.$alignment.'">/is', '><p style="text-align: '.$alignment.'">', $item);
+                    $replacement = preg_replace('~</td>~is', '</p></td>', $replacement);
+                    $html = preg_replace('~'.$toReplace.'~is', $replacement, $html);
+            }
+            return $html;
+        }
+        
+        /**
+         * get a map of keys if the notice is active or not
+         * @return array
+         */
+        function getActiveMap(){
+            return array(
+                APPROVAL_NOTICE_ACTIVE => 'common.yes',
+                APPROVAL_NOTICE_INACTIVE => 'common.no'
+            );
+        }
+        
+        /**
+         * Get the translation key if the notice is active or not.
+         * @return key (string)
+         */
+        function getActiveKey(){
+            $map = $this->getActiveMap();
+            if ($this->getActive() != null) {
+                return $map[$this->getActive()];
+            } else {
+                return null;
+            }
         }
 }
 

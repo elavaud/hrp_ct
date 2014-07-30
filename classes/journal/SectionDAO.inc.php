@@ -735,7 +735,18 @@ class SectionDAO extends DAO {
 		unset($result);
 
 		return $committees;
-        }        
+        }   
+        
+        /**
+         * Get a random ID of a committee
+         * @return int
+         */
+        function getRandomSectionId(){
+                $result = $this->retrieve('SELECT `section_id` FROM `sections` ORDER BY RAND() LIMIT 0,1;');
+                $row = $result->GetRowAssoc(false);
+                return $row['section_id'];
+        }
+
 
 }
 ?>

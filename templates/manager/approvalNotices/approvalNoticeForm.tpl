@@ -51,19 +51,160 @@
         }
     }
     
+    function showOrHideVariablesPeople(){
+        var value = $('#variablesPeopleShow').val();
+        if (value === "0") {
+            $('#variablesPeople').show();
+            $('#variablesPeopleShow').val("1");
+            $('#variablesCommittee').hide();
+            $('#variablesCommitteeShow').val("0");
+            $('#variablesAbstract').hide();
+            $('#variablesAbstractShow').val("0");
+            $('#variablesDates').hide();
+            $('#variablesDatesShow').val("0");
+            $('#variablesDetails').hide();
+            $('#variablesDetailsShow').val("0");
+            $('#showOrHideVariablesPeopleClick').css("font-weight","bold");
+            $('#showOrHideVariablesCommitteeClick').css("font-weight","normal");
+            $('#showOrHideVariablesAbstractClick').css("font-weight","normal");
+            $('#showOrHideVariablesDatesClick').css("font-weight","normal");
+            $('#showOrHideVariablesDetailsClick').css("font-weight","normal");
+        } else {
+            $('#variablesPeople').hide();
+            $('#variablesPeopleShow').val("0");      
+            $('#showOrHideVariablesPeopleClick').css("font-weight","normal");
+        }
+    }
+
+    function showOrHideVariablesCommittee(){
+        var value = $('#variablesCommitteeShow').val();
+        if (value === "0") {
+            $('#variablesCommittee').show();
+            $('#variablesCommitteeShow').val("1");
+            $('#variablesPeople').hide();
+            $('#variablesPeopleShow').val("0");
+            $('#variablesAbstract').hide();
+            $('#variablesAbstractShow').val("0");
+            $('#variablesDates').hide();
+            $('#variablesDatesShow').val("0");
+            $('#variablesDetails').hide();
+            $('#variablesDetailsShow').val("0");
+            $('#showOrHideVariablesPeopleClick').css("font-weight","normal");
+            $('#showOrHideVariablesCommitteeClick').css("font-weight","bold");
+            $('#showOrHideVariablesAbstractClick').css("font-weight","normal");
+            $('#showOrHideVariablesDatesClick').css("font-weight","normal");
+            $('#showOrHideVariablesDetailsClick').css("font-weight","normal");            
+        } else {
+            $('#variablesCommittee').hide();
+            $('#variablesCommitteeShow').val("0");      
+            $('#showOrHideVariablesCommitteeClick').css("font-weight","normal");
+        }
+    }
+    
+    function showOrHideVariablesAbstract(){
+        var value = $('#variablesAbstractShow').val();
+        if (value === "0") {
+            $('#variablesAbstract').show();
+            $('#variablesAbstractShow').val("1");
+            $('#variablesCommittee').hide();
+            $('#variablesCommitteeShow').val("0");
+            $('#variablesPeople').hide();
+            $('#variablesPeopleShow').val("0");
+            $('#variablesDates').hide();
+            $('#variablesDatesShow').val("0");
+            $('#variablesDetails').hide();
+            $('#variablesDetailsShow').val("0");
+            $('#showOrHideVariablesPeopleClick').css("font-weight","normal");
+            $('#showOrHideVariablesCommitteeClick').css("font-weight","normal");
+            $('#showOrHideVariablesAbstractClick').css("font-weight","bold");
+            $('#showOrHideVariablesDatesClick').css("font-weight","normal");
+            $('#showOrHideVariablesDetailsClick').css("font-weight","normal");                        
+        } else {
+            $('#variablesAbstract').hide();
+            $('#variablesAbstractShow').val("0");     
+            $('#showOrHideVariablesAbstractClick').css("font-weight","normal");
+        }
+    }
+    
+    function showOrHideVariablesDates(){
+        var value = $('#variablesDatesShow').val();
+        if (value === "0") {
+            $('#variablesDates').show();
+            $('#variablesDatesShow').val("1");
+            $('#variablesCommittee').hide();
+            $('#variablesCommitteeShow').val("0");
+            $('#variablesAbstract').hide();
+            $('#variablesAbstractShow').val("0");
+            $('#variablesPeople').hide();
+            $('#variablesPeopleShow').val("0");
+            $('#variablesDetails').hide();
+            $('#variablesDetailsShow').val("0");
+            $('#showOrHideVariablesPeopleClick').css("font-weight","normal");
+            $('#showOrHideVariablesCommitteeClick').css("font-weight","normal");
+            $('#showOrHideVariablesAbstractClick').css("font-weight","normal");
+            $('#showOrHideVariablesDatesClick').css("font-weight","bold");
+            $('#showOrHideVariablesDetailsClick').css("font-weight","normal");                        
+        } else {
+            $('#variablesDates').hide();
+            $('#variablesDatesShow').val("0");       
+            $('#showOrHideVariablesDatesClick').css("font-weight","normal");
+        }
+    }
+    
+    function showOrHideVariablesDetails(){
+        var value = $('#variablesDetailsShow').val();
+        if (value === "0") {
+            $('#variablesDetails').show();
+            $('#variablesDetailsShow').val("1");
+            $('#variablesCommittee').hide();
+            $('#variablesCommitteeShow').val("0");
+            $('#variablesAbstract').hide();
+            $('#variablesAbstractShow').val("0");
+            $('#variablesDates').hide();
+            $('#variablesDatesShow').val("0");
+            $('#variablesPeople').hide();
+            $('#variablesPeopleShow').val("0");
+            $('#showOrHideVariablesPeopleClick').css("font-weight","normal");
+            $('#showOrHideVariablesCommitteeClick').css("font-weight","normal");
+            $('#showOrHideVariablesAbstractClick').css("font-weight","normal");
+            $('#showOrHideVariablesDatesClick').css("font-weight","normal");
+            $('#showOrHideVariablesDetailsClick').css("font-weight","bold");                                  
+        } else {
+            $('#variablesDetails').hide();
+            $('#variablesDetailsShow').val("0");       
+            $('#showOrHideVariablesDetailsClick').css("font-weight","normal");                                    
+        }
+    }
+    
     $(document).ready(
             function() {
                 $("#addAnotherCommitteeClick").click(addCommittee);
                 $('#approvalNoticeForm a.removeCommittee').each(function() {$(this).click(function(){$(this).closest('tr').remove();});});
                 $("#addAnotherReviewTypeClick").click(addReviewType);
-                $('#approvalNoticeForm a.removeReviewType').each(function() {$(this).click(function(){$(this).closest('tr').remove();});});            }
+                $('#approvalNoticeForm a.removeReviewType').each(function() {$(this).click(function(){$(this).closest('tr').remove();});}); 
+                $("#showOrHideVariablesPeopleClick").click(showOrHideVariablesPeople);
+                $("#showOrHideVariablesCommitteeClick").click(showOrHideVariablesCommittee);
+                $("#showOrHideVariablesAbstractClick").click(showOrHideVariablesAbstract);
+                $("#showOrHideVariablesDatesClick").click(showOrHideVariablesDates);
+                $("#showOrHideVariablesDetailsClick").click(showOrHideVariablesDetails);
+                $('#variablesPeople').hide();
+                $('#variablesPeopleShow').val("0");
+                $('#variablesCommittee').hide();
+                $('#variablesCommitteeShow').val("0");
+                $('#variablesAbstract').hide();
+                $('#variablesAbstractShow').val("0");
+                $('#variablesDates').hide();
+                $('#variablesDatesShow').val("0");
+                $('#variablesDetails').hide();
+                $('#variablesDetailsShow').val("0");
+            }
     );
         
 </script>
 {/literal}
 
 <form name="approvalNotice" method="post" action="{url op="updateApprovalNotice" path="$approvalNoticeId"}">
-
+    <p>{translate key="manager.approvalNotice.instruct"}</p>
     {include file="common/formErrors.tpl"}
     <div id="approvalNoticeForm">
         <table class="data" width="100%">
@@ -73,9 +214,10 @@
             </tr>
             
             <tr valign="top">
-                <td width="20%" class="label">{fieldLabel name="type" key="manager.approvalNotice.type"}</td>
+                <td width="20%" class="label">{fieldLabel name="active" required="true" key="manager.approvalNotice.active"}</td>
                 <td width="80%" class="value">
-                    {html_radios name='type' options=$docTypesMap selected=$type separator='&nbsp;&nbsp;&nbsp;&nbsp;'}
+                    {html_radios name='active' options=$activeMap selected=$active separator='&nbsp;&nbsp;&nbsp;&nbsp;'}
+                    <br/><i>{translate key="manager.approvalNotice.active.instruct"}</i>
                 </td>
             </tr>
             
@@ -113,11 +255,54 @@
                 <td><a id="addAnotherReviewTypeClick" style="cursor: pointer;">{translate key="manager.approvalNotice.reviewTypes.add"}</a></td>
             </tr>
         </table>
+    </div>
+            
+    <h2>{translate key="manager.approvalNotice.template"}</h2>
+    <p>{translate key="manager.approvalNotice.template.instruct1"}</p>
         
+    
+    <input type="hidden" id="variablesPeopleShow" name="variablesPeopleShow" />      
+    <input type="hidden" id="variablesCommitteeShow" name="variablesCommitteeShow" /> 
+    <input type="hidden" id="variablesDatesShow" name="variablesDatesShow" /> 
+    <input type="hidden" id="variablesAbstractShow" name="variablesAbstractShow" />   
+    <input type="hidden" id="variablesDetailsShow" name="variablesDetailsShow" />        
+    <table width="100%" class="listing">
+        <tr><td colspan="5">&nbsp;</td></tr>
+        <tr>
+            <td width="20%" align="left"><a id="showOrHideVariablesPeopleClick" class="Action" style="cursor: pointer;">{translate key="manager.approvalNotice.key.class.people"}</a></td>
+            <td width="20%" align="left"><a id="showOrHideVariablesCommitteeClick" class="Action" style="cursor: pointer;">{translate key="manager.approvalNotice.key.class.committee"}</a></td>
+            <td width="20%" align="left"><a id="showOrHideVariablesDatesClick" class="Action" style="cursor: pointer;">{translate key="manager.approvalNotice.key.class.dates"}</a></td>
+            <td width="20%" align="left"><a id="showOrHideVariablesAbstractClick" class="Action" style="cursor: pointer;">{translate key="manager.approvalNotice.key.class.abstract"}</a></td>
+            <td width="20%" align="left"><a id="showOrHideVariablesDetailsClick" class="Action" style="cursor: pointer;">{translate key="manager.approvalNotice.key.class.details"}</a></td>            
+        </tr>
+        <tr><td colspan="5">&nbsp;</td></tr>
+    </table>
+    
+    <div id="variablesPeople">
+        {include file="manager/approvalNotices/variablesPeople.tpl"}
+    </div>
+
+    <div id="variablesCommittee">
+        {include file="manager/approvalNotices/variablesCommittee.tpl"}
+    </div>    
+    
+    <div id="variablesDates">
+        {include file="manager/approvalNotices/variablesDates.tpl"}
+    </div>    
+    
+    <div id="variablesAbstract">
+        {include file="manager/approvalNotices/variablesAbstract.tpl"}
+    </div>
+
+    <div id="variablesDetails">
+        {include file="manager/approvalNotices/variablesDetails.tpl"}
+    </div>
+    
+    <div id="template">
         <h6>{translate key="manager.approvalNotice.header"}</h6>
         <p>{translate key="manager.approvalNotice.header.description"}</p>
 
-        <p><textarea name="APHeader" id="APHeader" rows="12" cols="100" class="textArea">{$APHeader|escape}</textarea></p>
+        <p><textarea name="APHeader" id="APHeader" rows="16" cols="100" class="textArea">{$APHeader|escape}</textarea></p>
         
         <h6>{translate key="manager.approvalNotice.body"}</h6>
         <p>{translate key="manager.approvalNotice.body.description"}</p>
@@ -127,15 +312,17 @@
         <h6>{translate key="manager.approvalNotice.footer"}</h6>
         <p>{translate key="manager.approvalNotice.footer.description"}</p>
 
-        <p><textarea name="APFooter" id="APFooter" rows="12" cols="100" class="textArea">{$APFooter|escape}</textarea></p>
+        <p><textarea name="APFooter" id="APFooter" rows="16" cols="100" class="textArea">{$APFooter|escape}</textarea></p>
     </div>
 
 
     <div class="separator"></div>
-
+    
     <p>
-    <input type="submit" value="{translate key="common.save"}" class="button defaultButton" /> 
-    <input type="button" value="{translate key="common.cancel"}" class="button" onclick="document.location.href='{url op="approvalNotices" escape=false}'" />
+        <i>{translate key="manager.approvalNotice.template.instruct2"}</i><br/><br/>
+        <i>{translate key="manager.approvalNotice.preview"}</i><br/><br/>
+        <input type="submit" value="{translate key="common.save"}" class="button defaultButton" /> 
+        <input type="button" value="{translate key="common.cancel"}" class="button" onclick="document.location.href='{url op="approvalNotices" escape=false}'" />
     </p>
 
 </form>

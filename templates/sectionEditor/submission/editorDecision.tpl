@@ -66,6 +66,20 @@
                     </td>
             </tr>
             {if $isSecretary == true}
+                {if $decision == SUBMISSION_SECTION_DECISION_EXPEDITED || $decision == SUBMISSION_SECTION_DECISION_FULL_REVIEW || ($decision == SUBMISSION_SECTION_DECISION_EXEMPTED && !$sectionDecision->getComments())}
+                    <form method="post" action="{url op="downloadApprovalNoticeTemplate"}">
+                        <input type="hidden" name="articleId" value="{$submission->getId()}" />
+                        <tr valign="top">
+                            <td title="editor.approvalNotice.templates.instruct" class="label" width="20%">[?] {translate key="editor.approvalNotice.templates"}</td>
+                            <td width="80%" class="value">
+                                <select id="noticeTemplate" name="noticeTemplate" size="1" class="selectMenu">
+                                    {html_options options=$templates}
+                                </select>
+                                <input type="submit" name="submit" value="{translate key="common.download"}"  class="button" />
+                            </td>
+                        </tr>
+                    </form>
+                {/if}
                 <form method="post" action="{url op="recordDecision"}" onSubmit="return checkSize()" enctype="multipart/form-data">
                     <input type="hidden" name="articleId" value="{$submission->getId()}" />
                     {if $decision == SUBMISSION_SECTION_NO_DECISION}

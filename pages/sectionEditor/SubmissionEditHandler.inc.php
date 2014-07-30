@@ -176,7 +176,10 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		$lastDecision = $sectionDecisionDao->getLastSectionDecision($articleId);
 		$reviewAssignments =& $lastDecision->getReviewAssignments();
 		$articleMoreRecent = strtotime($submission->getLastModified())>strtotime($lastDecision->getDateDecided()) ? true : false;
-				
+
+                $approvalNoticeDao =& DAORegistry::getDAO("ApprovalNoticeDAO");
+                $templates =& $approvalNoticeDao->getApprovalNoticesByCommitteeAndTypeId($lastDecision->getSectionId(), $lastDecision->getReviewType());
+
 		// Prepare an array to store the 'Notify Reviewer' email logs
 		$notifyReviewerLogs = array();
 		foreach ($reviewAssignments as $reviewAssignment) {
@@ -222,7 +225,8 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		$templateMgr->assign('reviewFormResponses', $reviewFormResponses);
 		$templateMgr->assign('reviewFormTitles', $reviewFormTitles);
 		$templateMgr->assign('sectionId', $submission->getSectionId());
-		$templateMgr->assign_by_ref('notifyReviewerLogs', $notifyReviewerLogs);
+		$templateMgr->assign('templates', $templates);
+                $templateMgr->assign_by_ref('notifyReviewerLogs', $notifyReviewerLogs);
 		$templateMgr->assign_by_ref('submissionFile', $submission->getSubmissionFile());	
                 $templateMgr->assign_by_ref('abstract', $submission->getLocalizedAbstract());
 		$templateMgr->assign_by_ref('suppFiles', $submission->getSuppFiles());
@@ -2669,6 +2673,20 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		SectionEditorAction::automaticSummaryInPDF($submission);
         }
 
+
+        function downloadApprovalNoticeTemplate(){
+                $articleId = Request::getUserVar('articleId');
+                $noticeId = Request::getUserVar('noticeTemplate');
+		$this->validate($articleId, SECTION_EDITOR_ACCESS_REVIEW);
+		$submission =& $this->submission;
+		$approvalNoticeDao =& DAORegistry::getDAO('ApprovalNoticeDAO');
+                $notice =& $approvalNoticeDao->getApprovalNotice($noticeId);
+                
+                import('classes.approvalNotice.ApprovalNoticeDocx');                
+                $aprovalNoticeDocx = new ApprovalNoticeDocx($notice, $submission);
+                
+                $aprovalNoticeDocx->downloadApprovalNotice();
+        }
 
 }
 ?>

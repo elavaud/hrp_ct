@@ -228,6 +228,17 @@ class ExtraFieldDAO extends DAO {
                 return null;
             }
         }
+        
+        /**
+         * Get a random ID of a field by type
+         * @param int $type
+         * @return int
+         */
+        function getRandomFieldIdByType($type){
+                $result =  $this->retrieve('SELECT `extra_field_id` FROM `extra_fields` WHERE `type` = '.$type.' ORDER BY RAND() LIMIT 0,1;');
+                $row = $result->GetRowAssoc(false);
+                return $row['extra_field_id'];
+        }
 }
 
 ?>
