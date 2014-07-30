@@ -128,9 +128,9 @@
 	//-------------------------------------------------------------------------
 	// use dynamic image libraries - if $cfg['ilibs_inc'] is set, static image libraries above are ignored
 	// image directories to be scanned
-//	$cfg['ilibs_dir'] 	   = array('/public/site/images/public');						   	// image library path with slashes; absolute to root directory - please make sure that the directories have write permissions
-//	$cfg['ilibs_dir_show'] = true;														// show main library (true) or only sub-dirs (false)
-//	$cfg['ilibs_inc']      = realpath(dirname(__FILE__) . '/../scripts/init.php'); 	// file to include in ibrowser.php (useful for setting $cfg['ilibs] dynamically
+	$cfg['ilibs_dir'] 	   = array('public/site/images/public');						   	// image library path with slashes; absolute to root directory - please make sure that the directories have write permissions
+	$cfg['ilibs_dir_show'] = true;														// show main library (true) or only sub-dirs (false)
+	$cfg['ilibs_inc']      = realpath(dirname(__FILE__) . '/../scripts/init.php'); 	// file to include in ibrowser.php (useful for setting $cfg['ilibs] dynamically
 	//-------------------------------------------------------------------------
 	// you shouldn't need to make any changes to the config variable beyond this line!
 	//-------------------------------------------------------------------------
