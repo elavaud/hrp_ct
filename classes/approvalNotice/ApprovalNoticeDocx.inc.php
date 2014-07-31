@@ -153,8 +153,8 @@ class ApprovalNoticeDocx {
             '{$comName}' => ($committee->getLocalizedTitle()) ? $committee->getLocalizedTitle() : '',
             '{$comAcronym}' => ($committee->getLocalizedAbbrev()) ? $committee->getLocalizedAbbrev() : '',
             '{$comSecName}' => ($secretary) ? $secretary->getFullName() : '',
-            '{$comChairName}' => ($chairInArray[0]) ? $chairInArray[0]->getFullName() : '',
-            '{$comViceChairName}' => ($viceChairInArray[0]) ? $viceChairInArray[0]->getFullName() : '',  
+            '{$comChairName}' => (!empty($chairInArray)) ? $chairInArray[0]->getFullName() : '',
+            '{$comViceChairName}' => (!empty($viceChairInArray)) ? $viceChairInArray[0]->getFullName() : '',  
             '{$subRoundDate}' => ($sectionEditorSubmission->getDateSubmitted()) ? $sectionEditorSubmission->getDateSubmitted() : '',
             '{$reviewType}' => ($decision->getReviewTypeKey()) ? Locale::translate($decision->getReviewTypeKey()) : '',
             '{$reviewRound}' => ($decision->getRound()) ? $decision->getRound() : '',
@@ -215,9 +215,15 @@ class ApprovalNoticeDocx {
                 $this->_replaceHTMLs($this->sectionEditorSubmission);
                 
                 // Convert the HTML and put it into the PHPWord object
-                htmltodocx_insert_html($header, $this->_getHtmlDomArray($this->header)[0]->nodes, $this->_getSettings('header'));
-                htmltodocx_insert_html($section, $this->_getHtmlDomArray($this->body)[0]->nodes, $this->_getSettings());
-                htmltodocx_insert_html($footer, $this->_getHtmlDomArray($this->footer)[0]->nodes, $this->_getSettings('footer'));
+                $headerDomArray = $this->_getHtmlDomArray($this->header);
+                $headerDomArray = $headerDomArray[0];
+                $bodyDomArray = $this->_getHtmlDomArray($this->body);
+                $bodyDomArray = $bodyDomArray[0];
+                $footerDomArray = $this->_getHtmlDomArray($this->footer);
+                $footerDomArray = $footerDomArray[0];                
+                htmltodocx_insert_html($header, $headerDomArray->nodes, $this->_getSettings('header'));
+                htmltodocx_insert_html($section, $bodyDomArray->nodes, $this->_getSettings());
+                htmltodocx_insert_html($footer, $footerDomArray->nodes, $this->_getSettings('footer'));
                 
                 // Always include the page number in the footer
                 Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
@@ -247,3 +253,5 @@ class ApprovalNoticeDocx {
                 return true;
     }
 }   
+
+?>
