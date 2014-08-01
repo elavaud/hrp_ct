@@ -28,14 +28,17 @@ class ApprovalNoticeDocx {
     
     // SevtionEditorSubmission Object
     var $sectionEditorSubmission;
-
+    
+    // Name of the file to download
+    var $fileName = 'ApprovalNotice';
+    
     /**
      * Constructor
      * @param $approvalNotice ApprovalNotice object
      * @param $sectionEditorSubmission ApprovalNotice object, null if just for preview
      */
     function ApprovalNoticeDocx($approvalNotice, $sectionEditorSubmission){
-            
+            Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON, LOCALE_COMPONENT_PKP_SUBMISSION));
             // Set variables
             $this->header = $approvalNotice->getCleanHtml('getApprovalNoticeHeader');
             $this->body = $approvalNotice->getCleanHtml('getApprovalNoticeBody'); 
@@ -146,7 +149,10 @@ class ApprovalNoticeDocx {
             }
         }
         
-        Locale::requireComponents(array(LOCALE_COMPONENT_PKP_SUBMISSION));
+        // Set the name of the file to download
+        $this->fileName = $sectionEditorSubmission->getProposalId().'-'.$committee->getLocalizedAbbrev().'-'.preg_replace('/\s+/', '', Locale::translate($decision->getReviewTypeKey())).'-'.$decision->getRound();
+        
+        
         // If modification, see pages.manager.ApprovalNoticesHandler.inc.php _createSampleProposal AND templates.manager.approvalNotices.approvalNoticeForm.tpl
         return array(
             '{$proposalId}' => ($sectionEditorSubmission->getProposalId()) ? $sectionEditorSubmission->getProposalId() : '',
@@ -226,7 +232,6 @@ class ApprovalNoticeDocx {
                 htmltodocx_insert_html($footer, $footerDomArray->nodes, $this->_getSettings('footer'));
                 
                 // Always include the page number in the footer
-                Locale::requireComponents(array(LOCALE_COMPONENT_APPLICATION_COMMON));
                 $footer->addPreserveText(Locale::translate('submission.approvalNotice.pageNumberOfTotalPages.page').' {PAGE} '.Locale::translate('submission.approvalNotice.pageNumberOfTotalPages.of').' {NUMPAGES}', null, array('size' => 6, 'align'=>'center'));
                 
                 // Save File
@@ -239,7 +244,7 @@ class ApprovalNoticeDocx {
                 // Download the file:
                 header('Content-Description: File Transfer');
                 header('Content-Type: application/octet-stream');
-                header('Content-Disposition: attachment; filename=ApprovalNoticeSample.docx');
+                header('Content-Disposition: attachment; filename='.$this->fileName.'.docx');
                 header('Content-Transfer-Encoding: binary');
                 header('Expires: 0');
                 header('Cache-Control: must-revalidate, post-check=0, pre-check=0');

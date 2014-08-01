@@ -654,10 +654,10 @@ function htmltodocx_insert_html_recursive(&$phpword_element, $html_dom_array, &$
           $src = $element_src;
         }
         elseif (strpos($element_src, '/') === 0) {
-          $src = htmltodocx_doc_root() . $element_src;
+          $src = realpath('') . $element_src;
         }
         else {
-          $src = htmltodocx_doc_root() . $state['base_path'] . $element_src; 
+          $src = realpath('') . $state['base_path'] . $element_src; 
         }
         
         $phpword_element->addImage($src, $state['current_style']);
@@ -698,8 +698,9 @@ function htmltodocx_doc_root() {
   // Should be available on both Apache and non Apache servers.
   
   $local_dir = substr($local_path, 0, strrpos($local_path, '/'));
-  
+
   if (empty($local_dir)) {
+
     return realpath('');
   }
   else {
