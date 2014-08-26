@@ -425,12 +425,13 @@ class SectionDecision extends DataObject {
 	function &getAuthorString() {
             $authorDao =& DAORegistry::getDAO('AuthorDAO');
             $authors = $authorDao->getAuthorsByArticle($this->getArticleId());
+            $authorString = '-';
             foreach ($authors as $author) {
                 if ($author->getPrimaryContact()){
-                    return $author->getFullName();
+                    $authorString = $author->getFullName();
                 }
             }
-            return '-';
+            return $authorString;
 	}
 
         
