@@ -181,12 +181,18 @@ class MeetingAction extends Action {
                                 if (!$isHere) $meeting->removeMeetingSectionDecision($oldSectionDecision->getSectionDecisionId());
                                 
                         }
-                        
-			for ($i=0;$i<count($sectionDecisionsId);$i++) {
-                                $meetingSectionDecision = new MeetingSectionDecision();
-                                $meetingSectionDecision->setMeetingId($meeting->getId());
-                                $meetingSectionDecision->setSectionDecisionId($sectionDecisionsId[$i]);
-                                $meeting->addMeetingSectionDecision($meetingSectionDecision);
+
+                        for ($i=0;$i<count($sectionDecisionsId);$i++) {
+                                $isHere = false;
+                                foreach ($oldSectionDecisions as $oldSectionDecision) {
+                                        if ($oldSectionDecision->getSectionDecisionId() == $sectionDecisionsId[$i]) $isHere = true;
+                                }
+                                if (!$isHere) {
+                                        $meetingSectionDecision = new MeetingSectionDecision();
+                                        $meetingSectionDecision->setMeetingId($meeting->getId());
+                                        $meetingSectionDecision->setSectionDecisionId($sectionDecisionsId[$i]);
+                                        $meeting->addMeetingSectionDecision($meetingSectionDecision);                                    
+                                }
 			}
 		}
 		

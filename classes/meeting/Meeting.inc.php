@@ -301,7 +301,7 @@ class Meeting extends DataObject {
 	}
 
 	function getMeetingSectionDecisions() {
-		return $this->meetingSectionDecisions;
+		return array_values($this->meetingSectionDecisions);
 	}
 
 	function addMeetingSectionDecision($meetingSectionDecision) {
