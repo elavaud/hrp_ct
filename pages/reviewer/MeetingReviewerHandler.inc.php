@@ -91,6 +91,8 @@ class MeetingReviewerHandler extends ReviewerHandler {
 	 * @see PKPHandler::validate()
 	 */
 	function validate($meetingId) {
+		parent::validate();
+            
 		$meetingDao =& DAORegistry::getDAO('MeetingDAO');
 		$journal =& Request::getJournal();
 		$user =& Request::getUser();
