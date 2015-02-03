@@ -43,7 +43,7 @@ function showOrHideOherKeyImplementingInstitutionField(){
         if ($('#otherInstitutionType option[value="9999"]').length > 0){
             $('#otherInstitutionType option[value="9999"]').remove();
         }
-        if ($("#radioInternationalSupp").length > 0) {
+        if ($("#radioInternationalSupp").length) {
             $('#radioInternationalSupp').remove();
         }
     } else {
@@ -54,10 +54,10 @@ function showOrHideOherKeyImplementingInstitutionField(){
             $('#otherInstitutionType').append('<option value="9999"></option>');
         }
         $('#otherInstitutionType').val("9999");
-        if (!$("#radioInternationalSupp").length > 0) {
-            $('<input type="radio" name="proposalDetails[international]" id="radioInternationalSupp" style="display: none;" val="NA"/>').appendTo('#otherInstitution');
+        if (!$("#radioInternationalSupp").length) {
+            $('input[name$="proposalDetails[international]"]:last').closest('label').after($('<label><input type="radio" name="proposalDetails[international]" id="radioInternationalSupp" value="NA"></label>'));        
         }
-        $('#radioInternationalSupp').attr('checked',true);     
+        $('#radioInternationalSupp').attr('checked', 'checked');     
     }
     showLocationKII();
 }
@@ -353,7 +353,7 @@ function showOrHideOtherSource() {
             }
             $('#sources-'+iterator+'-otherInstitutionType').val('NA');
             if (!$('#sources-'+iterator+'-radioInternationalSupp').length > 0) {
-                $('<input type="radio" name="sources['+iterator+'][international]" id="sources-'+iterator+'-radioInternationalSupp" style="display: none;" val="NA"/>').appendTo('#sources-'+iterator+'-locationInternationalCol');
+                $('input[name$="sources['+iterator+'][international]"]:last').closest('label').after($('<label><input type="radio" name="sources['+iterator+'][international]" id="sources-'+iterator+'-radioInternationalSupp" style="display: none;" value="NA"></label>'));                        
             }
             $('#sources-'+iterator+'-radioInternationalSupp').attr('checked',true);     
         }
