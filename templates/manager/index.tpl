@@ -55,38 +55,15 @@
 
 <ul class="plain">
 	<li>&#187; <a href="{url op="createUser" source=$managementUrl}">{translate key="manager.people.createUser"}</a></li>
-	{*<li>&#187; <a href="{url op="people" path="all"}">{translate key="manager.people.allEnrolledUsers"}</a></li>*}
 	<li>&#187; <a href="{url op="enrollSearch"}">{translate key="manager.people.allSiteUsers"}</a></li> <br/>
 	{url|assign:"managementUrl" page="manager"}
-	{*<li>&#187; <a href="{url op="mergeUsers"}">{translate key="manager.people.mergeUsers"}</a></li>*}
 	{call_hook name="Templates::Manager::Index::Users"}
-{*</ul>
-</div>
-<div id="managerRoles">
-<h3>{translate key="manager.roles"}</h3>
-
-<ul class="plain">*}
-	<li>&#187; <a href="{url op="people" path="managers"}">{translate key="user.role.managers"}</a></li>
-	<li>&#187; <a href="{url op="people" path="editors"}">{translate key="user.role.coordinators"}</a></li>
-	<li>&#187; <a href="{url op="people" path="sectionEditors"}">{translate key="user.role.sectionEditors"}</a></li> 
-
-	{*{if $roleSettings.useLayoutEditors}
-		<li>&#187; <a href="{url op="people" path="layoutEditors"}">{translate key="user.role.layoutEditors"}</a></li>
-	{/if}
-	{if $roleSettings.useCopyeditors}
-		<li>&#187; <a href="{url op="people" path="copyeditors"}">{translate key="user.role.copyeditors"}</a></li>
-	{/if}
-
-	{if $roleSettings.useProofreaders} 
-		<li>&#187; <a href="{url op="people" path="proofreaders"}">{translate key="user.role.proofreaders"}</a></li>
-	{/if}*}
-	<li>&#187; <a href="{url op="people" path="reviewers"}">{translate key="user.role.reviewers"}</a></li>
-	<li>&#187; <a href="{url op="people" path="extReviewers"}">{translate key="user.ercrole.extReviewers"}</a></li>
-	<li>&#187; <a href="{url op="people" path="authors"}">{translate key="user.role.authors"}</a></li>
-	<!-- Not useful: EL on February 13th 2013 -->
-	<!--<li>&#187; <a href="{url op="showNoRole"}">{translate key="manager.people.showNoRole"}</a></li>-->
-	<!-- <li>&#187; <a href="{url op="people" path="readers"}">{translate key="user.role.readers"}</a></li> Edited by MSB, Nov17,2011-->
-	<!-- <li>&#187; <a href="{url op="people" path="subscriptionManagers"}">{translate key="user.role.subscriptionManagers"}</a></li> Edited by MSB, Nov17,2011-->
+	<li>&#187; <a href="{url op="people" path="managers"}">{translate key="manager.people.seeEnrolled"} {translate key="user.role.managers"}</a></li>
+	<li>&#187; <a href="{url op="people" path="editors"}">{translate key="manager.people.seeEnrolled"} {translate key="user.role.coordinators"}</a></li>
+	<li>&#187; <a href="{url op="people" path="sectionEditors"}">{translate key="manager.people.seeEnrolled"} {translate key="user.role.sectionEditors"}</a></li> 
+	<li>&#187; <a href="{url op="people" path="reviewers"}">{translate key="manager.people.seeEnrolled"} {translate key="user.role.reviewers"}</a></li>
+	<li>&#187; <a href="{url op="people" path="extReviewers"}">{translate key="manager.people.seeEnrolled"} {translate key="user.ercrole.extReviewers"}</a></li>
+	<li>&#187; <a href="{url op="people" path="authors"}">{translate key="manager.people.seeEnrolled"} {translate key="user.role.authors"}</a></li>
 	{call_hook name="Templates::Manager::Index::Roles"}
 </ul>
 </div>
