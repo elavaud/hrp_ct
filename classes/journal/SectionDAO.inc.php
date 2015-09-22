@@ -186,8 +186,8 @@ class SectionDAO extends DAO {
 	 * Need only title, abbrev and region
 	 */
 	function getLocaleFieldNames() {
-		return array('title', 'abbrev', 'region'
-		/*, 'policy', 'identifyType', 'address', 'bankAccount'*/
+		return array('title', 'abbrev', 'region', 'bankAccount'
+		/*, 'policy', 'identifyType', 'address'*/
 		);
 	}
 

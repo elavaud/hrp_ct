@@ -25,6 +25,9 @@
 	 *  MISC - Entries that don't belong elsewhere.
 	 *  DEFAULT - Default settings for configuration items.
 	-->
+        <!-- New keys added september 2015 -->
+        
+	<message key="payment.agreeToPay">I sent my payment to the required committee (if required)</message>
         
         <!-- New keys added in February - July 2014 -->
                 
@@ -273,6 +276,7 @@
 	<message key="section.title">Ethics Committee title</message>
 	<message key="section.abbreviation">Abbreviation</message>
         <message key="section.region">Region</message>
+        <message key="section.bankAccount">Payment information (optional)</message>        
 	<message key="section.abbreviation.example">(For example, Proposals=PRO)</message>
 
 	<!-- Common Article Terms -->

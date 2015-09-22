@@ -70,7 +70,8 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
 		$paymentManager =& OJSPaymentManager::getManager();
 		if ( $paymentManager->submissionEnabled() || $paymentManager->fastTrackEnabled() || $paymentManager->publicationEnabled()) {
 			$templateMgr->assign('sectionId', $this->article->getSectionId());
-			$templateMgr->assign('authorFees', true);
+			$templateMgr->assign('bankAccount', $section->getLocalizedPaymentInfo());
+                        $templateMgr->assign('authorFees', true);
 			$completedPaymentDAO =& DAORegistry::getDAO('OJSCompletedPaymentDAO');
 			$articleId = $this->articleId;
 

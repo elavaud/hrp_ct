@@ -404,7 +404,32 @@ class Section extends DataObject {
 		}
 
 	// Region of the ERC in section_settings
+		
+                /**
+		 * Get localized payment information.
+		 * @return string
+		 */
+		function getLocalizedPaymentInfo() {
+			return $this->getLocalizedData('bankAccount');
+		}
+		
+		/**
+		 * Get payment information.
+		 * @param $locale string
+		 * @return string
+		 */
+		function getPaymentInfo($locale) {
+			return $this->getData('bankAccount', $locale);
+		}
 	
+		/**
+		 * Set payment information.
+		 * @param $bankAccount string
+		 * @param $locale string
+		 */
+		function setPaymentInfo($bankAccount, $locale) {
+			return $this->setData('bankAccount', $bankAccount, $locale);
+		}
 }
 
 ?>

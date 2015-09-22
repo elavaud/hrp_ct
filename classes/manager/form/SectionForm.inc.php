@@ -146,11 +146,8 @@ class SectionForm extends Form {
 				$this->_data = array(
 					'title' => $section->getTitle(null), // Localized
 					'abbrev' => $section->getAbbrev(null), // Localized
-					
-					// Addded region
-					// EL on February 11th 2013
-						'region' => $section->getRegion(null), // Localized
-						
+					'region' => $section->getRegion(null), // Localized
+					'bankAccount' => $section->getPaymentInfo(null), //Localized	
 					'reviewFormId' => $section->getReviewFormId(),
 					'metaIndexed' => !$section->getMetaIndexed(), // #2066: Inverted
 					'metaReviewed' => !$section->getMetaReviewed(), // #2066: Inverted
@@ -180,7 +177,7 @@ class SectionForm extends Form {
 	 * EL on February 11th 2013
 	 */
 	function readInputData() {
-		$this->readUserVars(array('title', 'abbrev', 'region', 'policy', 'reviewFormId', 'identifyType', 'metaIndexed', 'metaReviewed', 'abstractsNotRequired', 'editorRestriction', 'hideTitle', 'hideAuthor', 'hideAbout', 'disableComments', 'wordCount'));
+		$this->readUserVars(array('title', 'abbrev', 'region', 'bankAccount', 'policy', 'reviewFormId', 'identifyType', 'metaIndexed', 'metaReviewed', 'abstractsNotRequired', 'editorRestriction', 'hideTitle', 'hideAuthor', 'hideAbout', 'disableComments', 'wordCount'));
 		$assignedEditorIds = Request::getUserVar('assignedEditorIds');
 		if (empty($assignedEditorIds)) $assignedEditorIds = array();
 		elseif (!is_array($assignedEditorIds)) $assignedEditorIds = array($assignedEditorIds);

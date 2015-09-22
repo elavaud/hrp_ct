@@ -43,8 +43,6 @@
 	<td class="label">{fieldLabel name="abbrev" required="true" key="section.abbreviation"}</td>
 	<td class="value"><input type="text" name="abbrev[{$formLocale|escape}]" id="abbrev" value="{$abbrev[$formLocale]|escape}" size="20" maxlength="20" class="textField" />&nbsp;&nbsp;{translate key="section.abbreviation.example"}</td>
 </tr>
-<!-- Requesting the region -->
-<!-- EL on February 11th 2013 -->
 <tr valign="top">
 	<td width="20%" class="label">{fieldLabel name="region" required="true" key="section.region"}</td>
     <td width="80%" class="value">
@@ -53,6 +51,10 @@
 				{html_options options=$regions selected=$region[$formLocale]}
         </select>
     </td>
+</tr>
+<tr valign="top">
+    <td width="20%" class="label">{fieldLabel name="bankAccount" key="section.bankAccount"}</td>
+    <td width="80%" class="value"><textarea name="bankAccount[{$formLocale|escape}]" id="bankAccount" rows="3" cols="40" class="textArea">{$bankAccount[$formLocale]|escape}</textarea></td>
 </tr>
 <tr valign="top">
 	<td class="label">{fieldLabel name="reviewFormId" key="submission.reviewForm"}</td>
