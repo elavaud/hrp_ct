@@ -931,12 +931,7 @@ class ArticleDAO extends DAO {
 	function getSortMapping($heading) {
 		switch ($heading) {
 			case 'status': return 'a.status';
-			case 'kii': return 'kii';
-			case 'region': return 'country';
-			case 'researchField': return 'researchfield';
-			case 'title': return 'scientific_title';
-			case 'researchDates': return 'STR_TO_DATE(start_date, "%d-%b-%Y")';
-			default: return null;
+			default: return 'a.status';
 		}
 	}
 }
