@@ -141,13 +141,13 @@ class EditorSubmissionDAO extends DAO {
 		if (!empty($search)) switch ($searchField) {
 			case SUBMISSION_FIELD_TITLE:
 				if ($searchMatch === 'is') {
-					$searchSql = ' AND LOWER(ab.scientific_title) = LOWER(?)';
+					$searchSql = '';
 				} elseif ($searchMatch === 'contains') {
-					$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
-					$search = '%' . $search . '%';
+					$searchSql = '';
+					$search = '' . $search . '';
 				} else { // $searchMatch === 'startsWith'
-					$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
-					$search = $search . '%';
+					$searchSql = '';
+					$search = $search . '';
 				}
 				$params[] = $search;
 				break;
@@ -188,20 +188,19 @@ class EditorSubmissionDAO extends DAO {
 		}
 		
 		if (!empty($researchFieldField)) {
-			$researchFieldSql = ' AND LOWER(ad.research_fields) LIKE LOWER(?)';
-			$researchFieldField = '%'.$researchFieldField.'%';
-			$params[] = $researchFieldField;
+			$researchFieldSql = '';
+			$researchFieldField = '';
+			//$params[] = $researchFieldField;
 		}
 		if (!empty($countryField)) {
-			$countrySql = ' AND LOWER(ad.geo_areas) LIKE LOWER(?)';
-			$countryField = '%'.$countryField.'%';
-			$params[] = $countryField;
+			$countrySql = '';
+			$countryField = '';
+			//$params[] = $countryField;
 		}
 
                 
 		$sql = 'SELECT DISTINCT
 				a.*,
-				ab.clean_scientific_title AS submission_title,
 				aap.first_name AS afname, aap.last_name AS alname, 
 				aap.affiliation as investigatoraffiliation, aap.email as email,
 				COALESCE(stl.setting_value, stpl.setting_value) AS section_title,
@@ -218,16 +217,6 @@ class EditorSubmissionDAO extends DAO {
 				LEFT JOIN section_settings sapl ON (sdec.section_id = sapl.section_id AND sapl.setting_name = ? AND sapl.locale = ?)
 				LEFT JOIN section_settings sal ON (sdec.section_id = sal.section_id AND sal.setting_name = ? AND sal.locale = ?)
 				
-				LEFT JOIN article_abstract ab ON (a.article_id = ab.article_id)
-                                
-                                LEFT JOIN article_details ad ON (a.article_id = ad.article_id)
-                                
-                                LEFT JOIN article_student ast ON (a.article_id = ast.article_id)
-                                
-                                LEFT JOIN article_source asrce ON (a.article_id = asrce.article_id)
-
-                                LEFT JOIN article_risk_assessments ara ON (a.article_id = ara.article_id)
-
                          WHERE a.journal_id = ?' .
 				(!empty($additionalWhereSql)?" $additionalWhereSql":'');
 				
@@ -615,10 +604,7 @@ return $returner;
 	* @return array EditorSubmission
 	*/
 	function &getEditorSubmissionsReport(
-                        $journalId, $sectionId = 0, $decisionType = INITIAL_REVIEW, $decisionStatus = SUBMISSION_SECTION_DECISION_APPROVED, $decisionAfter = null, $decisionBefore = null,
-                        $studentResearch = null, $startAfter = null, $startBefore = null, $endAfter = null, $endBefore = null, $kiiField = array(), $multiCountry = null, $countries = array(), $geoAreas = array(), $researchDomains = array(), $researchFields = array(), $withHumanSubjects = null, $proposalTypes = array(), $dataCollection = null,
-                        $budgetOption = "<=", $budget = null, $sources = array(),
-                        $identityRevealed = null, $unableToConsent = null, $under18 = null, $dependentRelationship = null, $ethnicMinority = null, $impairment = null, $pregnant = null, $newTreatment = null, $bioSamples = null, $exportHumanTissue = null, $exportReason = null, $radiation = null, $distress = null, $inducements = null, $sensitiveInfo = null, $reproTechnology = null, $genetic = null, $stemCell = null, $biosafety = null
+                        $journalId, $sectionId = 0, $decisionType = INITIAL_REVIEW, $decisionStatus = SUBMISSION_SECTION_DECISION_APPROVED, $decisionAfter = null, $decisionBefore = null
                         ) {
                 
             if ($sectionId == 0) {$sectionId = null;}
@@ -640,131 +626,6 @@ return $returner;
                 if ($decisionStatus != 98) {$sql .= " AND sdec.date_decided <= ".$this->datetimeToDB($decisionBefore);}
                 else {$sql .= " AND a.date_submitted <= ".$this->datetimeToDB($decisionBefore);}
             }
-
-            if ($studentResearch) {$sql .= " AND ad.student = '".$studentResearch."'";}
-            if ($startAfter && $startAfter != "") {
-                $startAfter = date("Y-m-d", strtotime($startAfter));
-                $sql .= " AND ad.start_date >= ".$this->datetimeToDB($startAfter);
-            }
-            if ($startBefore && $startBefore != "") {
-                $startBefore = date("Y-m-d", strtotime($startBefore));
-                $sql .= " AND ad.start_date <= ".$this->datetimeToDB($startBefore);
-            }
-            if ($endAfter && $endAfter != "") {
-                $endAfter = date("Y-m-d", strtotime($endAfter));
-                $sql .= " AND ad.end_date >= ".$this->datetimeToDB($endAfter);
-            }
-            if ($endBefore && $endBefore != "") {
-                $endBefore = date("Y-m-d", strtotime($endBefore));
-                $sql .= " AND ad.end_date <= ".$this->datetimeToDB($endBefore);
-            }
-            $kiiField = array_filter($kiiField);
-            if(!empty($kiiField)){
-                $sql .= " AND (";
-                for($i = 0; $i < count($kiiField); $i++){
-                    if($i == 0) {$sql .= "ad.key_implementing_institution = ".$kiiField[$i];}
-                    else {$sql .= " OR ad.key_implementing_institution = ".$kiiField[$i];}
-                }
-                $sql .= ")";
-            }
-            if ($multiCountry) {
-                $sql .= " AND ad.multi_country = '".$multiCountry."'";
-                if ($multiCountry == PROPOSAL_DETAIL_YES){
-                    $countries = array_filter($countries);
-                    if(!empty($countries)){
-                        $sql .= " AND (";
-                        for($i = 0; $i < count($countries); $i++){
-                            if($i == 0) {$sql .= "ad.countries LIKE '%".$countries[$i]."%'";}
-                            else {$sql .= " OR ad.countries LIKE '%".$countries[$i]."%'";}
-                        }
-                        $sql .= ")";                        
-                    }                    
-                }
-            }
-            $geoAreas = array_filter($geoAreas);
-            if(!empty($geoAreas)){
-                $sql .= " AND (";
-                for($i = 0; $i < count($geoAreas); $i++){
-                    if($i == 0) {$sql .= "ad.geo_areas LIKE '%".$geoAreas[$i]."%'";}
-                    else {$sql .= " OR ad.geo_areas LIKE '%".$geoAreas[$i]."%'";}
-                }
-                $sql .= ")";
-            }
-            $researchDomains = array_filter($researchDomains);
-            if(!empty($researchDomains)){
-                $sql .= " AND (";
-                for($i = 0; $i < count($researchDomains); $i++){
-                    if($i == 0) {$sql .= "ad.research_domains LIKE '%".$researchDomains[$i]."%'";}
-                    else {$sql .= " OR ad.research_domains LIKE '%".$researchDomains[$i]."%'";}
-                }
-                $sql .= ")";
-            }
-            $researchFields = array_filter($researchFields);
-            if(!empty($researchFields)){
-                $sql .= " AND (";
-                for($i = 0; $i < count($researchFields); $i++){
-                    if($i == 0) {$sql .= "ad.research_fields LIKE '%".$researchFields[$i]."%'";}
-                    else {$sql .= " OR ad.research_fields LIKE '%".$researchFields[$i]."%'";}
-                }
-                $sql .= ")";
-            }
-            if ($withHumanSubjects) {
-                $sql .= " AND ad.human_subjects = '".$withHumanSubjects."'";
-                if ($withHumanSubjects == PROPOSAL_DETAIL_YES){
-                    $proposalTypes = array_filter($proposalTypes);
-                    if(!empty($proposalTypes)){
-                        $sql .= " AND (";
-                        for($i = 0; $i < count($proposalTypes); $i++){
-                            if($i == 0) {$sql .= "ad.proposal_types LIKE '%".$proposalTypes[$i]."%'";}
-                            else {$sql .= " OR ad.proposal_types LIKE '%".$proposalTypes[$i]."%'";}
-                        }
-                        $sql .= ")";                        
-                    }                    
-                }
-            }
-            if ($dataCollection) {$sql .= " AND ad.data_collection = '".$dataCollection."'";}
-            
-            $havingSql = '';
-            if ($budget && $budget != ""){
-                $havingSql .= " HAVING SUM(asrce.amount) ".$budgetOption." ".$budget;
-            }
-            $sources = array_filter($sources);
-            if(!empty($sources)){
-                $sql .= " AND (";
-                for($i = 0; $i < count($sources); $i++){
-                    if($i == 0) {$sql .= "asrce.institution_id = ".$sources[$i];}
-                    else {$sql .= " OR asrce.institution_id = ".$sources[$i];}
-                }
-                $sql .= ")";
-            }
-            
-            if ($identityRevealed != null) {$sql .= " AND ara.identity_revealed = '".$identityRevealed."'";}
-            if ($unableToConsent != null) {$sql .= " AND ara.unable_to_consent = '".$unableToConsent."'";}
-            if ($under18 != null) {$sql .= " AND ara.under_18 = '".$under18."'";}
-            if ($dependentRelationship != null) {$sql .= " AND ara.dependent_relationship = '".$dependentRelationship."'";}
-            if ($ethnicMinority != null) {$sql .= " AND ara.ethnic_minority = '".$ethnicMinority."'";}
-            if ($impairment != null) {$sql .= " AND ara.mental_impairment = '".$impairment."'";}
-            if ($pregnant != null) {$sql .= " AND ara.pregnant = '".$pregnant."'";}
-            if ($newTreatment != null) {$sql .= " AND ara.new_treatment = '".$newTreatment."'";}
-            if ($bioSamples != null) {
-                $sql .= " AND ara.biological_samples = '".$bioSamples."'";
-                if ($bioSamples == RISK_ASSESSMENT_YES){
-                    if ($exportHumanTissue != null) {
-                        $sql .= " AND ara.export_human_tissue = '".$exportHumanTissue."'";
-                        if ($exportHumanTissue == RISK_ASSESSMENT_YES){
-                            if ($exportReason != null) {$sql .= " AND ara.export_reason = '".$exportReason."'";}            
-                        }
-                    }                    
-                }
-            }
-            if ($radiation != null) {$sql .= " AND ara.ionizing_radiation = '".$radiation."'";}
-            if ($distress != null) {$sql .= " AND ara.distress = '".$distress."'";}
-            if ($inducements != null) {$sql .= " AND ara.inducements = '".$inducements."'";}
-            if ($sensitiveInfo != null) {$sql .= " AND ara.sensitive_information = '".$sensitiveInfo."'";}
-            if ($reproTechnology != null) {$sql .= " AND ara.repro_technology = '".$reproTechnology."'";}
-            if ($genetic != null) {$sql .= " AND ara.genetic = '".$genetic."'";}
-            if ($stemCell != null) {$sql .= " AND ara.stem_cell = '".$stemCell."'";}
-            if ($biosafety != null) {$sql .= " AND ara.biosafety = '".$biosafety."'";}
 
             $result =& $this->_getUnfilteredEditorSubmissions(
             $journalId, $sectionId, null,

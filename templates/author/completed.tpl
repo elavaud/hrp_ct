@@ -21,12 +21,11 @@
 	<tr><td class="headseparator" colspan="{if $statViews}7{else}6{/if}">&nbsp;</td></tr>
 {iterate from=submissions1 item=submission}
 	{assign var="articleId" value=$submission->getArticleId()}
-	{assign var="abstract" value=$submission->getLocalizedAbstract()}
         {assign var="proposalId" value=$submission->getProposalId()}
 	<tr valign="top">
 		<td>{$proposalId|escape}</td>
 		<td>{$submission->getDateSubmitted()|date_format:$dateFormatShort}</td>
-		<td><a href="{url op="submission" path=$articleId}" class="action">{$abstract->getScientificTitle()|escape}</a></td>
+		<td><a href="{url op="submission" path=$articleId}" class="action">title</a></td>
 		{assign var="status" value=$submission->getSubmissionStatus()}
 		{if $statViews}
 			<td>

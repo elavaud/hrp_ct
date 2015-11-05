@@ -352,8 +352,7 @@ class AuthorAction extends Action {
 			return true;
 		} else {
 			if (!Request::getUserVar('continued')) {
-				$abstract = $authorSubmission->getLocalizedAbstract();
-				$email->setSubject($abstract->getScientificTitle());
+				$email->setSubject('title');
 				if (!empty($editors)) {
 					foreach ($editors as $editor) {
 						$email->addRecipient($editor->getEmail(), $editor->getFullName());

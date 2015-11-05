@@ -76,14 +76,12 @@ class CommentForm extends Form {
 		$articleCommentDao =& DAORegistry::getDAO('ArticleCommentDAO');
 		$articleComments =& $articleCommentDao->getArticleComments($article->getId(), $this->commentType, $this->assocId);
 		$userDao =& DAORegistry::getDAO('UserDAO');
-		
-		$abstract = $article->getLocalizedAbstract();
-		
+				
 		$templateMgr =& TemplateManager::getManager();
 		$templateMgr->assign_by_ref('userDao', $userDao);
 		$templateMgr->assign('sectionId', $article->getSectionId());
 		$templateMgr->assign('articleId', $article->getId());
-		$templateMgr->assign('commentTitle', strip_tags($abstract->getScientificTitle()));
+		$templateMgr->assign('commentTitle', strip_tags(''));
 		$user =& $this->user;
 		$templateMgr->assign('userId', $user->getId());
 		$templateMgr->assign('articleComments', $articleComments);

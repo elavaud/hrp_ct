@@ -273,13 +273,11 @@ class ReviewerSubmissionDAO extends DAO {
 		$sql = 'SELECT	a.*,
 				r.reviewer_id,
 				u.first_name, u.last_name,
-				ab.clean_scientific_title AS submission_title,
 				COALESCE(stl.setting_value, stpl.setting_value) AS section_title,
 				COALESCE(sal.setting_value, sapl.setting_value) AS section_abbrev
 			FROM	articles a
 				LEFT JOIN section_decisions sd ON (a.article_id = sd.article_id)
 				LEFT JOIN review_assignments r ON (sd.section_decision_id = r.decision_id)
-				LEFT JOIN article_abstract ab ON (ab.article_id = a.article_id)
 				LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)
                                 LEFT JOIN section_decisions sdec2 ON (a.article_id = sdec2.article_id AND sdec.section_decision_id < sdec2.section_decision_id)
 				LEFT JOIN users u ON (r.reviewer_id = u.user_id)
@@ -347,15 +345,15 @@ class ReviewerSubmissionDAO extends DAO {
 		if (!empty($search)) switch ($searchField) {
 			case SUBMISSION_FIELD_TITLE:
 				if ($searchMatch === 'is') {
-					$searchSql = ' AND LOWER(ab.scientific_title) = LOWER(?)';
+					//$searchSql = ' AND LOWER(ab.scientific_title) = LOWER(?)';
 				} elseif ($searchMatch === 'contains') {
-					$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
-					$search = '%' . $search . '%';
+					//$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
+					//$search = '%' . $search . '%';
 				} else { // $searchMatch === 'startsWith'
-					$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
-					$search = $search . '%';
+					//$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
+					//$search = $search . '%';
 				}
-				$params[] = $search;
+				//$params[] = $search;
 				break;
 			case SUBMISSION_FIELD_AUTHOR:
 				$searchSql = $this->_generateUserNameSearchSQL($search, $searchMatch, 'aa.', $params);
@@ -389,13 +387,11 @@ class ReviewerSubmissionDAO extends DAO {
 				
 		$sql = 'SELECT	DISTINCT a.*,
 				r.reviewer_id,
-				u.first_name, u.last_name,
-				ab.clean_scientific_title AS submission_title
+				u.first_name, u.last_name
 			FROM	articles a
 				LEFT JOIN section_decisions sd ON (a.article_id = sd.article_id)
 				LEFT JOIN authors aa ON (aa.submission_id = a.article_id AND aa.primary_contact = 1)
 				LEFT JOIN review_assignments r ON (sd.section_decision_id = r.decision_id)
-				LEFT JOIN article_abstract ab ON (ab.article_id = a.article_id)
 				LEFT JOIN article_settings appc ON (a.article_id = appc.article_id AND appc.setting_name = ? AND appc.locale = a.locale)
 				LEFT JOIN article_settings apc ON (a.article_id = apc.article_id AND apc.setting_name = ? AND apc.locale = ?)
 				LEFT JOIN users u ON (r.reviewer_id = u.user_id)
@@ -436,13 +432,13 @@ class ReviewerSubmissionDAO extends DAO {
 		if (!empty($search)) switch ($searchField) {
 			case SUBMISSION_FIELD_TITLE:
 				if ($searchMatch === 'is') {
-					$searchSql = ' AND LOWER(ab.scientific_title) = LOWER(?)';
+					//$searchSql = ' AND LOWER(ab.scientific_title) = LOWER(?)';
 				} elseif ($searchMatch === 'contains') {
-					$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
-					$search = '%' . $search . '%';
+					//$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
+					//$search = '%' . $search . '%';
 				} else {
-					$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
-					$search = $search . '%';
+					//$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
+					//$search = $search . '%';
 				}
 				$params[] = $search;
 				break;
@@ -453,12 +449,10 @@ class ReviewerSubmissionDAO extends DAO {
 		
 		$sql = 'SELECT	DISTINCT a.*,
 				ma.user_id as reviewer_id,
-				u.first_name, u.last_name,
-				ab.clean_scientific_title AS submission_title
-			FROM	articles a
+				u.first_name, u.last_name
+                        FROM	articles a
                                 LEFT JOIN section_decisions sd ON (sd.article_id = a.article_id)
 				LEFT JOIN authors aa ON (aa.submission_id = a.article_id AND aa.primary_contact = 1)
-				LEFT JOIN article_abstract ab ON (ab.article_id = a.article_id)
 				LEFT JOIN meeting_section_decisions msd ON (sd.section_decision_id = msd.section_decision_id)
 				LEFT JOIN meeting_attendance ma ON (msd.meeting_id = ma.meeting_id)
 				LEFT JOIN users u ON (ma.user_id = u.user_id)

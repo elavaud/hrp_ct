@@ -58,7 +58,6 @@ class ProposalFromMeetingReviewerHandler extends ReviewerHandler {
 		$templateMgr =& TemplateManager::getManager();
 		$templateMgr->assign_by_ref('submission', $submission);
                 $templateMgr->assign_by_ref('sectionDecisions', $sectionDecisions);
-		$templateMgr->assign_by_ref('abstract', $submission->getLocalizedAbstract());                		
 		$templateMgr->assign_by_ref('submissionFile', $submission->getSubmissionFile());
 		$templateMgr->assign_by_ref('suppFiles', $submission->getSuppFiles());
 		$templateMgr->assign_by_ref('previousFiles', $articleFileDao->getPreviousFilesByArticleId($submission->getId()));

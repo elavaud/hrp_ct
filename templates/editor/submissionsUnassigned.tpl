@@ -27,14 +27,11 @@
 	{iterate from=submissions item=submission}
 	<tr valign="top" {if $submission->getFastTracked()} class="fastTracked"{/if}>
 		{assign var="proposalId" value=$submission->getProposalId()}
-		{assign var="abstract" value=$submission->getLocalizedAbstract()}
 
 		<td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
 		<td>{$submission->getDateSubmitted()|date_format:$dateFormatShort}</td>
-	<!-- {* <td>{$submission->getSectionAbbrev()|escape}</td>  *}--> <!-- Commented out by MSB -->
-                <!-- {* <td>{$submission->getAuthorString(true)|truncate:40:"..."|escape}</td> *} Commented out by MSB -->
-   				<td>{$submission->getFirstAuthor(true)|truncate:40:"..."|escape}</td> <!-- Get first author. Added by MSB, Sept 25, 2011 -->
-		<td>{if $submission->getResubmitCount()}<a href="{url op="submissionReview" path=$submission->getId()}" class="action">{$abstract->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}</a>{else}<a href="{url op="submission" path=$submission->getId()}" class="action">{$submission->getLocalizedTitle()|strip_unsafe_html|truncate:60:"..."}</a>{/if}</td>
+                <td>{$submission->getFirstAuthor(true)|truncate:40:"..."|escape}</td>
+		<td>{if $submission->getResubmitCount()}<a href="{url op="submissionReview" path=$submission->getId()}" class="action">title</a>{else}<a href="{url op="submission" path=$submission->getId()}" class="action">{$submission->getLocalizedTitle()|strip_unsafe_html|truncate:60:"..."}</a>{/if}</td>
 		<td>{if $submission->getResubmitCount()}{$submission->getResubmitCount()}{else}0{/if}</td>
 	</tr>
 	<tr>

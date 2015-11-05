@@ -61,22 +61,20 @@ class ExtraFieldForm extends Form {
 	function display() {
 		$templateMgr =& TemplateManager::getManager();
                 
-                $proposalDetailsDao =& DAORegistry::getDAO('ProposalDetailsDAO');
                 $institutionDao =& DAORegistry::getDAO('InstitutionDAO');
                 $sectionDao =& DAORegistry::getDAO('SectionDAO');      
                 
-                $countProposals = count($proposalDetailsDao->getExtraFields($this->type, $this->extraFieldId));
                 $countInstitutions = count($institutionDao->getGeoAreas($this->extraFieldId));
                 $countCommittees = count($sectionDao->getGeoAreas($this->extraFieldId));
                 
                 if ($this->typeConst == EXTRA_FIELD_GEO_AREA) {
-                    if ($this->extraFieldId && ($countInstitutions > 0 || $countProposals > 0 || $countCommittees > 0)) {
+                    if ($this->extraFieldId && ($countInstitutions > 0 || $countCommittees > 0)) {
                         $warning = 'manager.extraFields.geoAreas.modify.warning';
                     } else {
                         $warning = null;
                     }
                 } else {
-                    if ($this->extraFieldId && $countProposals > 0) {
+                    if ($this->extraFieldId) {
                         $warning = 'manager.extraFields.modify.warning';
                     } else {
                         $warning = null;

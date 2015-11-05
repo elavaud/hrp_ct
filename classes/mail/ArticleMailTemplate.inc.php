@@ -65,15 +65,9 @@ class ArticleMailTemplate extends MailTemplate {
 		$journal = isset($this->journal)?$this->journal:Request::getJournal();
 		$sectionDao =& DAORegistry::getDAO('SectionDAO');
 		$section =& $sectionDao->getSection($this->sectionDecision->getSectionId());
-		$abstract =& $article->getLocalizedAbstract();
-		$paramArray['articleTitle'] = strip_tags($abstract->getScientificTitle());
 		$paramArray['articleId'] = $article->getProposalId();
 		$paramArray['journalName'] = strip_tags($journal->getLocalizedTitle());
 		$paramArray['sectionName'] = strip_tags($section->getLocalizedTitle());
-		$paramArray['articleBackground'] = String::html2text($abstract->getBackground());
-		$paramArray['articleObjectives'] = String::html2text($abstract->getObjectives());
-		$paramArray['articleStudyMethods'] = String::html2text($abstract->getStudyMethods());
-		$paramArray['articleExpectedOutcomes'] = String::html2text($abstract->getExpectedOutcomes());
 		$paramArray['authorString'] = strip_tags($article->getAuthorString());
 		parent::assignParams($paramArray);
 	}

@@ -217,15 +217,15 @@ class SectionEditorSubmissionDAO extends DAO {
 			case SUBMISSION_FIELD_TITLE:
 
 				if ($searchMatch === 'is') {
-					$searchSql = ' AND LOWER(ab.scientific_title) = LOWER(?)';
+					//$searchSql = ' AND LOWER(ab.scientific_title) = LOWER(?)';
 				} elseif ($searchMatch === 'contains') {
-					$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
-					$search = '%' . $search . '%';
+					//$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
+					//$search = '%' . $search . '%';
 				} else {
-					$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
-					$search = $search . '%';
+					//$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
+					//$search = $search . '%';
 				}
-				$params[] = $search;
+				//$params[] = $search;
 				break;
 			case SUBMISSION_FIELD_AUTHOR:
 				$first_last = $this->_dataSource->Concat('aa.first_name', '\' \'', 'aa.last_name');
@@ -258,15 +258,12 @@ class SectionEditorSubmissionDAO extends DAO {
 											  	                 
 		$sql = 'SELECT DISTINCT
 				a.*,
-				ab.clean_scientific_title AS submission_title,
 				aap.last_name AS author_name
 			FROM	articles a
 				LEFT JOIN authors aa ON (aa.submission_id = a.article_id)
 				LEFT JOIN authors aap ON (aap.submission_id = a.article_id AND aap.primary_contact = 1)
 				LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)
-                                LEFT JOIN section_decisions sdec2 ON (a.article_id = sdec2.article_id AND sdec.section_decision_id < sdec2.section_decision_id)
-				LEFT JOIN article_abstract ab ON (ab.article_id = a.article_id)
-				
+                                LEFT JOIN section_decisions sdec2 ON (a.article_id = sdec2.article_id AND sdec.section_decision_id < sdec2.section_decision_id)				
 			WHERE	a.journal_id = ?
 				AND sdec.section_id = ?
 				AND a.submission_progress = 0 '.

@@ -34,10 +34,8 @@ class SubmissionsReportForm extends Form {
                 $journal = Request::getJournal();
             
 		$countryDao =& DAORegistry::getDAO('CountryDAO');
-                $proposalDetailsDao =& DAORegistry::getDAO('ProposalDetailsDAO');
                 $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
 		$institutionDao =& DAORegistry::getDAO('InstitutionDAO');
-		$riskAssessmentDao =& DAORegistry::getDAO('RiskAssessmentDAO');
 		$currencyDao =& DAORegistry::getDAO('CurrencyDAO');
 		$sectionDao =& DAORegistry::getDAO('SectionDAO');
 		
@@ -71,58 +69,14 @@ class SubmissionsReportForm extends Form {
                     1 => 'editor.reports.measurement.cumulatedBudget'
                 );
                 $chartOptions = array(
-                    'studentResearch' => Locale::translate('proposal.studentInitiatedResearch'),
-                    'kii' => Locale::translate('proposal.keyImplInstitution'),
-                    'multiCountry' => Locale::translate('proposal.multiCountryResearch'),
-                    'nationwide' => Locale::translate('proposal.nationwide'),
-                    'researchDomains' => Locale::translate('proposal.researchDomains'),
-                    'researchFields' => Locale::translate('proposal.researchField'),
-                    'proposalTypes' => Locale::translate('proposal.proposalType'),
-                    'dataCollection' => Locale::translate('proposal.dataCollection'),
-                    'getIdentityRevealed' => Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.identityRevealedAbb'),
-                    'getUnableToConsent' => Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.unableToConsentAbb'),
-                    'getUnder18' => Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.under18Abb'),
-                    'getDependentRelationship' => Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.dependentRelationshipAbb'),
-                    'getEthnicMinority' => Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.ethnicMinorityAbb'),
-                    'getImpairment' => Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.impairmentAbb'),
-                    'getPregnant' => Locale::translate("editor.reports.riskAssessment.subjects").' - '.Locale::translate('proposal.pregnantAbb'),
-                    'getNewTreatment' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.newTreatmentAbb'),
-                    'getBioSamples' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.bioSamplesAbb'),
-                    'exportHumanTissue' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.exportHumanTissueAbb'),
-                    'exportReason' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.exportReason'),                    
-                    'getRadiation' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.radiationAbb'),
-                    'getDistress' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.distressAbb'),
-                    'getInducements' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.inducementsAbb'),
-                    'getSensitiveInfo' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.sensitiveInfoAbb'),
-                    'getReproTechnology' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.reproTechnologyAbb'),
-                    'getGenetic' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.geneticsAbb'),
-                    'getStemCell' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.stemCellAbb'),
-                    'getBiosafety' => Locale::translate("editor.reports.riskAssessment.researchIncludes").' - '.Locale::translate('proposal.biosafetyAbb')
+
                 );
-                
-                $geoAreas =& $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_GEO_AREA);
-                $proposalTypesList =& $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_PROPOSAL_TYPE);
-                $proposalTypesListWithOther = $proposalTypesList + array('OTHER' => Locale::translate('common.other'));
-                $researchDomainsList =& $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_RESEARCH_DOMAIN);
-                $researchFieldsList =&  $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_RESEARCH_FIELD);
-                $researchFieldsListWithOther = $researchFieldsList + array('OTHER' => Locale::translate('common.other'));
-                
+                                
                 $templateMgr =& TemplateManager::getManager();
                 $templateMgr->assign('sectionOptions', $sectionOptions);
 		$templateMgr->assign('decisionTypes', $decisionTypes);
 		$templateMgr->assign('decisionOptions', $decisionOptions);
-                $templateMgr->assign('proposalDetailYesNoArray', $proposalDetailsDao->getYesNoArray());
                 $templateMgr->assign('institutionsList', $institutionDao->getInstitutionsList());
-                $templateMgr->assign('coutryList', $countryDao->getCountries());
-                $templateMgr->assign('geoAreasList', $geoAreas);
-                $templateMgr->assign('researchDomainsList', $researchDomainsList);
-                $templateMgr->assign('researchFieldsList', $researchFieldsListWithOther);
-                $templateMgr->assign('proposalTypesList', $proposalTypesListWithOther);
-                $templateMgr->assign('dataCollectionArray', $proposalDetailsDao->getDataCollectionArray());
-                $templateMgr->assign('budgetOptions', $budgetOptions);                
-                $templateMgr->assign('sourceCurrency', $currencyDao->getCurrencyByAlphaCode($sourceCurrencyId));
-                $templateMgr->assign('riskAssessmentYesNoArray', $riskAssessmentDao->getYesNoArray());
-                $templateMgr->assign('riskAssessmentExportReasonArray', $riskAssessmentDao->getExportReasonArray());
                 $templateMgr->assign('reportTypeOptions', $reportTypeOptions);
                 $templateMgr->assign('measurementOptions', $measurementOptions);
                 $templateMgr->assign('chartOptions', $chartOptions);

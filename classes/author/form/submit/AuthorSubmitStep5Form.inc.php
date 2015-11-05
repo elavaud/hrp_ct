@@ -167,30 +167,12 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
                         $year = substr(Core::getCurrentDate(), 0, 4);
 
                         $countyear = $articleDao->getSubmissionsForYearCount($year) + 1;
-            
-                        $proposalDetails =& $article->getProposalDetails();
-            
-                        $geoAreas = explode(",", $proposalDetails->getGeoAreas());
-            
+                        
                         //$section = $sectionDao->getSection($article->getSectionId());
             
                         //$countyearsection = $articleDao->getSubmissionsForYearForSectionCount($year, $section->getId()) + 1;
             
-                        if ($proposalDetails->getMultiCountryResearch() == PROPOSAL_DETAIL_YES){
-                                $country = 'MC';
-                        } elseif ($proposalDetails->getNationwide() == PROPOSAL_DETAIL_YES) {
-                                $country = 'NW';
-                        } elseif(count($geoAreas) > 1) {
-                                $country = 'MP';
-                                $countyearcountry = $articleDao->getICPSubmissionsForYearCount($year) + 1;
-                        } else {
-                                $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
-                                $geoArea =& $extraFieldDao->getExtraField($geoAreas[0]);
-                                $country = $geoArea->getThreeFirstLettersOfName();
-                                $countyearcountry = $articleDao->getSubmissionsForYearForCountryCount($year, $country) + 1;
-                        }
-            
-                        $article->setProposalId($year. '.' . $countyear . '.' . $country );
+                        $article->setProposalId($year. '.' . $countyear  );
                 }
                 if ($this->getData('commentsToEditor') != '') {
                         $article->setCommentsToEditor($this->getData('commentsToEditor'));

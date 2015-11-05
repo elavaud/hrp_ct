@@ -33,25 +33,10 @@ define('PROPOSAL_STATUS_RESUBMITTED',12); 	//Special tag for Revise and resubmit
 class Submission extends DataObject {
 	/** @var array Authors of this submission */
 	var $authors;
-	
-	var $riskAssessment;
-        
-	var $proposalDetails;
-
-        var $abstracts;
-        
-	var $sources;
-			
+				
 	/** @var array IDs of Authors removed from this submission */
 	var $removedAuthors;
-	
-        var $removedAbstracts;
-
-        var $removedSources;
-
-	/** @var DAO for article */
-	var $proposalDetailsDAO;
-		
+			
 	/**
 	 * Constructor.
 	 */
@@ -59,11 +44,6 @@ class Submission extends DataObject {
 		parent::DataObject();
 		$this->authors = array();
 		$this->removedAuthors = array();
-		$this->sources = array();
-		$this->removedSources = array();
-                $this->abstracts = array();
-		$this->removedAbstracts = array();
-                $this->proposalDetailsDAO =& DAORegistry::getDAO('ProposalDetailsDAO');        
 	}
 
 	/**
@@ -114,21 +94,6 @@ class Submission extends DataObject {
 		array_push($this->authors, $author);
 	}
 
-        /**
-	 * Add a source of monetary and material support.
-	 * @param $source ProposalSource object
-	 */
-	function addSource($source) {
-		array_push($this->sources, $source);
-	}
-        
-        /**
-	 * Add an abstract.
-	 * @param $abstract Abstract
-	 */
-	function addAbstract($abstract) {
-		$this->abstracts[$abstract->getLocale()] = $abstract;
-	}
 
 	/**
 	 * Remove an author.
@@ -154,52 +119,7 @@ class Submission extends DataObject {
 		return $found;
 	}
 
-        /**
-	 * Remove a source of monetary and material suport.
-	 * @param $sourceId ID of the source to remove
-	 * @return boolean source was removed
-	 */
-	function removeSource($sourceId) {
-		$found = false;
-
-		if ($sourceId != 0) {
-			// FIXME maintain a hash of ID to source for quicker get/remove
-			$sources = array();
-			for ($i=0, $count=count($this->sources); $i < $count; $i++) {
-				if ($this->sources[$i]->getSourceId() == $sourceId) {
-					array_push($this->removedSources, $sourceId);
-					$found = true;
-				} else {
-					array_push($sources, $this->sources[$i]);
-				}
-			}
-			$this->sources = $sources;
-		}
-		return $found;
-	}
-        
-        /**
-	 * Remove an abstract.
-	 * @param $abstractId ID of the abstract to remove
-	 * @return boolean abstract was removed
-	 */
-	function removeAbstract($abstractId) {
-                $found = false;
-		if ($abstractId != 0) {
-                    $abstracts = array();
-                    foreach ($this->abstracts as $abstract) {
-                        if ($abstract->getAbstractId() == $abstractId) {
-                            array_push($this->removedAbstracts, $abstract->getLocale());
-                            $found = true;
-                        }
-                        else array_push($abstracts[$abstract->getLocale()], $abstract);       
-                    }
-                    $this->abstracts = $abstracts;
-		}
-		return $found;
-	}
-
-	/**
+        	/**
 	 * Return string of author names, separated by the specified token
 	 * @param $lastOnly boolean return list of lastnames only (default false)
 	 * @param $separator string separator for names (default comma+space)
@@ -252,38 +172,6 @@ class Submission extends DataObject {
 	function &getAuthors() {
 		return $this->authors;
 	}
-
-        /**
-	 * Get all sources of this submission.
-	 * @return array Sources
-	 */
-	function &getSources() {
-		return $this->sources;
-	}
-        
-	/**
-	 * Get all abstracts for this submission.
-	 * @return array Authors
-	 */
-	function &getAbstracts() {
-		return $this->abstracts;
-	}
-
-        /**
-	 * Get the risk assessment of this submission.
-	 * @return object riskAssessment
-	 */
-	function &getRiskAssessment() {
-		return $this->riskAssessment;
-	}
-
-        /**
-	 * Get the proposal details of this submission.
-	 * @return object proposal details
-	 */
-	function &getProposalDetails() {
-		return $this->proposalDetails;
-	}
         
 	/**
 	 * Get a specific author of this submission.
@@ -302,87 +190,6 @@ class Submission extends DataObject {
 		}
 		return $author;
 	}
-
-        /**
-	 * Get a specific source of monetary and material support of this submission.
-	 * @param $sourceId int
-	 * @return object ProposalSource
-	 */
-	function &getSource($sourceId) {
-		$source = null;
-
-		if ($sourceId != 0) {
-			for ($i=0, $count=count($this->sources); $i < $count && $source == null; $i++) {
-				if ($this->sources[$i]->getSourceId() == $sourceId) {
-					$source =& $this->sources[$i];
-				}
-			}
-		}
-		return $source;
-	}
-        
-        /**
-	 * Get total budget.
-	 * @return int
-	 */
-	function getTotalBudget() {
-		$totalBudget = (int)0;
-                foreach ($this->sources as $source) {
-                    $totalBudget = $totalBudget + $source->getSourceAmount();
-                }
-		return $totalBudget;
-	}
-        
-        /**
-	 * Get total budget to display in a readable manner ("12 345 678" instead of "12345678").
-	 * @return string
-	 */
-	function getTotalBudgetString() {
-		$totalBudgetString = (string) $this->getTotalBudget();
-                $totalBudgetReversed = strrev($totalBudgetString);
-                $totalBudgetReversedArray = str_split($totalBudgetReversed, 3);
-                $stringToReturn = (string) "";
-                foreach (array_reverse($totalBudgetReversedArray) as $totalBudgetReversedItem) {
-                    $stringToReturn = $stringToReturn.' '.strrev($totalBudgetReversedItem);
-                }
-                return $stringToReturn;
-	}
-        
-        /**
-	 * Get a specific abstract of this submission by locale.
-	 * @param $locale string
-	 * @return object Abstract
-	 */
-	function &getAbstractByLocale($locale) {
-                $abstractToReturn = null;
-                foreach ($this->abstracts as $abstract)
-                    if ($abstract->getLocale() == $locale) $abstractToReturn = $abstract;
-		return $abstractToReturn;
-	}
-
-        
-        /**
-	 * Get localized abstract. If no abstract on the current locale, try the primary locale, if not takes any.
-	 * @param $locale string
-	 * @return object Abstract
-	 */
-	function &getLocalizedAbstract() {
-                $locale = Locale::getLocale();
-                $abstract = $this->getAbstractByLocale($locale);
-                if (!$abstract){
-                    $primaryLocale = Locale::getPrimaryLocale();
-                    if ($locale != $primaryLocale) $abstract = $this->getAbstractByLocale($primaryLocale);
-                    if (!$abstract) {
-                        $journal = Request::getJournal();
-                        $supportedLocales = $journal->getSetting('supportedLocales');
-                        foreach ($supportedLocales as $supportedLocale) {
-                            if (!$abstract) $abstract = $this->getAbstractByLocale($supportedLocale);
-                        }
-                    }
-                }
-                return $abstract;
-	}
-        
         
 	/**
 	 * Get the IDs of all authors removed from this submission.
@@ -392,60 +199,12 @@ class Submission extends DataObject {
 		return $this->removedAuthors;
 	}
 
-        /**
-	 * Get the IDs of all sources of monetary removed from this submission.
-	 * @return array int
-	 */
-	function &getRemovedSources() {
-		return $this->removedSources;
-	}
-        
-        /**
-	 * Get the IDs of all abstracts removed from this submission.
-	 * @return array int
-	 */
-	function &getRemovedAbstracts() {
-		return $this->removedAbstracts;
-	}
-
 	/**
 	 * Set authors of this submission.
 	 * @param $authors array Authors
 	 */
 	function setAuthors($authors) {
 		return $this->authors = $authors;
-	}
-
-        /**
-	 * Set sources of monetary for this submission.
-	 * @param $sources array ProposalSource object
-	 */
-	function setSources($sources) {
-		return $this->sources = $sources;
-	}
-        
-        /**
-	 * Set abstracts of this submission.
-	 * @param $abstracts array Abstracts
-	 */
-	function setAbstracts($abstracts) {
-		return $this->abstracts = $abstracts;
-	}
-
-	/**
-	 * Set risk assessment of this submission.
-	 * @param $riskAssessment object riskAssessment
-	 */
-	function setRiskAssessment($riskAssessment) {
-		return $this->riskAssessment = $riskAssessment;
-	}
-
-	/**
-	 * Set proposal details of this submission.
-	 * @param $proposalDetails object proposalDetails
-	 */
-	function setProposalDetails($proposalDetails) {
-		return $this->proposalDetails = $proposalDetails;
 	}
         
 	/**

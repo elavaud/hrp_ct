@@ -268,15 +268,15 @@ class AuthorSubmissionDAO extends DAO {
 		if (!empty($search)) switch ($searchField) {
 			case SUBMISSION_FIELD_TITLE:
 				if ($searchMatch === 'is') {
-					$searchSql = ' AND LOWER(ab.scientific_title) = LOWER(?)';
+					//$searchSql = ' AND LOWER(ab.scientific_title) = LOWER(?)';
 				} elseif ($searchMatch === 'contains') {
-					$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
-					$search = '%' . $search . '%';
+					//$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
+					//$search = '%' . $search . '%';
 				} else {
-					$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
-					$search = $search . '%';
+					//$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
+					//$search = $search . '%';
 				}
-				$params[] = $search;
+				//$params[] = $search;
 				break;		
 		}
 		
@@ -293,12 +293,10 @@ class AuthorSubmissionDAO extends DAO {
 											  					
 		$sql = 'SELECT DISTINCT
 					a.*,
-					ab.clean_scientific_title AS submission_title,
 					aa.last_name AS author_name,
 					(SELECT SUM(g.views) FROM article_galleys g WHERE (g.article_id = a.article_id AND g.locale = ?)) AS galley_views
 				FROM	articles a
 					LEFT JOIN authors aa ON (aa.submission_id = a.article_id AND aa.primary_contact = 1)
-					LEFT JOIN article_abstract ab ON (ab.article_id = a.article_id)
                                         LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)
                                         LEFT JOIN section_decisions sdec2 ON (a.article_id = sdec2.article_id AND sdec.section_decision_id < sdec2.section_decision_id)
 				WHERE	a.user_id = ? 

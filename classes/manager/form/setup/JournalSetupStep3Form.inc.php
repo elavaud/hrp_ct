@@ -158,35 +158,10 @@ class JournalSetupStep3Form extends JournalSetupForm {
                 $originalSourceCurrency = $currencyDao->getCurrencyByAlphaCode($originalSourceCurrencyAlpha);
 		$templateMgr->assign('originalSourceCurrency', $originalSourceCurrency->getName().' ('.$originalSourceCurrencyAlpha.')');                
                 
-		$proposalSourceDao =& DAORegistry::getDAO('ProposalSourceDAO');
-		$templateMgr->assign('countSources', $proposalSourceDao->countSources());                
-                
 		parent::display($request, $dispatcher);
 	}
         
 	function execute() {
-		$proposalSourceDao =& DAORegistry::getDAO('ProposalSourceDAO');
-                if ($proposalSourceDao->countSources() > 0){
-                    $journal = Request::getJournal();
-                    $originalSourceCurrencyAlpha = $journal->getSetting('sourceCurrency');
-                    $formSourceCurrencyApha = $this->getData('sourceCurrency');
-                    if ($originalSourceCurrencyAlpha != $formSourceCurrencyApha) {
-                        $exchangeRate = $this->getData('convertionRate');
-                        $exchangeRate = preg_replace('/\s+/', '', $exchangeRate);
-                        $exchangeRate = trim($exchangeRate);
-                        if(preg_match('/^[0-9]+([\.,][0-9]*)?$/',$exchangeRate)){
-                            $exchangeRate = rtrim($exchangeRate, " \t\n\r\0\x0B.,0" );
-                            if ($exchangeRate != "") {
-                                $exchangeRate = str_replace(",", ".", $exchangeRate);
-                                $proposalSourceDao->changeCurrency($exchangeRate);
-                            } else {
-                                return null;
-                            }
-                        } else {
-                            return null;  
-                        }
-                    }
-                }                
 		return parent::execute();
 	}        
         

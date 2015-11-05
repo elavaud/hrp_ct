@@ -50,7 +50,7 @@
         </tr>
         <tr valign="top">
             <td width="20%" class="label">{translate key="article.title"}</td>
-            <td width="80%" class="value">{$abstract->getScientificTitle()|strip_unsafe_html}</td>
+            <td width="80%" class="value">title</td>
         </tr>
         <tr valign="top">
             <td class="label">{translate key="article.journalSection"}</td>

@@ -14,7 +14,7 @@
 <table width="100%" class="data">
 	<tr>
 		<td class="label" width="20%">{translate key="article.title"}</td>
-		<td class="value" width="80%">{$abstract->getScientificTitle()|strip_unsafe_html}</td>
+		<td class="value" width="80%">title</td>
 	</tr>
 </table>
 </div>

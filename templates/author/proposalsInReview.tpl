@@ -20,15 +20,13 @@
 {iterate from=submissions item=submission}
     {assign var="lastDecision" value=$submission->getLastSectionDecision()}
     {assign var="decisionValue" value=$lastDecision->getDecision()}
-
-	{assign var="abstract" value=$submission->getLocalizedAbstract()}
     {assign var="articleId" value=$submission->getArticleId()}
     {assign var="proposalId" value=$submission->getProposalId()}
 
     <tr valign="top">
         <td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
         <td>{if $submission->getDateSubmitted()}{$submission->getDateSubmitted()|date_format:$dateFormatLong}{else}&mdash;{/if}</td>
-        <td><a href="{url op="submission" path=$articleId}" class="action">{if $abstract->getScientificTitle()}{$abstract->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}{else}{translate key="common.untitled"}{/if}</a></td>
+        <td><a href="{url op="submission" path=$articleId}" class="action">title</a></td>
         <td>{$lastDecision->getSectionAcronym()} - {translate key=$lastDecision->getReviewTypeKey()} - {$lastDecision->getRound()}</td>
         <td align="right">
         	{translate key=$lastDecision->getReviewStatusKey()}<br />

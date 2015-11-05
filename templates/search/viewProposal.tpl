@@ -47,7 +47,7 @@
                         <a href="{url op="authors" path="view"|to_array:$author->getId()}">{$author->getFullName()|escape}</a><br />
 			{if $author->getAffiliation()}{$author->getAffiliation()|escape|nl2br|default:"&mdash;"}<br/>{/if}
 			{assign var=emailString value=$author->getFullName()|concat:" <":$author->getEmail():">"}
-			{url|assign:"url" page="user" op="email" redirectUrl=$currentUrl to=$emailString|to_array subject=$abstract->getScientificTitle()|strip_tags articleId=$submission->getId()}
+			{url|assign:"url" page="user" op="email" redirectUrl=$currentUrl to=$emailString|to_array subject="title"|strip_tags articleId=$submission->getId()}
 			{$author->getFullName()|escape} {icon name="mail" url=$url}
 		</td>
 	</tr>
@@ -76,127 +76,13 @@
 		{/if}
     	<tr valign="top">
         	<td class="label" width="20%">{translate key="proposal.scientificTitle"}</td>
-        	<td class="value">{$abstract->getScientificTitle()}</td>
+        	<td class="value">title</td>
     	</tr>
     	<tr valign="top">
         	<td class="label" width="20%">{translate key="proposal.publicTitle"}</td>
-        	<td class="value">{$abstract->getPublicTitle()}</td>
-    	</tr>
-    	<tr><td colspan="2">&nbsp;</td></tr>
-    	<tr valign="top">
-        	<td class="label" width="20%">{translate key="proposal.background"}</td>
-        	<td class="value">{$abstract->getBackground()}</td>
-    	</tr>
-    	<tr valign="top">
-        	<td class="label" width="20%">{translate key="proposal.objectives"}</td>
-        	<td class="value">{$abstract->getObjectives()}</td>
-    	</tr>
-    	<tr valign="top">
-        	<td class="label" width="20%">{translate key="proposal.studyMethods"}</td>
-        	<td class="value">{$abstract->getStudyMethods()}</td>
-    	</tr>
-    	<tr valign="top">
-        	<td class="label" width="20%">{translate key="proposal.expectedOutcomes"}</td>
-        	<td class="value">{$abstract->getExpectedOutcomes()}</td>
-    	</tr>
-    	<tr><td colspan="2">&nbsp;</td></tr>
-    	<tr valign="top">
-        	<td class="label" width="20%">{translate key="proposal.keywords"}</td>
-        	<td class="value">{$abstract->getKeywords()}</td>
+        	<td class="value">title</td>
     	</tr>
 </table>
-</div>
-
-<div id="proposalDetails">
-	<h4><br/>{translate key="search.researchDetails"}</h4>
-
-	{assign var="proposalDetails" value=$submission->getProposalDetails()}
-	
-	<table class="listing" width="100%">
-    	<tr valign="top">
-        	<td class="label" width="20%">{translate key="proposal.studentInitiatedResearch"}</td>
-        	<td class="value">{translate key=$proposalDetails->getYesNoKey($proposalDetails->getStudentResearch())}</td>
-    	</tr>
-    	{if ($proposalDetails->getStudentResearch()) == PROPOSAL_DETAIL_YES}
-			{assign var="studentResearch" value=$proposalDetails->getStudentResearchInfo()}
-    		<tr valign="top">
-        		<td class="label" width="20%">&nbsp;</td>
-        		<td class="value">{translate key="proposal.studentInstitution"}: {$studentResearch->getInstitution()}</td>
-    		</tr>
-    		<tr valign="top">
-        		<td class="label" width="20%">&nbsp;</td>
-        		<td class="value">{translate key="proposal.academicDegree"}: {translate key=$studentResearch->getDegreeKey()}</td>
-    		</tr>
-        	<tr valign="top" id="supervisor"><td class="label" width="20%">&nbsp;</td><td class="value"><b>{translate key="proposal.studentSupervisor"}</b></td></tr>
-    		<tr valign="top">
-        		<td class="label" width="20%">&nbsp;</td>
-        		<td class="value">{translate key="proposal.studentSupervisorName"}: {$studentResearch->getSupervisorName()}</td>
-    		</tr>
-    		<tr valign="top">
-        		<td class="label" width="20%">&nbsp;</td>
-        		<td class="value">{translate key="user.email"}: {$studentResearch->getSupervisorEmail()}</td>
-    		</tr>
-        	<tr valign="top"><td class="label" width="20%">&nbsp;</td><td class="value">&nbsp;</td></tr>
-    	{/if}
-    	<tr valign="top">
-        	<td class="label" width="20%">{translate key="proposal.startDate"}</td>
-        	<td class="value">{$proposalDetails->getStartDate()}</td>
-   	 	</tr>
-    	<tr valign="top">
-        	<td class="label" width="20%">{translate key="proposal.endDate"}</td>
-        	<td class="value">{$proposalDetails->getEndDate()}</td>
-    	</tr>
-        <tr valign="top">
-            <td class="label" width="20%">{translate key="proposal.keyImplInstitution"}</td>
-            <td class="value">{$proposalDetails->getKeyImplInstitutionName()}</td>
-        </tr>
-    	<tr valign="top">
-        	<td class="label" width="20%">{translate key="proposal.multiCountryResearch"}</td>
-        	<td class="value">{translate key=$proposalDetails->getYesNoKey($proposalDetails->getMultiCountryResearch())}</td>
-    	</tr>
-	{if ($proposalDetails->getMultiCountryResearch()) == PROPOSAL_DETAIL_YES}
-		<tr valign="top">
-        		<td class="label" width="20%">&nbsp;</td>
-        		<td class="value">{$proposalDetails->getLocalizedMultiCountryText()}</td>
-    		</tr>
-    	{/if}
-    	<tr valign="top">
-        	<td class="label" width="20%">{translate key="proposal.nationwide"}</td>
-        	<td class="value">{translate key=$proposalDetails->getNationwideKey()}</td>
-   	 	</tr>
-    	{if $proposalDetails->getNationwide() == PROPOSAL_DETAIL_NO || $proposalDetails->getNationwide() == PROPOSAL_DETAIL_YES_WITH_RANDOM_AREAS}
-    		<tr valign="top">
-        		<td class="label" width="20%">&nbsp;</td>
-        		<td class="value">{$proposalDetails->getLocalizedGeoAreasText()}</td>
-    		</tr>
-        {/if}
-        <tr valign="top">
-                <td class="label" width="20%">{translate key="proposal.researchDomains"}</td>
-                <td class="value">{$proposalDetails->getLocalizedResearchDomainsText()}</td>
-        </tr>	    	
-        <tr valign="top">
-        	<td class="label" width="20%">{translate key="proposal.researchField"}</td>
-        	<td class="value">{$proposalDetails->getLocalizedResearchFieldText()}</td>
-    	</tr>
-    	<tr valign="top">
-        	<td class="label" width="20%">{translate key="proposal.withHumanSubjects"}</td>
-        	<td class="value">{translate key=$proposalDetails->getYesNoKey($proposalDetails->getHumanSubjects())}</td>
-    	</tr>
-    	{if ($proposalDetails->getHumanSubjects()) == PROPOSAL_DETAIL_YES}
-    		<tr valign="top">
-        		<td class="label" width="20%">&nbsp;</td>
-        		<td class="value">{$proposalDetails->getLocalizedProposalTypeText()}</td>
-   			</tr>
-    	{/if}
-    	<tr valign="top">
-        	<td class="label" width="20%">{translate key="proposal.dataCollection"}</td>
-        	<td class="value">{translate key=$proposalDetails->getDataCollectionKey()}</td>
-    	</tr>   
-    	<tr valign="top">
-        	<td class="label" width="20%">{translate key="proposal.reviewedByOtherErc"}</td>
-        	<td class="value">{translate key=$proposalDetails->getCommitteeReviewedKey()}</td>
-    	</tr>
-	</table>
 </div>
 
 {include file="common/footer.tpl"}

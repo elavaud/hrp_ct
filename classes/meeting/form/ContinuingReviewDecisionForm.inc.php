@@ -113,13 +113,10 @@ class ContinuingReviewDecisionForm extends Form {
 		$votes= $this->getData("votes");
 		$minorityReason = $this->getData("minorityReason");
 		$chairReview = $this->getData('chairReview');
-		
-		$abstract = $submission->getLocalizedAbstract();
-		
+				
 		$pdf = new PDF();
 		$pdf->AddPage();
 		$pdf->ChapterTitle('CONTINUING REVIEW of ' . $submission->getProposalId());
-		$pdf->ChapterItemKeyVal('Protocol Title', $abstract->getScientificTitle(), "BU");
 		$pdf->ChapterItemKeyVal('Principal Investigator (PI)', $submission->getAuthorString(), "BU");
 		$pdf->ChapterItemKeyVal('Unique project identification # assigned', $submission->getProposalId() , "BU");
 		$pdf->ChapterItemKeyVal('Responsible Staff Member', $submission->getUser()->getFullName(), "BU");
@@ -163,7 +160,7 @@ class ContinuingReviewDecisionForm extends Form {
 		}
 		$journal =& Request::getJournal();
 		$journalId = $journal->getId();
-		$filename = $abstract->getScientificTitle().".pdf";
+		$filename = 'title'.".pdf";
 		$meetingFilesDir = Config::getVar('files', 'files_dir').'/journals/'.$journalId.'/meetings/'.$meeting->getId()."/continuingReviews/".$filename;
 
 		import('classes.file.MinutesFileManager');

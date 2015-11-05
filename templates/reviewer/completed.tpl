@@ -62,7 +62,6 @@
         <tr><td colspan="6" class="headseparator">&nbsp;</td></tr>
         {iterate from=submissions item=submission}
                 {assign var="articleId" value=$submission->getProposalId()}
-                {assign var="abstract" value=$submission->getLocalizedAbstract()}
                 {assign var="first" value="0"}                        
                 {foreach from=$submission->getPastDecisionsAndAssignments() item=dAa}
                     {assign var="ds" value="decision"}
@@ -73,7 +72,7 @@
                         <td>{if $first == "0"}{$articleId|escape}{else}&nbsp;{/if}</td>
                         <td>
                             {if $first == "0"}
-                                <a href="{url op="submission" path=$submission->getArticleId()}" class="action">{$abstract->getScientificTitle()|escape}</a>
+                                <a href="{url op="submission" path=$submission->getArticleId()}" class="action">title</a>
                             {else}
                                 &nbsp;
                             {/if}

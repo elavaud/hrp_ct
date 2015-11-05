@@ -15,13 +15,13 @@
 	<tr>
 		<td width="20%" class="label">{translate key="article.authors"}</td>
 		<td width="80%">
-			{url|assign:"url" page="user" op="email" redirectUrl=$currentUrl to=$submission->getAuthorEmails() subject=$abstract->getScientificTitle() articleId=$submission->getId()}
+			{url|assign:"url" page="user" op="email" redirectUrl=$currentUrl to=$submission->getAuthorEmails() subject="title" articleId=$submission->getId()}
 			{* {$submission->getAuthorString()|escape} *} {$submission->getFirstAuthor()|escape} {icon name="mail" url=$url}
 		</td>
 	</tr>
 	<tr>
 		<td class="label">{translate key="article.title"}</td>
-		<td>{$abstract->getScientificTitle()|strip_unsafe_html}</td>
+		<td>title</td>
 	</tr>
 
 </table>

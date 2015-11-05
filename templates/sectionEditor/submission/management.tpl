@@ -23,7 +23,7 @@
         </tr>
         <tr>
             <td title="{translate key="proposal.scientificTitleInstruct"}" width="20%" class="label">[?] {translate key="article.title"}</td>
-            <td width="80%" colspan="2" class="data">{$abstract->getScientificTitle()|strip_unsafe_html}</td>
+            <td width="80%" colspan="2" class="data">title</td>
         </tr>
         <tr>
             <td title="{translate key="submission.originalFileInstruct"}" width="20%" class="label">[?] {translate key="submission.originalFile"}</td>
@@ -86,7 +86,7 @@
             <td colspan="2" class="value">
                 {assign var="submitter" value=$submission->getUser()}
                 {assign var=emailString value=$submitter->getFullName()|concat:" <":$submitter->getEmail():">"}
-                {url|assign:"url" page="user" op="email" to=$emailString|to_array redirectUrl=$currentUrl subject=$abstract->getScientificTitle()|strip_tags articleId=$submission->getArticleId()}
+                {url|assign:"url" page="user" op="email" to=$emailString|to_array redirectUrl=$currentUrl subject="title"|strip_tags articleId=$submission->getArticleId()}
                 {$submitter->getFullName()|escape} {icon name="mail" url=$url}
             </td>
         </tr>

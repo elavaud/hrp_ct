@@ -20,13 +20,12 @@
 <p></p>
 {iterate from=submissions item=submission}	
     {assign var="lastDecision" value=$submission->getLastSectionDecision()}
-	{assign var="abstract" value=$submission->getLocalizedAbstract()}
-	{assign var="articleId" value=$submission->getArticleId()}
+    {assign var="articleId" value=$submission->getArticleId()}
     {assign var="proposalId" value=$submission->getProposalId()}
 	<tr valign="top">
 		<td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
    		<td>{$submission->getFirstAuthor()|truncate:20:"..."|escape}</td>
-        <td><a href="{url op="submissionReview" path=$submission->getId()}" class="action">{$abstract->getScientificTitle()|truncate:60:"..."|escape}</a></td>
+        <td><a href="{url op="submissionReview" path=$submission->getId()}" class="action">title</a></td>
 		<td align="right">{$lastDecision->getDateDecided()|date_format:$dateFormatLong}</td>		
 	</tr>
 	<tr>

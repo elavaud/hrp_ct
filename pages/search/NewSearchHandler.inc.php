@@ -175,65 +175,12 @@ class NewSearchHandler extends Handler {
 			$investigatorEmail = true;
 		}
 		
-		if (Request::getUserVar('scientificTitle')) {
-			$columns = $columns + array('title' => Locale::translate('article.scientificTitle'));
-		}
-
-                $researchDomain = false;
-		if (Request::getUserVar('researchDomain')) {
-			$columns = $columns + array('research_domain' => Locale::translate('proposal.researchDomains'));
-			$researchDomain = true;
-		}
-		
-		$researchField = false;
-		if (Request::getUserVar('researchField')) {
-			$columns = $columns + array('research_field' => Locale::translate('search.researchField'));
-			$researchField = true;
-		}
-		
-		$proposalType = false;
-		if (Request::getUserVar('proposalType')) {
-			$columns = $columns + array('proposal_type' => Locale::translate('article.proposalType'));
-			$proposalType = true;
-		}
-		
-		$duration = false;
-		if (Request::getUserVar('duration')) {
-			$columns = $columns + array('duration' => Locale::translate('search.duration'));
-			$duration = true;
-		}
-
-		$area = false;
-		if (Request::getUserVar('area')) {
-			$columns = $columns + array('area' => Locale::translate('common.area'));
-			$area = true;
-		}
-		
-		$dataCollection = false;
-		if (Request::getUserVar('dataCollection')) {
-			$columns = $columns + array('data_collection' => Locale::translate('search.dataCollection'));
-			$dataCollection = true;
-		}
-		
 		$status = false;
 		if (Request::getUserVar('status')) {
 			$columns = $columns + array('status' => Locale::translate('search.status'));
 			$status = true;
 		}
 
-		$studentResearch = false;
-		if (Request::getUserVar('studentResearch')) {
-			$columns = $columns + array('student_institution' => Locale::translate('article.studentInstitution'));
-			$columns = $columns + array('academic_degree' => Locale::translate('article.academicDegree'));
-			$studentResearch = true;
-		}
-
-		$kii = false;
-		if (Request::getUserVar('kii')) {
-			$columns = $columns + array('kii' => Locale::translate('proposal.keyImplInstitution'));
-			$kii = true;
-		}
-		
 		$dateSubmitted = false;
 		if (Request::getUserVar('dateSubmitted')) {
 			$columns = $columns + array('date_submitted' => Locale::translate('search.dateSubmitted'));
@@ -250,12 +197,9 @@ class NewSearchHandler extends Handler {
 
                 $articleDao =& DAORegistry::getDAO('ArticleDAO');
 		
-		$results = $articleDao->searchCustomizedProposalsPublic($query, $region, $statusFilter, $fromDate, $toDate, $investigatorName, $investigatorAffiliation, $investigatorEmail, $researchDomain, $researchField, $proposalType, $duration, $area, $dataCollection, $status, $studentResearch, $kii, $dateSubmitted);
+		$results = $articleDao->searchCustomizedProposalsPublic($query, $statusFilter, $investigatorName, $investigatorAffiliation, $investigatorEmail, $status, $dateSubmitted);
 
                 foreach ($results as $result) {
-			$abstract = $result->getLocalizedAbstract();
-			$proposalDetails = $result->getProposalDetails();
-			$studentInfo = $proposalDetails->getStudentResearchInfo();
                         foreach ($columns as $index => $junk) {
 				if ($index == 'investigator') {
 					$columns[$index] = $result->getPrimaryAuthor();
@@ -263,31 +207,9 @@ class NewSearchHandler extends Handler {
 					$columns[$index] = $result->getInvestigatorAffiliation();
 				} elseif ($index == 'investigator_email') {
 					$columns[$index] = $result->getAuthorEmail();
-				} elseif ($index == 'title') {
-					$columns[$index] = $abstract->getScientificTitle();
-				} elseif ($index == 'research_domain') {
-					$columns[$index] = $proposalDetails->getLocalizedResearchDomainsText();
-				} elseif ($index == 'research_field') {
-					$columns[$index] = $proposalDetails->getLocalizedResearchFieldText();
-				} elseif ($index == 'proposal_type') {
-					$columns[$index] = $proposalDetails->getLocalizedProposalTypeText();
-				} elseif ($index == "duration") {
-					$columns[$index] = $proposalDetails->getStartDate()." to ".$proposalDetails->getEndDate();
-				} elseif ($index == 'area') {
-					if ($proposalDetails->getMultiCountryResearch() == PROPOSAL_DETAIL_YES) $columns[$index] = "Multi-country Research";
-					elseif ($proposalDetails->getNationwide() == PROPOSAL_DETAIL_YES) $columns[$index] = "Nationwide Research";
-					else  $columns[$index] = $proposalDetails->getLocalizedGeoAreasText();
-				} elseif ($index == 'data_collection') {
-					$columns[$index] = Locale::translate($proposalDetails->getDataCollectionKey());
 				} elseif ($index == 'status') {
 					if ($result->getStatus() == '11') $columns[$index] = 'Complete';
 					else $columns[$index] = 'Ongoing';
-				} elseif ($index == 'student_institution') {
-					if ($proposalDetails->getStudentResearch() == PROPOSAL_DETAIL_YES) $columns[$index] = $studentInfo->getInstitution(); else $columns[$index] = "Non Student Research";
-				} elseif ($index == 'academic_degree') {
-					if ($proposalDetails->getStudentResearch() == PROPOSAL_DETAIL_YES) $columns[$index] = Locale::translate($studentInfo->getDegreeKey());else $columns[$index] = "Non Student Research";
-				} elseif ($index == 'kii') {
-					$columns[$index] = $proposalDetails->getKeyImplInstitutionName();
 				} elseif ($index == 'date_submitted') {
 					$columns[$index] = $result->getDateSubmitted();
 				} 
@@ -311,7 +233,6 @@ class NewSearchHandler extends Handler {
 		$templateMgr->assign_by_ref('finalReport', $proposal->getPublishedFinalReport());
 			
 		$templateMgr->assign_by_ref('submission', $submission);
-		$templateMgr->assign_by_ref('abstract', $submission->getLocalizedAbstract());
 		
 		$templateMgr->display('search/viewProposal.tpl');
 	}

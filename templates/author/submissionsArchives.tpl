@@ -21,15 +21,13 @@
 
     {assign var="lastDecision" value=$submission->getLastSectionDecision()}
     {assign var="decisionValue" value=$lastDecision->getDecision()}
-
-	{assign var="abstract" value=$submission->getLocalizedAbstract()}
     {assign var="articleId" value=$submission->getArticleId()}
     {assign var="proposalId" value=$submission->getProposalId()}
 
 	<tr valign="top">
 		<td>{$proposalId|escape}</td>
 		<td>{$submission->getDateSubmitted()|date_format:$dateFormatShort}</td>
-		<td><a href="{url op="submission" path=$articleId}" class="action">{$abstract->getScientificTitle()|truncate:60:"..."|escape}</a></td>
+		<td><a href="{url op="submission" path=$articleId}" class="action">title</a></td>
 		<td align="right">
         	{if $status==STATUS_WITHDRAWN}
             	{translate key="submission.status.withdrawn"}

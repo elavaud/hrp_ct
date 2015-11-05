@@ -306,7 +306,6 @@ class SectionEditorAction extends Action {
 							'editorialContactSignature' => $user->getContactSignature(),
 							'reviewGuidelines' => String::html2text($journal->getLocalizedSetting('reviewGuidelines')),
 							'submissionReviewUrl' => $submissionUrl,
-							'abstractTermIfEnabled' => ($sectionEditorSubmission->getLocalizedAbstract() == ''?'':Locale::translate('article.abstract')),
 							'passwordResetUrl' => Request::url(null, 'login', 'resetPassword', $reviewer->getUsername(), array('confirm' => Validation::generatePasswordResetHash($reviewer->getId())))
 						);
 						$email->assignParams($paramArray);
@@ -358,7 +357,6 @@ class SectionEditorAction extends Action {
 						'editorialContactSignature' => $user->getContactSignature(),
 						'reviewGuidelines' => String::html2text($journal->getLocalizedSetting('reviewGuidelines')),
 						'submissionReviewUrl' => $submissionUrl,
-						'abstractTermIfEnabled' => ($sectionEditorSubmission->getLocalizedAbstract() == ''?'':Locale::translate('article.abstract')),
 						'passwordResetUrl' => Request::url(null, 'login', 'resetPassword', $reviewer->getUsername(), array('confirm' => Validation::generatePasswordResetHash($reviewer->getId())))
 					);
 					$email->assignParams($paramArray);
@@ -2724,191 +2722,6 @@ class SectionEditorAction extends Action {
                     }
                 }
                 
-                
-                // Title and abstracts
-                
-                $pdf->SetFont('dejavusans','B',13);
-                $pdf->MultiCell(0,$cell_height,Locale::translate("submission.titleAndAbstract"), 0, 'L');                
-                                
-                $pdf->ln();
-
-                $abstractLocales = $journal->getSupportedLocaleNames();
-                $abstracts = $sectionEditorSubmission->getAbstracts();
-                
-                foreach ($abstractLocales as $localeKey => $localeName){
-                    
-                    $abstract = $abstracts[$localeKey];
-                    
-                    $pdf->SetFont('dejavusans','BI',11);
-                    
-                    $pdf->MultiCell(0,$cell_height,$localeName, 0, 'L');  
-                                    
-                    $pdf->ln();
-
-                    $pdf->SetFont('dejavusans','',11);
-                    
-                    $pdf->MultiRow($cell_width, Locale::translate('proposal.scientificTitle').': ', $abstract->getScientificTitle());
-                    $pdf->MultiRow($cell_width, Locale::translate('proposal.publicTitle').': ', $abstract->getPublicTitle());
-                    $pdf->ln();
-                    
-                    $pdf->MultiRow($cell_width, Locale::translate('proposal.abstract').': ', $abstract->getBackground()." \n\n", 'J');
-                    $pdf->MultiRow($cell_width, ' ', $abstract->getObjectives()." \n\n", 'J');
-                    $pdf->MultiRow($cell_width, ' ', $abstract->getStudyMethods()." \n\n", 'J');
-                    $pdf->MultiRow($cell_width, ' ', $abstract->getExpectedOutcomes()." \n\n", 'J');
-                    
-                    $pdf->MultiRow($cell_width, Locale::translate('proposal.keywords').': ', $abstract->getKeywords());
-                    $pdf->ln();
-                    
-                }
-                
-                // Proposal Details
-                
-                $pdf->SetFont('dejavusans','B',13);
-                $pdf->MultiCell(0,$cell_height,Locale::translate("submission.proposalDetails"), 0, 'L');
-                $pdf->Ln();
-
-                $proposalDetails = $sectionEditorSubmission->getProposalDetails();
-                
-                $pdf->SetFont('dejavusans','',11);
-                
-                $pdf->MultiRow($cell_width, Locale::translate('proposal.studentInitiatedResearch').': ', Locale::translate($proposalDetails->getYesNoKey($proposalDetails->getStudentResearch())));
-                if ($proposalDetails->getStudentResearch() == PROPOSAL_DETAIL_YES){
-                    $studentResearch = $proposalDetails->getStudentResearchInfo();
-                    
-                    $pdf->MultiRow3Columns($cell_width, $cell_width, ' ', Locale::translate('proposal.studentInstitution').': ', $studentResearch->getInstitution());
-                    $pdf->MultiRow3Columns($cell_width, $cell_width, ' ', Locale::translate('proposal.academicDegree').': ', Locale::translate($studentResearch->getDegreeKey()));
-                    $pdf->SetFont('dejavusans','I',11);
-                    $pdf->MultiRow($cell_width, ' ', Locale::translate('proposal.studentSupervisor').': ');
-                    $pdf->SetFont('dejavusans','',11);
-                    $pdf->MultiRow3Columns($cell_width, $cell_width, ' ', Locale::translate('proposal.studentSupervisorName').': ', $studentResearch->getSupervisorName());
-                    $pdf->MultiRow3Columns($cell_width, $cell_width, ' ', Locale::translate('user.email').': ', $studentResearch->getSupervisorEmail());
-                }
-                $pdf->ln();
-                
-                $startDate = DateTime::createFromFormat('d-M-Y', $proposalDetails->getStartDate());
-                $pdf->MultiRow($cell_width, Locale::translate('proposal.startDate').': ', $startDate->format('l d F Y'));
-                $endDate = DateTime::createFromFormat('d-M-Y', $proposalDetails->getEndDate());
-                $pdf->MultiRow($cell_width, Locale::translate('proposal.endDate').': ', $endDate->format('l d F Y'));
-                $pdf->ln();
-                
-                $pdf->MultiRow($cell_width, Locale::translate('proposal.keyImplInstitution').': ', $proposalDetails->getKeyImplInstitutionName());
-                $pdf->ln();
-                
-                $pdf->MultiRow($cell_width, Locale::translate('proposal.multiCountryResearch').': ', Locale::translate($proposalDetails->getYesNoKey($proposalDetails->getMultiCountryResearch())));
-                if ($proposalDetails->getMultiCountryResearch() == PROPOSAL_DETAIL_YES) $pdf->MultiRow($cell_width, ' ', $proposalDetails->getLocalizedMultiCountryText());
-                $pdf->ln();
-
-                $pdf->MultiRow($cell_width, Locale::translate('proposal.nationwide').': ', Locale::translate($proposalDetails->getNationwideKey()));
-		if ($proposalDetails->getNationwide() == PROPOSAL_DETAIL_NO || $proposalDetails->getNationwide() == PROPOSAL_DETAIL_YES_WITH_RANDOM_AREAS) $pdf->MultiRow($cell_width, ' ', $proposalDetails->getLocalizedGeoAreasText());
-                $pdf->ln();
-
-                $pdf->MultiRow($cell_width, Locale::translate('proposal.proposal.researchDomains').': ', $proposalDetails->getLocalizedResearchDomainsText());
-                $pdf->ln();
-
-                $pdf->MultiRow($cell_width, Locale::translate('proposal.researchField').': ', $proposalDetails->getLocalizedResearchFieldText());
-                $pdf->ln();
-
-                $pdf->MultiRow($cell_width, Locale::translate('proposal.withHumanSubjects').': ', Locale::translate($proposalDetails->getYesNoKey($proposalDetails->getHumanSubjects())));
-		if ($proposalDetails->getHumanSubjects() == PROPOSAL_DETAIL_YES) $pdf->MultiRow($cell_width, Locale::translate('proposal.proposalType').': ', $proposalDetails->getLocalizedProposalTypeText());
-                $pdf->ln();
-
-                $pdf->MultiRow($cell_width, Locale::translate('proposal.dataCollection').': ', Locale::translate($proposalDetails->getDataCollectionKey()));
-                $pdf->ln();
-
-                $pdf->MultiRow($cell_width, Locale::translate('proposal.reviewedByOtherErc').': ', Locale::translate($proposalDetails->getCommitteeReviewedKey()));
-                $pdf->ln();                
-                
-                
-                // Source(s) of Monetary and Material Support
-                $pdf->SetFont('dejavusans','B',13);
-                $pdf->MultiCell(0,$cell_height,Locale::translate("proposal.sourceOfMonetary"), 0, 'L');                        
-                $pdf->ln();
-                
-                $sources =& $sectionEditorSubmission->getSources();
-		$currencyDao =& DAORegistry::getDAO('CurrencyDAO');
-                $sourceCurrencyId = $journal->getSetting('sourceCurrency');
-                $sourceCurrency = $currencyDao->getCurrencyByAlphaCode($sourceCurrencyId);
-                $cell_width_source = 70;
-                
-                $pdf->SetFont('dejavusans','',11);
-                foreach($sources as $source){
-                    $pdf->MultiRow($cell_width_source, $source->getSourceInstitutionName(), $source->getSourceAmountString().' '.$sourceCurrency->getCodeAlpha());
-                    $pdf->ln();
-                }
-                $pdf->ln();
-                
-                $pdf->SetFont('dejavusans','BI',11);
-                $pdf->MultiRow($cell_width_source, Locale::translate('proposal.fundsRequired').': ', $sectionEditorSubmission->getTotalBudgetString().' '.$sourceCurrency->getName().' ('.$sourceCurrency->getCodeAlpha().')');
-                $pdf->ln();
-                        
-                
-                // Risk Assessment
-                $pdf->SetFont('dejavusans','B',13);
-                $pdf->MultiCell(0,$cell_height,Locale::translate("proposal.riskAssessment"), 0, 'L');                        
-                $pdf->ln();
-                
-                $riskAssessment = $sectionEditorSubmission->getRiskAssessment();
-                $cell_width_risk_assessment = 90;
-                
-                $pdf->SetFont('dejavusans','BI',11);
-                $pdf->MultiCell(0,$cell_height, Locale::translate('proposal.researchIncludesHumanSubject'), 0, 'L');  
-                $pdf->ln();
-                
-                $pdf->SetFont('dejavusans','',11);
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.identityRevealed'), Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getIdentityRevealed())));
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.unableToConsent'), Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getUnableToConsent())));
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.under18'), Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getUnder18())));
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.dependentRelationship'), Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getDependentRelationship())));
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.ethnicMinority'), Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getEthnicMinority())));
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.impairment'), Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getImpairment())));
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.pregnant'), Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getPregnant())));
-                $pdf->ln();
-
-                $pdf->SetFont('dejavusans','BI',11);
-                $pdf->MultiCell(0,$cell_height, Locale::translate('proposal.researchIncludes'), 0, 'L');  
-                $pdf->ln();
-                
-                $pdf->SetFont('dejavusans','',11);
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.newTreatment'), Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getNewTreatment())));
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.bioSamples'), Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getBioSamples())));
-                if ($riskAssessment->getBioSamples() == RISK_ASSESSMENT_YES){
-                    $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.exportHumanTissue'), Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getExportHumanTissue())));
-                    if ($riskAssessment->getExportHumanTissue() == RISK_ASSESSMENT_YES){
-                        $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.exportReason'), Locale::translate($riskAssessment->getExportReasonKey()));
-                    }
-                }
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.radiation'), Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getRadiation())));
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.distress'), Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getDistress())));
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.inducements'), Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getInducements())));
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.sensitiveInfo'), Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getSensitiveInfo())));
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.reproTechnology'), Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getReproTechnology())));
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.genetic'), Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getGenetic())));
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.stemCell'), Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getStemCell())));
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.biosafety'), Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getBiosafety())));
-                $pdf->ln();
-
-                $pdf->SetFont('dejavusans','BI',11);
-                $pdf->MultiCell(0,$cell_height, Locale::translate('proposal.potentialRisk'), 0, 'L');  
-                $pdf->ln();
-                
-                $pdf->SetFont('dejavusans','',11);
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.riskLevel').': ', Locale::translate($riskAssessment->getRiskLevelKey()));
-                if ($riskAssessment->getRiskLevel() != RISK_ASSESSMENT_NO_MORE_THAN_MINIMAL) {
-                    $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.listRisks').': ', $riskAssessment->getListRisks());
-                    $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.howRisksMinimized').': ', $riskAssessment->getHowRisksMinimized());
-                }
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.riskApplyTo').': ', $riskAssessment->getLocalizedRisksApplyToString());                
-                $pdf->ln();
-
-                $pdf->SetFont('dejavusans','BI',11);
-                $pdf->MultiCell(0,$cell_height, Locale::translate('proposal.potentialBenefits'), 0, 'L');  
-                $pdf->ln();
-                
-                $pdf->SetFont('dejavusans','',11);
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.benefitsFromTheProject').': ', $riskAssessment->getLocalizedBenefitsToString());                
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.multiInstitutions').': ', Locale::translate($riskAssessment->getYesNoKey($riskAssessment->getMultiInstitutions())));
-                $pdf->MultiRow($cell_width_risk_assessment, Locale::translate('proposal.conflictOfInterest').': ', Locale::translate($riskAssessment->getConflictOfInterestKey()));
-                
                 $pdf->Output($sectionEditorSubmission->getProposalId().' - '.Locale::translate('submission.summary').'.pdf',"D");   
                 
         }
@@ -3011,11 +2824,6 @@ class SectionEditorAction extends Action {
                 $pdf->ln();
                 $pdf->ln();
 
-                $abstract = $sectionEditorSubmission->getAbstractByLocale('en_US'); // Right now, considering only the english language
-                $pdf->SetFont('dejavusans','B',16);
-                $pdf->MultiCell(0,6,$abstract->getScientificTitle(), 0, 'C');                
-                $pdf->ln();
-                
                 $authors = $sectionEditorSubmission->getAuthors();
                 $coInvestigatorsString = (string) '';
                 $pInvestigatorsString = (string) '';

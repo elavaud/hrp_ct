@@ -20,14 +20,6 @@ import('classes.submission.common.Action');
 class ArticleDAO extends DAO {
 	var $authorDao;
 
-	var $riskAssessmentDao;
-	
-	var $proposalAbstractDao;
-		
-	var $proposalDetailsDao;
-
-        var $proposalSourceDao;
-
         var $cache;
 
 	function _cacheMiss(&$cache, $id) {
@@ -50,10 +42,6 @@ class ArticleDAO extends DAO {
 	function ArticleDAO() {
 		parent::DAO();
 		$this->authorDao =& DAORegistry::getDAO('AuthorDAO');
-		$this->riskAssessmentDao =& DAORegistry::getDAO('RiskAssessmentDAO');
-		$this->proposalAbstractDao =& DAORegistry::getDAO('ProposalAbstractDAO');
-		$this->proposalDetailsDao =& DAORegistry::getDAO('ProposalDetailsDAO');
-		$this->proposalSourceDao =& DAORegistry::getDAO('ProposalSourceDAO');
         }
 
 	/**
@@ -197,14 +185,6 @@ class ArticleDAO extends DAO {
 		
 		$article->setAuthors($this->authorDao->getAuthorsByArticle($row['article_id']));
 
-		$article->setAbstracts($this->proposalAbstractDao->getAbstractsByArticle($row['article_id']));
-		
-		$article->setProposalDetails($this->proposalDetailsDao->getProposalDetailsByArticleId($row['article_id']));
-                
-		$article->setSources($this->proposalSourceDao->getProposalSourcesByArticleId($row['article_id']));
-                
-                $article->setRiskAssessment($this->riskAssessmentDao->getRiskAssessmentByArticleId($row['article_id']));
-
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
                 if ($publicFiles) {
@@ -330,60 +310,11 @@ class ArticleDAO extends DAO {
 			}
 		}
 
-                // update sources of monetary and material support for this article
-		$sources =& $article->getSources();
-		for ($i=0, $count=count($sources); $i < $count; $i++) {
-			if ($sources[$i]->getSourceId() > 0) {
-				$this->proposalSourceDao->updateProposalSource($sources[$i]);
-			} else {
-				$this->proposalSourceDao->insertProposalSource($sources[$i]);
-			}
-		}
-                
-		// update abstracts for this article
-		$abstracts =& $article->getAbstracts();
-		foreach ($abstracts as $abstract) {
-			if ($abstract->getAbstractId() > 0) {
-				$this->proposalAbstractDao->updateAbstract($abstract);
-			} else {
-				$this->proposalAbstractDao->insertAbstract($abstract);
-			}
-                }
-		
-		// update risk assessment for this article
-		$riskAssessment =& $article->getRiskAssessment();
-		if ($this->riskAssessmentDao->riskAssessmentExists($article->getId())) {
-			$this->riskAssessmentDao->updateRiskAssessment($riskAssessment);
-		} elseif ($riskAssessment->getArticleId() > 0) {
-			$this->riskAssessmentDao->insertRiskAssessment($riskAssessment);
-		}
-                
-                // update proposalDetails for this article
-		$proposalDetails =& $article->getProposalDetails();
-		if ($this->proposalDetailsDao->proposalDetailsExists($article->getId())) {
-			$this->proposalDetailsDao->updateProposalDetails($proposalDetails);
-		} elseif ($proposalDetails->getArticleId() > 0) {
-			$this->proposalDetailsDao->insertProposalDetails($proposalDetails);
-		}
-
 		// Remove deleted authors
 		$removedAuthors = $article->getRemovedAuthors();
 		for ($i=0, $count=count($removedAuthors); $i < $count; $i++) {
 		}
 
-                // Remove deleted sources of monetary
-		$removedSources = $article->getRemovedSources();
-		for ($i=0, $count=count($removedSources); $i < $count; $i++) {
-			$this->proposalSourceDao->deleteProposalSourceById($removedSources[$i]);
-		}
-                
-		// Remove deleted abstracts
-		$removedAbstracts = $article->getRemovedAbstracts();
-		foreach ($removedAbstracts as $removedAbstract) {
-			$this->proposalAbstractDao->deleteAbstractsByLocaleAndArticleId($removedAbstract, $article->getId());
-		}
-
-                
                 // Update author sequence numbers
 		$this->authorDao->resequenceAuthors($article->getId());
 
@@ -404,8 +335,6 @@ class ArticleDAO extends DAO {
 	 */
 	function deleteArticleById($articleId) {
 		$this->authorDao->deleteAuthorsByArticle($articleId);
-
-                $this->proposalSourceDao->deleteSourcesByArticle($articleId);
 
 		$publishedArticleDao =& DAORegistry::getDAO('PublishedArticleDAO');
 		$publishedArticleDao->deletePublishedArticleByArticleId($articleId);
@@ -454,12 +383,6 @@ class ArticleDAO extends DAO {
 
 		$suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
 		$suppFileDao->deleteSuppFilesByArticle($articleId);
-
-		$this->proposalAbstractDao->deleteAbstractsByArticleId($articleId);
-
-		$this->riskAssessmentDao->deleteRiskAssessment($articleId);
-
-                $this->proposalDetailsDao->deleteProposalDetails($articleId);
 
 		$sectionDecisionDao =& DAORegistry::getDAO('SectionDecisionDAO');
 		$sectionDecisionDao->deleteSectionDecisionsByArticleId($articleId);
@@ -875,48 +798,28 @@ class ArticleDAO extends DAO {
 	
 		$sql = 'select distinct 
 				a.article_id, a.status,
-				a.date_submitted as date_submitted,
-				ab.clean_scientific_title AS scientific_title,
-				ab.keywords AS keywords,
-				ad.geo_areas AS geo_areas,
-				ad.start_date AS start_date,
-				ad.end_date AS end_date,
-				ad.key_implementing_institution AS kii,
-				ad.multi_country AS multicountryresearch,
-				ad.research_fields AS researchfield
+				a.date_submitted as date_submitted
 			FROM articles a
-				LEFT JOIN article_abstract ab ON (ab.article_id = a.article_id)
-                                LEFT JOIN article_details ad ON (ad.article_id = a.article_id)
 				LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)
 			WHERE sdec.review_type = ? AND (sdec.decision = ? 
 				OR sdec.decision = ? 
 				OR sdec.decision = ?)';
 		
 		if (!empty($query)) {
-			$searchSql .= ' AND (
-				LOWER(ab.scientific_title) LIKE LOWER("%'.$query.'%")
-				OR LOWER(ab.public_title) LIKE LOWER("%'.$query.'%")
-				OR LOWER(ab.keywords) LIKE LOWER("%'.$query.'%")
-			)';
+			$searchSql .= '';
 		}
 		
 		
 		if (!empty($dateFrom) || !empty($dateTo)){
 			if (!empty($dateFrom)) {
-				$searchSql .= ' AND (
-					ad.start_date >= ' .
-					$this->datetimeToDB($dateFrom) .
-				')';
+				$searchSql .= '';
 			}
 			if (!empty($dateTo)) {
-				$searchSql .= ' AND (
-					ad.start_date <= ' .
-					$this->datetimeToDB($dateTo) .
-				')';
+				$searchSql .= '';
 			}
 		}
 		
-		if ($geoAreas != 'ALL') $searchSql .= ' AND LOWER(ad.geo_areas) LIKE LOWER("%'.$geoAreas.'%")';
+		if ($geoAreas != 'ALL') $searchSql .= '';
 				
 		
 		if ($status == 1) $searchSql .= ' AND a.status = ' . STATUS_COMPLETED;
@@ -944,16 +847,10 @@ class ArticleDAO extends DAO {
 		return $article;
 	}
 
-	function searchCustomizedProposalsPublic($query, $region, $statusFilter, $fromDate, $toDate, $investigatorName, $investigatorAffiliation, $investigatorEmail, $researchDomain, $researchField, $proposalType, $duration, $area, $dataCollection, $status, $studentResearch, $kii, $dateSubmitted) {
+	function searchCustomizedProposalsPublic($query, $statusFilter, $fromDate, $toDate, $investigatorName, $investigatorAffiliation, $investigatorEmail, $status, $dateSubmitted) {
 		
-		$searchSqlBeg = "select distinct a.article_id, 
-						ab.keywords as keywords, 
-                                                ab.clean_scientific_title AS scientific_title,
-						ad.start_date as start_date";
-		$searchSqlMid = " FROM articles a
-                                        LEFT JOIN article_abstract ab ON (ab.article_id = a.article_id)                    
-                                        LEFT JOIN article_details ad ON (ad.article_id = a.article_id)                    
-                                        LEFT JOIN article_student ast ON (ast.article_id = a.article_id)                    
+		$searchSqlBeg = "select distinct a.article_id";
+		$searchSqlMid = " FROM articles a                    
                                         LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)";
 		$searchSqlEnd = " WHERE sdec.review_type = ".REVIEW_TYPE_INITIAL." AND (sdec.decision = ".SUBMISSION_SECTION_DECISION_APPROVED." 
                                             OR sdec.decision = ".SUBMISSION_SECTION_DECISION_EXEMPTED." 
@@ -966,40 +863,8 @@ class ArticleDAO extends DAO {
 			if ($investigatorEmail == true) $searchSqlBeg .= ", investigator.email as email";
 		}
 
-                if ($researchDomain == true){
-			$searchSqlBeg .= ", ad.research_domains as researchdomain";
-		}
-                
-		if ($researchField == true){
-			$searchSqlBeg .= ", ad.research_fields as researchfield";
-		}
-		
-		if ($proposalType == true){
-			$searchSqlBeg .= ", ad.proposal_types as proposaltype";
-		}
-		
-		if ($duration == true){
-			$searchSqlBeg .= ", ad.end_date as end_date";
-		}
-		
-		if ($area == true){
-			$searchSqlBeg .= ", ad.geo_areas as geoareas, ad.multi_country as multicountryresearch, ad.nationwide as nationwide";
-		}
-				
-		if ($dataCollection == true){
-			$searchSqlBeg .= ", ad.data_collection as datacollection";
-		}
-
 		if ($status == true){
-			$searchSqlBeg .= ", a.status";
-		}
-				
-		if ($studentResearch == true){
-			$searchSqlBeg .= ", ad.student as studentresearch, ast.institution as institution, ast.degree as academicdegree";
-		}
-				
-		if ($kii == true){
-			$searchSqlBeg .= ", ad.key_implementing_institution as kii";
+			$searchSqlBeg .= "";
 		}
 										
 		if ($dateSubmitted == true){
@@ -1008,21 +873,19 @@ class ArticleDAO extends DAO {
 		
 		
 		if (!empty($query)) {
-			$searchSqlEnd .= " AND (ab.keywords LIKE '"."%".$query."%"."' or ab.scientific_title LIKE '"."%".$query."%"."' or ab.public_title LIKE '"."%".$query."%"."')";
+			$searchSqlEnd .= "";
 		}
 		
 		
 		if ($fromDate != "--" || $toDate != "--"){
 			if ($fromDate != "--" && $fromDate != null) {
-				$searchSqlEnd .= " AND (ad.start_date >= " . $this->datetimeToDB($fromDate).")";
+				$searchSqlEnd .= "";
 			}
 			if ($toDate != "--" && $toDate != null) {
-				$searchSqlEnd .= " AND (ad.end_date <= " . $this->datetimeToDB($toDate).")";
+				$searchSqlEnd .= "";
 			}
 		}
-		
-		if ($region != 'ALL') $searchSqlEnd .= " AND ad.geo_areas LIKE '"."%".$region."%"."'";
-			
+					
 		if ($statusFilter == 1) $searchSqlEnd .= " AND a.status = 11";
 		else if ($statusFilter == 2) $searchSqlEnd .= " AND a.status <> 11";		
 		
@@ -1058,15 +921,6 @@ class ArticleDAO extends DAO {
 		if (isset($row['email'])) $article->setAuthorEmail($row['email']);
 		if (isset($row['investigatoraffiliation'])) $article->setInvestigatorAffiliation($row['investigatoraffiliation']);
 		
-		import('classes.article.ProposalAbstract');
-		$abstract = new ProposalAbstract();
-		
-		if (isset($row['scientific_title'])) $abstract->setScientificTitle($row['scientific_title']);
-		if (isset($row['keywords'])) $abstract->setKeywords($row['keywords']);
-		
-		$article->setAbstracts($this->proposalAbstractDao->getAbstractsByArticle($row['article_id']));
-                $article->setProposalDetails($this->proposalDetailsDao->getProposalDetailsByArticleId($row['article_id']));
-
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
                 if($publicFiles) $article->setPublishedFinalReport($publicFiles[0]); // FIX ME: Only one file in folder 'public' -> alwas the final report: Pretty ugly

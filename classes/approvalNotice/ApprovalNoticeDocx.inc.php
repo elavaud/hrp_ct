@@ -111,9 +111,6 @@ class ApprovalNoticeDocx {
     private function _getReplacementsArray($sectionEditorSubmission){
         
         // Obtain the objects for providing the information
-        $abstract = $sectionEditorSubmission->getLocalizedAbstract();
-        $details = $sectionEditorSubmission->getProposalDetails();
-        $student = $details->getStudentResearchInfo();
         $decision = $sectionEditorSubmission->getLastSectionDecision();
         $committee = $decision->getSection();
         $secretary =& Request::getUser();
@@ -170,25 +167,6 @@ class ApprovalNoticeDocx {
             '{$primInvAff}' => ($primaryInvestigator->getAffiliation()) ? $primaryInvestigator->getAffiliation() : '',
             '{$coInvNAA1Line}' => ($coInvestigatorsOneLine) ? $coInvestigatorsOneLine : '',
             '{$coInvNAAMLines}' => ($coInvestigatorsMultiLines) ? $coInvestigatorsMultiLines : '',
-            '{$scienTitle}' => ($abstract->getScientificTitle()) ? $abstract->getScientificTitle() : '',
-            '{$publicTitle}' => ($abstract->getPublicTitle()) ? $abstract->getPublicTitle() : '',
-            '{$abstractFull}' => ($abstract->getWholeAbstract()) ? str_replace('\n', '<br/>', $abstract->getWholeAbstract()) : '',
-            '{$background}' => ($abstract->getBackground()) ? $abstract->getBackground() : '',
-            '{$objectives}' => ($abstract->getObjectives()) ? $abstract->getObjectives() : '',
-            '{$studyMethods}' => ($abstract->getStudyMethods()) ? $abstract->getStudyMethods() : '',
-            '{$expectedOutcomes}' => ($abstract->getExpectedOutcomes()) ? $abstract->getExpectedOutcomes() : '',
-            '{$studentInstitution}' => ($student->getInstitution()) ? $student->getInstitution() : '',
-            '{$studentDegree}' => ($student->getDegreeKey()) ? Locale::translate($student->getDegreeKey()) : '',
-            '{$studentSupName}' => ($student->getSupervisorName()) ? $student->getSupervisorName() : '',
-            '{$resStartDate}' => ($details->getStartDate()) ? $details->getStartDate() : '',
-            '{$resEndDate}' => ($details->getEndDate()) ? $details->getEndDate() : '',
-            '{$KII}' => ($details->getKeyImplInstitutionName()) ? $details->getKeyImplInstitutionName() : '',
-            '{$countries}' => ($details->getLocalizedMultiCountryText()) ? $details->getLocalizedMultiCountryText() : '',
-            '{$geoAreas}' => ($details->getLocalizedGeoAreasText()) ? $details->getLocalizedGeoAreasText() : '',
-            '{$resDomains}' => ($details->getLocalizedResearchDomainsText()) ? $details->getLocalizedResearchDomainsText() : '',
-            '{$resFields}' => ($details->getLocalizedResearchFieldText()) ? $details->getLocalizedResearchFieldText() : '',
-            '{$propType}' => ($details->getLocalizedProposalTypeText()) ? $details->getLocalizedProposalTypeText() : '',
-            '{$dataCollType}' => ($details->getDataCollectionKey()) ? Locale::translate($details->getDataCollectionKey()) : '',
             '{$todayDate}' => date('d-m-Y')
         );
     }

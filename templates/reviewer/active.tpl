@@ -64,13 +64,12 @@
 		{assign var="count" value=0}
 		{iterate from=submissions item=submission}
 			{assign var="articleId" value=$submission->getProposalId()}
-			{assign var="abstract" value=$submission->getLocalizedAbstract()}
                         {assign var="undergoingDecision" value=$submission->getUndergoingDecision()}
                         {assign var="rrAssignment" value=$submission->getUndergoingAssignment()}
 
                         <tr valign="top">
 				<td>{$articleId|escape}</td>
-				<td><a href="{url op="submission" path=$submission->getArticleId()}" class="action">{$abstract->getScientificTitle()|escape}</a></td>
+				<td><a href="{url op="submission" path=$submission->getArticleId()}" class="action">title</a></td>
                                 <td align="right">{translate key=$undergoingDecision->getReviewTypeKey()} - {$undergoingDecision->getRound()}</td>
 				<td align="right">{$rrAssignment->getDateNotified()|date_format:$dateFormatLong}</td>
                                 <td align="right">{$rrAssignment->getDateDue()|date_format:$dateFormatLong}</td>

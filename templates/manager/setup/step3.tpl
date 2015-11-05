@@ -8,63 +8,6 @@
  *}
 {assign var="pageTitle" value="manager.setup.guidingSubmissions"}
 {include file="manager/setup/setupHeader.tpl"}
-
-{literal}
-     <script type="text/javascript">
-         
-         var ORIGINAL_SOURCE_CURRENCY = '{/literal}{$originalSourceCurrency}{literal}';
-         var EXCHANGE_RATE_NOT_NUMERIC = '{/literal}{translate key="manager.setup.form.exchangeRateInstruct2"}{literal}';
-         var CONFIRM_EXCHANGE_RATE = '{/literal}{translate key="manager.setup.form.exchangeRateConfirm"}{literal}';
-         var COUNT_SOURCES = '{/literal}{$countSources}{literal}';
-    
-         function showOrHideChangeCurrency(){
-             var sourceCurrencySelectedText = $("#sourceCurrency option:selected").text();
-             if (ORIGINAL_SOURCE_CURRENCY !== sourceCurrencySelectedText && COUNT_SOURCES > 0){
-                $('#newSourceCurrencyInstructRow').show();
-                $('#newSourceCurrencyRow').show();
-                if($('#convertionRate').val() === "1"){
-                   $('#convertionRate').val(''); 
-                }
-                $("#futureCurrency").html(sourceCurrencySelectedText);
-             } else {
-                $('#newSourceCurrencyInstructRow').hide();
-                $('#newSourceCurrencyRow').hide();
-                $('#convertionRate').val('1'); 
-             }
-         }      
-
-         function checkChangeOfCurrency(){
-             var sourceCurrencySelectedText = $("#sourceCurrency option:selected").text();
-             if (ORIGINAL_SOURCE_CURRENCY !== sourceCurrencySelectedText && COUNT_SOURCES > 0){
-                 var exchangeRate = $("#convertionRate").val().trim();
-                 exchangeRate = exchangeRate.replace(/ /g,'');
-                 var regexNumeric = /^[0-9]+([\.,][0-9]*)?$/;
-                 if (exchangeRate.match(regexNumeric)){
-                     exchangeRate = exchangeRate.replace(/[\.,0]+$/,'');
-                     if (exchangeRate === "") {
-                         alert(EXCHANGE_RATE_NOT_NUMERIC);
-                         return false;
-                     } else {
-                         return confirm(CONFIRM_EXCHANGE_RATE + ' \n 1 ' + ORIGINAL_SOURCE_CURRENCY + ' = ' + exchangeRate + ' ' + sourceCurrencySelectedText + '?');
-                     }
-                 } else {
-                     alert(EXCHANGE_RATE_NOT_NUMERIC);
-                     return false;
-                 }
-             } else {
-                 return true;
-             }
-         } 
-    
-         $(document).ready(
-            function() {
-                showOrHideChangeCurrency();
-                $("#sourceCurrency").change(showOrHideChangeCurrency);  
-                $('#setupForm').submit(checkChangeOfCurrency);
-            }
-         );  
-     </script>
-{/literal}         
          
 <form name="setupForm" id="setupForm" method="post" action="{url op="saveSetup" path="3"}">
 {include file="common/formErrors.tpl"}
@@ -127,34 +70,6 @@
     {/if}
 
     <p><input type="submit" name="addChecklist" value="{translate key="manager.setup.addChecklistItem"}" class="button" /></p>
-</div>
-
-<div id="submissionPreparationChecklist">
-    <h6>3.1.3 {translate key="navigation.stepNumber" step=2} - {translate key="proposal.sourceOfMonetary"}</h6>
-
-    
-    <table width="100%" class="data">
-        <tr valign="top">
-            <td colspan="2">{translate key="manager.setup.form.sourceCurrencyInstruct"}</td>
-        </tr>
-        <tr valign="top">
-            <td width="20%" class="label">{fieldLabel name="sourceCurrency" required="true" key="manager.payment.currency"}</td>
-            <td width="80%" class="value">
-                <select name="sourceCurrency" id="sourceCurrency" class="selectMenu">
-                    <option value=""></option>
-                    {html_options options=$currencies selected=$sourceCurrency}
-                </select>
-            </td>
-        </tr>
-        <tr valign="top" id="newSourceCurrencyInstructRow">
-            <td width="20%">&nbsp;</td>
-            <td width="80%"><b>{translate key="manager.setup.form.exchangeRateInstruct"}</b><br/>{translate key="manager.setup.form.exchangeRateInstruct2"}</td>
-        </tr>
-        <tr valign="top" id="newSourceCurrencyRow">
-            <td width="20%">&nbsp;</td>
-            <td width="80%" class="label"><b>1&nbsp;{$originalSourceCurrency}&nbsp;&nbsp;=&nbsp;&nbsp;<input type="text" class="textField" name="convertionRate" id="convertionRate" value="{$convertionRate|escape}" size="10" maxlength="255" />&nbsp;&nbsp;<span id="futureCurrency"></span></b><br/><i>{translate key="manager.setup.form.exchangeRateExamples"}</i><br/><br/><font color="red"><b>{translate key="manager.setup.form.exchangeRateAlert"}</b></font></td>
-        </tr>             
-    </table>
 </div>
 
 <h3><br/><br/>3.2 {translate key="manager.setup.submission.postApproval"}</h3>

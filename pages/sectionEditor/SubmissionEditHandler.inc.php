@@ -73,7 +73,6 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		$templateMgr->assign_by_ref('previousFiles', $submission->getPreviousFiles());
 		$templateMgr->assign_by_ref('reviewFile', $submission->getReviewFile());
 		$templateMgr->assign_by_ref('journalSettings', $journalSettings);
-		$templateMgr->assign('abstractLocales', $journal->getSupportedLocaleNames());
 		$templateMgr->assign('userId', $user->getId());
 		$templateMgr->assign('isEditor', $isEditor);
 		$templateMgr->assign('isSectionEditor', $isSectionEditor);
@@ -100,9 +99,6 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		}
 
 		$templateMgr->assign('canEditMetadata', true);
-
-                $templateMgr->assign_by_ref('abstract', $submission->getLocalizedAbstract());
-                $templateMgr->assign_by_ref('riskAssessment', $submission->getRiskAssessment());
             
                 $currencyDao =& DAORegistry::getDAO('CurrencyDAO');
                 $sourceCurrencyId = $journal->getSetting('sourceCurrency');
@@ -228,7 +224,6 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		$templateMgr->assign('templates', $templates);
                 $templateMgr->assign_by_ref('notifyReviewerLogs', $notifyReviewerLogs);
 		$templateMgr->assign_by_ref('submissionFile', $submission->getSubmissionFile());	
-                $templateMgr->assign_by_ref('abstract', $submission->getLocalizedAbstract());
 		$templateMgr->assign_by_ref('suppFiles', $submission->getSuppFiles());
 		$templateMgr->assign_by_ref('reportFiles', $submission->getReportFiles());
 		$templateMgr->assign_by_ref('saeFiles', $submission->getSAEFiles());
@@ -1968,8 +1963,6 @@ class SubmissionEditHandler extends SectionEditorHandler {
 
 		$templateMgr->assign('isEditor', Validation::isEditor());
 		$templateMgr->assign_by_ref('submission', $submission);
-
-		$templateMgr->assign_by_ref('abstract', $submission->getLocalizedAbstract());
 
 		$articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
 		import('classes.file.ArticleFileManager');

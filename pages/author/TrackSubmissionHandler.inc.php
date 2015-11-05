@@ -135,12 +135,8 @@ class TrackSubmissionHandler extends AuthorHandler {
                 }
                 $templateMgr->assign('canEditMetadata', $canEditMetadata);
                 $templateMgr->assign('canEditFiles', $canEditFiles);
-                $templateMgr->assign_by_ref('riskAssessment', $submission->getRiskAssessment());
-                $templateMgr->assign_by_ref('abstract', $submission->getLocalizedAbstract());
                 
 		$currencyDao =& DAORegistry::getDAO('CurrencyDAO');
-                $sourceCurrencyId = $journal->getSetting('sourceCurrency');
-                $templateMgr->assign('sourceCurrency', $currencyDao->getCurrencyByAlphaCode($sourceCurrencyId));
                 
 		$templateMgr->display('author/submission.tpl');
                 
@@ -160,7 +156,6 @@ class TrackSubmissionHandler extends AuthorHandler {
 		$templateMgr =& TemplateManager::getManager();
 
 		$templateMgr->assign_by_ref('submission', $authorSubmission);
-		$templateMgr->assign_by_ref('abstract', $authorSubmission->getLocalizedAbstract());
 
 		$templateMgr->assign_by_ref('submissionFile', $authorSubmission->getSubmissionFile());
 		$templateMgr->assign_by_ref('revisedFile', $authorSubmission->getRevisedFile());

@@ -18,16 +18,6 @@
     <h5>{$fAuthor->getFullName()|escape} {icon name="mail" url=$url}</h5>
     {if $fAuthor->getAllAffiliations()}<b>{translate key="user.affiliation"}:&nbsp;</b>{$fAuthor->getAllAffiliations()}{else}&nbsp,{/if}
     <h4>{translate key="search.authorResearchProposals"}:</h4><br/>
-    <ul>
-        {foreach from=$articles item=article}
-            {assign var="abstract" value=$article->getLocalizedAbstract()}
-            {assign var="proposalDetails" value=$article->getProposalDetails()}
-            <li>
-                <a href="{url op="viewProposal" path=$article->getId()}" class="action">{$abstract->getScientificTitle()|escape}</a>
-                <br/>{$proposalDetails->getLocalizedResearchFieldText()|escape}<br/>&nbsp;
-            </li>
-        {/foreach}
-    </ul>
 </div>
 {include file="common/footer.tpl"}
 

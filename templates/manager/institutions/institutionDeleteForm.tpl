@@ -18,29 +18,18 @@
 {literal}
      <script type="text/javascript">
          
-        var countKII = "{/literal}{$countKII}{literal}";
-        var countSources = "{/literal}{$countSources}{literal}";
         var confirmMessage = "{/literal}{translate key="institution.delete.replacementWarning"}{literal}";
                 
         $(document).ready(
             function() {
-                if (countKII > 0 || countSources > 0) {
-                    $('#replaceInstitutionMessage').show();
-                    $('#replaceInstitutionWarning').show();
-                    $('#replaceInstitutionField').show();
-                    if ($('#replacementInstitution option[value="NA"]').length > 0){
-                        $('#replacementInstitution option[value="NA"]').remove();
-                    }
-                } else {
-                 
-                    $('#replaceInstitutionMessage').hide();
-                    $('#replaceInstitutionWarning').hide();
-                    $('#replaceInstitutionField').hide();            
-                    if (!$('#replacementInstitution option[value="NA"]').length > 0){
-                        $('#replacementInstitution').append('<option value="NA"></option>');
-                    }
-                    $('#replacementInstitution').val('NA');            
+                
+                $('#replaceInstitutionMessage').hide();
+                $('#replaceInstitutionWarning').hide();
+                $('#replaceInstitutionField').hide();            
+                if (!$('#replacementInstitution option[value="NA"]').length > 0){
+                    $('#replacementInstitution').append('<option value="NA"></option>');
                 }
+                $('#replacementInstitution').val('NA');            
                 
                 $('#deleteButton').click(function () {return confirm(confirmMessage);});
             }
@@ -57,15 +46,6 @@
     <div id="institutionForm">
         <table class="data" width="100%">
             <tr valign="top"><td colspan="2">&nbsp;</td></tr>
-            <tr valign="top">
-                <td width="70%" class="label">{fieldLabel name="countKII" key="institution.countKII"}</td>
-                <td width="70%" class="value">{$countKII}</td>
-            </tr>
-            <tr valign="top"><td colspan="2">&nbsp;</td></tr>
-            <tr valign="top">
-                <td width="70%" class="label">{fieldLabel name="countKII" key="institution.countSources"}</td>
-                <td width="70%" class="value">{$countSources}</td>
-            </tr>
             <tr valign="top"><td colspan="2">&nbsp;</td></tr>
             <tr valign="top" id="replaceInstitutionMessage">
                 <td colspan="2">{translate key="institution.delete.replacementMessage"}</td>

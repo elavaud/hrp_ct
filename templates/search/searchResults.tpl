@@ -78,48 +78,16 @@ $(document).ready(
 		<tr>
 			<td><strong>{translate key="article.metadata"}:</strong></td>
 		</tr>
-		<tr valign="top">
-			<td width="20%" class="value">
-				<input type="checkbox" name="scientificTitle" checked="checked"/>&nbsp;{translate key="proposal.scientificTitle"}
-			</td>
-			<td width="20%" class="value">
-				<input type="checkbox" name="publicTitle"/>&nbsp;{translate key="proposal.publicTitle"}
-			</td>
-			<td width="20%" class="value">
-				<input type="checkbox" name="researchField" checked="checked"/>&nbsp;{translate key="proposal.researchField"}
-			</td>
-			<td width="20%" class="value">
-				<input type="checkbox" name="researchDomain" checked="checked"/>&nbsp;{translate key="proposal.researchDomains"}
-			</td>                        
+		<tr valign="top">                       
 		</tr>
 		<tr valign="top">
-			<td width="20%" class="value">
-				<input type="checkbox" name="proposalType" checked="checked"/>&nbsp;{translate key="proposal.proposalType"}
-			</td>
-			<td width="20%" class="value">
-				<input type="checkbox" name="duration" checked="checked"/>&nbsp;{translate key="search.researchDates"}
-			</td>
-			<td width="20%" class="value">
-				<input type="checkbox" name="area" checked="checked"/>&nbsp;{translate key='proposal.geoArea'}
-			</td>
 		</tr>
 		<tr valign="top">
-			<td width="20%" class="value">
-				<input type="checkbox" name="kii" checked="checked"/>&nbsp;{translate key="proposal.keyImplInstitution"}
-			</td>
-			<td width="20%" class="value">
-				<input type="checkbox" name="dataCollection"/>&nbsp;{translate key="proposal.dataCollection"}
-			</td>
 			<td width="20%" class="value">
 				<input type="checkbox" name="status" checked="checked"/>&nbsp;{translate key="common.status"}
 			</td>
 		</tr>
-		<tr>
-			<td colspan="3">
-				<input type="checkbox" name="studentResearch" checked="checked"/>&nbsp;{translate key="search.studentExport"}
-			</td>
-			<td></td>
-		</tr>
+
 		<tr>
 			<td colspan="4" class="endseparator">&nbsp;</td>
 		</tr>
@@ -145,21 +113,12 @@ $(document).ready(
 		<p></p>
 		{iterate from=results item=result}
 			<tr valign="bottom">
-				{assign var="abstract" value=$result->getLocalizedAbstract()}
-				{assign var="proposalDetails" value=$result->getProposalDetails()}
-				<td><a href="{url op="viewProposal" path=$result->getId()}" class="action">{$abstract->getScientificTitle()|escape}</a></td>
-				<td>{$proposalDetails->getKeyImplInstitutionName()}</td>
+				<td><a href="{url op="viewProposal" path=$result->getId()}" class="action">title</a></td>
+				<td>oinstitution</td>
 				<td>
-					{if $proposalDetails->getMultiCountryResearch() == PROPOSAL_DETAIL_YES}
-						{$proposalDetails->getLocalizedMultiCountryText()}
-					{elseif $proposalDetails->getNationwide() == PROPOSAL_DETAIL_YES}
-						{translate key="proposal.nationwide"}
-					{else}
-						{$proposalDetails->getLocalizedGeoAreasText()}
-					{/if}
 				</td>
-				<td>{$proposalDetails->getLocalizedResearchFieldText()}</td>
-				<td>{$proposalDetails->getStartDate()} {translate key="search.dateTo"} {$proposalDetails->getEndDate()}</td>
+				<td>research field</td>
+				<td>start date to end date</td>
 				<td>
                                     {if $result->getStatus() == STATUS_COMPLETED}
                                         {translate key="common.queue.short.completedResearches"}

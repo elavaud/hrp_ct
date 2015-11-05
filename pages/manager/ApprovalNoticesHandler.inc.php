@@ -159,39 +159,6 @@ class ApprovalNoticesHandler extends ManagerHandler {
             $coInvestigator3->setAffiliation('Cabinet MEDICAL, Avenue Bollée');
             $sectionEditorSubmission->setAuthors(array(0 => $firstInvestigator, 1 => $coInvestigator1, 2 => $coInvestigator2, 3 => $coInvestigator3));
             
-            // Create the abstract
-            import('classes.article.ProposalAbstract');                
-            $abstract = new ProposalAbstract();
-            $abstract->setLocale('en_US');
-            $abstract->setScientificTitle('Here, the scientific title of the concerned health research proposal will appear.');
-            $abstract->setPublicTitle('Here, the public title of the concerned health research proposal will appear.');
-            $abstract->setBackground('Here, the background of the concerned health research proposal will appear. Here, the background of the concerned health research proposal will appear. Here, the background of the concerned health research proposal will appear. Here, the background of the concerned health research proposal will appear. Here, the background of the concerned health research proposal will appear. Here, the background of the concerned health research proposal will appear. Here, the background of the concerned health research proposal will appear.');
-            $abstract->setObjectives('Here, the objectives of the concerned health research proposal will appear. Here, the objectives of the concerned health research proposal will appear. Here, the objectives of the concerned health research proposal will appear. Here, the objectives of the concerned health research proposal will appear. Here, the objectives of the concerned health research proposal will appear.');
-            $abstract->setStudyMethods('Here, the study methods of the concerned health research proposal will appear. Here, the study methods of the concerned health research proposal will appear. Here, the study methods of the concerned health research proposal will appear. Here, the study methods of the concerned health research proposal will appear. Here, the study methods of the concerned health research proposal will appear. Here, the study methods of the concerned health research proposal will appear. Here, the study methods of the concerned health research proposal will appear. Here, the study methods of the concerned health research proposal will appear. Here, the study methods of the concerned health research proposal will appear.');
-            $abstract->setExpectedOutcomes('Here, the expected outcomes of the concerned health research proposal will appear. Here, the expected outcomes of the concerned health research proposal will appear. Here, the expected outcomes of the concerned health research proposal will appear. Here, the expected outcomes of the concerned health research proposal will appear. Here, the expected outcomes of the concerned health research proposal will appear. Here, the expected outcomes of the concerned health research proposal will appear.');
-            $sectionEditorSubmission->setAbstracts(array(0 => $abstract));
-            
-            // Create proposal details
-            import('classes.article.ProposalDetails');                
-            $details = new ProposalDetails();
-            import('classes.article.StudentResearch');                
-            $studentResearch = new StudentResearch();
-            $studentResearch->setInstitution('National University of Public Health');
-            $studentResearch->setDegree(STUDENT_DEGREE_PHD);
-            $studentResearch->setSupervisorName('Dr. Arwin Wagala');
-            $details->setStudentResearchInfo($studentResearch);
-            $details->setStartDate('2014-04-08');
-            $details->setEndDate('2017-09-02');
-            $details->setKeyImplInstitution($institutionDao->getRandomInstitutionId());
-            $details->setMultiCountryResearch(PROPOSAL_DETAIL_YES);
-            $details->setCountries('GE,AM');
-            $details->setGeoAreas($extraFieldDao->getRandomFieldIdByType(EXTRA_FIELD_GEO_AREA).'+'.$extraFieldDao->getRandomFieldIdByType(EXTRA_FIELD_GEO_AREA).'+'.$extraFieldDao->getRandomFieldIdByType(EXTRA_FIELD_GEO_AREA));
-            $details->setResearchDomains($extraFieldDao->getRandomFieldIdByType(EXTRA_FIELD_RESEARCH_DOMAIN));
-            $details->setResearchFields($extraFieldDao->getRandomFieldIdByType(EXTRA_FIELD_RESEARCH_FIELD).'+'.$extraFieldDao->getRandomFieldIdByType(EXTRA_FIELD_RESEARCH_FIELD));
-            $details->setProposalTypes($extraFieldDao->getRandomFieldIdByType(EXTRA_FIELD_PROPOSAL_TYPE));
-            $details->setDataCollection(PROPOSAL_DETAIL_BOTH_DATA_COLLECTION);
-            $sectionEditorSubmission->setProposalDetails($details);
-            
             return $sectionEditorSubmission;
             
         }

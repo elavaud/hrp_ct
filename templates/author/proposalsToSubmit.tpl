@@ -24,7 +24,6 @@
     {assign var="lastDecision" value=$submission->getLastSectionDecision()}
     {assign var="lastDecisionType" value=$lastDecision->getReviewType()}
 
-    {assign var="abstract" value=$submission->getLocalizedAbstract()}
     {assign var="articleId" value=$submission->getArticleId()}
     {assign var="proposalId" value=$submission->getProposalId()}
 
@@ -32,9 +31,9 @@
         <td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
         <td>{if $submission->getDateSubmitted()}{$submission->getDateSubmitted()|date_format:$dateFormatLong}{else}&mdash;{/if}</td>
         {if $status == STATUS_QUEUED}
-            <td><a href="{url op="submit" path=$progress articleId=$articleId}" class="action">{if $abstract && $abstract->getScientificTitle()}{$abstract->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}{else}{translate key="common.untitled"}{/if}</a></td>
+            <td><a href="{url op="submit" path=$progress articleId=$articleId}" class="action">title</a></td>
         {else}
-            <td><a href="{url op="submission" path=$articleId}" class="action">{if $abstract && $abstract->getScientificTitle()}{$abstract->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}{else}{translate key="common.untitled"}{/if}</a></td>
+            <td><a href="{url op="submission" path=$articleId}" class="action"></a></td>
         {/if}
         <td>
             {$lastDecision->getSectionAcronym()} - {translate key=$lastDecision->getReviewTypeKey()} - {$lastDecision->getRound()}

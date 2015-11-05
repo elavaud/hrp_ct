@@ -70,7 +70,6 @@
 		</tr>
 		<tr><td colspan="5" class="headseparator">&nbsp;</td></tr>
 		{iterate from=meetingSubmissions item=meetingSubmission}
-			{assign var="abstract" value=$meetingSubmission->getLocalizedAbstract()}
 			{assign var="sectionDecisions" value=$meetingSubmission->getMeetingsDecisions()}
 			{assign var="firstDecision" value = 1}
                         {foreach from=$sectionDecisions item=decision}
@@ -82,9 +81,9 @@
                                         <td>{if $firstDecision ne 0}
                                             {assign var="articleId" value = $meetingSubmission->getArticleId()}
                                             {if $map.$articleId}
-                                                <a href="{url op="submission" path=$articleId}" class="action">{$abstract->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}</a>
+                                                <a href="{url op="submission" path=$articleId}" class="action">title</a>
                                             {else}
-                                                <a href="{url op="viewProposalFromMeeting" path=$articleId}" class="action">{$abstract->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}</a>
+                                                <a href="{url op="viewProposalFromMeeting" path=$articleId}" class="action">title</a>
                                             {/if}
                                             {else}&nbsp;{/if}
                                         </td>

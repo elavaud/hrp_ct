@@ -38,8 +38,6 @@ class InstitutionDeleteForm extends Form {
 	function display() {
 		$templateMgr =& TemplateManager::getManager();
 		                
-                $proposalSourceDao =& DAORegistry::getDAO('ProposalSourceDAO');
-                $proposalDetailsDao =& DAORegistry::getDAO('ProposalDetailsDAO');
                 $institutionDao =& DAORegistry::getDAO('InstitutionDAO');
 
                 // Get the list of institutions for the replacement and remove from it the one to delete
@@ -52,8 +50,6 @@ class InstitutionDeleteForm extends Form {
 		$templateMgr->assign('institutionId', $this->institutionId);
 		$templateMgr->assign('institutionToDelete', $institutionToDelete);
                 $templateMgr->assign('institutionsList', $institutionsList);
-		$templateMgr->assign('countKII', $proposalDetailsDao->getCountKIIByInstitution($this->institutionId));
-		$templateMgr->assign('countSources', $proposalSourceDao->getCountSourcesByInstitution($this->institutionId));
                 
                 parent::display(); 
 	}
@@ -70,18 +66,8 @@ class InstitutionDeleteForm extends Form {
 	 * Delete an institution.
 	*/
 	function execute() {
-                $proposalSourceDao =& DAORegistry::getDAO('ProposalSourceDAO');
-                $proposalDetailsDao =& DAORegistry::getDAO('ProposalDetailsDAO');
                 $institutionDao =& DAORegistry::getDAO('InstitutionDAO');            
-                
-                $countKII = $proposalDetailsDao->getCountKIIByInstitution($this->institutionId);
-                $countSources = $proposalSourceDao->getCountSourcesByInstitution($this->institutionId);
-                        
-                if ($countKII > 0 || $countSources > 0) {
-                    $proposalDetailsDao->replaceKII($this->institutionId, $this->getData('replacementInstitution'));
-                    $proposalSourceDao->replaceInstitutionSource($this->institutionId, $this->getData('replacementInstitution'));
-                }
-                
+                                
                 $institutionDao->deleteInstitutionById($this->institutionId);
 	}
 }

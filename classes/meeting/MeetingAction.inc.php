@@ -424,15 +424,6 @@ class MeetingAction extends Action {
 		$num=1;
 		$submissions = (string)'';
 
-		foreach($mSectionDecisions as $mSectionDecision) {
-			$sectionDecision = $sectionDecisionDao->getSectionDecision($mSectionDecision->getSectionDecisionId());
-			$submission = $articleDao->getArticle($sectionDecision->getArticleId(), $journal->getId(), false);
-			$abstract = $submission->getLocalizedAbstract();
-			if ($submission->getUserId() == $investigatorAttendance->getUserId()) {
-				$submissions .= $num.". '".$abstract->getScientificTitle()."'\n";
-				$num++;
-			}
-		}
 
 		$userDao =& DAORegistry::getDAO('UserDAO');
 		$investigator =& $userDao->getUser($investigatorAttendance->getUserId());

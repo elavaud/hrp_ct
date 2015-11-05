@@ -213,11 +213,10 @@ class ReviewerAction extends Action {
 					}
 
 					$reviewerRecommendationOptions =& ReviewAssignment::getReviewerRecommendationOptions();
-					$abstract = $reviewerSubmission->getLocalizedAbstract();
 					$email->assignParams(array(
 						'editorialContactName' => $editorialContactName,
 						'reviewerName' => $reviewer->getFullName(),
-						'articleTitle' => strip_tags($abstract->getScientificTitle()),
+						'articleTitle' => strip_tags(''),
 						'recommendation' => Locale::translate($reviewerRecommendationOptions[$recommendation])
 					));
 				}
@@ -440,13 +439,12 @@ class ReviewerAction extends Action {
 				$articleId = $sectionDecision->getArticleId();
 				$articleDao =& DAORegistry::getDAO('ArticleDAO'); 
 				$article =& $articleDao->getArticle($articleId);
-				$abstract = $article->getLocalizedAbstract();
 				$notificationUsers = $article->getAssociatedUserIds();
 				foreach ($notificationUsers as $userRole) {
 					$url = Request::url(null, $userRole['role'], 'submissionReview', $article->getId(), null, 'peerReview');
 					$notificationManager->createNotification(
 						$userRole['id'], 'notification.type.reviewerFormComment',
-						$abstract->getScientificTitle(), $url, 1, NOTIFICATION_TYPE_REVIEWER_FORM_COMMENT
+						'title', $url, 1, NOTIFICATION_TYPE_REVIEWER_FORM_COMMENT
 					);
 				}
 				

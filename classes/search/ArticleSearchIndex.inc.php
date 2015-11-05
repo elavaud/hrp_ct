@@ -175,9 +175,9 @@ class ArticleSearchIndex {
 		// Update search index
 		$articleId = $article->getId();
 		ArticleSearchIndex::updateTextIndex($articleId, ARTICLE_SEARCH_AUTHOR, $authorText);
-		$abstract =& $article->getLocalizedAbstract();
-		ArticleSearchIndex::updateTextIndex($articleId, ARTICLE_SEARCH_TITLE, $abstract->getScientificTitle());
-		ArticleSearchIndex::updateTextIndex($articleId, ARTICLE_SEARCH_ABSTRACT, $abstract->getWholeAbstract());
+		//$abstract =& $article->getLocalizedAbstract();
+		//ArticleSearchIndex::updateTextIndex($articleId, ARTICLE_SEARCH_TITLE, $abstract->getScientificTitle());
+		//ArticleSearchIndex::updateTextIndex($articleId, ARTICLE_SEARCH_ABSTRACT, $abstract->getWholeAbstract());
 
 		ArticleSearchIndex::updateTextIndex($articleId, ARTICLE_SEARCH_DISCIPLINE, (array) $article->getDiscipline(null));
 		ArticleSearchIndex::updateTextIndex($articleId, ARTICLE_SEARCH_SUBJECT, array_merge(array_values((array) $article->getSubjectClass(null)), array_values((array) $article->getSubject(null))));

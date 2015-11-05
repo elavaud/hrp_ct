@@ -48,17 +48,13 @@ class ManageOtherExtraFieldsForm extends Form {
 		$templateMgr =& TemplateManager::getManager();
                 
                 $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
-                $proposalDetailsDao =& DAORegistry::getDAO('ProposalDetailsDAO');
                 
                 // Get the list of extra fields for the replacement and remove from it the one to delete
                 $extraFieldsList = $extraFieldDao->getExtraFieldsList($this->typeConst);
                 
-                // Get a array of 'other' fields
-                $otherFields = $proposalDetailsDao->getAllOtherFields($this->type);
-                
+                // Get a array of 'other' fields                
                 
 		$templateMgr->assign('type', $this->type);
-		$templateMgr->assign('otherFields', $otherFields);
                 $templateMgr->assign('extraFieldsList', $extraFieldsList);
                 $templateMgr->assign('pageInfo', 'manager.extraFields.'.$this->type.'.manageOthers');
 
@@ -77,31 +73,8 @@ class ManageOtherExtraFieldsForm extends Form {
 	 * Delete an institution.
 	*/
 	function execute() {
-                $proposalDetailsDao =& DAORegistry::getDAO('ProposalDetailsDAO');
-                $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
-
-                $replacementExtraFieldId = $this->getData('replacement');
-                $selectedOtherFieldsId = $this->getData('selectedOtherFields');
                 
-                if ($this->typeConst == EXTRA_FIELD_RESEARCH_FIELD) {
-                    $functionGet = 'getResearchFieldsArray';
-                    $functionSet = 'setResearchFieldsFromArray';                    
-                } else {
-                    $functionGet = 'getProposalTypesArray';
-                    $functionSet = 'setProposalTypesFromArray';                    
-                }
-                
-                foreach ($selectedOtherFieldsId as $selectedOtherFieldId) {
-                    $proposalDetail =& $proposalDetailsDao->getProposalDetailsByArticleId($selectedOtherFieldId);
-                    $array = $proposalDetail->$functionGet();
-                    foreach ($array as $key => $value){
-                       if (preg_match('#^Other\s\(.+\)$#', $value)){
-                           $array[$key] = $replacementExtraFieldId;
-                       }
-                    }
-                    $proposalDetail->$functionSet($array);
-                    $proposalDetailsDao->updateProposalDetails($proposalDetail);
-                }                
+                             
 	}
 }
 

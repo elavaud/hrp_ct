@@ -25,7 +25,6 @@
 {assign var="count" value=0}
 {iterate from=submissions1 item=submission}	
 	{assign var="status" value=$submission->getSubmissionStatus()}
-	{assign var="abstract" value=$submission->getLocalizedAbstract()}
         {assign var="decision" value=$submission->getMostRecentDecisionValue() }
 
         {if ($status!=PROPOSAL_STATUS_DRAFT && $status!=PROPOSAL_STATUS_REVIEWED && $status != PROPOSAL_STATUS_EXEMPTED) || $decision==SUBMISSION_SECTION_DECISION_RESUBMIT}		
@@ -36,7 +35,7 @@
 				<td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
 				<td>{$submission->getDateSubmitted()|date_format:$dateFormatLong}</td>
    				<td>{$submission->getFirstAuthor(true)|truncate:40:"..."|escape}</td> <!-- Get first author. Added by MSB, Sept 25, 2011 -->
-				<td><a href="{url op="submission" path=$submission->getId()}" class="action">{$abstract->getScientificTitle()|strip_unsafe_html}</a></td>
+				<td><a href="{url op="submission" path=$submission->getId()}" class="action">title</a></td>
 				<td align="right">
 					{assign var="proposalStatusKey" value=$submission->getProposalStatusKey()}
 					{translate key=$proposalStatusKey}
@@ -82,8 +81,7 @@
 {assign var="count" value=0}
 {iterate from=submissions2 item=submission}	
 	{assign var="status" value=$submission->getSubmissionStatus()}
-	{assign var="abstract" value=$submission->getLocalizedAbstract()}
-     {assign var="decision" value=$submission->getMostRecentDecisionValue() }
+        {assign var="decision" value=$submission->getMostRecentDecisionValue() }
 
         {if ($status==PROPOSAL_STATUS_REVIEWED && $decision==SUBMISSION_SECTION_DECISION_APPROVED)}
         	{assign var="count" value=$count+1}		
@@ -96,7 +94,7 @@
                 <!-- {* <td>{$submission->getAuthorString(true)|truncate:40:"..."|escape}</td> *} Commented out by MSB -->
    				<td>{$submission->getFirstAuthor(true)|truncate:40:"..."|escape}</td> <!-- Get first author. Added by MSB, Sept 25, 2011 -->
 
-				<td><a href="{url op="submission" path=$submission->getId()}" class="action">{$abstract->getScientificTitle()|strip_unsafe_html}</a></td>
+				<td><a href="{url op="submission" path=$submission->getId()}" class="action">title</a></td>
 				<td>{$submission->getApprovalDate($submission->getLocale())|date_format:$dateFormatLong}</td>
 			</tr>
 			<tr>
@@ -136,7 +134,6 @@
 {assign var="count" value=0}
 {iterate from=submissions3 item=submission}	
 	{assign var="status" value=$submission->getSubmissionStatus()}
-	{assign var="abstract" value=$submission->getLocalizedAbstract()}
         {assign var="decision" value=$submission->getMostRecentDecisionValue() }
 
         {if ($status==PROPOSAL_STATUS_REVIEWED && $decision==SUBMISSION_SECTION_DECISION_DECLINED)}		
@@ -147,10 +144,8 @@
 			<tr valign="top">
 				<td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
 				<td>{$submission->getDateSubmitted()|date_format:$dateFormatLong}</td>
-				{* <td>{$submission->getSectionAbbrev()|escape}</td> *}
-				<!-- {* <td>{$submission->getAuthorString(true)|truncate:40:"..."|escape}</td> *}  Commented out by MSB -->
-   				<td>{$submission->getFirstAuthor(true)|truncate:40:"..."|escape}</td> <!-- Get first author. Added by MSB, Sept 25, 2011 -->
-                <td><a href="{url op="submission" path=$submission->getId()}" class="action">{$abstract->getScientificTitle()|strip_unsafe_html}</a></td>	
+   				<td>{$submission->getFirstAuthor(true)|truncate:40:"..."|escape}</td>
+                <td><a href="{url op="submission" path=$submission->getId()}" class="action">title</a></td>	
 			</tr>
 			<tr>
 				<td colspan="6" class="separator">&nbsp;</td>
@@ -190,7 +185,6 @@
 {assign var="count" value=0}
 {iterate from=submissions4 item=submission}	
 	{assign var="status" value=$submission->getSubmissionStatus()}
-	{assign var="abstract" value=$submission->getLocalizedAbstract()}
         {assign var="decision" value=$submission->getMostRecentDecisionValue() }
 
         {if $status==PROPOSAL_STATUS_EXEMPTED}		
@@ -202,7 +196,7 @@
 				<td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
 				<td>{$submission->getDateSubmitted()|date_format:$dateFormatLong}</td>
    				<td>{$submission->getFirstAuthor(true)|truncate:40:"..."|escape}</td>
-                <td><a href="{url op="submission" path=$submission->getId()}" class="action">{$abstract->getScientificTitle()|strip_unsafe_html}</a></td>		
+                <td><a href="{url op="submission" path=$submission->getId()}" class="action">title</a></td>		
 			</tr>
 			<tr>
 				<td colspan="6" class="separator">&nbsp;</td>
