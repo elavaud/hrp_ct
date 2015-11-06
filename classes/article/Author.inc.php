@@ -29,21 +29,21 @@ class Author extends PKPAuthor {
 	//
 
 	/**
-	 * Get ID of article.
+	 * Get ID of site.
 	 * @return int
 	 */
-	function getArticleId() {
+	function getSiteId() {
 		if (Config::getVar('debug', 'deprecation_warnings')) trigger_error('Deprecated function.');
-		return $this->getSubmissionId();
+		return $this->getSiteId();
 	}
 
 	/**
-	 * Set ID of article.
-	 * @param $articleId int
+	 * Set ID of site.
+	 * @param $siteId int
 	 */
-	function setArticleId($articleId) {
+	function setSiteId($siteId) {
 		if (Config::getVar('debug', 'deprecation_warnings')) trigger_error('Deprecated function.');
-		return $this->setSubmissionId($articleId);
+		return $this->setSiteId($siteId);
 	}
 
 	/**

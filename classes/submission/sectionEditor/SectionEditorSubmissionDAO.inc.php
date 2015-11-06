@@ -260,8 +260,9 @@ class SectionEditorSubmissionDAO extends DAO {
 				a.*,
 				aap.last_name AS author_name
 			FROM	articles a
-				LEFT JOIN authors aa ON (aa.submission_id = a.article_id)
-				LEFT JOIN authors aap ON (aap.submission_id = a.article_id AND aap.primary_contact = 1)
+				LEFT JOIN article_site ars ON (ars.article_id = a.article_id)
+				LEFT JOIN authors aa ON (aa.site_id = ars.site_id)
+				LEFT JOIN authors aap ON (aap.site_id = ars.site_id AND aap.primary_contact = 1)
 				LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)
                                 LEFT JOIN section_decisions sdec2 ON (a.article_id = sdec2.article_id AND sdec.section_decision_id < sdec2.section_decision_id)				
 			WHERE	a.journal_id = ?

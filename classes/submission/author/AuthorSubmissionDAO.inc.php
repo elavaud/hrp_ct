@@ -241,10 +241,9 @@ class AuthorSubmissionDAO extends DAO {
 			case 'status': return 'a.status, sdec.decision';
 			case 'round': return 'sdec.review_type, sdec.round';
 			case 'submitDate': return 'a.date_submitted';
-			case 'title': return 'submission_title';
 			case 'active': return 'a.submission_progress';
 			case 'views': return 'galley_views';
-			default: return null;
+			default: return 'a.status, sdec.decision';
 		}
 	}
 
@@ -296,7 +295,8 @@ class AuthorSubmissionDAO extends DAO {
 					aa.last_name AS author_name,
 					(SELECT SUM(g.views) FROM article_galleys g WHERE (g.article_id = a.article_id AND g.locale = ?)) AS galley_views
 				FROM	articles a
-					LEFT JOIN authors aa ON (aa.submission_id = a.article_id AND aa.primary_contact = 1)
+                                        LEFT JOIN article_site ars ON (ars.article_id = a.article_id)
+					LEFT JOIN authors aa ON (aa.site_id = ars.site_id AND aa.primary_contact = 1)
                                         LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)
                                         LEFT JOIN section_decisions sdec2 ON (a.article_id = sdec2.article_id AND sdec.section_decision_id < sdec2.section_decision_id)
 				WHERE	a.user_id = ? 

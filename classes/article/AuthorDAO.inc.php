@@ -37,8 +37,35 @@ class AuthorDAO extends PKPAuthorDAO {
 		$authors = array();
 
 		$result =& $this->retrieve(
-			'SELECT * FROM authors WHERE submission_id = ? ORDER BY seq',
+			'SELECT * FROM authors aa'
+                        . 'LEFT JOIN article_site ars ON (aa.site_id = ars.site_id) '
+                        . 'WHERE ars.article_id = ? ORDER BY seq',
 			(int) $submissionId
+		);
+
+		while (!$result->EOF) {
+			$authors[] =& $this->_returnAuthorFromRow($result->GetRowAssoc(false));
+			$result->moveNext();
+		}
+
+		$result->Close();
+		unset($result);
+
+		return $authors;
+	}
+
+        
+        /**
+	 * Retrieve all authors for a particular site of a submission.
+	 * @param $siteId int
+	 * @return array Authors ordered by sequence
+	 */
+	function &getAuthorsByArticleSite($siteId) {
+		$authors = array();
+
+		$result =& $this->retrieve(
+			'SELECT * FROM authors WHERE site_id = ? ORDER BY seq',
+			(int) $siteId
 		);
 
 		while (!$result->EOF) {
@@ -72,9 +99,10 @@ class AuthorDAO extends PKPAuthorDAO {
 
 		$result =& $this->retrieve(
 			'SELECT DISTINCT
-				aa.submission_id
+				ars.article_id
 			FROM	authors aa
-				LEFT JOIN articles a ON (aa.submission_id = a.article_id)
+				LEFT JOIN article_site ars ON (ars.site_id = aa.site_id)
+				LEFT JOIN articles a ON (ars.article_id = a.article_id)
 			WHERE	aa.first_name = ?
 				AND a.status = ' . STATUS_PUBLISHED . '
 				AND (aa.middle_name = ?' . (empty($middleName)?' OR aa.middle_name IS NULL':'') . ')
@@ -86,7 +114,7 @@ class AuthorDAO extends PKPAuthorDAO {
 
 		while (!$result->EOF) {
 			$row =& $result->getRowAssoc(false);
-			$publishedArticle =& $publishedArticleDao->getPublishedArticleByArticleId($row['submission_id']);
+			$publishedArticle =& $publishedArticleDao->getPublishedArticleByArticleId($row['article_id']);
 			if ($publishedArticle) {
 				$publishedArticles[] =& $publishedArticle;
 			}
@@ -127,7 +155,7 @@ class AuthorDAO extends PKPAuthorDAO {
 		$result =& $this->retrieveRange(
 			'SELECT DISTINCT
 				0 AS author_id,
-				0 AS submission_id,
+				0 AS site_id,
 				' . ($includeEmail?'aa.email AS email,':'CAST(\'\' AS CHAR) AS email,') . '
 				0 AS primary_contact,
 				0 AS seq,
@@ -137,11 +165,12 @@ class AuthorDAO extends PKPAuthorDAO {
 				aa.affiliation,
 				aa.phone
 			FROM	authors aa
-				LEFT JOIN articles a ON (a.article_id = aa.submission_id)
+				LEFT JOIN article_site ars ON (ars.site_id = aa.site_id)
+				LEFT JOIN articles a ON (a.article_id = ars.article_id)
 				LEFT JOIN published_articles pa ON (pa.article_id = a.article_id)
 				LEFT JOIN issues i ON (pa.issue_id = i.issue_id)
 			WHERE	i.published = 1 AND
-				aa.submission_id = a.article_id AND ' .
+				ars.article_id = a.article_id AND ' .
 				(isset($journalId)?'a.journal_id = ? AND ':'') . '
 				pa.article_id = a.article_id AND
 				a.status = ' . STATUS_PUBLISHED . ' AND
@@ -171,17 +200,19 @@ class AuthorDAO extends PKPAuthorDAO {
 	function insertAuthor(&$author) {
 		$this->update(
 			'INSERT INTO authors
-				(submission_id, first_name, middle_name, last_name, affiliation, email, phone, primary_contact, seq)
+				(site_id, first_name, middle_name, last_name, affiliation, email, primary_phone, secondary_phone, fax, primary_contact, seq)
 				VALUES
-				(?, ?, ?, ?, ?, ?, ?, ?, ?)',
+				(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
 			array(
-				$author->getSubmissionId(),
+				$author->getSiteId(),
 				$author->getFirstName(),
 				$author->getMiddleName() . '', // make non-null
 				$author->getLastName(),
 				$author->getAffiliation(),
 				$author->getEmail(),
-				$author->getPhoneNumber(),
+				$author->getPrimaryPhoneNumber(),
+				$author->getSecondaryPhoneNumber(),
+				$author->getFaxNumber(),                            
 				(int) $author->getPrimaryContact(),
 				(float) $author->getSequence()
 			)
@@ -203,8 +234,10 @@ class AuthorDAO extends PKPAuthorDAO {
 				last_name = ?,
 				affiliation = ?,
 				email = ?,
-				phone = ?,
-				primary_contact = ?,
+				primary_phone = ?,
+				secondary_phone = ?,
+				fax = ?,
+                                primary_contact = ?,
 				seq = ?
 			WHERE	author_id = ?',
 			array(
@@ -213,8 +246,10 @@ class AuthorDAO extends PKPAuthorDAO {
 				$author->getLastName(),
 				$author->getAffiliation(),
 				$author->getEmail(),
-				$author->getPhoneNumber(),
-				(int) $author->getPrimaryContact(),
+				$author->getPrimaryPhoneNumber(),
+				$author->getSecondaryPhoneNumber(),
+				$author->getFaxNumber(),
+                            (int) $author->getPrimaryContact(),
 				(float) $author->getSequence(),
 				(int) $author->getId()
 			)
@@ -260,7 +295,8 @@ class AuthorDAO extends PKPAuthorDAO {
 		$result =& $this->retrieveRange(
 			'SELECT aa.*
                         FROM	authors aa
-				LEFT JOIN section_decisions sdec ON (aa.submission_id = sdec.article_id)
+				LEFT JOIN article_site ars ON (ars.site_id = aa.site_id)
+				LEFT JOIN section_decisions sdec ON (ars.article_id = sdec.article_id)
 			WHERE	sdec.review_type = 1 AND (sdec.decision = 1 
 				OR sdec.decision = 6 
 				OR sdec.decision = 9) AND 
@@ -287,9 +323,10 @@ class AuthorDAO extends PKPAuthorDAO {
                 
 		$result =& $this->retrieve(
 			'SELECT DISTINCT
-				aa.submission_id
+				ars.article_id
 			FROM	authors aa
-				LEFT JOIN section_decisions sdec ON (aa.submission_id = sdec.article_id)
+                                LEFT JOIN article_site ars ON (aa.site_id = ars.site_id)
+				LEFT JOIN section_decisions sdec ON (ars.article_id = sdec.article_id)
 			WHERE	sdec.review_type = 1 AND (sdec.decision = 1 
 				OR sdec.decision = 6 
 				OR sdec.decision = 9) AND
@@ -299,7 +336,7 @@ class AuthorDAO extends PKPAuthorDAO {
 
 		while (!$result->EOF) {
 			$row =& $result->getRowAssoc(false);
-			$article =& $articleDao->getArticle($row['submission_id']);
+			$article =& $articleDao->getArticle($row['article_id']);
 			if ($article) {
 				$articles[] =& $article;
 			}
@@ -323,7 +360,8 @@ class AuthorDAO extends PKPAuthorDAO {
 		$result =& $this->retrieve(
 			'SELECT *
 			FROM	authors aa
-				LEFT JOIN section_decisions sdec ON (aa.submission_id = sdec.article_id)
+                                LEFT JOIN article_site ars ON (aa.site_id = ars.site_id)
+				LEFT JOIN section_decisions sdec ON (ars.article_id = sdec.article_id)
 			WHERE	sdec.review_type = 1 AND (sdec.decision = 1 
 				OR sdec.decision = 6 
 				OR sdec.decision = 9) AND 

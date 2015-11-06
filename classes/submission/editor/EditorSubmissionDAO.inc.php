@@ -206,8 +206,9 @@ class EditorSubmissionDAO extends DAO {
 				COALESCE(stl.setting_value, stpl.setting_value) AS section_title,
 				COALESCE(sal.setting_value, sapl.setting_value) AS section_abbrev
 			FROM	articles a
-				LEFT JOIN authors aa ON (aa.submission_id = a.article_id)
-				LEFT JOIN authors aap ON (aap.submission_id = a.article_id AND aap.primary_contact = 1)
+				LEFT JOIN article_site ars ON (ars.article_id = a.article_id)
+				LEFT JOIN authors aa ON (aa.site_id = ars.site_id)
+				LEFT JOIN authors aap ON (aap.site_id = ars.site_id AND aap.primary_contact = 1)
 				LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)
 				LEFT JOIN section_editors se ON (se.section_id = sdec.section_id)
 				
@@ -492,7 +493,6 @@ class EditorSubmissionDAO extends DAO {
 			case 'submitDate': return 'a.date_submitted';
 			case 'section': return 'section_abbrev';
 			case 'authors': return 'author_name';
-			case 'title': return 'submission_title';
 			case 'active': return 'a.submission_progress';
 			case 'subCopyedit': return 'copyedit_completed';
 			case 'subLayout': return 'layout_completed';
@@ -501,7 +501,7 @@ class EditorSubmissionDAO extends DAO {
 			case 'country': return 'appc.setting_value';
 			case 'decision': return 'sdec.decision';
 			case 'researchField': return 'atu.setting_value';
-			default: return null;
+			default: return 'a.article_id';
 		}
 	}
 	

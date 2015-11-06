@@ -7,7 +7,7 @@
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPAuthorDAO
- * @ingroup submission
+ * @ingroup site
  * @see PKPAuthor
  *
  * @brief Operations for retrieving and modifying PKPAuthor objects.
@@ -49,25 +49,6 @@ class PKPAuthorDAO extends DAO {
 	}
 
 	/**
-	 * Retrieve the number of authors assigned to a submission
-	 * @param $submissionId int
-	 * @return int
-	 */
-	function getAuthorCountBySubmissionId($submissionId) {
-		$result =& $this->retrieve(
-			'SELECT count(*) FROM authors WHERE submission_id = ?',
-			(int) $submissionId
-		);
-
-		$returner = $result->fields[0];
-
-		$result->Close();
-		unset($result);
-
-		return $returner;
-	}
-
-	/**
 	 * Internal function to return an Author object from a row.
 	 * @param $row array
 	 * @return Author
@@ -75,7 +56,7 @@ class PKPAuthorDAO extends DAO {
 	function &_returnAuthorFromRow(&$row) {
 		$author = $this->newDataObject();
 		$author->setId($row['author_id']);
-		$author->setSubmissionId($row['submission_id']);
+		$author->setSiteId($row['site_id']);
 		$author->setFirstName($row['first_name']);
 		$author->setMiddleName($row['middle_name']);
 		$author->setLastName($row['last_name']);
@@ -99,7 +80,7 @@ class PKPAuthorDAO extends DAO {
 	function &_returnSimpleAuthorFromRow(&$row) {
 		$author = $this->newDataObject();
 		$author->setId($row['author_id']);
-		$author->setSubmissionId($row['submission_id']);
+		$author->setSiteId($row['site_id']);
 		$author->setFirstName($row['first_name']);
 		$author->setMiddleName($row['middle_name']);
 		$author->setLastName($row['last_name']);
@@ -134,27 +115,27 @@ class PKPAuthorDAO extends DAO {
 	/**
 	 * Delete an author by ID.
 	 * @param $authorId int
-	 * @param $submissionId int optional
+	 * @param $siteId int optional
 	 */
-	function deleteAuthorById($authorId, $submissionId = null) {
+	function deleteAuthorById($authorId, $siteId = null) {
 		$params = array((int) $authorId);
-		if ($submissionId) $params[] = (int) $submissionId;
+		if ($siteId) $params[] = (int) $siteId;
 		$returner = $this->update(
 			'DELETE FROM authors WHERE author_id = ?' .
-			($submissionId?' AND submission_id = ?':''),
+			($siteId?' AND site_id = ?':''),
 			$params
 		);
 		return $returner;
 	}
 
 	/**
-	 * Sequentially renumber a submission's authors in their sequence order.
-	 * @param $submissionId int
+	 * Sequentially renumber a site's authors in their sequence order.
+	 * @param $siteId int
 	 */
-	function resequenceAuthors($submissionId) {
+	function resequenceAuthors($siteId) {
 		$result =& $this->retrieve(
-			'SELECT author_id FROM authors WHERE submission_id = ? ORDER BY seq',
-			(int) $submissionId
+			'SELECT author_id FROM authors WHERE site_id = ? ORDER BY seq',
+			(int) $siteId
 		);
 
 		for ($i=1; !$result->EOF; $i++) {
@@ -175,18 +156,18 @@ class PKPAuthorDAO extends DAO {
 	}
 
 	/**
-	 * Remove other primary contacts from a submission and set to authorId
+	 * Remove other primary contacts from a site and set to authorId
 	 * @param $authorId int
-	 * @param $submissionId int
+	 * @param $siteId int
 	 */
-	function resetPrimaryContact($authorId, $submissionId) {
+	function resetPrimaryContact($authorId, $siteId) {
 		$this->update(
-			'UPDATE authors SET primary_contact = 0 WHERE primary_contact = 1 AND submission_id = ?',
-			(int) $submissionId
+			'UPDATE authors SET primary_contact = 0 WHERE primary_contact = 1 AND site_id = ?',
+			(int) $siteId
 		);
 		$this->update(
-			'UPDATE authors SET primary_contact = 1 WHERE author_id = ? AND submission_id = ?',
-			array((int) $authorId, (int) $submissionId)
+			'UPDATE authors SET primary_contact = 1 WHERE author_id = ? AND site_id = ?',
+			array((int) $authorId, (int) $siteId)
 		);
 	}
 

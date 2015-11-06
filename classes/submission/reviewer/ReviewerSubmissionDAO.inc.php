@@ -389,8 +389,9 @@ class ReviewerSubmissionDAO extends DAO {
 				r.reviewer_id,
 				u.first_name, u.last_name
 			FROM	articles a
+				LEFT JOIN article_site ars ON (ars.article_id = a.article_id)
 				LEFT JOIN section_decisions sd ON (a.article_id = sd.article_id)
-				LEFT JOIN authors aa ON (aa.submission_id = a.article_id AND aa.primary_contact = 1)
+				LEFT JOIN authors aa ON (aa.site_id = ars.site_id AND aa.primary_contact = 1)
 				LEFT JOIN review_assignments r ON (sd.section_decision_id = r.decision_id)
 				LEFT JOIN article_settings appc ON (a.article_id = appc.article_id AND appc.setting_name = ? AND appc.locale = a.locale)
 				LEFT JOIN article_settings apc ON (a.article_id = apc.article_id AND apc.setting_name = ? AND apc.locale = ?)
@@ -452,7 +453,8 @@ class ReviewerSubmissionDAO extends DAO {
 				u.first_name, u.last_name
                         FROM	articles a
                                 LEFT JOIN section_decisions sd ON (sd.article_id = a.article_id)
-				LEFT JOIN authors aa ON (aa.submission_id = a.article_id AND aa.primary_contact = 1)
+				LEFT JOIN article_site ars ON (ars.article_id = a.article_id)
+				LEFT JOIN authors aa ON (aa.site_id = ars.site_id AND aa.primary_contact = 1)
 				LEFT JOIN meeting_section_decisions msd ON (sd.section_decision_id = msd.section_decision_id)
 				LEFT JOIN meeting_attendance ma ON (msd.meeting_id = ma.meeting_id)
 				LEFT JOIN users u ON (ma.user_id = u.user_id)

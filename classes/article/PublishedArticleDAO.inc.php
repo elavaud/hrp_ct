@@ -832,7 +832,8 @@ class PublishedArticleDAO extends DAO {
 		$result =& $this->retrieve(
 			'SELECT	aa.*
 			FROM	authors aa
-				LEFT JOIN published_articles pa ON (pa.article_id = aa.submission_id)
+				LEFT JOIN article_site ars ON (ars.site_id = aa.site_id)
+				LEFT JOIN published_articles pa ON (pa.article_id = ars.article_id)
 			WHERE	pa.issue_id = ? ORDER BY pa.issue_id',
 				(int) $issueId
 		);

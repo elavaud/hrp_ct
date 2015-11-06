@@ -104,10 +104,11 @@ class ArticleReportDAO extends DAO {
 					aa.url AS url,
 					aa.affiliation AS affiliation
 				FROM	authors aa
-					LEFT JOIN articles a ON (aa.submission_id = a.article_id)
+        				LEFT JOIN article_site ars ON (ars.site_id = aa.site_id)
+					LEFT JOIN articles a ON (ars.article_id = a.article_id)
 				WHERE
 					a.journal_id = ? AND
-					aa.submission_id = ?',
+					ars.article_id = ?',
 				array(
 					$journalId,
 					$article->getId()

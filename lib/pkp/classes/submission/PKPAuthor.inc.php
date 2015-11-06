@@ -59,35 +59,19 @@ class PKPAuthor extends DataObject {
 	}
 
 	/**
-	 * Get ID of submission.
+	 * Get ID of site.
 	 * @return int
 	 */
-	function getSubmissionId() {
-		return $this->getData('submissionId');
+	function getSiteId() {
+		return $this->getData('siteId');
 	}
 
 	/**
-	 * Set ID of submission.
-	 * @param $submissionId int
+	 * Set ID of site.
+	 * @param $siteId int
 	 */
-	function setSubmissionId($submissionId) {
-		return $this->setData('submissionId', $submissionId);
-	}
-
-	/**
-	 * Set the user group id
-	 * @param $userGroupId int
-	 */
-	function setUserGroupId($userGroupId) {
-		$this->setData('userGroupId', $userGroupId);
-	}
-
-	/**
-	 * Get the user group id
-	 * @return int
-	 */
-	function getUserGroupId() {
-		return $this->getData('userGroupId');
+	function setSiteId($siteId) {
+		return $this->setData('siteId', $siteId);
 	}
 
 	/**
@@ -187,22 +171,57 @@ class PKPAuthor extends DataObject {
 	}
 
 	/**
-	 * Get phone number.
+	 * Get primary phone number.
 	 * @return string
 	 */
-	function getPhoneNumber() {
-		return $this->getData('phoneNumber');
+	function getPrimaryPhoneNumber() {
+		return $this->getData('primaryPhoneNumber');
 	}
 
 	/**
-	 * Set phoneNumber.
-	 * @param $phoneNumber string
+	 * Set primary phone number.
+	 * @param $primaryPhoneNumber string
 	 */
-	function setPhoneNumber($phoneNumber) {
-		return $this->setData('phoneNumber', $phoneNumber);
+	function setPrimaryPhoneNumber($primaryPhoneNumber) {
+		return $this->setData('primaryPhoneNumber', $primaryPhoneNumber);
+	}
+        
+        
+	/**
+	 * Get secondary phone number.
+	 * @return string
+	 */
+	function getSecondaryPhoneNumber() {
+		return $this->getData('secondaryPhoneNumber');
 	}
 
 	/**
+	 * Set secondary phone number.
+	 * @param $secondaryPhoneNumber string
+	 */
+	function setSecondaryPhoneNumber($secondaryPhoneNumber) {
+		return $this->setData('secondaryPhoneNumber', $secondaryPhoneNumber);
+	}
+
+        
+	/**
+	 * Get fax number.
+	 * @return string
+	 */
+	function getFaxNumber() {
+		return $this->getData('faxNumber');
+	}
+
+	/**
+	 * Set fax number.
+	 * @param $faxNumber string
+	 */
+	function setFaxNumber($faxNumber) {
+		return $this->setData('faxNumber', $faxNumber);
+	}
+
+        
+        /**
 	 * Get email address.
 	 * @return string
 	 */
