@@ -47,7 +47,7 @@
                     {$author->getFullName()|escape}<br />
                     {$author->getEmail()|escape}<br />
                     {if ($author->getAffiliation()) != ""}{$author->getAffiliation()|escape}<br/>{/if}
-                    {if ($author->getPhoneNumber()) != ""}{$author->getPhoneNumber()|escape}<br/>{/if}
+                    {if ($author->getPrimaryPhoneNumber()) != ""}{$author->getPrimaryPhoneNumber()|escape}<br/>{/if}
                 </td>
             </tr>
         {/foreach}

@@ -107,7 +107,7 @@ class MetadataForm extends Form {
 						'middleName' => $authors[$i]->getMiddleName(),
 						'lastName' => $authors[$i]->getLastName(),
 						'affiliation' => $authors[$i]->getAffiliation(),
-						'phone' => $authors[$i]->getPhoneNumber(),
+						'phone' => $authors[$i]->getPrimaryPhoneNumber(),
 						'email' => $authors[$i]->getEmail()
 					)
 				);
@@ -233,7 +233,7 @@ class MetadataForm extends Form {
 				if (isset($authors[$i]['middleName'])) $author->setMiddleName($authors[$i]['middleName']);
 				if (isset($authors[$i]['lastName'])) $author->setLastName($authors[$i]['lastName']);
 				if (isset($authors[$i]['affiliation'])) $author->setAffiliation($authors[$i]['affiliation']);
-				if (isset($authors[$i]['phone'])) $author->setPhoneNumber($authors[$i]['phone']);
+				if (isset($authors[$i]['phone'])) $author->setPrimaryPhoneNumber($authors[$i]['phone']);
 				if (isset($authors[$i]['email'])) $author->setEmail($authors[$i]['email']);
 				$author->setPrimaryContact($this->getData('primaryContact') == $i ? 1 : 0);
 				$author->setSequence($authors[$i]['seq']);

@@ -2697,7 +2697,7 @@ class SectionEditorAction extends Action {
                         $pdf->MultiRow($cell_width, Locale::translate('user.name').': ', $author->getFullName());
                         $pdf->MultiRow($cell_width, Locale::translate('user.affiliation').': ', $author->getAffiliation());
                         $pdf->MultiRow($cell_width, Locale::translate('user.email').': ', $author->getEmail());
-                        $pdf->MultiRow($cell_width, Locale::translate('user.tel').': ', $author->getPhoneNumber());                      
+                        $pdf->MultiRow($cell_width, Locale::translate('user.tel').': ', $author->getPrimaryPhoneNumber());                      
                         $pdf->ln();
                     }     
                 }
@@ -2715,7 +2715,7 @@ class SectionEditorAction extends Action {
                         $pdf->MultiRow($cell_width, Locale::translate('user.name').': ', $author->getFullName());
                         $pdf->MultiRow($cell_width, Locale::translate('user.affiliation').': ', $author->getAffiliation());
                         $pdf->MultiRow($cell_width, Locale::translate('user.email').': ', $author->getEmail());
-                        $pdf->MultiRow($cell_width, Locale::translate('user.tel').': ', $author->getPhoneNumber());                      
+                        $pdf->MultiRow($cell_width, Locale::translate('user.tel').': ', $author->getPrimaryPhoneNumber());                      
                         $pdf->ln();
 
                         $countCoInvestigator++;

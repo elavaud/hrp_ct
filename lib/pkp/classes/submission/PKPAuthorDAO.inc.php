@@ -62,8 +62,7 @@ class PKPAuthorDAO extends DAO {
 		$author->setLastName($row['last_name']);
 		$author->setAffiliation($row['affiliation']);
 		$author->setEmail($row['email']);
-		$author->setPhoneNumber($row['phone']);
-		$author->setUserGroupId($row['user_group_id']);
+		$author->setPrimaryPhoneNumber($row['phone']);
 		$author->setPrimaryContact($row['primary_contact']);
 		$author->setSequence($row['seq']);
 
@@ -86,8 +85,7 @@ class PKPAuthorDAO extends DAO {
 		$author->setLastName($row['last_name']);
 		$author->setAffiliation($row['affiliation']);
 		$author->setEmail($row['email']);
-		$author->setPhoneNumber($row['phone']);
-		$author->setUserGroupId($row['user_group_id']);
+		$author->setPrimaryPhoneNumber($row['phone']);
 		$author->setPrimaryContact($row['primary_contact']);
 		$author->setSequence($row['seq']);
 		$author->setAffiliation($row['affiliation']);

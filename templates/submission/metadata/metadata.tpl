@@ -30,7 +30,7 @@
 			{$author->getFullName()|escape} {icon name="mail" url=$url}<br />
 			{$author->getEmail()|escape}<br />
 			{if ($author->getAffiliation()) != ""}{$author->getAffiliation()|escape}<br />{/if}
-			{if ($author->getPhoneNumber()) != ""}{$author->getPhoneNumber()}
+			{if ($author->getPrimaryPhoneNumber()) != ""}{$author->getPrimaryPhoneNumber()}
 			{/if}
 		</td>
 	</tr>
