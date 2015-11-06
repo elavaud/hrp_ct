@@ -30,12 +30,6 @@ class ManageOtherExtraFieldsForm extends Form {
 		parent::Form('manager/extraFields/manageOtherExtraFieldsForm.tpl');
                 $this->type = $type;
                 switch ($type) {
-                    case 'researchFields':
-                        $this->typeConst = (int) EXTRA_FIELD_RESEARCH_FIELD;
-                        break;
-                    case 'proposalTypes':
-                        $this->typeConst = (int) EXTRA_FIELD_PROPOSAL_TYPE;
-                        break;
                 }           
                 $this->addCheck(new FormValidator($this, 'replacement', 'required', 'manager.extraFields.others.replacementRequired'));
 	}

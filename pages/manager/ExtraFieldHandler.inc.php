@@ -36,15 +36,6 @@ class ExtraFieldHandler extends ManagerHandler {
                         case 'geoAreas':
                             $typeConst = (int) EXTRA_FIELD_GEO_AREA;
                             break;
-                        case 'researchFields':
-                            $typeConst = (int) EXTRA_FIELD_RESEARCH_FIELD;
-                            break;
-                        case 'researchDomains':
-                            $typeConst = (int) EXTRA_FIELD_RESEARCH_DOMAIN;
-                            break;
-                        case 'proposalTypes':
-                            $typeConst = (int) EXTRA_FIELD_PROPOSAL_TYPE;
-                            break;
                     }
                     
                     if (!$typeConst) {

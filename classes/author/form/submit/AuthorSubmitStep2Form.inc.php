@@ -109,16 +109,9 @@ class AuthorSubmitStep2Form extends AuthorSubmitForm {
 		$currencyDao =& DAORegistry::getDAO('CurrencyDAO');
                 
                 $geoAreas =& $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_GEO_AREA, EXTRA_FIELD_ACTIVE);
-                $proposalTypesList =& $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_PROPOSAL_TYPE, EXTRA_FIELD_ACTIVE);
-                $proposalTypesListWithOther = $proposalTypesList + array('OTHER' => Locale::translate('common.other'));
-                $researchDomainsList =& $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_RESEARCH_DOMAIN, EXTRA_FIELD_ACTIVE);
-                $researchFieldsList =&  $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_RESEARCH_FIELD, EXTRA_FIELD_ACTIVE);
-                $researchFieldsListWithOther = $researchFieldsList + array('OTHER' => Locale::translate('common.other'));
                 
                 $institutionsList = $institutionDao->getInstitutionsList();
                 $institutionsListWithOther = $institutionsList + array('OTHER' => Locale::translate('common.other'));
-                $sourcesList = $institutionsListWithOther + array('KII' => Locale::translate('proposal.keyImplInstitution'));
-                $sourceCurrencyId = $journal->getSetting('sourceCurrency');
                 
 		$templateMgr =& TemplateManager::getManager();
                 

@@ -306,7 +306,6 @@ class EditorHandler extends SectionEditorHandler {
                 $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
                 $countries =& $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_GEO_AREA);
        
-		$templateMgr->assign_by_ref('researchFields', $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_RESEARCH_FIELD));
                 $templateMgr->assign_by_ref('countries', $countries);
 
 		import('classes.issue.IssueAction');

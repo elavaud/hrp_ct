@@ -39,18 +39,6 @@ class ExtraFieldDeleteForm extends Form {
                         $this->typeConst = (int) EXTRA_FIELD_GEO_AREA;
         		$this->addCheck(new FormValidator($this, 'replacement', 'required', 'manager.extraFields.geoAreas.replacement.required'));
                         break;
-                    case 'researchFields':
-                        $this->typeConst = (int) EXTRA_FIELD_RESEARCH_FIELD;
-        		$this->addCheck(new FormValidator($this, 'replacement', 'required', 'manager.extraFields.replacement.required'));
-                        break;
-                    case 'researchDomains':
-                        $this->typeConst = (int) EXTRA_FIELD_RESEARCH_DOMAIN;
-        		$this->addCheck(new FormValidator($this, 'replacement', 'required', 'manager.extraFields.replacement.required'));
-                        break;
-                    case 'proposalTypes':
-                        $this->typeConst = (int) EXTRA_FIELD_PROPOSAL_TYPE;
-        		$this->addCheck(new FormValidator($this, 'replacement', 'required', 'manager.extraFields.replacement.required'));
-                        break;
                 }                
 	}
 

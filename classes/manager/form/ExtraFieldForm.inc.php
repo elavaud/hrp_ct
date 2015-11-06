@@ -38,15 +38,6 @@ class ExtraFieldForm extends Form {
                     case 'geoAreas':
                         $this->typeConst = (int) EXTRA_FIELD_GEO_AREA;
                         break;
-                    case 'researchFields':
-                        $this->typeConst = (int) EXTRA_FIELD_RESEARCH_FIELD;
-                        break;
-                    case 'researchDomains':
-                        $this->typeConst = (int) EXTRA_FIELD_RESEARCH_DOMAIN;
-                        break;
-                    case 'proposalTypes':
-                        $this->typeConst = (int) EXTRA_FIELD_PROPOSAL_TYPE;
-                        break;
                 }
 
 		// Validation checks for this form
