@@ -29,7 +29,7 @@ class ArticleDetailsDAO extends DAO{
 	function &getArticleDetailsByArticleId($submissionId) {
 
 		$result =& $this->retrieve(
-			'SELECT * FROM article_details WHERE submission_id = ? LIMIT 1',
+			'SELECT * FROM article_details WHERE article_id = ? LIMIT 1',
 			(int) $submissionId
 		);
 
