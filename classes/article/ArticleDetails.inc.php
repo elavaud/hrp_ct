@@ -475,8 +475,6 @@ class ArticleDetails extends DataObject {
 	function getYesNoKey($value) {
 		$yesNoMap =& $this->getYesNoMap();
 		return $yesNoMap[$value];
-	}
-        
-    
+	}   
 }
 ?>
