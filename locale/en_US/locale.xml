@@ -381,6 +381,9 @@
     <message key="proposal.addAnotherAgency">Add another agency</message>
     <message key="proposal.randomlySelectedProvince">Yes, with randomly selected geographical areas</message>
 
+        <message key="proposal.secId.sponsor">Sponsor issued trial number</message>
+        <message key="proposal.secId.otherRegistry">Trial number by other registry</message>
+        <message key="proposal.secId.utn">Universal Trial Number</message>
         <message key="proposal.participants.males">Males</message>
         <message key="proposal.participants.females">Females</message>
         <message key="proposal.participants.both">Both males and females</message>
