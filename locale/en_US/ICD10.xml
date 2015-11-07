@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : ICD10.xml
+    ICD10 version 2016 English
+-->
+
+<icd10>
+        <icd10 code="A00-A09" name="Intestinal infectious diseases" />
+        <icd10 code="A15-A19" name="Tuberculosis" />
+        <icd10 code="A20-A28" name="Certain zoonotic bacterial diseases" />
+        <icd10 code="A30-A49" name="Other bacterial diseases" />
+        <icd10 code="A50-A64" name="Infections with a predominantly sexual mode of transmission" />
+        <icd10 code="A65-A69" name="Other spirochaetal diseases" />
+        <icd10 code="A70-A74" name="Other diseases caused by chlamydiae" />
+        <icd10 code="A75-A79" name="Rickettsioses" />
+        <icd10 code="A80-A89" name="Viral infections of the central nervous system" />
+        <icd10 code="A92-A99" name="Arthropod-borne viral fevers and viral haemorrhagic fevers" />
+        <icd10 code="B00-B09" name="Viral infections characterized by skin and mucous membrane lesions" />
+        <icd10 code="B15-B19" name="Viral hepatitis" />
+        <icd10 code="B20-B24" name="Human immunodeficiency virus [HIV] disease" />
+        <icd10 code="B25-B34" name="Other viral diseases" />
+        <icd10 code="B35-B49" name="Mycoses" />
+        <icd10 code="B50-B64" name="Protozoal diseases" />
+        <icd10 code="B65-B83" name="Helminthiases" />
+        <icd10 code="B85-B89" name="Pediculosis, acariasis and other infestations" />
+        <icd10 code="B90-B94" name="Sequelae of infectious and parasitic diseases" />
+        <icd10 code="B95-B98" name="Bacterial, viral and other infectious agents" />
+        <icd10 code="B99-B99" name="Other infectious diseases" />
+        <icd10 code="C00-C14" name="Malignant neoplasms of lip, oral cavity and pharynx" />
+        <icd10 code="C15-C26" name="Malignant neoplasms of digestive organs" />
+        <icd10 code="C30-C39" name="Malignant neoplasms of respiratory and intrathoracic organs" />
+        <icd10 code="C40-C41" name="Malignant neoplasms of bone and articular cartilage" />
+        <icd10 code="C43-C44" name="Melanoma and other malignant neoplasms of skin" />
+        <icd10 code="C45-C49" name="Malignant neoplasms of mesothelial and soft tissue" />
+        <icd10 code="C50-C50" name="Malignant neoplasm of breast" />
+        <icd10 code="C51-C58" name="Malignant neoplasms of female genital organs" />
+        <icd10 code="C60-C63" name="Malignant neoplasms of male genital organs" />
+        <icd10 code="C64-C68" name="Malignant neoplasms of urinary tract" />
+        <icd10 code="C69-C72" name="Malignant neoplasms of eye, brain and other parts of central nervous system" />
+        <icd10 code="C73-C75" name="Malignant neoplasms of thyroid and other endocrine glands" />
+        <icd10 code="C76-C80" name="Malignant neoplasms of ill-defined, secondary and unspecified sites" />
+        <icd10 code="C81-C96" name="Malignant neoplasms, stated or presumed to be primary, of lymphoid, haematopoietic and related tissue" />
+        <icd10 code="C97-C97" name="Malignant neoplasms of independent (primary) multiple sites" />
+        <icd10 code="D00-D09" name="In situ neoplasms" />
+        <icd10 code="D10-D36" name="Benign neoplasms" />
+        <icd10 code="D37-D48" name="Neoplasms of uncertain or unknown behaviour" />
+        <icd10 code="D50-D53" name="Nutritional anaemias" />
+        <icd10 code="D55-D59" name="Haemolytic anaemias" />
+        <icd10 code="D60-D64" name="Aplastic and other anaemias" />
+        <icd10 code="D65-D69" name="Coagulation defects, purpura and other haemorrhagic conditions" />
+        <icd10 code="D70-D77" name="Other diseases of blood and blood-forming organs" />
+        <icd10 code="D80-D89" name="Certain disorders involving the immune mechanism" />
+        <icd10 code="E00-E07" name="Disorders of thyroid gland" />
+        <icd10 code="E10-E14" name="Diabetes mellitus" />
+        <icd10 code="E15-E16" name="Other disorders of glucose regulation and pancreatic internal secretion" />
+        <icd10 code="E20-E35" name="Disorders of other endocrine glands" />
+        <icd10 code="E40-E46" name="Malnutrition" />
+        <icd10 code="E50-E64" name="Other nutritional deficiencies" />
+        <icd10 code="E65-E68" name="Obesity and other hyperalimentation" />
+        <icd10 code="E70-E90" name="Metabolic disorders" />
+        <icd10 code="F00-F09" name="Organic, including symptomatic, mental disorders" />
+        <icd10 code="F10-F19" name="Mental and behavioural disorders due to psychoactive substance use" />
+        <icd10 code="F20-F29" name="Schizophrenia, schizotypal and delusional disorders" />
+        <icd10 code="F30-F39" name="Mood [affective] disorders" />
+        <icd10 code="F40-F48" name="Neurotic, stress-related and somatoform disorders" />
+        <icd10 code="F50-F59" name="Behavioural syndromes associated with physiological disturbances and physical factors" />
+        <icd10 code="F60-F69" name="Disorders of adult personality and behaviour" />
+        <icd10 code="F70-F79" name="Mental retardation" />
+        <icd10 code="F80-F89" name="Disorders of psychological development" />
+        <icd10 code="F90-F98" name="Behavioural and emotional disorders with onset usually occurring in childhood and adolescence" />
+        <icd10 code="F99-F99" name="Unspecified mental disorder" />
+        <icd10 code="G00-G09" name="Inflammatory diseases of the central nervous system" />
+        <icd10 code="G10-G14" name="Systemic atrophies primarily affecting the central nervous system" />
+        <icd10 code="G20-G26" name="Extrapyramidal and movement disorders" />
+        <icd10 code="G30-G32" name="Other degenerative diseases of the nervous system" />
+        <icd10 code="G35-G37" name="Demyelinating diseases of the central nervous system" />
+        <icd10 code="G40-G47" name="Episodic and paroxysmal disorders" />
+        <icd10 code="G50-G59" name="Nerve, nerve root and plexus disorders" />
+        <icd10 code="G60-G64" name="Polyneuropathies and other disorders of the peripheral nervous system" />
+        <icd10 code="G70-G73" name="Diseases of myoneural junction and muscle" />
+        <icd10 code="G80-G83" name="Cerebral palsy and other paralytic syndromes" />
+        <icd10 code="G90-G99" name="Other disorders of the nervous system" />
+        <icd10 code="H00-H06" name="Disorders of eyelid, lacrimal system and orbit" />
+        <icd10 code="H10-H13" name="Disorders of conjunctiva" />
+        <icd10 code="H15-H22" name="Disorders of sclera, cornea, iris and ciliary body" />
+        <icd10 code="H25-H28" name="Disorders of lens" />
+        <icd10 code="H30-H36" name="Disorders of choroid and retina" />
+        <icd10 code="H40-H42" name="Glaucoma" />
+        <icd10 code="H43-H45" name="Disorders of vitreous body and globe" />
+        <icd10 code="H46-H48" name="Disorders of optic nerve and visual pathways" />
+        <icd10 code="H49-H52" name="Disorders of ocular muscles, binocular movement, accommodation and refraction" />
+        <icd10 code="H53-H54" name="Visual disturbances and blindness" />
+        <icd10 code="H55-H59" name="Other disorders of eye and adnexa" />
+        <icd10 code="H60-H62" name="Diseases of external ear" />
+        <icd10 code="H65-H75" name="Diseases of middle ear and mastoid" />
+        <icd10 code="H80-H83" name="Diseases of inner ear" />
+        <icd10 code="H90-H95" name="Other disorders of ear" />
+        <icd10 code="I00-I02" name="Acute rheumatic fever" />
+        <icd10 code="I05-I09" name="Chronic rheumatic heart diseases" />
+        <icd10 code="I10-I15" name="Hypertensive diseases" />
+        <icd10 code="I20-I25" name="Ischaemic heart diseases" />
+        <icd10 code="I26-I28" name="Pulmonary heart disease and diseases of pulmonary circulation" />
+        <icd10 code="I30-I52" name="Other forms of heart disease" />
+        <icd10 code="I60-I69" name="Cerebrovascular diseases" />
+        <icd10 code="I70-I79" name="Diseases of arteries, arterioles and capillaries" />
+        <icd10 code="I80-I89" name="Diseases of veins, lymphatic vessels and lymph nodes, not elsewhere classified" />
+        <icd10 code="I95-I99" name="Other and unspecified disorders of the circulatory system" />
+        <icd10 code="J00-J06" name="Acute upper respiratory infections" />
+        <icd10 code="J09-J18" name="Influenza and pneumonia" />
+        <icd10 code="J20-J22" name="Other acute lower respiratory infections" />
+        <icd10 code="J30-J39" name="Other diseases of upper respiratory tract" />
+        <icd10 code="J40-J47" name="Chronic lower respiratory diseases" />
+        <icd10 code="J60-J70" name="Lung diseases due to external agents" />
+        <icd10 code="J80-J84" name="Other respiratory diseases principally affecting the interstitium" />
+        <icd10 code="J85-J86" name="Suppurative and necrotic conditions of lower respiratory tract" />
+        <icd10 code="J90-J94" name="Other diseases of pleura" />
+        <icd10 code="J95-J99" name="Other diseases of the respiratory system" />
+        <icd10 code="K00-K14" name="Diseases of oral cavity, salivary glands and jaws" />
+        <icd10 code="K20-K31" name="Diseases of oesophagus, stomach and duodenum" />
+        <icd10 code="K35-K38" name="Diseases of appendix" />
+        <icd10 code="K40-K46" name="Hernia" />
+        <icd10 code="K50-K52" name="Noninfective enteritis and colitis" />
+        <icd10 code="K55-K64" name="Other diseases of intestines" />
+        <icd10 code="K65-K67" name="Diseases of peritoneum" />
+        <icd10 code="K70-K77" name="Diseases of liver" />
+        <icd10 code="K80-K87" name="Disorders of gallbladder, biliary tract and pancreas" />
+        <icd10 code="K90-K93" name="Other diseases of the digestive system" />
+        <icd10 code="L00-L08" name="Infections of the skin and subcutaneous tissue" />
+        <icd10 code="L10-L14" name="Bullous disorders" />
+        <icd10 code="L20-L30" name="Dermatitis and eczema" />
+        <icd10 code="L40-L45" name="Papulosquamous disorders" />
+        <icd10 code="L50-L54" name="Urticaria and erythema" />
+        <icd10 code="L55-L59" name="Radiation-related disorders of the skin and subcutaneous tissue" />
+        <icd10 code="L60-L75" name="Disorders of skin appendages" />
+        <icd10 code="L80-L99" name="Other disorders of the skin and subcutaneous tissue" />
+        <icd10 code="M00-M03" name="Infectious arthropathies" />
+        <icd10 code="M05-M14" name="Inflammatory polyarthropathies" />
+        <icd10 code="M15-M19" name="Arthrosis" />
+        <icd10 code="M20-M25" name="Other joint disorders" />
+        <icd10 code="M30-M36" name="Systemic connective tissue disorders" />
+        <icd10 code="M40-M43" name="Deforming dorsopathies" />
+        <icd10 code="M45-M49" name="Spondylopathies" />
+        <icd10 code="M50-M54" name="Other dorsopathies" />
+        <icd10 code="M60-M63" name="Disorders of muscles" />
+        <icd10 code="M65-M68" name="Disorders of synovium and tendon" />
+        <icd10 code="M70-M79" name="Other soft tissue disorders" />
+        <icd10 code="M80-M85" name="Disorders of bone density and structure" />
+        <icd10 code="M86-M90" name="Other osteopathies" />
+        <icd10 code="M91-M94" name="Chondropathies" />
+        <icd10 code="M95-M99" name="Other disorders of the musculoskeletal system and connective tissue" />
+        <icd10 code="N00-N08" name="Glomerular diseases" />
+        <icd10 code="N10-N16" name="Renal tubulo-interstitial diseases" />
+        <icd10 code="N17-N19" name="Renal failure" />
+        <icd10 code="N20-N23" name="Urolithiasis" />
+        <icd10 code="N25-N29" name="Other disorders of kidney and ureter" />
+        <icd10 code="N30-N39" name="Other diseases of urinary system" />
+        <icd10 code="N40-N51" name="Diseases of male genital organs" />
+        <icd10 code="N60-N64" name="Disorders of breast" />
+        <icd10 code="N70-N77" name="Inflammatory diseases of female pelvic organs" />
+        <icd10 code="N80-N98" name="Noninflammatory disorders of female genital tract" />
+        <icd10 code="N99-N99" name="Other disorders of the genitourinary system" />
+        <icd10 code="O00-O08" name="Pregnancy with abortive outcome" />
+        <icd10 code="O10-O16" name="Oedema, proteinuria and hypertensive disorders in pregnancy, childbirth and the puerperium" />
+        <icd10 code="O20-O29" name="Other maternal disorders predominantly related to pregnancy" />
+        <icd10 code="O30-O48" name="Maternal care related to the fetus and amniotic cavity and possible delivery problems" />
+        <icd10 code="O60-O75" name="Complications of labour and delivery" />
+        <icd10 code="O80-O84" name="Delivery" />
+        <icd10 code="O85-O92" name="Complications predominantly related to the puerperium" />
+        <icd10 code="O94-O99" name="Other obstetric conditions, not elsewhere classified" />
+        <icd10 code="P00-P04" name="Fetus and newborn affected by maternal factors and by complications of pregnancy, labour and delivery" />
+        <icd10 code="P05-P08" name="Disorders related to length of gestation and fetal growth" />
+        <icd10 code="P10-P15" name="Birth trauma" />
+        <icd10 code="P20-P29" name="Respiratory and cardiovascular disorders specific to the perinatal period" />
+        <icd10 code="P35-P39" name="Infections specific to the perinatal period" />
+        <icd10 code="P50-P61" name="Haemorrhagic and haematological disorders of fetus and newborn" />
+        <icd10 code="P70-P74" name="Transitory endocrine and metabolic disorders specific to fetus and newborn" />
+        <icd10 code="P75-P78" name="Digestive system disorders of fetus and newborn" />
+        <icd10 code="P80-P83" name="Conditions involving the integument and temperature regulation of fetus and newborn" />
+        <icd10 code="P90-P96" name="Other disorders originating in the perinatal period" />
+        <icd10 code="Q00-Q07" name="Congenital malformations of the nervous system" />
+        <icd10 code="Q10-Q18" name="Congenital malformations of eye, ear, face and neck" />
+        <icd10 code="Q20-Q28" name="Congenital malformations of the circulatory system" />
+        <icd10 code="Q30-Q34" name="Congenital malformations of the respiratory system" />
+        <icd10 code="Q35-Q37" name="Cleft lip and cleft palate" />
+        <icd10 code="Q38-Q45" name="Other congenital malformations of the digestive system" />
+        <icd10 code="Q50-Q56" name="Congenital malformations of genital organs" />
+        <icd10 code="Q60-Q64" name="Congenital malformations of the urinary system" />
+        <icd10 code="Q65-Q79" name="Congenital malformations and deformations of the musculoskeletal system" />
+        <icd10 code="Q80-Q89" name="Other congenital malformations" />
+        <icd10 code="Q90-Q99" name="Chromosomal abnormalities, not elsewhere classified" />
+        <icd10 code="R00-R09" name="Symptoms and signs involving the circulatory and respiratory systems" />
+        <icd10 code="R10-R19" name="Symptoms and signs involving the digestive system and abdomen" />
+        <icd10 code="R20-R23" name="Symptoms and signs involving the skin and subcutaneous tissue" />
+        <icd10 code="R25-R29" name="Symptoms and signs involving the nervous and musculoskeletal systems" />
+        <icd10 code="R30-R39" name="Symptoms and signs involving the urinary system" />
+        <icd10 code="R40-R46" name="Symptoms and signs involving cognition, perception, emotional state and behaviour" />
+        <icd10 code="R47-R49" name="Symptoms and signs involving speech and voice" />
+        <icd10 code="R50-R69" name="General symptoms and signs" />
+        <icd10 code="R70-R79" name="Abnormal findings on examination of blood, without diagnosis" />
+        <icd10 code="R80-R82" name="Abnormal findings on examination of urine, without diagnosis" />
+        <icd10 code="R83-R89" name="Abnormal findings on examination of other body fluids, substances and tissues, without diagnosis" />
+        <icd10 code="R90-R94" name="Abnormal findings on diagnostic imaging and in function studies, without diagnosis" />
+        <icd10 code="R95-R99" name="Ill-defined and unknown causes of mortality" />
+        <icd10 code="S00-S09" name="Injuries to the head" />
+        <icd10 code="S10-S19" name="Injuries to the neck" />
+        <icd10 code="S20-S29" name="Injuries to the thorax" />
+        <icd10 code="S30-S39" name="Injuries to the abdomen, lower back, lumbar spine and pelvis" />
+        <icd10 code="S40-S49" name="Injuries to the shoulder and upper arm" />
+        <icd10 code="S50-S59" name="Injuries to the elbow and forearm" />
+        <icd10 code="S60-S69" name="Injuries to the wrist and hand" />
+        <icd10 code="S70-S79" name="Injuries to the hip and thigh" />
+        <icd10 code="S80-S89" name="Injuries to the knee and lower leg" />
+        <icd10 code="S90-S99" name="Injuries to the ankle and foot" />
+        <icd10 code="T00-T07" name="Injuries involving multiple body regions" />
+        <icd10 code="T08-T14" name="Injuries to unspecified part of trunk, limb or body region" />
+        <icd10 code="T15-T19" name="Effects of foreign body entering through natural orifice" />
+        <icd10 code="T20-T25" name="Burns and corrosions of external body surface, specified by site" />
+        <icd10 code="T26-T28" name="Burns and corrosions confined to eye and internal organs" />
+        <icd10 code="T29-T32" name="Burns and corrosions of multiple and unspecified body regions" />
+        <icd10 code="T33-T35" name="Frostbite" />
+        <icd10 code="T36-T50" name="Poisoning by drugs, medicaments and biological substances" />
+        <icd10 code="T51-T65" name="Toxic effects of substances chiefly nonmedicinal as to source" />
+        <icd10 code="T66-T78" name="Other and unspecified effects of external causes" />
+        <icd10 code="T79-T79" name="Certain early complications of trauma" />
+        <icd10 code="T80-T88" name="Complications of surgical and medical care, not elsewhere classified" />
+        <icd10 code="T90-T98" name="Sequelae of injuries, of poisoning and of other consequences of external causes" />
+        <icd10 code="V01-V09" name="Pedestrian injured in transport accident" />
+        <icd10 code="V10-V19" name="Pedal cyclist injured in transport accident" />
+        <icd10 code="V20-V29" name="Motorcycle rider injured in transport accident" />
+        <icd10 code="V30-V39" name="Occupant of three-wheeled motor vehicle injured in transport accident" />
+        <icd10 code="V40-V49Car occupant injured in transport accident" />
+        <icd10 code="V50-V59" name="Occupant of pick-up truck or van injured in transport accident" />
+        <icd10 code="V60-V69" name="Occupant of heavy transport vehicle injured in transport accident" />
+        <icd10 code="V70-V79" name="Bus occupant injured in transport accident" />
+        <icd10 code="V80-V89" name="Other land transport accidents" />
+        <icd10 code="V90-V94" name="Water transport accidents" />
+        <icd10 code="V95-V97" name="Air and space transport accidents" />
+        <icd10 code="V98-V99" name="Other and unspecified transport accidents" />
+        <icd10 code="W00-W19" name="Falls" />
+        <icd10 code="W20-W49" name="Exposure to inanimate mechanical forces" />
+        <icd10 code="W50-W64" name="Exposure to animate mechanical forces" />
+        <icd10 code="W65-W74" name="Accidental drowning and submersion" />
+        <icd10 code="W75-W84" name="Other accidental threats to breathing" />
+        <icd10 code="W85-W99" name="Exposure to electric current, radiation and extreme ambient air temperature and pressure" />
+        <icd10 code="X00-X09" name="Exposure to smoke, fire and flames" />
+        <icd10 code="X10-X19" name="Contact with heat and hot substances" />
+        <icd10 code="X20-X29" name="Contact with venomous animals and plants" />
+        <icd10 code="X30-X39" name="Exposure to forces of nature" />
+        <icd10 code="X40-X49" name="Accidental poisoning by and exposure to noxious substances" />
+        <icd10 code="X50-X57" name="Overexertion, travel and privation" />
+        <icd10 code="X58-X59" name="Accidental exposure to other and unspecified factors" />
+        <icd10 code="X60-X84" name="Intentional self-harm" />
+        <icd10 code="X85-Y09" name="Assault" />
+        <icd10 code="Y10-Y34" name="Event of undetermined intent" />
+        <icd10 code="Y35-Y36" name="Legal intervention and operations of war" />
+        <icd10 code="Y40-Y59" name="Drugs, medicaments and biological substances causing adverse effects in therapeutic use" />
+        <icd10 code="Y60-Y69" name="Misadventures to patients during surgical and medical care" />
+        <icd10 code="Y70-Y82" name="Medical devices associated with adverse incidents in diagnostic and therapeutic use" />
+        <icd10 code="Y83-Y84" name="Surgical and other medical procedures as the cause of abnormal reaction of the patient, or of later complication, without mention of misadventure at the time of the procedure" />
+        <icd10 code="Y85-Y89" name="Sequelae of external causes of morbidity and mortality" />
+        <icd10 code="Y90-Y98" name="Supplementary factors related to causes of morbidity and mortality classified elsewhere" />
+        <icd10 code="Z00-Z13" name="Persons encountering health services for examination and investigation" />
+        <icd10 code="Z20-Z29" name="Persons with potential health hazards related to communicable diseases" />
+        <icd10 code="Z30-Z39" name="Persons encountering health services in circumstances related to reproduction" />
+        <icd10 code="Z40-Z54" name="Persons encountering health services for specific procedures and health care" />
+        <icd10 code="Z55-Z65" name="Persons with potential health hazards related to socioeconomic and psychosocial circumstances" />
+        <icd10 code="Z70-Z76" name="Persons encountering health services in other circumstances" />
+        <icd10 code="Z80-Z99" name="Persons with potential health hazards related to family and personal history and certain conditions influencing health status" />
+        <icd10 code="U00-U49" name="Provisional assignment of new diseases of uncertain etiology or emergency use" />
+        <icd10 code="U82-U85" name="Resistance to antimicrobial and antineoplastic drugs" />
+</icd10>
