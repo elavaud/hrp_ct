@@ -14,23 +14,7 @@
 
 <locale name="en_US" full_name ="U.S. English">
     
-        <!-- ***** -->
-        <!-- ADDED -->
-        <!-- ***** -->
         
-        <!-- February - July 2014 -->
-        
-        <message key="author.submit.form.proposalDetails">One or multiple required data seem to be missing in the "Proposal Details" section. Please ensure to provide all required information (denoted with a star "*" ).</message>
-	<message key="author.submit.form.KIINameAlreadyUsed">Your "Key Implementing Institution" was not in the database and you provided its information. However the name provided is already in use by an institution. Please ensure that your "Key Implementing Institution" is not included in the list and if not, complete its name</message>
-	<message key="author.submit.form.KIIAcronymAlreadyUsed">Your "Key Implementing Institution" was not in the database and you provided its information. However the acronym provided is already in use by an institution. Please ensure that your "Key Implementing Institution" is not included in the list and if not, choose another acronym.</message>
-        <message key="author.submit.form.studentResearch">One or multiple required data seem to be missing in the "Student Research" section. Please ensure to provide all required information (denoted with a star "*" ).</message>
-        <message key="author.submit.form.riskAssessment">One or multiple required data seem to be missing in the "Risk Assessment" section. Please ensure to provide all required information (denoted with a star "*" ).</message>
-	<message key="author.submit.form.sourceRequiredFields">One or multiple required data seem to be missing in the "Source of Monetary and Material Support" section. Please ensure to provide all required information (denoted with a star "*" ).</message>
-	<message key="author.submit.form.sourceNameAlreadyUsed">One of your "Source of Monetary and Material Support" was not in the database and you provided its information. However the name provided is already in use by an institution. Please ensure that your source is not included in the list and if not, complete its name.</message>
-	<message key="author.submit.form.sourceAccronymAlreadyUsed">One of your "Source of Monetary and Material Support" was not in the database and you provided its information. However the accronym provided is already in use by an institution. Please ensure that your source is not included in the list and if not, choose another accronym.</message>
-	<message key="author.submit.form.sameInstitutionEntries">Your "Key Implementing Institution" and/or your "Source(s) of Monetary and Material Support" were not listed and you entered their information. However the same information (or the name of the institution, or its acronym) has been entered at least twice. Each source of monetary should be unique and if your "Key Implementing Institution" is also your (or one of your) "Source of Monetary", please select instead "Key Implementing Institution" in the bottom of the above list.</message>
-	<message key="author.submit.form.nonNumericValue">In the "Source of Monetary and Material Support" section, one of the amount is not numeric. Please enter only numeric values without any separator (comma "," / dot "." / space " " / etc.).</message>
-	<message key="author.submit.form.sameSource">In the "Source of Monetary and Material Support" section, at least 2 of your sources have the same institution. If 2 (or more) sources are coming from the same institution, please regroup them in one source.</message>
 	<message key="author.submit.form.pdfRequired">The completion report should be uploaded in a PDF format. Please convert the report and submit it again.</message>        
 	<message key="author.submit.form.fileTooBig">The completion report should not exceed 20 Mb.</message>        
         
@@ -44,21 +28,8 @@
         
         <message key="author.submit.submitSAE">Report Serious Adverse Event</message>
         <message key="author.submit.submitSAE.short">Adverse Event</message>        
-        
-
-        <!-- ***** -->
-        <!-- END OF ADDED -->
-        <!-- ***** -->
-
-        <!-- ******** -->
-        <!-- MODIFIED -->
-        <!-- ******** -->
-        
+                
         <message key="author.submit.suppFile.cv">Curriculum Vitae</message>
-        
-        <!-- *************** -->
-        <!-- END OF MODIFIED -->
-        <!-- *************** -->        
         
 	<message key="author.article.decision">Committee Decision</message>
 	<message key="author.submit">New Proposal</message>
@@ -69,16 +40,24 @@
 	<message key="author.submit.startHereTitle">Start a New Submission</message>
 	<message key="author.submit.startHereLink"><![CDATA[<a href="{$submitUrl}" class="action">Click here</a> to go to step one of the five-step submission process.]]></message>
 	<message key="author.submit.step1">Step 1. Starting the Submission</message>
-	<message key="author.submit.step2">Step 2. Entering the Main Proposal's Metadata</message>
-	<message key="author.submit.step3">Step 3. Uploading the Main Proposal File</message>
-	<message key="author.submit.step4">Step 4. Uploading Supplementary Files</message>
-	<message key="author.submit.step4a">Step 4a. Add a Supplementary File</message>
-	<message key="author.submit.step5">Step 5. Confirming the Submission</message>
+	<message key="author.submit.step2">Step 2. Clinical Trial's Information</message>
+	<message key="author.submit.step3">Step 3. Investigational Drug Product(s)</message>
+	<message key="author.submit.step4">Step 4. Proposed Clinical Trial Site(s)</message>
+	<message key="author.submit.step5">Step 5. Sponsor's Information</message>
+	<message key="author.submit.step6">Step 6. Contact Details</message>
+        <message key="author.submit.step7">Step 7. Uploading the Main Proposal File</message>
+	<message key="author.submit.step8">Step 8. Uploading Supplementary Files</message>
+	<message key="author.submit.step8a">Step 8a. Add a Supplementary File</message>
+	<message key="author.submit.step9">Step 9. Confirming the Submission</message>
 	<message key="author.submit.start">1. Start</message>
-	<message key="author.submit.upload">2. Enter Proposal Metadata</message>
-	<message key="author.submit.metadata">3. Upload Main Proposal</message>
-	<message key="author.submit.supplementaryFiles">4. Upload Supplementary Files</message>
-	<message key="author.submit.confirmation">5. Confirmation</message>
+	<message key="author.submit.ctInfo">2. CT Information</message>
+	<message key="author.submit.products">3. Product(s)</message>
+	<message key="author.submit.ctSite">4. Site(s)</message>
+	<message key="author.submit.sponsor">5. Sponsor</message>
+	<message key="author.submit.contacts">6. Contacts</message>
+	<message key="author.submit.upload">7. Main Proposal</message>
+	<message key="author.submit.supplementaryFiles">8. Supp Files</message>
+	<message key="author.submit.confirmation">9. Confirmation</message>
 	<message key="author.submit.cancelSubmission">You can complete this submission at a later date by selecting Active Proposals from the Investigator home page.</message>
 	<message key="author.submit.notAccepting">This site is not accepting proposals at this time.</message>
 	<message key="author.submit.requestWaiver">Request Waiver</message>

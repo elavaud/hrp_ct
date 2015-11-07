@@ -1,11 +1,11 @@
 {**
- * step4.tpl
+ * step6.tpl
  *
- * Step 4 of author article submission.
+ * Step 6 of author article submission.
  *
  * $Id$
  *}
-{assign var="pageTitle" value="author.submit.step4"}
+{assign var="pageTitle" value="author.submit.step6"}
 {include file="author/submit/submitHeader.tpl"}
 
 {url|assign:"competingInterestGuidelinesUrl" page="information" op="competingInterestGuidelines"}

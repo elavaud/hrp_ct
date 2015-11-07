@@ -1,24 +1,24 @@
 <?php
 
 /**
- * @file classes/author/form/submit/AuthorSubmitStep3Form.inc.php
+ * @file classes/author/form/submit/AuthorSubmitStep6Form.inc.php
  *
- * @class AuthorSubmitStep3Form
+ * @class AuthorSubmitStep6Form
  * @ingroup author_form_submit
  *
- * @brief Form for Step 3 of author article submission.
+ * @brief Form for Step 6 of author article submission.
  */
 
 import('classes.author.form.submit.AuthorSubmitForm');
 import('classes.form.validation.FormValidatorArrayRadios');
 
-class AuthorSubmitStep3Form extends AuthorSubmitForm {
+class AuthorSubmitStep6Form extends AuthorSubmitForm {
 
 	/**
 	 * Constructor.
 	 */
-	function AuthorSubmitStep3Form(&$article, &$journal) {
-		parent::AuthorSubmitForm($article, 3, $journal);
+	function AuthorSubmitStep6Form(&$article, &$journal) {
+		parent::AuthorSubmitForm($article, 6, $journal);
 		        
         }
 

@@ -147,73 +147,23 @@ class SubmitHandler extends AuthorHandler {
                 
 			// Check for any special cases before trying to save
 			switch ($step) {
+				case 2:
+					break;                            
 				case 3:
+					break;
+				case 4:
+					break;
+				case 5:
+					break;
+				case 6:
+					break;
+				case 7:
 					if ($request->getUserVar('uploadSubmissionFile')) {
                                                 $submitForm->uploadSubmissionFile('submissionFile');
 						$editData = true;
 					}
 					break;
-
-				case 2:
-					if ($request->getUserVar('addAuthor')) {
-						// Add a sponsor
-						$editData = true;
-						$authors = $submitForm->getData('authors');
-						array_push($authors, array());
-						$submitForm->setData('authors', $authors);
-
-					} else if (($delAuthor = $request->getUserVar('delAuthor')) && count($delAuthor) == 1) {
-						// Delete an author
-						$editData = true;
-						list($delAuthor) = array_keys($delAuthor);
-						$delAuthor = (int) $delAuthor;
-						$authors = $submitForm->getData('authors');
-						if (isset($authors[$delAuthor]['authorId']) && !empty($authors[$delAuthor]['authorId'])) {
-							$deletedAuthors = explode(':', $submitForm->getData('deletedAuthors'));
-							array_push($deletedAuthors, $authors[$delAuthor]['authorId']);
-							$submitForm->setData('deletedAuthors', join(':', $deletedAuthors));
-						}
-						array_splice($authors, $delAuthor, 1);
-						$submitForm->setData('authors', $authors);
-
-						if ($submitForm->getData('primaryContact') == $delAuthor) {
-							$submitForm->setData('primaryContact', 0);
-						}
-
-					} else if ($request->getUserVar('moveAuthor')) {
-						// Move an author up/down
-						$editData = true;
-						$moveAuthorDir = $request->getUserVar('moveAuthorDir');
-						$moveAuthorDir = $moveAuthorDir == 'u' ? 'u' : 'd';
-						$moveAuthorIndex = (int) $request->getUserVar('moveAuthorIndex');
-						$authors = $submitForm->getData('authors');
-
-						if (!(($moveAuthorDir == 'u' && $moveAuthorIndex <= 0) || ($moveAuthorDir == 'd' && $moveAuthorIndex >= count($authors) - 1))) {
-							$tmpAuthor = $authors[$moveAuthorIndex];
-							$primaryContact = $submitForm->getData('primaryContact');
-							if ($moveAuthorDir == 'u') {
-								$authors[$moveAuthorIndex] = $authors[$moveAuthorIndex - 1];
-								$authors[$moveAuthorIndex - 1] = $tmpAuthor;
-								if ($primaryContact == $moveAuthorIndex) {
-									$submitForm->setData('primaryContact', $moveAuthorIndex - 1);
-								} else if ($primaryContact == ($moveAuthorIndex - 1)) {
-									$submitForm->setData('primaryContact', $moveAuthorIndex);
-								}
-							} else {
-								$authors[$moveAuthorIndex] = $authors[$moveAuthorIndex + 1];
-								$authors[$moveAuthorIndex + 1] = $tmpAuthor;
-								if ($primaryContact == $moveAuthorIndex) {
-									$submitForm->setData('primaryContact', $moveAuthorIndex + 1);
-								} else if ($primaryContact == ($moveAuthorIndex + 1)) {
-									$submitForm->setData('primaryContact', $moveAuthorIndex);
-								}
-							}
-						}
-						$submitForm->setData('authors', $authors);
-					}
-					break;
-
-				case 4:
+				case 8:
                                         if ($request->getUserVar('submitUploadSuppFile')) {  //AIM, 12.12.2011
                                             if($request->getUserVar('fileType'))
                                                 SubmitHandler::submitUploadSuppFile(array(), $request);
@@ -227,7 +177,7 @@ class SubmitHandler extends AuthorHandler {
 				$articleId = $submitForm->execute($request);
 				HookRegistry::call('Author::SubmitHandler::saveSubmit', array(&$step, &$article, &$submitForm));
                                 
-				if ($step == 5) {
+				if ($step == 9) {
 					
 					// Rename uploaded files
 					$this->renameSubmittedFiles(); /*Added by MSB, Sept29, 2011*/
@@ -434,7 +384,7 @@ class SubmitHandler extends AuthorHandler {
 		$user =& Request::getUser();
 		$journal =& Request::getJournal();
 
-		if ($step !== false && ($step < 1 || $step > 5 || (!isset($articleId) && $step != 1))) {
+		if ($step !== false && ($step < 1 || $step > 9 || (!isset($articleId) && $step != 1))) {
 			Request::redirect(null, null, 'submit', array(1));
 		}
 
