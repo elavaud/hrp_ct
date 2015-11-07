@@ -430,8 +430,8 @@
 	<message key="manager.setup.authorCopyrightNotice">Copyright Notice</message>
 	<message key="manager.setup.authorCopyrightNoticeAgree">Require authors to agree to Copyright Notice as part of the submission process.</message>
 	<message key="manager.setup.authorCopyrightNoticeDescription"><![CDATA[The Copyright Notice entered below will appear in About the Journal and in each published item's metadata. While it is up to the journal to determine the nature of its copyright agreement with authors, the Public Knowledge Project recommends the use of the <a href="http://creativecommons.org" target="_new" class="action">Creative Commons</a> license. To that end, it provides <a href="{$sampleCopyrightWordingUrl}" target="_new" class="action">sample Copyright Notice wording</a> that can be cut and pasted into the space below for journals that (a) offer open access, (b) offer delayed open access, or (c) do not offer open access.]]></message>
-	<message key="manager.setup.authorGuidelines">Investigator Guidelines</message>
-	<message key="manager.setup.authorGuidelinesDescription"><![CDATA[If you provide here some information, this section will appear in the top of the first step of the proposal submission process by an investigator. Any specific information about your submission process (for evey committee of the system) should be provided here. Set out for investigators the bibliographic and formatting standards used for items submitted to the system (e.g. CV or questionnaires templates). If so, do not forget to upload them in the About page of this system and to provide here a link to it. It is also useful to identify the types of appropriate Supplementary Files (e.g. other review approval, research instruments, etc.) which investigators should be encouraged to upload, in addition to their submission.]]></message>
+	<message key="manager.setup.authorGuidelines">Guidelines</message>
+	<message key="manager.setup.authorGuidelinesDescription"><![CDATA[If you provide here some information, this section will appear in the top of the first step of the proposal submission process. Any specific information about your submission process (for evey committee of the system) should be provided here. Set out the bibliographic and formatting standards used for items submitted to the system (e.g. CVs of investigators, endorsement letters..). If so, do not forget to upload them in the "Governance and Policies" page of this system and to provide here a link to it.]]></message>
 	<message key="manager.setup.competingInterests">Competing Interests</message>
 	<message key="manager.setup.competingInterests.description"><![CDATA[Biomedical journals typically require authors and reviewers to declare if they have any competing interests with regard to their research (see <a href="http://journals.plos.org/plosclinicaltrials/competing.php" target="_new">PLoS Policy</a>).]]></message>
 	<message key="manager.setup.competingInterests.guidelines">Guidelines for filing a Competing Interest statement</message>
@@ -460,7 +460,7 @@
 	<message key="manager.setup.customTags">Custom tags</message>
 	<message key="manager.setup.customTagsDescription">Custom HTML header tags to be inserted in the header of every page (e.g., META tags).</message>
 	<message key="manager.setup.details">Details</message>
-	<message key="manager.setup.details.description">Name of journal, ISSN, contacts, sponsors, and search engines.</message>
+	<message key="manager.setup.details.description">Name of this web portal, covering area, contacts, and email identification.</message>
 	<message key="manager.setup.disableUserRegistration">Journal Manager registers all users, with Editors or Section Editors able to register Reviewers alone.</message>
 	<message key="manager.setup.discipline">Academic Discipline and Sub-Disciplines</message>
 	<message key="manager.setup.disciplineDescription">Useful when journal crosses disciplinary boundaries and/or authors submit multidisciplinary items.</message>
@@ -557,9 +557,9 @@
 	<message key="manager.setup.journalPageFooterDescription">This is the footer of your journal. To change or update the footer, paste the HTML code in the textbox below. Examples could be another navigation bar, a counter, etc. This footer will appear on every page.</message>
 	<message key="manager.setup.journalPageHeader">Journal Page Header</message>
 	<message key="manager.setup.journalPageHeaderDescription">A graphic version of the journal's title and logo (.gif, .jpg, or .png file), possibly a smaller version of the one used on the homepage, can be uploaded to appear as a header on journal pages, which will replace the text version that otherwise appears.</message>
-	<message key="manager.setup.journalPolicies">Step 2. Journal Policies</message>
-	<message key="manager.setup.journalSetup">Journal Setup</message>
-	<message key="manager.setup.journalSetupUpdated">Your journal setup has been updated.</message>
+	<message key="manager.setup.journalPolicies">Step 2. Portal Policies</message>
+	<message key="manager.setup.journalSetup">Portal Setup</message>
+	<message key="manager.setup.journalSetupUpdated">Your portal setup has been updated.</message>
 	<message key="manager.setup.journalStyleSheetInvalid">Invalid journal stylesheet format. Accepted format is .css.</message>
 	<message key="manager.setup.journalTheme">Journal Theme</message>
 	<message key="manager.setup.labelName">Label name</message>
@@ -578,11 +578,11 @@
 	<message key="manager.setup.look">The Look</message>
 	<message key="manager.setup.look.description">Homepage header, content, journal header, footer, navigation bar, and style sheet.</message>
 	<message key="manager.setup.mailingAddressDescription">The journal's physical location and mailing address.</message>
-	<message key="manager.setup.management">Management</message>
-	<message key="manager.setup.management.description">Access and security, scheduling, announcements, copyediting, layout, and proofreading.</message>
+	<message key="manager.setup.management">....</message>
+	<message key="manager.setup.management.description">.....</message>
 	<message key="manager.setup.managementOfBasicEditorialSteps">Management of Basic Editorial Steps</message>
 	<message key="manager.setup.managingPublishingSetup">Management and Publishing Setup</message>
-	<message key="manager.setup.managingTheJournal">Step 4. Managing the Journal</message>
+	<message key="manager.setup.managingTheJournal">Step 4. ...</message>
 	<message key="manager.setup.navigationBar">Navigation Bar</message>
 	<message key="manager.setup.navigationBarDescription">Add or remove additional navigation bar items.</message>
 	<message key="manager.setup.navItemIsAbsolute">URL is an absolute URL (e.g., "http://www.example.com") rather than a path relative to the site (e.g., "/manager/setup")</message>
@@ -610,7 +610,7 @@
 	<message key="manager.setup.peerReviewPolicy">Peer Review</message>
 	<message key="manager.setup.peerReviewPolicy2">Peer review policy</message>
 	<message key="manager.setup.policies">Policies</message>
-	<message key="manager.setup.policies.description">Focus, peer review, sections, privacy, security, and additional about items.</message>
+	<message key="manager.setup.policies.description">Peer review, Technical Report Disclaimer and Privacy Statement.</message>
 	<message key="manager.setup.principalContact">Principal Contact</message>
 	<message key="manager.setup.principalContactDescription">This position, which can be treated as a principal editorship, managing editorship, or administrative staff position, will be listed on the homepage of the journal under Contact, along with the Technical Support Contact.</message>
 	<message key="manager.setup.printIssn">Print ISSN</message>
@@ -682,7 +682,7 @@
 	<message key="manager.setup.sponsors">Sponsoring Organizations</message>
 	<message key="manager.setup.sponsorNoteDescription">This text will appear below the "Sponsors" heading and above the list of sponsor names and urls under "Journal Sponsorship" on the "About" page.</message>
 	<message key="manager.setup.sponsorsDescription">The name of the organizations (e.g., scholarly associations, university departments, cooperatives, etc.) sponsoring the journal will appear in About the Journal and may be accompanied by a note of acknowledgement.</message>
-	<message key="manager.setup.stepsToJournalSite">Five Steps to a Journal Web Site</message>
+	<message key="manager.setup.stepsToJournalSite">Five Steps to a configure this portal</message>
 	<message key="manager.setup.subjectClassification">Subject Classification</message>
 	<message key="manager.setup.subjectClassificationExamples">(E.g., Mathematics Subject Classification; Library of Congress Classification)</message>
 	<message key="manager.setup.subjectExamples">(E.g., Photosynthesis; Black Holes; Four-Color Map Problem; Bayesian Theory)</message>
@@ -695,9 +695,9 @@
 	<message key="manager.setup.submissionEventLogging">Maintain a log of all actions taken with a submission on its History page.</message>
 	<message key="manager.setup.submissionGuidelines">Submission guidelines</message>
 	<message key="manager.setup.submissionPreparationChecklist">Submission Preparation Checklist</message>
-	<message key="manager.setup.submissionPreparationChecklistDescription">On making a submission to the system, investigators are first asked to check each item on the Submission Preparation Checklist as completed, before proceeding. The list can be edited below, but all items on the list will require a checkmark before investigators can proceed with their submission.</message>
+	<message key="manager.setup.submissionPreparationChecklistDescription">On making a submission to the system, users are first asked to check each item on the Submission Preparation Checklist as completed, before proceeding. The list can be edited below, but all items on the list will require a checkmark before investigators can proceed with their submission.</message>
 	<message key="manager.setup.submissions">Submissions</message>
-	<message key="manager.setup.submissions.description">Investigator guidelines, submission steps, copyright, and indexing (including registration).</message>
+	<message key="manager.setup.submissions.description"> Guidelines, submission steps and post-approval actions</message>
 	<message key="manager.setup.subscription">The journal will require subscriptions to access some or all of its contents.</message>
 	<message key="manager.setup.subscriptionDescription">This requires the assignment of a Subscription Manager who has access to the subscription module, which includes additional open access, self-archiving, and email notification options.</message>
 	<message key="manager.setup.noPublishing">OJS will not be used to publish the journal's contents online.</message>

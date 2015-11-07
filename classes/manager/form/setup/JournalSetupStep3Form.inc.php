@@ -32,51 +32,9 @@ class JournalSetupStep3Form extends JournalSetupForm {
                                 'progressReportGuidelines' => 'string',
                                 'completionReportGuidelines' => 'string',
                                 'protocolAmendmentGuidelines' => 'string',
-                                'saeGuidelines' => 'string'/*,
-                                'abstractLocales' => 'array',
-                                'copyrightNotice' => 'string',
-				'includeCreativeCommons' => 'bool',
-				'copyrightNoticeAgree' => 'bool',
-				'requireAuthorCompetingInterests' => 'bool',
-				'requireReviewerCompetingInterests' => 'bool',
-				'competingInterestGuidelines' => 'string',
-				'metaDiscipline' => 'bool',
-				'metaDisciplineExamples' => 'string',
-				'metaSubjectClass' => 'bool',
-				'metaSubjectClassTitle' => 'string',
-				'metaSubjectClassUrl' => 'string',
-				'metaSubject' => 'bool',
-				'metaSubjectExamples' => 'string',
-				'metaCoverage' => 'bool',
-				'metaCoverageGeoExamples' => 'string',
-				'metaCoverageChronExamples' => 'string',
-				'metaCoverageResearchSampleExamples' => 'string',
-				'metaType' => 'bool',
-				'metaTypeExamples' => 'string',
-				'metaCitations' => 'bool',
-				'metaCitationOutputFilterId' => 'int',
-				'copySubmissionAckPrimaryContact' => 'bool',
-				'copySubmissionAckSpecified' => 'bool',
-				'copySubmissionAckAddress' => 'string'*/
+                                'saeGuidelines' => 'string'
 			)
 		);
-		$this->addCheck(new FormValidator($this, 'sourceCurrency', 'required', 'manager.setup.form.sourceCurrencyRequired'));
-                                
-                $this->addCheck(new FormValidatorCustom($this, 'convertionRate', 'required', 'manager.setup.form.exchangeRateInstruct2', 
-                        function($convertionRate) {
-                            $convertionRate = preg_replace('/\s+/', '', $convertionRate);
-                            $convertionRate = trim($convertionRate);
-                            if(preg_match('/^[0-9]+([\.,][0-9]*)?$/',$convertionRate)){
-                                $convertionRate = rtrim($convertionRate, " \t\n\r\0\x0B.,0" );
-                                if ($convertionRate != "") {
-                                    return true;
-                                } else {
-                                    return false;
-                                } 
-                            } else {
-                                return false;
-                            }
-                        }));
                 
                 $this->addCheck(new FormValidatorEmail($this, 'copySubmissionAckAddress', 'optional', 'user.profile.form.emailRequired'));
 	}
