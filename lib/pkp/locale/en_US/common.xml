@@ -179,7 +179,8 @@
 	<message key="common.dateSubmitted">Date submitted</message>
 	<message key="common.dateUploaded">Date uploaded</message>
 	<message key="common.day">Day</message>
-	<message key="common.deactivate">Deactivate</message>
+	<message key="common.days">days</message>
+        <message key="common.deactivate">Deactivate</message>
 	<message key="common.default">Default</message>
 	<message key="common.delete">Delete</message>
 	<message key="common.deleteSelection">Delete Selection</message>
@@ -223,7 +224,8 @@
 	<message key="common.minute">Minute(s)</message>
 	<message key="common.modify">Modify</message>
 	<message key="common.month">Month</message>
-	<message key="common.name">Name</message>
+	<message key="common.months">months</message>
+        <message key="common.name">Name</message>
 	<message key="common.noneAssigned">None assigned</message>
 	<message key="common.none">None</message>
 	<message key="common.no">No</message>
@@ -288,7 +290,8 @@
 	<message key="common.weeks">weeks</message>
 	<message key="common.width">Width</message>
 	<message key="common.year">Year</message>
-	<message key="common.yes">Yes</message>
+	<message key="common.years">years</message>
+        <message key="common.yes">Yes</message>
 	<message key="common.loading">Loading ...</message>
         
 	<message key="debug.databaseQueries">Number of database queries</message>

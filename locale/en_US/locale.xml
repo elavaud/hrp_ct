@@ -380,12 +380,20 @@
     <message key="proposal.addAnotherProposalType">Add another proposal type</message>
     <message key="proposal.addAnotherAgency">Add another agency</message>
     <message key="proposal.randomlySelectedProvince">Yes, with randomly selected geographical areas</message>
-    <message key="proposal.primaryDataCollection">Primary data</message>
-    <message key="proposal.secondaryDataCollection">Secondary data</message>
-    <message key="proposal.bothDataCollection">Primary and secondary data</message>
-    <message key="proposal.otherErcDecisionUnderReview">Under Review</message>
-    <message key="proposal.otherErcDecisionFinalAvailable">Final decision available</message>
 
+        <message key="proposal.participants.males">Males</message>
+        <message key="proposal.participants.females">Females</message>
+        <message key="proposal.participants.both">Both males and females</message>
+        <message key="proposal.recruit.recruiting">Currently recruiting</message>
+        <message key="proposal.recruit.notyet">Not yet recruiting</message>
+        <message key="proposal.recruit.active">Active but not recruiting</message>
+        <message key="proposal.recruit.completed">Completed, not recruiting</message>
+        <message key="proposal.recruit.invitation">Enrolling by invitation</message>
+        <message key="proposal.recruit.suspended">Suspended</message>
+        <message key="proposal.recruit.terminated">Terminated</message>
+        <message key="proposal.recruit.withdrawn">Withdrawn</message>
+        <message key="proposal.recruit.closedCont">Closed. Follow-up continuing</message>
+        <message key="proposal.recruit.closedComp">Closed. Follow-up completed</message>
         <message key="proposal.startDate">Start Date</message>
         <message key="proposal.endDate">End Date</message>
         <message key="proposal.fundsRequired">Total Estimated Budget</message>
