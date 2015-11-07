@@ -16,7 +16,6 @@
 	<tr valign="bottom" class="heading">
 		<td width="15%">{translate key="common.proposalId"}</td>
 		<td width="15%">{sort_heading key="submissions.submit" sort="submitDate"}</td>
-		<td width="20%">{sort_heading key="article.authors" sort="authors"}</td>
 		<td width="35%">{sort_heading key="article.title" sort="title"}</td>
 		<td width="15%" align="right">{sort_heading key="common.status" sort="status"}</td>
 	</tr>
@@ -32,7 +31,6 @@
 	<tr valign="top">
 		<td>{$proposalId|escape}</td>
 		<td>{$submission->getDateSubmitted()|date_format:$dateFormatLong}</td>
-	   	<td>{$submission->getFirstAuthor()|truncate:20:"..."|escape}</td> <!-- Get first author. Added by MSB, Sept 25, 2011 -->
         <td><a href="{url op="submissionReview" path=$articleId}" class="action">title</a></td>
 		<td align="right">
         	{if $status==STATUS_WITHDRAWN}

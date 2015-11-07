@@ -53,18 +53,6 @@ class Article extends Submission {
 		return ASSOC_TYPE_ARTICLE;
 	}
 
-	/**
-	 * Add an author.
-	 * @param $author Author
-	 */
-	function addAuthor($author) {
-		if ($author->getSubmissionId() == null) {
-			$author->setSubmissionId($this->getId());
-		}
-		parent::addAuthor($author);
-	}
-
-
 	//
 	// Get/set methods
 	//

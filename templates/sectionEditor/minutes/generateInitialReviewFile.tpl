@@ -24,10 +24,6 @@
 			<td class="value" width="80%">{$submission->getProposalId()}</td>
 		</tr>
 		<tr>
-			<td class="label" width="20%">{translate key="editor.minutes.pi"}</td>
-			<td class="value">{$submission->getAuthorString()|strip_unsafe_html|truncate:100:"..."}</td>
-		</tr>
-		<tr>
 			<td class="label" width="20%">{translate key="editor.minutes.responsibleRto"}</td>
 			<td class="value">
 				{assign var="submitter" value=$submission->getUser()}

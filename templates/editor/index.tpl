@@ -36,7 +36,7 @@
 <div id="meetings">
 <h3>{translate key="editor.meetings"}</h3>
 <ul class="plain">
-	<li>&#187; <a href="{url op="meetings"}">{translate key="editor.meetings}</a></li>
+	<li>&#187; <a href="{url op="meetings"}">{translate key="editor.meetings"}</a></li>
 </ul>
 </div>
 -->
@@ -88,7 +88,6 @@ function sortSearch(heading, direction) {
 	<tr class="heading" valign="bottom">
 		<td width="10%">{translate key="common.proposalId"}</td>
 		<td width="5%">{sort_search key="submissions.submit" sort="submitDate"}</td>
-		<td width="30%">{sort_search key="article.authors" sort="authors"}</td>
 		<td width="40%">{sort_search key="article.title" sort="title"}</td>
 		<td width="15%" align="right">{sort_search key="common.status" sort="status"}</td>
 	</tr>
@@ -102,7 +101,6 @@ function sortSearch(heading, direction) {
 	<tr valign="top">
 		<td>{$submission->getProposalId()}</td>
 		<td>{$submission->getDateSubmitted()|date_format:$dateFormatTrunc}</td>
-		<td>{$submission->getAuthorString(true)|truncate:40:"..."|escape}</td>
 		<td><a href="{url op="submission" path=$submission->getArticleId()}" class="action">{$submission->getLocalizedTitle()|strip_unsafe_html|truncate:60:"..."}</a></td>
 		<td align="right">
 			{assign var="statusKey" value=$submission->getProposalStatusKey()}

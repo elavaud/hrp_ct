@@ -34,7 +34,6 @@
 			<tr valign="top">
 				<td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
 				<td>{$submission->getDateSubmitted()|date_format:$dateFormatLong}</td>
-   				<td>{$submission->getFirstAuthor(true)|truncate:40:"..."|escape}</td> <!-- Get first author. Added by MSB, Sept 25, 2011 -->
 				<td><a href="{url op="submission" path=$submission->getId()}" class="action">title</a></td>
 				<td align="right">
 					{assign var="proposalStatusKey" value=$submission->getProposalStatusKey()}
@@ -90,10 +89,6 @@
 			<tr valign="top">
 				<td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
 				<td>{$submission->getDateSubmitted()|date_format:$dateFormatLong}</td>
-				<!-- {* <td>{$submission->getSectionAbbrev()|escape}</td>  *}--> <!-- Commented out by MSB -->
-                <!-- {* <td>{$submission->getAuthorString(true)|truncate:40:"..."|escape}</td> *} Commented out by MSB -->
-   				<td>{$submission->getFirstAuthor(true)|truncate:40:"..."|escape}</td> <!-- Get first author. Added by MSB, Sept 25, 2011 -->
-
 				<td><a href="{url op="submission" path=$submission->getId()}" class="action">title</a></td>
 				<td>{$submission->getApprovalDate($submission->getLocale())|date_format:$dateFormatLong}</td>
 			</tr>
@@ -144,7 +139,6 @@
 			<tr valign="top">
 				<td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
 				<td>{$submission->getDateSubmitted()|date_format:$dateFormatLong}</td>
-   				<td>{$submission->getFirstAuthor(true)|truncate:40:"..."|escape}</td>
                 <td><a href="{url op="submission" path=$submission->getId()}" class="action">title</a></td>	
 			</tr>
 			<tr>
@@ -195,7 +189,6 @@
 			<tr valign="top">
 				<td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
 				<td>{$submission->getDateSubmitted()|date_format:$dateFormatLong}</td>
-   				<td>{$submission->getFirstAuthor(true)|truncate:40:"..."|escape}</td>
                 <td><a href="{url op="submission" path=$submission->getId()}" class="action">title</a></td>		
 			</tr>
 			<tr>

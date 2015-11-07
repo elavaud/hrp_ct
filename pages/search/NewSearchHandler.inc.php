@@ -201,13 +201,7 @@ class NewSearchHandler extends Handler {
 
                 foreach ($results as $result) {
                         foreach ($columns as $index => $junk) {
-				if ($index == 'investigator') {
-					$columns[$index] = $result->getPrimaryAuthor();
-				} elseif ($index == 'investigator_affiliation') {
-					$columns[$index] = $result->getInvestigatorAffiliation();
-				} elseif ($index == 'investigator_email') {
-					$columns[$index] = $result->getAuthorEmail();
-				} elseif ($index == 'status') {
+				if ($index == 'status') {
 					if ($result->getStatus() == '11') $columns[$index] = 'Complete';
 					else $columns[$index] = 'Ongoing';
 				} elseif ($index == 'date_submitted') {

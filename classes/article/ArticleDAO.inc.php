@@ -18,8 +18,6 @@ import('classes.article.SectionDecision');
 import('classes.submission.common.Action');
 
 class ArticleDAO extends DAO {
-	var $authorDao;
-
         var $cache;
 
 	function _cacheMiss(&$cache, $id) {
@@ -41,7 +39,6 @@ class ArticleDAO extends DAO {
 	 */
 	function ArticleDAO() {
 		parent::DAO();
-		$this->authorDao =& DAORegistry::getDAO('AuthorDAO');
         }
 
 	/**
@@ -180,11 +177,7 @@ class ArticleDAO extends DAO {
 		if (isset($row['fast_tracked'])) $article->setFastTracked($row['fast_tracked']);
 		if (isset($row['hide_author'])) $article->setHideAuthor($row['hide_author']);
 		if (isset($row['comments_status'])) $article->setCommentsStatus($row['comments_status']);
-		if (isset($row['afname']) or isset($row['alname'])) $article->setPrimaryAuthor($row['afname']." ".$row['alname']);
-		if (isset($row['investigatoraffiliation'])) $article->setInvestigatorAffiliation($row['investigatoraffiliation']);
 		
-		$article->setAuthors($this->authorDao->getAuthorsByArticle($row['article_id']));
-
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
                 if ($publicFiles) {
@@ -235,13 +228,6 @@ class ArticleDAO extends DAO {
 
 		$article->setId($this->getInsertArticleId());
 		$this->updateLocaleFields($article);
-
-		// Insert authors for this article
-		$authors =& $article->getAuthors();
-		for ($i=0, $count=count($authors); $i < $count; $i++) {
-			$authors[$i]->setSubmissionId($article->getId());
-			$this->authorDao->insertAuthor($authors[$i]);
-		}
 
 		return $article->getId();
 	}
@@ -300,24 +286,6 @@ class ArticleDAO extends DAO {
 
 		$this->updateLocaleFields($article);
 
-		// update authors for this article
-		$authors =& $article->getAuthors();
-		for ($i=0, $count=count($authors); $i < $count; $i++) {
-			if ($authors[$i]->getId() > 0) {
-				$this->authorDao->updateAuthor($authors[$i]);
-			} else {
-				$this->authorDao->insertAuthor($authors[$i]);
-			}
-		}
-
-		// Remove deleted authors
-		$removedAuthors = $article->getRemovedAuthors();
-		for ($i=0, $count=count($removedAuthors); $i < $count; $i++) {
-		}
-
-                // Update author sequence numbers
-		$this->authorDao->resequenceAuthors($article->getId());
-
 		$this->flushCache();
 	}
 
@@ -334,8 +302,6 @@ class ArticleDAO extends DAO {
 	 * @param $articleId int
 	 */
 	function deleteArticleById($articleId) {
-		$this->authorDao->deleteAuthorsByArticle($articleId);
-
 		$publishedArticleDao =& DAORegistry::getDAO('PublishedArticleDAO');
 		$publishedArticleDao->deletePublishedArticleByArticleId($articleId);
 
@@ -857,7 +823,7 @@ class ArticleDAO extends DAO {
                                             OR sdec.decision = ".SUBMISSION_SECTION_DECISION_DONE.")";
 
 		if ($investigatorName == true || $investigatorAffiliation == true || $investigatorEmail == true){
-			$searchSqlMid .= " left join authors investigator on (investigator.submission_id = a.article_id and investigator.primary_contact = '1')";
+			$searchSqlMid .= " left join artice_site ars ON (ars.article_id = a.article_id) left join authors investigator on (investigator.site_id = ars.site_id and investigator.primary_contact = '1')";
 			if ($investigatorName == true) $searchSqlBeg .= ", investigator.first_name as afname, investigator.last_name as alname";
 			if ($investigatorAffiliation == true) $searchSqlBeg .= ", investigator.affiliation as investigatoraffiliation";	
 			if ($investigatorEmail == true) $searchSqlBeg .= ", investigator.email as email";
@@ -915,11 +881,8 @@ class ArticleDAO extends DAO {
 		if (isset($row['public_id'])) $article->setProposalId($row['public_id']);
 		if (isset($row['date_submitted'])) $article->setDateSubmitted($this->datetimeFromDB($row['date_submitted']));
 		if (isset($row['efname']) or isset($row['elname'])) $article->setPrimaryEditor($row['efname']." ".$row['elname']);
-		if (isset($row['afname']) or isset($row['alname'])) $article->setPrimaryAuthor($row['afname']." ".$row['alname']);
 		if (isset($row['decision'])) $article->setProposalStatus($row['decision']);
 		if (isset($row['date_decided'])) $article->setDateStatusModified($this->datetimeFromDB($row['date_decided']));
-		if (isset($row['email'])) $article->setAuthorEmail($row['email']);
-		if (isset($row['investigatoraffiliation'])) $article->setInvestigatorAffiliation($row['investigatoraffiliation']);
 		
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');

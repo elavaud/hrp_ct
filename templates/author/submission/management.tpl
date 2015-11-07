@@ -14,10 +14,6 @@
 {* When editing this page, edit templates/sectionEditor/submission/management.tpl as well *}
 
 <table width="100%" class="data">
-	<tr>
-            <td width="20%" class="label">{translate key="article.authors"}</td>
-            <td width="80%" class="data">{$submission->getFirstAuthor()|escape}</td>
-	</tr>
         <tr>
             <td width="20%" class="label">{translate key="common.proposalId"}</td>
             <td width="80%" class="data">{$submission->getProposalId()|escape}</td>

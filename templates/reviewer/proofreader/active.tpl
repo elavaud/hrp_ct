@@ -15,7 +15,6 @@
 		<td width="5%">{sort_heading key="common.id" sort="id"}</td>
 		<td width="5%"><span class="disabled">{translate key="submission.date.mmdd"}</span><br />{sort_heading key="common.assign" sort="assignDate"}</td>
 		<!-- <td width="5%">{sort_heading key="submissions.sec" sort="section"}</td> *} Commented out by MSB, Sept25,2011-->
-		<td width="30%">{sort_heading key="article.authors" sort="authors"}</td>
 		<td width="40%">{sort_heading key="article.title" sort="title"}</td>
 		<td width="15%" align="right">{sort_heading key="common.status" sort="status"}</td>
 	</tr>
@@ -29,7 +28,6 @@
 	<tr valign="top">
 		<td>{$articleId|escape}</td>
 		<td>{$proofreaderSignoff->getDateNotified()|date_format:$dateFormatTrunc}</td>
-   		<td>{$submission->getFirstAuthor(true)|truncate:40:"..."|escape}</td>		
    		<td><a href="{url op="submission" path=$articleId}" class="action">title</a></td>
 		<td align="right">
 			{if not $authorSignoff->getDateCompleted()}

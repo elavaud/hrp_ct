@@ -31,19 +31,12 @@ define('PROPOSAL_STATUS_COMPLETED',11);
 define('PROPOSAL_STATUS_RESUBMITTED',12); 	//Special tag for Revise and resubmit proposals that were resubmitted
 
 class Submission extends DataObject {
-	/** @var array Authors of this submission */
-	var $authors;
-				
-	/** @var array IDs of Authors removed from this submission */
-	var $removedAuthors;
 			
 	/**
 	 * Constructor.
 	 */
 	function Submission() {
 		parent::DataObject();
-		$this->authors = array();
-		$this->removedAuthors = array();
 	}
 
 	/**
@@ -82,130 +75,6 @@ class Submission extends DataObject {
 	//
 	// Get/set methods
 	//
-
-	/**
-	 * Add an author.
-	 * @param $author Author
-	 */
-	function addAuthor($author) {
-		if ($author->getSequence() == null) {
-			$author->setSequence(count($this->authors) + 1);
-		}
-		array_push($this->authors, $author);
-	}
-
-
-	/**
-	 * Remove an author.
-	 * @param $authorId ID of the author to remove
-	 * @return boolean author was removed
-	 */
-	function removeAuthor($authorId) {
-		$found = false;
-
-		if ($authorId != 0) {
-			// FIXME maintain a hash of ID to author for quicker get/remove
-			$authors = array();
-			for ($i=0, $count=count($this->authors); $i < $count; $i++) {
-				if ($this->authors[$i]->getId() == $authorId) {
-					array_push($this->removedAuthors, $authorId);
-					$found = true;
-				} else {
-					array_push($authors, $this->authors[$i]);
-				}
-			}
-			$this->authors = $authors;
-		}
-		return $found;
-	}
-
-        	/**
-	 * Return string of author names, separated by the specified token
-	 * @param $lastOnly boolean return list of lastnames only (default false)
-	 * @param $separator string separator for names (default comma+space)
-	 * @return string
-	 */
-	function getAuthorString($lastOnly = false, $separator = ', ') {
-		$str = '';
-		foreach ($this->authors as $a) {
-			if (!empty($str)) {
-				$str .= $separator;
-			}
-			$str .= $lastOnly ? $a->getLastName() : $a->getFullName();
-		}
-		return $str;
-	}
-
-	/**
-	 * Return a list of author email addresses.
-	 * @return array
-	 */
-	function getAuthorEmails() {
-		import('lib.pkp.classes.mail.Mail');
-		$returner = array();
-		foreach ($this->authors as $a) {
-			$returner[] = Mail::encodeDisplayName($a->getFullName()) . ' <' . $a->getEmail() . '>';
-		}
-		return $returner;
-	}
-
-	/**
-	 * Return first author
-	 * @param $lastOnly boolean return lastname only (default false)
-	 * @return string
-	 */
-	function getFirstAuthor($lastOnly = false) {
-		$author = $this->authors[0];
-		if (!$author) return null;
-		return $lastOnly ? $author->getLastName() : $author->getFullName();
-	}
-
-
-	//
-	// Get/set methods
-	//
-
-	/**
-	 * Get all authors of this submission.
-	 * @return array Authors
-	 */
-	function &getAuthors() {
-		return $this->authors;
-	}
-        
-	/**
-	 * Get a specific author of this submission.
-	 * @param $authorId int
-	 * @return object Author
-	 */
-	function &getAuthor($authorId) {
-		$author = null;
-
-		if ($authorId != 0) {
-			for ($i=0, $count=count($this->authors); $i < $count && $author == null; $i++) {
-				if ($this->authors[$i]->getId() == $authorId) {
-					$author =& $this->authors[$i];
-				}
-			}
-		}
-		return $author;
-	}
-        
-	/**
-	 * Get the IDs of all authors removed from this submission.
-	 * @return array int
-	 */
-	function &getRemovedAuthors() {
-		return $this->removedAuthors;
-	}
-
-	/**
-	 * Set authors of this submission.
-	 * @param $authors array Authors
-	 */
-	function setAuthors($authors) {
-		return $this->authors = $authors;
-	}
         
 	/**
 	 * Get user ID of the submitter.
@@ -1021,14 +890,6 @@ class Submission extends DataObject {
 		return $this->getData("approvalDate", $locale);
 	}
 	
-	function setPrimaryAuthor($author) {
-		return $this->setData('primaryAuthor', $author);
-	}
-	
-	function getPrimaryAuthor() {
-		return $this->getData("primaryAuthor");
-	}
-	
 	function setPrimaryEditor($editor) {
 		return $this->setData('primaryEditor', $editor);
 	}
@@ -1037,20 +898,6 @@ class Submission extends DataObject {
 		return $this->getData("primaryEditor");
 	}
 	
-	function setAuthorEmail($email) {
-		return $this->setData("authorEmail", $email);
-	}
-	function getAuthorEmail() {
-		return $this->getData("authorEmail");
-	}
-	
-	function getInvestigatorAffiliation(){
-		return $this->getData('investigatorAffiliation');
-	}
-	
-	function setInvestigatorAffiliation($investigatorAffiliation){
-		return $this->setData('investigatorAffiliation', $investigatorAffiliation);
-	}
 
 	/*
 	 * check if the submission is due

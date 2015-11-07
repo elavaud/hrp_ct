@@ -68,7 +68,7 @@ function changeDepositPoint() {
 				{foreach from=$depositPoints key=key item=depositPoint}
 					<option value="{$key|escape}" {if $depositPoint.url == $swordUrl}selected="selected" {/if}>{$depositPoint.name|escape}</option>
 				{/foreach}
-			</select>&nbsp;<a class="action" href="{url op="plugin" path="generic"|to_array:"SwordPlugin":"settings"}">{translate key="plugins.importexport.sword.depositPoint.addRemove}</a>
+			</select>&nbsp;<a class="action" href="{url op="plugin" path="generic"|to_array:"SwordPlugin":"settings"}">{translate key="plugins.importexport.sword.depositPoint.addRemove"}</a>
 		</td>
 	</tr>
 	<tr valign="top">

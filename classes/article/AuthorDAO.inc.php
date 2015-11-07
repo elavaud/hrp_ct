@@ -163,7 +163,9 @@ class AuthorDAO extends PKPAuthorDAO {
 				aa.middle_name,
 				aa.last_name,
 				aa.affiliation,
-				aa.phone
+				aa.primary_phone,
+                                aa.secondary_phone,
+                                aa.fax
 			FROM	authors aa
 				LEFT JOIN article_site ars ON (ars.site_id = aa.site_id)
 				LEFT JOIN articles a ON (a.article_id = ars.article_id)

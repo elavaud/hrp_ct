@@ -155,6 +155,7 @@ class ArticleSearchIndex {
 	 */
 	function indexArticleMetadata(&$article) {
 		// Build author keywords
+                /*
 		$authorText = array();
 		$authors = $article->getAuthors();
 		for ($i=0, $count=count($authors); $i < $count; $i++) {
@@ -184,6 +185,8 @@ class ArticleSearchIndex {
 		ArticleSearchIndex::updateTextIndex($articleId, ARTICLE_SEARCH_TYPE, $article->getType(null));
 		ArticleSearchIndex::updateTextIndex($articleId, ARTICLE_SEARCH_COVERAGE, array_merge(array_values((array) $article->getCoverageGeo(null)), array_values((array) $article->getCoverageChron(null)), array_values((array) $article->getCoverageSample(null))));
 		// FIXME Index sponsors too?
+                 * 
+                 */
 	}
 
 	/**

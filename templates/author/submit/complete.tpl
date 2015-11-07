@@ -26,17 +26,6 @@
     <tr valign="top">
         <td colspan="5" class="headseparator">&nbsp;</td>
     </tr>
-{foreach name=authors from=$article->getAuthors() item=author}
-	<tr valign="top">
-		<td width="20%" class="label">{if $author->getPrimaryContact()}{translate key="user.role.primaryInvestigator"}{else}{translate key="user.role.coinvestigator"}{/if}</td>
-        <td class="value">
-			{$author->getFullName()|escape}<br />
-			{$author->getEmail()|escape}<br />
-			{if ($author->getAffiliation()) != ""}{$author->getAffiliation()|escape}<br/>{/if}
-			{if ($author->getPrimaryPhoneNumber()) != ""}{$author->getPrimaryPhoneNumber()|escape}<br/>{/if}
-        </td>
-    </tr>
-{/foreach}
 </table>
 </div>
 

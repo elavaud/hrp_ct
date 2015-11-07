@@ -34,25 +34,6 @@
     <h1>{translate key="article.metadata"}</h1>
     <p>{$section->getSectionTitle()}&nbsp;&nbsp;&nbsp;<a href="{url op="submit" path="1" articleId=$article->getId()}"><i>{translate key="common.modify"}</i></a></p>
 
-    <div id="Authors">
-        <h4>{translate key="article.authors"}&nbsp;&nbsp;&nbsp;<a href="{url op="submit" path="2" articleId=$article->getId()}"><i>{translate key="common.modify"}</i></a></h4>
-        <table class="listing" width="100%">
-            <tr valign="top">
-                <td colspan="5" class="headseparator">&nbsp;</td>
-            </tr>
-            {foreach name=authors from=$article->getAuthors() item=author}
-                <tr valign="top">
-                    <td width="20%" class="label">{if $author->getPrimaryContact()}{translate key="user.role.primaryInvestigator"}{else}{translate key="user.role.coinvestigator"}{/if}</td>
-                <td class="value">
-                    {$author->getFullName()|escape}<br />
-                    {$author->getEmail()|escape}<br />
-                    {if ($author->getAffiliation()) != ""}{$author->getAffiliation()|escape}<br/>{/if}
-                    {if ($author->getPrimaryPhoneNumber()) != ""}{$author->getPrimaryPhoneNumber()|escape}<br/>{/if}
-                </td>
-            </tr>
-        {/foreach}
-        </table>
-    </div>
 
     <div class="separator"></div>
 

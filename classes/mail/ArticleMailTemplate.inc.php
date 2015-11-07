@@ -68,7 +68,6 @@ class ArticleMailTemplate extends MailTemplate {
 		$paramArray['articleId'] = $article->getProposalId();
 		$paramArray['journalName'] = strip_tags($journal->getLocalizedTitle());
 		$paramArray['sectionName'] = strip_tags($section->getLocalizedTitle());
-		$paramArray['authorString'] = strip_tags($article->getAuthorString());
 		parent::assignParams($paramArray);
 	}
 

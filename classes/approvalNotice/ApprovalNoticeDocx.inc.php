@@ -119,32 +119,6 @@ class ApprovalNoticeDocx {
         $chairInArray =& $ercReviewersDao->getReviewersBySectionIdByStatus($journal->getId(), $committee->getId(), REVIEWER_CHAIR);
         $viceChairInArray =& $ercReviewersDao->getReviewersBySectionIdByStatus($journal->getId(), $committee->getId(), REVIEWER_VICE_CHAIR);
         
-        // investigators
-        $coInvestigators = $investigators = $sectionEditorSubmission->getAuthors();
-        foreach ($investigators as $iKey => $investigator){
-            if ($investigator->getPrimaryContact()){
-                $primaryInvestigator = $investigator;
-                unset($coInvestigators[$iKey]);
-            }
-        }
-        $investigatorsOneLine = $primaryInvestigator->getFullName().' ('.$primaryInvestigator->getAffiliation().')';
-        $investigatorsMultiLines = $primaryInvestigator->getFullName().', '.$primaryInvestigator->getAffiliation();
-        $coInvestigatorsOneLine = (string) '';
-        $coInvestigatorsMultiLines = (string) '';
-        foreach ($coInvestigators as $investigator) {
-            $investigatorsOneLine .= ', '.$investigator->getFullName().' ('.$investigator->getAffiliation().')';
-            $investigatorsMultiLines .= '<br/>'.$investigator->getFullName().', '.$investigator->getAffiliation();  
-            if ($coInvestigatorsOneLine == '') {
-                $coInvestigatorsOneLine = $investigator->getFullName().' ('.$investigator->getAffiliation().')';
-            } else {
-                $coInvestigatorsOneLine .= ', '.$investigator->getFullName().' ('.$investigator->getAffiliation().')';
-            }
-            if ($coInvestigatorsMultiLines == '') {
-                $coInvestigatorsMultiLines = $investigator->getFullName().', '.$investigator->getAffiliation();                
-            } else {
-                $coInvestigatorsMultiLines .= '<br/>'.$investigator->getFullName().', '.$investigator->getAffiliation().')';
-            }
-        }
         
         // Set the name of the file to download
         $this->fileName = $sectionEditorSubmission->getProposalId().'-'.$committee->getLocalizedAbbrev().'-'.preg_replace('/\s+/', '', Locale::translate($decision->getReviewTypeKey())).'-'.$decision->getRound();
@@ -161,12 +135,6 @@ class ApprovalNoticeDocx {
             '{$subRoundDate}' => ($sectionEditorSubmission->getDateSubmitted()) ? $sectionEditorSubmission->getDateSubmitted() : '',
             '{$reviewType}' => ($decision->getReviewTypeKey()) ? Locale::translate($decision->getReviewTypeKey()) : '',
             '{$reviewRound}' => ($decision->getRound()) ? $decision->getRound() : '',
-            '{$invNAA1Line}' => ($investigatorsOneLine) ? $investigatorsOneLine : '',
-            '{$invNAAMLines}' => ($investigatorsMultiLines) ? $investigatorsMultiLines : '',
-            '{$primInvName}' => ($primaryInvestigator->getFullName()) ? $primaryInvestigator->getFullName() : '',
-            '{$primInvAff}' => ($primaryInvestigator->getAffiliation()) ? $primaryInvestigator->getAffiliation() : '',
-            '{$coInvNAA1Line}' => ($coInvestigatorsOneLine) ? $coInvestigatorsOneLine : '',
-            '{$coInvNAAMLines}' => ($coInvestigatorsMultiLines) ? $coInvestigatorsMultiLines : '',
             '{$todayDate}' => date('d-m-Y')
         );
     }

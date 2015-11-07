@@ -168,18 +168,6 @@ class AuthorSubmitStep1Form extends AuthorSubmitForm {
                         $sectionDecision->setDateDecided(date(Core::getCurrentDate()));
                         $this->article->addDecision($sectionDecision);    
 			
-                        // Set user to initial author
-			$author = new Author();
-			$author->setFirstName($user->getFirstName());
-			$author->setMiddleName($user->getMiddleName());
-			$author->setLastName($user->getLastName());
-			$author->setAffiliation($user->getLocalizedAffiliation());
-			$author->setEmail($user->getEmail());
-			$author->setPrimaryPhoneNumber($user->getPhone());
-			$author->setBiography($user->getBiography(null), null);
-			$author->setPrimaryContact(1);
-			$this->article->addAuthor($author);
-			
 			$authorSubmissionDao->insertAuthorSubmission($this->article);
 			$this->articleId = $this->article->getId();
 		}

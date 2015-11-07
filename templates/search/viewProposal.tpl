@@ -40,18 +40,6 @@
 <h4>{translate key="article.authors"}</h4>
 	
 <table width="100%" class="data">
-	{foreach name=authors from=$submission->getAuthors() item=author}
-	<tr valign="top">
-		<td width="20%" class="label">{if $author->getPrimaryContact()}{translate key="user.role.primaryInvestigator"}{else}{translate key="user.role.coinvestigator"}{/if}</td>
-		<td width="80%" class="value">
-                        <a href="{url op="authors" path="view"|to_array:$author->getId()}">{$author->getFullName()|escape}</a><br />
-			{if $author->getAffiliation()}{$author->getAffiliation()|escape|nl2br|default:"&mdash;"}<br/>{/if}
-			{assign var=emailString value=$author->getFullName()|concat:" <":$author->getEmail():">"}
-			{url|assign:"url" page="user" op="email" redirectUrl=$currentUrl to=$emailString|to_array subject="title"|strip_tags articleId=$submission->getId()}
-			{$author->getFullName()|escape} {icon name="mail" url=$url}
-		</td>
-	</tr>
-	{/foreach}
 </table>
 </div>
 

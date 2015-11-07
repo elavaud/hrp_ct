@@ -12,7 +12,6 @@
 	<tr><td colspan="4" class="headseparator">&nbsp;</td></tr>
 	<tr class="heading" valign="bottom">
 		<td width="20%">{translate key="common.proposalId"}</td>
-		<td width="20%">{sort_heading key="article.authors" sort="authors"}</td>
 		<td width="40%">{sort_heading key="article.title" sort="title"}</td>
 		<td width="20%" align="right">{sort_heading key="submissions.dateApproved" sort="dateApproved"}</td>
 	</tr>
@@ -24,7 +23,6 @@
     {assign var="proposalId" value=$submission->getProposalId()}
 	<tr valign="top">
 		<td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
-   		<td>{$submission->getFirstAuthor()|truncate:20:"..."|escape}</td>
         <td><a href="{url op="submissionReview" path=$submission->getId()}" class="action">title</a></td>
 		<td align="right">{$lastDecision->getDateDecided()|date_format:$dateFormatLong}</td>		
 	</tr>

@@ -32,7 +32,6 @@
 	<tr class="heading" valign="bottom">
 		<td width="5%">{translate key="common.id"}</td>
 		<td width="5%">{translate key="submissions.sec"}</td>
-		<td width="30%">{translate key="article.authors"}</td>
 		<td width="50%">{translate key="article.title"}</td>
 		<td width="10%" align="right"></td>
 	</tr>
@@ -44,7 +43,6 @@
 	<tr valign="top">
 		<td>{$submission->getArticleId()}</td>
 		<td>{$submission->getSectionAbbrev()|escape}</td>
-		<td>{$submission->getAuthorString(true)|truncate:40:"..."|escape}</td>
 		<td><a href="{url page="editor" op="submission" path=$submission->getArticleId()}" class="action">{$submission->getArticleTitle()|strip_unsafe_html|truncate:60:"..."}</a></td>
 		<td align="right" class="nowrap">
 			<a href="{url op="assignBookForReviewSubmission" path=$bookId returnPage=$returnPage articleId=$submission->getArticleId()}" class="action">{translate key="plugins.generic.booksForReview.editor.select"}</a>

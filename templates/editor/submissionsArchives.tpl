@@ -14,7 +14,6 @@
 	<tr valign="bottom" class="heading">
 		<td width="10%">Proposal ID</td>
 		<td width="10%"><span class="disabled">{translate key="submission.date.mmdd"}</span><br />{sort_heading key="submissions.submit" sort="submitDate"}</td>
-		<td width="20%">{sort_heading key="article.authors" sort="authors"}</td>
 		<td width="50%">{sort_heading key="article.title" sort="title"}</td>
 		<td width="10%" align="right">{sort_heading key="common.status" sort="status"}</td>
 	</tr>
@@ -27,7 +26,6 @@
 	<tr valign="top">
 		<td>{$proposalId|escape}</td>
 		<td>{$submission->getDateSubmitted()|date_format:$dateFormatLong}</td>
-	   	<td>{$submission->getFirstAuthor(true)|truncate:40:"..."|escape}</td>
       	<td><a href="{url op="submission" path=$articleId}" class="action">title</a></td>
 		<td align="right">
 			{assign var="status" value=$submission->getSubmissionStatus()}

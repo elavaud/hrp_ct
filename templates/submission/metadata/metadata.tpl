@@ -21,26 +21,6 @@
 <h4>{translate key="article.authors"}</h4>
 	
 <table width="100%" class="data">
-	{foreach name=authors from=$submission->getAuthors() item=author}
-	<tr valign="top">
-		<td {if $author->getPrimaryContact()}title="{translate key="user.role.primaryInvestigatorInstruct"}"{else}title="{translate key="user.role.coinvestigatorInstruct"}"{/if}width="30%" class="label">{if $author->getPrimaryContact()}[?] {translate key="user.role.primaryInvestigator"}{else}[?] {translate key="user.role.coinvestigator"}{/if}</td>
-		<td width="70%" class="value">
-			{assign var=emailString value=$author->getFullName()|concat:" <":$author->getEmail():">"}
-			{url|assign:"url" page="user" op="email" redirectUrl=$currentUrl to=$emailString|to_array subject=""|strip_tags articleId=$submission->getId()}
-			{$author->getFullName()|escape} {icon name="mail" url=$url}<br />
-			{$author->getEmail()|escape}<br />
-			{if ($author->getAffiliation()) != ""}{$author->getAffiliation()|escape}<br />{/if}
-			{if ($author->getPrimaryPhoneNumber()) != ""}{$author->getPrimaryPhoneNumber()}
-			{/if}
-		</td>
-	</tr>
-
-        
-	{if !$smarty.foreach.authors.last}
-		<tr>
-			<td colspan="2" class="separator">&nbsp;</td>
-		</tr>
-	{/if}
-	{/foreach}
+	
 </table>
 </div>

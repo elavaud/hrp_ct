@@ -71,7 +71,6 @@
 	{/if}
 	{call_hook name="Templates::Article::Article::ArticleCoverImage"}
 	<div id="articleTitle"><h3>{$article->getLocalizedTitle()|strip_unsafe_html}</h3></div>
-	<div id="authorString"><em>{$article->getAuthorString()|escape}</em></div>
 	<br />
 	{if $article->getLocalizedAbstract()}
 		<div id="articleAbstract">

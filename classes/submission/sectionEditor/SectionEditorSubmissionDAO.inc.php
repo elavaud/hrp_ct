@@ -974,11 +974,9 @@ class SectionEditorSubmissionDAO extends DAO {
 	 */
 	function getSortMapping($heading) {
 		switch ($heading) {
-			case 'authors': return 'author_name';
 			case 'status': return 'a.status, sdec.decision';
 			case 'round': return 'sdec.review_type, sdec.round';
 			case 'submitDate': return 'a.date_submitted';
-			case 'title': return 'submission_title';
 			case 'dateApproved': return 'sdec.date_decided';
 			case 'active': return 'incomplete';
 			case 'subCopyedit': return 'copyedit_completed';
@@ -992,7 +990,7 @@ class SectionEditorSubmissionDAO extends DAO {
 			case 'average': return 'average';
 			case 'name': return 'u.last_name';
 
-			default: return 'submission_title';
+			default: return 'a.status, sdec.decision';
 		}
 	}
 

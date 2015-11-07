@@ -52,11 +52,6 @@
 	</td>
 </tr>
 <tr>
-	<td colspan="{$numCols|escape}" style="padding-left: 30px;font-style: italic;">
-		{foreach from=$article->getAuthors() item=author name=authorList}
-			{$author->getFullName()|escape}{if !$smarty.foreach.authorList.last},{/if}
-		{/foreach}
-	</td>
 </tr>
 <tr><td colspan="{$numCols|escape}" class="{if $results->eof()}end{/if}separator">&nbsp;</td></tr>
 {/iterate}

@@ -15,8 +15,6 @@
 		<td width="10%">{translate key="common.proposalId"}</td>
 		<td width="10%"><span class="disabled">{translate key="submission.date.yyyymmdd"}</span><br/>
 <!-- {sort_search key="submissions.submit" sort="submitDate"}--> </td> 
-		<!-- <td width="5%">{sort_search key="submissions.sec" sort="section"}</td> Commented out by MSB, Sept25,2011-->
-		<td width="30%"><span class="disabled">{translate key="article.authors"}</span><br/></td> <!-- {sort_search key="article.authors" sort="authors"}</td> -->
 		<td width="45%"><span class="disabled">{translate key="article.title"}</span><br/></td> <!-- {sort_search key="article.title" sort="title"}</td> -->
 		<td width="5%"><span class="disabled">Resubmitted</span><br/></td>
 	</tr>
@@ -30,7 +28,6 @@
 
 		<td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
 		<td>{$submission->getDateSubmitted()|date_format:$dateFormatShort}</td>
-                <td>{$submission->getFirstAuthor(true)|truncate:40:"..."|escape}</td>
 		<td>{if $submission->getResubmitCount()}<a href="{url op="submissionReview" path=$submission->getId()}" class="action">title</a>{else}<a href="{url op="submission" path=$submission->getId()}" class="action">{$submission->getLocalizedTitle()|strip_unsafe_html|truncate:60:"..."}</a>{/if}</td>
 		<td>{if $submission->getResubmitCount()}{$submission->getResubmitCount()}{else}0{/if}</td>
 	</tr>

@@ -19,14 +19,7 @@ class AuthorSubmitStep2Form extends AuthorSubmitForm {
 	 */
 	function AuthorSubmitStep2Form(&$article, &$journal) {
 		parent::AuthorSubmitForm($article, 2, $journal);
-		
-                
-                $this->addCheck(new FormValidatorCustom($this, 'authors', 'required', 'author.submit.form.authorRequired', 
-                        function($authors) {
-                            return count($authors) > 0; 
-                        }));
-                        
-		$this->addCheck(new FormValidatorArray($this, 'authors', 'required', 'author.submit.form.authorRequiredFields', array('firstName', 'lastName', 'affiliation', 'phone')));				
+		        
         }
 
 	/**
@@ -37,30 +30,7 @@ class AuthorSubmitStep2Form extends AuthorSubmitForm {
 		if (isset($this->article)) {
 			$article =& $this->article;
                                                                         						
-			$this->_data = array(
-				'authors' => array(),                            
-				'section' => $sectionDao->getSection($article->getSectionId())                                 
-			);
 			
-                       
-			$authors =& $article->getAuthors();
-			for ($i=0, $count=count($authors); $i < $count; $i++) {
-				array_push(
-					$this->_data['authors'],
-					array(
-						'authorId' => $authors[$i]->getId(),
-						'firstName' => $authors[$i]->getFirstName(),
-						'middleName' => $authors[$i]->getMiddleName(),
-						'lastName' => $authors[$i]->getLastName(),
-						'affiliation' => $authors[$i]->getAffiliation(),
-						'phone' => $authors[$i]->getPrimaryPhoneNumber(),
-						'email' => $authors[$i]->getEmail()
-					)
-				);
-				if ($authors[$i]->getPrimaryContact()) {
-					$this->setData('primaryContact', $i);
-				}
-			}
 
 		}
 		return parent::initData();
@@ -72,9 +42,7 @@ class AuthorSubmitStep2Form extends AuthorSubmitForm {
 	function readInputData() {
 		$this->readUserVars(
 			array(
-				'authors',
-				'deletedAuthors',
-				'primaryContact'			)
+					)
 		);
 
                 // Load the section. This is used in the step 2 form to
@@ -114,10 +82,6 @@ class AuthorSubmitStep2Form extends AuthorSubmitForm {
                 $institutionsListWithOther = $institutionsList + array('OTHER' => Locale::translate('common.other'));
                 
 		$templateMgr =& TemplateManager::getManager();
-                
-		if (Request::getUserVar('addAuthor') || Request::getUserVar('delAuthor')  || Request::getUserVar('moveAuthor')) {
-			$templateMgr->assign('scrollToAuthor', true);
-		}
                                 
                 parent::display();
 	}
@@ -133,47 +97,6 @@ class AuthorSubmitStep2Form extends AuthorSubmitForm {
                 
 		// Retrieve the previous citation list for comparison.
 		$previousRawCitationList = $article->getCitations();
-
-                
-                ///////////////////////////////////////////
-		////////////// Update Authors /////////////
-                ///////////////////////////////////////////
-
-                $authors = $this->getData('authors');
-		for ($i=0, $count=count($authors); $i < $count; $i++) {
-			if ($authors[$i]['authorId'] > 0) {
-			// Update an existing author
-				$author =& $article->getAuthor($authors[$i]['authorId']);
-				$isExistingAuthor = true;
-			} else {
-				// Create a new author
-				$author = new Author();
-				$isExistingAuthor = false;
-			}
-
-			if ($author != null) {
-				$author->setSubmissionId($article->getId());
-				if (isset($authors[$i]['firstName'])) $author->setFirstName($authors[$i]['firstName']);
-				if (isset($authors[$i]['middleName'])) $author->setMiddleName($authors[$i]['middleName']);
-				if (isset($authors[$i]['lastName'])) $author->setLastName($authors[$i]['lastName']);
-				if (isset($authors[$i]['affiliation'])) $author->setAffiliation($authors[$i]['affiliation']);
-				if (isset($authors[$i]['phone'])) $author->setPrimaryPhoneNumber($authors[$i]['phone']);
-				if (isset($authors[$i]['email'])) $author->setEmail($authors[$i]['email']);
-				$author->setPrimaryContact($this->getData('primaryContact') == $i ? 1 : 0);
-				$author->setSequence($authors[$i]['seq']);
-
-				if ($isExistingAuthor == false) {
-					$article->addAuthor($author);
-				}
-			}
-			unset($author);
-		}
-
-                // Remove deleted authors
-		$deletedAuthors = explode(':', $this->getData('deletedAuthors'));
-		for ($i=0, $count=count($deletedAuthors); $i < $count; $i++) {
-			$article->removeAuthor($deletedAuthors[$i]);
-		}
               
                 //update step
                 if ($article->getSubmissionProgress() <= $this->step) {

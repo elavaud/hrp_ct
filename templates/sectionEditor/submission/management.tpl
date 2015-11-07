@@ -14,10 +14,6 @@
 
     <table width="100%" class="data">
         <tr>
-            <td title="{translate key="article.authorInstruct"}" width="20%" class="label">[?] {translate key="article.authors"}</td>
-            <td width="80%" colspan="2" class="data">{$submission->getFirstAuthor()|escape}</td>
-        </tr>
-        <tr>
             <td title="{translate key="common.idInstruct"}" width="20%" class="label">[?] {translate key="common.proposalId"}</td>
             <td width="80%" colspan="2" class="data">{$submission->getProposalId()|escape}</td>
         </tr>

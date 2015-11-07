@@ -17,7 +17,6 @@
 	<tr class="heading" valign="bottom">
 		<td width="5%">Proposal ID</td>
 		<td width="5%">{sort_heading key="submissions.submit" sort="submitDate"}</td>
-		<td width="25%">{sort_heading key="article.authors" sort="authors"}</td>
 		<td width="35%">{sort_heading key="article.title" sort="title"}</td>
 		<td width="25%" align="right">{sort_heading key="common.status" sort="status"}</td>
 	</tr>
@@ -30,7 +29,6 @@
                 <tr valign="top">
 				<td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
 				<td>{$submission->getDateSubmitted()|date_format:$dateFormatLong}</td>
-   				<td>{$submission->getFirstAuthor()|truncate:40:"..."|escape}</td>
                 <td><a href="{url op="submissionReview" path=$submission->getId()}" class="action">title</a></td>
 				<td align="right">
 					{assign var="proposalStatusKey" value=$submission->getProposalStatusKey()}

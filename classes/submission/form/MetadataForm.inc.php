@@ -58,12 +58,7 @@ class MetadataForm extends Form {
                                         $supportedSubmissionLocales
                                 ))
                         );
-                                        $this->addCheck(new FormValidatorCustom($this, 'authors', 'required', 'author.submit.form.authorRequired', 
-                        function($authors) {
-                            return count($authors) > 0; 
-                        }));
 
-                        $this->addCheck(new FormValidatorArray($this, 'authors', 'required', 'author.submit.form.authorRequiredFields', array('firstName', 'lastName', 'affiliation', 'phone')));				
                        
                 } else {
                         parent::Form('submission/metadata/metadataView.tpl');
@@ -92,29 +87,9 @@ class MetadataForm extends Form {
                         // Initialize th proposal details
                                                                        						
 			$this->_data = array(
-				'authors' => array(),                            
 				'section' => $sectionDao->getSection($article->getSectionId())                                 
 			);
 			
-                       
-			$authors =& $article->getAuthors();
-			for ($i=0, $count=count($authors); $i < $count; $i++) {
-				array_push(
-					$this->_data['authors'],
-					array(
-						'authorId' => $authors[$i]->getId(),
-						'firstName' => $authors[$i]->getFirstName(),
-						'middleName' => $authors[$i]->getMiddleName(),
-						'lastName' => $authors[$i]->getLastName(),
-						'affiliation' => $authors[$i]->getAffiliation(),
-						'phone' => $authors[$i]->getPrimaryPhoneNumber(),
-						'email' => $authors[$i]->getEmail()
-					)
-				);
-				if ($authors[$i]->getPrimaryContact()) {
-					$this->setData('primaryContact', $i);
-				}
-			}
 		}
 		return parent::initData();
 	}
@@ -134,10 +109,6 @@ class MetadataForm extends Form {
                 $journal = Request::getJournal();
                 $settingsDao =& DAORegistry::getDAO('JournalSettingsDAO');
 		$sectionDao =& DAORegistry::getDAO('SectionDAO');
-		$countryDao =& DAORegistry::getDAO('CountryDAO');
-                $extraFieldDAO =& DAORegistry::getDAO('ExtraFieldDAO');
-		$institutionDao =& DAORegistry::getDAO('InstitutionDAO');
-		$currencyDao =& DAORegistry::getDAO('CurrencyDAO');                
                 
 		Locale::requireComponents(array(LOCALE_COMPONENT_OJS_EDITOR)); // editor.cover.xxx locale keys; FIXME?
 
@@ -159,12 +130,7 @@ class MetadataForm extends Form {
 			$templateMgr->assign('isEditor', true);
 		}
                 
-		if (Request::getUserVar('addAuthor') || Request::getUserVar('delAuthor')  || Request::getUserVar('moveAuthor')) {
-			$templateMgr->assign('scrollToAuthor', true);
-		}
-                
-                $sourceCurrencyId = $journal->getSetting('sourceCurrency');
-                
+		                
 		$templateMgr->assign('articleId', isset($this->article)?$this->article->getId():null);
 		$templateMgr->assign('journalSettings', $settingsDao->getJournalSettings($journal->getId()));
 		$templateMgr->assign('rolePath', Request::getRequestedPage());
@@ -180,9 +146,6 @@ class MetadataForm extends Form {
 	function readInputData() {
 		$this->readUserVars(
 			array(
-				'authors',
-				'deletedAuthors',
-				'primaryContact'
 			)
 		);
 
@@ -210,46 +173,6 @@ class MetadataForm extends Form {
 		// Retrieve the previous citation list for comparison.
 		$previousRawCitationList = $article->getCitations();
 
-                
-                ///////////////////////////////////////////
-		////////////// Update Authors /////////////
-                ///////////////////////////////////////////
-
-                $authors = $this->getData('authors');
-		for ($i=0, $count=count($authors); $i < $count; $i++) {
-			if ($authors[$i]['authorId'] > 0) {
-			// Update an existing author
-				$author =& $article->getAuthor($authors[$i]['authorId']);
-				$isExistingAuthor = true;
-			} else {
-				// Create a new author
-				$author = new Author();
-				$isExistingAuthor = false;
-			}
-
-			if ($author != null) {
-				$author->setSubmissionId($article->getId());
-				if (isset($authors[$i]['firstName'])) $author->setFirstName($authors[$i]['firstName']);
-				if (isset($authors[$i]['middleName'])) $author->setMiddleName($authors[$i]['middleName']);
-				if (isset($authors[$i]['lastName'])) $author->setLastName($authors[$i]['lastName']);
-				if (isset($authors[$i]['affiliation'])) $author->setAffiliation($authors[$i]['affiliation']);
-				if (isset($authors[$i]['phone'])) $author->setPrimaryPhoneNumber($authors[$i]['phone']);
-				if (isset($authors[$i]['email'])) $author->setEmail($authors[$i]['email']);
-				$author->setPrimaryContact($this->getData('primaryContact') == $i ? 1 : 0);
-				$author->setSequence($authors[$i]['seq']);
-
-				if ($isExistingAuthor == false) {
-					$article->addAuthor($author);
-				}
-			}
-			unset($author);
-		}
-
-                // Remove deleted authors
-		$deletedAuthors = explode(':', $this->getData('deletedAuthors'));
-		for ($i=0, $count=count($deletedAuthors); $i < $count; $i++) {
-			$article->removeAuthor($deletedAuthors[$i]);
-		}
                
 		parent::execute();
 

@@ -84,7 +84,6 @@
 	<table width="100%" class="listing">
 		<tr class="heading" valign="bottom">
 			<td width="10%">{translate key="article.article"} {translate key="common.id"}</td>
-			<td width="20%">{translate key="article.authors"}</td>
 			<td width="40%">{translate key="article.title"}</td>
 			<td width="15%">{translate key="submissions.reviewRound"}</td>
 			<td width="15%">{translate key="common.status"}</td>
@@ -97,7 +96,6 @@
 			{if $isReviewer}
 				<tr valign="top">
 					<td>{$decision->getProposalId()|escape}</td>
-   					<td>{$decision->getAuthorString()|truncate:40:"..."|escape}</td>		
    					<td>
                                             {if $map.$key}
                                                 <a href="{url op="submission" path=$map.$key}" class="action">{$decision->getLocalizedProposalTitle()|strip_unsafe_html|truncate:60:"..."}</a>
@@ -113,7 +111,6 @@
 			{elseif $map.$key}
    				<tr valign="top">
 					<td>{$decision->getProposalId()|escape}</td>
-   					<td>{$decision->getAuthorString()|truncate:40:"..."|escape}</td>
    					<td><a href="{url op="submission" path=$map.$key}" class="action">{$decision->getLocalizedProposalTitle()|strip_unsafe_html|truncate:60:"..."}</a></td>
                                         <td>{translate key=$decision->getReviewTypeKey()} - {$decision->getRound()}</td>
 					<td>{translate key=$decision->getReviewStatusKey()}</td>

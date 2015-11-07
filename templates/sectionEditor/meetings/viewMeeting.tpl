@@ -56,7 +56,6 @@
 	<tr><td colspan="5" class="headseparator">&nbsp;</td></tr>
 	<tr class="heading" valign="bottom">
 		<td width="10%">{translate key="article.article"} {translate key="common.id"}</td>
-		<td width="20%">{translate key="article.authors"}</td>
 		<td width="40%">{translate key="article.title"}</td>
 		<td width="15%">{translate key="submissions.reviewRound"}</td>
 		<td width="15%">{translate key="common.status"}</td>
@@ -66,7 +65,6 @@
 	{foreach from=$sectionDecisions item=decision}
 		<tr valign="top">
 			<td>{$decision->getProposalId()|escape}</td>
-   			<td>{$decision->getAuthorString()|truncate:40:"..."|escape}</td>		
    			<td><a href="{url op="submissionReview" path=$decision->getArticleId()}" class="action">{$decision->getLocalizedProposalTitle()|strip_unsafe_html|truncate:60:"..."}</a></td>
         	<td>{translate key=$decision->getReviewTypeKey()} - {$decision->getRound()}</td>
 			<td>{translate key=$decision->getReviewStatusKey()}</td>

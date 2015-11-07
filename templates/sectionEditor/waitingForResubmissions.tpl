@@ -13,7 +13,6 @@
 	<tr class="heading" valign="bottom">
 		<td width="10%">{translate key="common.proposalId"}</td>
 		<td width="10%">{sort_heading key="submissions.submit" sort="submitDate"}</td>
-		<td width="15%">{sort_heading key="article.authors" sort="authors"}</td>
 		<td width="40%">{sort_heading key="article.title" sort="title"}</td>
 		<td width="15%">{sort_heading key="submissions.reviewRound" sort="round"}</td>
 		<td width="10%" align="right">{sort_heading key="common.status" sort="status"}</td>
@@ -30,7 +29,6 @@
 	<tr valign="top">
 		<td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
 		<td>{$submission->getDateSubmitted()|date_format:$dateFormatLong}</td>
-	   	<td>{$submission->getFirstAuthor()|truncate:20:"..."|escape}</td>
         <td><a href="{url op="submissionReview" path=$submission->getId()}" class="action">title</a></td>
         <td>{$lastDecision->getSectionAcronym()} - {translate key=$lastDecision->getReviewTypeKey()} - {$lastDecision->getRound()}</td>
 		<td align="right">{translate key=$lastDecision->getReviewStatusKey()}</td>		

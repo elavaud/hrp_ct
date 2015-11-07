@@ -45,7 +45,6 @@ $(document).ready(function() {
 	<tr class="heading" valign="bottom">
 		<td width="5%" align="center">{translate key="common.select"}</input></td>
 		<td width="15%">{translate key="article.article"} {translate key="common.id"}</td>
-		<td width="20%">{translate key="article.authors"}</td>
 		<td width="40%">{translate key="article.title"}</td>
 		<td width="10%">{sort_heading key="submissions.reviewRound" sort="round"}</td>
 		<td width="10%">{sort_heading key="common.status" sort="status"}</td>
@@ -55,9 +54,8 @@ $(document).ready(function() {
 	
 {iterate from=availableSectionDecisions item=decision}
 	<tr valign="top">
-			<td>{html_checkboxes id="selectedSectionDecisions" name='selectedSectionDecisions' values=$decision->getId() checked=$sectionDecisionsId'} </td>
+			<td>{html_checkboxes id="selectedSectionDecisions" name="selectedSectionDecisions" values=$decision->getId() checked=$sectionDecisionsId} </td>
 			<td>{$decision->getProposalId()|escape}</td>
-   			<td>{$decision->getAuthorString()|truncate:40:"..."|escape}</td>		
    			<td><a href="{url op="submissionReview" path=$decision->getArticleId()}" class="action">{$decision->getLocalizedProposalTitle()|strip_unsafe_html|truncate:60:"..."}</a></td>
         	<td>{translate key=$decision->getReviewTypeKey()} - {$decision->getRound()}</td>
 			<td>{translate key=$decision->getReviewStatusKey()}</td>
