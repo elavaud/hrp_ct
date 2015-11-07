@@ -191,7 +191,7 @@ class ArticleDetails extends DataObject {
 		return $this->getData('maxAgeUnit');
 	}
         /**
-	 * Get a map for previous committee reviewed constant to locale key.
+	 * Get a map for of units of age.
 	 * @return array
 	 */
 	function &getAgeUnitMap() {
