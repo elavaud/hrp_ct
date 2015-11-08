@@ -13,6 +13,7 @@
 // $Id$
 
 define('EXTRA_FIELD_GEO_AREA', 1);
+define('EXTRA_FIELD_THERAPEUTIC_AREA', 2);
 
 define('EXTRA_FIELD_ACTIVE', 1);
 define('EXTRA_FIELD_NOT_ACTIVE', 2);

@@ -38,6 +38,9 @@ class ExtraFieldForm extends Form {
                     case 'geoAreas':
                         $this->typeConst = (int) EXTRA_FIELD_GEO_AREA;
                         break;
+                    case 'therapeuticAreas':
+                        $this->typeConst = (int) EXTRA_FIELD_THERAPEUTIC_AREA;
+                        break;
                 }
 
 		// Validation checks for this form

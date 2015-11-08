@@ -161,6 +161,7 @@ class ExtraFieldDAO extends DAO {
 		if (!isset($extraFieldsTypeMap)) {
 			$extraFieldsTypeMap = array(
                                 EXTRA_FIELD_GEO_AREA => 'manager.extraFields.geoAreas',
+                                EXTRA_FIELD_THERAPEUTIC_AREA => 'manager.extraFields.therapeuticAreas'                            
 			);
 		}
 		return $extraFieldsTypeMap;

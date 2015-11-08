@@ -182,6 +182,7 @@
 
         <message key="manager.extraFields.active.required">Please specify if this entry should be active or inactive.</message>
         <message key="manager.extraFields.active.definition">During the submission process of a research proposal, the submitter will be able select this entry if this one is active. If this one is inactive, the submitter will not be able to select it. However the research proposals that are already referring to it will continue to use this entry.</message>        
+        
         <message key="manager.extraFields.geoAreas">Geographical Areas</message>
         <message key="manager.extraFields.geoAreas.new">Create a new geographical area</message>    
         <message key="manager.extraFields.geoAreas.edit">Create / Edit a new geographical area</message>    
@@ -191,17 +192,24 @@
         <message key="manager.extraFields.geoAreas.replacement.warning">Attention! The deletion of a geographical area and its replacement can not be undone. Please be sure you want to delete this particular area and, if applicable, you selected the right replacement area. It is strongly recommended to operate daily backup of the database. Please contact your server administrator for more information.</message>
         <message key="manager.extraFields.geoAreas.replacement.message">It appears that the geographical area you would like to delete is currently in used by one or multiple proposal(s) / institution(s) / review committee(s). If you want to delete this area, you therefore need to select a replacement area for the concerned proposal(s) / institution(s) / committee(s).</message>        
         <message key="manager.extraFields.geoAreas.replacement.required">Please choose a replacement for this geographical area. The area you intend to delete is used by one or multiple research proposal(s) / institution(s) / committee(s) in the database. You therefore need to choose a replacing area for these proposal(s) / institution(s) / committee(s). Please choose carefully: this operation can not be undone.</message>
+        
+        <message key="manager.extraFields.therapeuticAreas">Therapeutic Areas</message>
+        <message key="manager.extraFields.therapeuticAreas.new">Create a new therapeutic area</message>    
+        <message key="manager.extraFields.therapeuticAreas.edit">Create / Edit a new therapeutic area</message>    
+        <message key="manager.extraFields.therapeuticAreas.delete">Delete therapeutic area</message>    
+        <message key="manager.extraFields.therapeuticAreas.missing.name">Please enter the name of the therapeutic area.</message>    
+        <message key="manager.extraFields.therapeuticAreas.modify.warning">Attention! This therapeutic area is in used by some research submission(s). The modification will therefore affect all of the proposal(s) referring to it.</message>
+        <message key="manager.extraFields.therapeuticAreas.replacement.warning">Attention! The deletion of a therapeutic area and its replacement can not be undone. Please be sure you want to delete this particular area and, if applicable, you selected the right replacement area. It is strongly recommended to operate daily backup of the database. Please contact your server administrator for more information.</message>
+        <message key="manager.extraFields.therapeuticAreas.replacement.message">It appears that the therapeutic area you would like to delete is currently in used by one or multiple submission(s). If you want to delete this area, you therefore need to select a replacement area for the concerned submission(s).</message>        
+        <message key="manager.extraFields.therapeuticAreas.replacement.required">Please choose a replacement for this therapeutic area. The area you intend to delete is used by one or multiple submission(s) in the database. You therefore need to choose a replacing area for these submission(s). Please choose carefully: this operation can not be undone.</message>
+        
+        
+        
         <message key="manager.extraFields.modify.warning">Attention! This entry is in used by some research proposal(s). The modification will therefore affect all of the proposal(s) referring to it.</message>
         <message key="manager.extraFields.others.def">(manually entered by the submitters)</message>
         <message key="manager.extraFields.others">Manage "Other" fields</message>
         <message key="manager.extraFields.others.replacementRequired">Please choose a replacement for the "Other" fields you selected.</message>
         <message key="manager.extraFields.others.warning">Attention! The modification will affect all of the concerned proposal(s). This operation can not be undone. It is strongly recommended to operate daily backup of the database. Please contact your server administrator for more information.</message>
-        <message key="manager.extraFields.proposalTypes">Proposal Types</message>
-        <message key="manager.extraFields.proposalTypes.new">Create a new proposal type</message>
-        <message key="manager.extraFields.proposalTypes.edit">Create / Edit a new proposal type</message>
-        <message key="manager.extraFields.proposalTypes.delete">Delete proposal type</message>
-        <message key="manager.extraFields.proposalTypes.manageOthers">Below is a list of all proposal types that submitters of research proposals manually entered. Select the one(s) you would like to modify by clicking on the concerned checkbox(es) and select under the proposal type you would like to replace them with.</message>
-        <message key="manager.extraFields.proposalTypes.missing.name">Please enter the name of the proposal type.</message>
         <message key="manager.extraFields.replace">Replace</message>
         <message key="manager.extraFields.replacement">Replacement</message>
         <message key="manager.extraFields.replacement.warning">Attention! The deletion of an entry and its replacement can not be undone. Please be sure you want to delete this particular entry and, if applicable, you selected the right replacement. It is strongly recommended to operate daily backup of the database. Please contact your server administrator for more information.</message>
@@ -210,17 +218,6 @@
         <message key="manager.extraFields.replacement.institutionsNumber">Number of institution(s) using this geographical area:</message>
         <message key="manager.extraFields.replacement.committeesNumber">Number of review committee(s) using this geographical area:</message>
         <message key="manager.extraFields.replacement.required">Please choose a replacement for this entry. The entry you intend to delete is used by one or multiple research proposal(s) in the database. You therefore need to choose a replacing entry for these/this proposal(s). Please choose carefully: this operation can not be undone.</message>
-        <message key="manager.extraFields.researchDomains">Research Domains</message>
-        <message key="manager.extraFields.researchDomains.new">Create a new research domain</message>
-        <message key="manager.extraFields.researchDomains.edit">Create / Edit a new research domain</message>        
-        <message key="manager.extraFields.researchDomains.delete">Delete research domain</message>        
-        <message key="manager.extraFields.researchDomains.missing.name">Please enter the name of the research domain.</message>
-        <message key="manager.extraFields.researchFields">Research Fields</message>
-        <message key="manager.extraFields.researchFields.new">Create a new research field</message>
-        <message key="manager.extraFields.researchFields.edit">Create / Edit a new research field</message>
-        <message key="manager.extraFields.researchFields.delete">Delete research field</message>
-        <message key="manager.extraFields.researchFields.manageOthers">Below is a list of all research fields that submitters of research proposals manually entered. Select the one(s) you would like to change by clicking on the concerned checkboxe(s) and and select under the research field you would like to replace them with.</message>
-        <message key="manager.extraFields.researchFields.missing.name">Please enter the name of the research field.</message>
 
 
 

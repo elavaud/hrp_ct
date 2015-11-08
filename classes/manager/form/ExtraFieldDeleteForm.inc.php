@@ -39,6 +39,10 @@ class ExtraFieldDeleteForm extends Form {
                         $this->typeConst = (int) EXTRA_FIELD_GEO_AREA;
         		$this->addCheck(new FormValidator($this, 'replacement', 'required', 'manager.extraFields.geoAreas.replacement.required'));
                         break;
+                    case 'therapeuticAreas':
+                        $this->typeConst = (int) EXTRA_FIELD_THERAPEUTIC_AREA;
+        		$this->addCheck(new FormValidator($this, 'replacement', 'required','manager.extraFields.therapeuticAreas.replacement.required'));
+                        break;
                 }                
 	}
 
@@ -63,7 +67,10 @@ class ExtraFieldDeleteForm extends Form {
                 if ($this->typeConst == EXTRA_FIELD_GEO_AREA){
                     $replacementMessage = 'manager.extraFields.geoAreas.replacement.message';
                     $replacementWarning = 'manager.extraFields.geoAreas.replacement.warning';
-                } else {
+                } elseif ($this->typeConst == EXTRA_FIELD_THERAPEUTIC_AREA) {
+                    $replacementMessage = 'manager.extraFields.therapeuticAreas.replacement.message';
+                    $replacementWarning = 'manager.extraFields.therapeuticAreas.replacement.warning';                    
+                }else {
                     $replacementMessage = 'manager.extraFields.replacement.message';
                     $replacementWarning = 'manager.extraFields.replacement.warning';
                 }
