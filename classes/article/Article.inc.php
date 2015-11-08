@@ -48,6 +48,8 @@ class Article extends Submission {
         
         var $removedArticleSecIds;
 
+	var $articleDetails;
+
 	/**
 	 * Constructor.
 	 */
@@ -56,7 +58,8 @@ class Article extends Submission {
                 $this->articleTexts = array();
 		$this->removedArticleTexts = array();
                 $this->articleSecIds = array();
-		$this->removedArticleSecIds = array();	}
+		$this->removedArticleSecIds = array();	
+        }
 
 	/**
 	 * @see Submission::getAssocType()
@@ -770,7 +773,19 @@ class Article extends Submission {
 	}
         
         
-        
-        
+        /**
+	 * Get the article details of this submission.
+	 * @return object article details
+	 */
+	function &getArticleDetails() {
+		return $this->articleDetails;
+	}
+        /**
+	 * Set article details of this submission.
+	 * @param $articleDetails object articleDetails
+	 */
+	function setArticleDetails($articleDetails) {
+		return $this->articleDetails = $articleDetails;
+	}
 }
 ?>

@@ -24,6 +24,8 @@ class ArticleDAO extends DAO {
 
         var $articleSecIdDao;
 
+	var $articleDetailsDao;
+        
 	function _cacheMiss(&$cache, $id) {
 		$article =& $this->getArticle($id, null, false);
 		$cache->setCache($id, $article);
@@ -44,7 +46,8 @@ class ArticleDAO extends DAO {
 	function ArticleDAO() {
 		parent::DAO();
 		$this->articleTextDao =& DAORegistry::getDAO('ArticleTextDAO');   
-		$this->articleSecIdDao =& DAORegistry::getDAO('ArticleSecIdDAO');                   
+		$this->articleSecIdDao =& DAORegistry::getDAO('ArticleSecIdDAO');   
+                $this->articleDetailsDAO =& DAORegistry::getDAO('ArticleDetailsDAO');                        
         }
 
 	/**
@@ -188,6 +191,8 @@ class ArticleDAO extends DAO {
 
                 $article->setArticleSecIds($this->articleSecIdDao->getArticleSecIdsByArticleId($row['article_id']));
 
+		$article->setArticleDetails($this->articleDetailsDao->getArticleDetailsByArticleId($row['article_id']));
+                
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
                 if ($publicFiles) {
@@ -326,6 +331,15 @@ class ArticleDAO extends DAO {
 			$this->articleSecIdDao->deleteArticleSecId($removedArticleSecId->getId());
 		}
                 
+                // update articleDetails for this article
+		$articleDetails =& $article->getArticleDetails();
+		if ($this->articleDetailsDao->articleDetailsExists($article->getId())) {
+			$this->articleDetailsDao->updateArticleDetails($articleDetails);
+		} elseif ($articleDetails->getArticleId() > 0) {
+			$this->articleDetailsDao->insertArticleDetails($articleDetails);
+		}
+                
+                
 		$this->flushCache();
 	}
 
@@ -411,6 +425,10 @@ class ArticleDAO extends DAO {
                 //Delete article texts
                 $this->articleSecIdDao->deleteArticleSecIdsByArticleId($articleId);
 
+                //Delete article details
+                $this->articleDetailsDao->deleteArticleDetails($articleId);
+
+                
 		// Delete article citations.
 		$citationDao =& DAORegistry::getDAO('CitationDAO');
 		$citationDao->deleteObjectsByAssocId(ASSOC_TYPE_ARTICLE, $articleId);
@@ -933,6 +951,8 @@ class ArticleDAO extends DAO {
                 $article->setArticleTexts($this->articleTextDao->getArticleTextsByArticleId($row['article_id']));
 
                 $article->setArticleSecIds($this->articleSecIdDao->getArticleSecIdsByArticleId($row['article_id']));
+
+                $article->setArticleDetails($this->articleDetailsDao->getArticlelDetailsByArticleId($row['article_id']));
 
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
