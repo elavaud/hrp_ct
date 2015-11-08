@@ -43,7 +43,11 @@ class Article extends Submission {
         var $articleTexts;
         
         var $removedArticleTexts;
-    
+
+        var $articleSecIds;
+        
+        var $removedArticleSecIds;
+
 	/**
 	 * Constructor.
 	 */
@@ -51,7 +55,8 @@ class Article extends Submission {
 		parent::Submission();
                 $this->articleTexts = array();
 		$this->removedArticleTexts = array();
-	}
+                $this->articleSecIds = array();
+		$this->removedArticleSecIds = array();	}
 
 	/**
 	 * @see Submission::getAssocType()
@@ -712,6 +717,56 @@ class Article extends Submission {
 	 */
 	function setArticleTexts($articleTexts) {
 		return $this->articleTexts = $articleTexts;
+	}
+        
+        
+        /**
+	 * Add an article secondary ID.
+	 * @param $articleSecId ArticleSecId
+	 */
+	function addArticleSecId($articleSecId) {
+		$this->articleSecIds[$articleSecId->getId()] = $articleSecId;
+	}
+        /**
+	 * Remove an article secondary ID.
+	 * @param $articleSecIdId ID of the article secondary ID to remove
+	 * @return boolean article secondary ID was removed
+	 */
+	function removeArticleSecId($articleSecIdId) {
+                $found = false;
+		if ($articleSecIdId != 0) {
+                    $articleSecIds = array();
+                    foreach ($this->articleSecIds as $articleSecId) {
+                        if ($articleSecId->getId() == $articleSecIdId) {
+                            array_push($this->removedArticleSecIds, $articleSecId->geId());
+                            $found = true;
+                        }
+                        else array_push($articleSecIds[$articleSecId->getId()], $articleSecId);       
+                    }
+                    $this->articleSecIds = $articleSecIds;
+		}
+		return $found;
+	}
+	/**
+	 * Get all article secondary IDs for this submission.
+	 * @return array ArticleSecId
+	 */
+	function &getArticleSecIds() {
+		return $this->articleSecIds;
+	}
+        /**
+	 * Get the IDs of all article secondary IDs removed from this submission.
+	 * @return array int
+	 */
+	function &getRemovedArticleSecIds() {
+		return $this->removedArticleSecIds;
+	}
+        /**
+	 * Set article secondary IDs of this submission.
+	 * @param $articleSecIds array ArticleSecId
+	 */
+	function setArticleSecIds($articleSecIds) {
+		return $this->articleSecIds = $articleSecIds;
 	}
         
         
