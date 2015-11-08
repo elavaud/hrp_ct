@@ -19,6 +19,8 @@ import('classes.submission.common.Action');
 
 class ArticleDAO extends DAO {
         var $cache;
+        
+	var $articleTextDao;
 
 	function _cacheMiss(&$cache, $id) {
 		$article =& $this->getArticle($id, null, false);
@@ -39,6 +41,7 @@ class ArticleDAO extends DAO {
 	 */
 	function ArticleDAO() {
 		parent::DAO();
+		$this->articleTextDao =& DAORegistry::getDAO('ArticleTextDAO');                
         }
 
 	/**
@@ -178,6 +181,8 @@ class ArticleDAO extends DAO {
 		if (isset($row['hide_author'])) $article->setHideAuthor($row['hide_author']);
 		if (isset($row['comments_status'])) $article->setCommentsStatus($row['comments_status']);
 		
+		$article->setArticleTexts($this->articleTextDao->getArticleTextsByArticleId($row['article_id']));
+                
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
                 if ($publicFiles) {
@@ -285,7 +290,22 @@ class ArticleDAO extends DAO {
 		);
 
 		$this->updateLocaleFields($article);
-
+                
+                // update article texts for this article
+		$articleTexts =& $article->getArticleTexts();
+		foreach ($articleTexts as $articleText) {
+			if ($articleText->getId() > 0) {
+				$this->articleTextDao->updateArticleText($articleText);
+			} else {
+				$this->articleTextDao->insertArticleText($articleText);
+			}
+                }
+                // Remove deleted article texts
+		$removedArticleTexts = $article->getRemovedArticleTexts();
+		foreach ($removedArticleTexts as $removedArticleText) {
+			$this->articleTextDao->deleteArticleText($removedArticleText->getId());
+		}
+                
 		$this->flushCache();
 	}
 
@@ -364,6 +384,9 @@ class ArticleDAO extends DAO {
 		}
 
 		$articleFileDao->deleteArticleFiles($articleId);
+
+                //Delete article texts
+                $this->articleTextDao->deleteArticleTextsByArticleId($articleId);
 
 		// Delete article citations.
 		$citationDao =& DAORegistry::getDAO('CitationDAO');
@@ -884,6 +907,8 @@ class ArticleDAO extends DAO {
 		if (isset($row['decision'])) $article->setProposalStatus($row['decision']);
 		if (isset($row['date_decided'])) $article->setDateStatusModified($this->datetimeFromDB($row['date_decided']));
 		
+                $article->setArticleTexts($this->articleTextDao->getArticleTextsByArticleId($row['article_id']));
+
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
                 if($publicFiles) $article->setPublishedFinalReport($publicFiles[0]); // FIX ME: Only one file in folder 'public' -> alwas the final report: Pretty ugly

@@ -39,11 +39,18 @@ define ('COMMENTS_ENABLE', 2);
 import('lib.pkp.classes.submission.Submission');
 
 class Article extends Submission {
+    
+        var $articleTexts;
+        
+        var $removedArticleTexts;
+    
 	/**
 	 * Constructor.
 	 */
 	function Article() {
 		parent::Submission();
+                $this->articleTexts = array();
+		$this->removedArticleTexts = array();
 	}
 
 	/**
@@ -624,6 +631,91 @@ class Article extends Submission {
 	function getPublishedFinalReport() {
 		return $this->getData('publishedFinalReport');
 	}
-
+        
+        
+        /**
+	 * Add an article text.
+	 * @param $articleText ArticleText
+	 */
+	function addArticleText($articleText) {
+		$this->articleTexts[$articleText->getLocale()] = $articleText;
+	}
+        /**
+	 * Remove an article text.
+	 * @param $articleTextId ID of the article text to remove
+	 * @return boolean article text was removed
+	 */
+	function removeArticleText($articleTextId) {
+                $found = false;
+		if ($articleTextId != 0) {
+                    $articleTexts = array();
+                    foreach ($this->articleTexts as $articleText) {
+                        if ($articleText->getId() == $articleTextId) {
+                            array_push($this->removedArticleTexts, $articleText->getLocale());
+                            $found = true;
+                        }
+                        else array_push($articleTexts[$articleText->getLocale()], $articleText);       
+                    }
+                    $this->articleTexts = $articleTexts;
+		}
+		return $found;
+	}
+	/**
+	 * Get all article texts for this submission.
+	 * @return array ArticleText
+	 */
+	function &getArticleTexts() {
+		return $this->articleTexts;
+	}
+        /**
+	 * Get a specific article text of this submission by locale.
+	 * @param $locale string
+	 * @return object ArticleText
+	 */
+	function &getArticleTextByLocale($locale) {
+                $articleTextToReturn = null;
+                foreach ($this->articleTexts as $articleText)
+                    if ($articleText->getLocale() == $locale) $articleTextToReturn = $articleText;
+		return $articleTextToReturn;
+	}
+        /**
+	 * Get localized article text. If no article text on the current locale, try the primary locale, if not takes any.
+	 * @param $locale string
+	 * @return object ArticleText
+	 */
+	function &getLocalizedArticleText() {
+                $locale = Locale::getLocale();
+                $articleText = $this->getArticleTextByLocale($locale);
+                if (!$articleText){
+                    $primaryLocale = Locale::getPrimaryLocale();
+                    if ($locale != $primaryLocale) $articleText = $this->getArticleTextByLocale($primaryLocale);
+                    if (!$articleText) {
+                        $journal = Request::getJournal();
+                        $supportedLocales = $journal->getSetting('supportedLocales');
+                        foreach ($supportedLocales as $supportedLocale) {
+                            if (!$articleText) $articleText = $this->getArticleTextByLocale($supportedLocale);
+                        }
+                    }
+                }
+                return $articleText;
+	}
+        /**
+	 * Get the IDs of all article texts removed from this submission.
+	 * @return array int
+	 */
+	function &getRemovedArticleTexts() {
+		return $this->removedArticleTexts;
+	}
+        /**
+	 * Set article texts of this submission.
+	 * @param $articleTexts array ArticleText
+	 */
+	function setArticleTexts($articleTexts) {
+		return $this->articleTexts = $articleTexts;
+	}
+        
+        
+        
+        
 }
 ?>
