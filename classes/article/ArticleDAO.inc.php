@@ -47,7 +47,7 @@ class ArticleDAO extends DAO {
 		parent::DAO();
 		$this->articleTextDao =& DAORegistry::getDAO('ArticleTextDAO');   
 		$this->articleSecIdDao =& DAORegistry::getDAO('ArticleSecIdDAO');   
-                $this->articleDetailsDAO =& DAORegistry::getDAO('ArticleDetailsDAO');                        
+                $this->articleDetailsDao =& DAORegistry::getDAO('ArticleDetailsDAO');                        
         }
 
 	/**
