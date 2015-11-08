@@ -16,6 +16,7 @@ class ArticleTextDAO extends DAO {
 	 * Constructor
 	 */
 	function ArticleTextDAO() {
+            parent::DAO();
 	}
         
     	/**

@@ -16,6 +16,7 @@ class ArticleSecIdDAO extends DAO {
 	 * Constructor
 	 */
 	function ArticleSecIdDAO() {
+            parent::DAO();
 	}
         
     	/**

@@ -16,6 +16,7 @@ class ArticleOutcomeDAO extends DAO {
 	 * Constructor
 	 */
 	function ArticleOutcomeDAO() {
+            parent::DAO();
 	}
         
     	/**
