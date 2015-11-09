@@ -50,6 +50,10 @@ class Article extends Submission {
 
 	var $articleDetails;
 
+        var $articlePurposes;
+        
+        var $removedArticlePurposes;
+        
 	/**
 	 * Constructor.
 	 */
@@ -59,6 +63,8 @@ class Article extends Submission {
 		$this->removedArticleTexts = array();
                 $this->articleSecIds = array();
 		$this->removedArticleSecIds = array();	
+                $this->articlePurposes = array();
+		$this->removedArticlePurposes = array();	
         }
 
 	/**
@@ -787,5 +793,56 @@ class Article extends Submission {
 	function setArticleDetails($articleDetails) {
 		return $this->articleDetails = $articleDetails;
 	}
+        
+        
+        /**
+	 * Add an article purpose.
+	 * @param $articlePurpose ArticlePurpose
+	 */
+	function addArticlePurpose($articlePurpose) {
+		$this->articlePurposes[$articlePurpose->getId()] = $articlePurpose;
+	}
+        /**
+	 * Remove an article purpose.
+	 * @param $articlePurposeId ID of the article purpose to remove
+	 * @return boolean article purpose was removed
+	 */
+	function removeArticlePurpose($articlePurposeId) {
+                $found = false;
+		if ($articlePurposeId != 0) {
+                    $articlePurposes = array();
+                    foreach ($this->articlePurposes as $articlePurpose) {
+                        if ($articlePurpose->getId() == $articlePurposeId) {
+                            array_push($this->removedArticlePurposes, $articlePurpose->geId());
+                            $found = true;
+                        }
+                        else array_push($articlePurposes[$articlePurpose->getId()], $articlePurpose);       
+                    }
+                    $this->articlePurposes = $articlePurposes;
+		}
+		return $found;
+	}
+	/**
+	 * Get all article purposes for this submission.
+	 * @return array ArticlePurpose
+	 */
+	function &getArticlePurposes() {
+		return $this->articlePurposes;
+	}
+        /**
+	 * Get the IDs of all article purposes removed from this submission.
+	 * @return array int
+	 */
+	function &getRemovedArticlePurposes() {
+		return $this->removedArticlePurposes;
+	}
+        /**
+	 * Set article purposes of this submission.
+	 * @param $articlePurposes array ArticlePurpose
+	 */
+	function setArticlePurposes($articlePurposes) {
+		return $this->articlePurposes = $articlePurposes;
+	}
+        
 }
 ?>

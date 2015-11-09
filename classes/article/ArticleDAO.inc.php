@@ -25,6 +25,9 @@ class ArticleDAO extends DAO {
         var $articleSecIdDao;
 
 	var $articleDetailsDao;
+
+        var $articlePurposeDao;
+
         
 	function _cacheMiss(&$cache, $id) {
 		$article =& $this->getArticle($id, null, false);
@@ -47,7 +50,8 @@ class ArticleDAO extends DAO {
 		parent::DAO();
 		$this->articleTextDao =& DAORegistry::getDAO('ArticleTextDAO');   
 		$this->articleSecIdDao =& DAORegistry::getDAO('ArticleSecIdDAO');   
-                $this->articleDetailsDao =& DAORegistry::getDAO('ArticleDetailsDAO');                        
+                $this->articleDetailsDao =& DAORegistry::getDAO('ArticleDetailsDAO');   
+                $this->articlePurposeDao =& DAORegistry::getDAO('ArticlePurposeDAO');                   
         }
 
 	/**
@@ -56,22 +60,6 @@ class ArticleDAO extends DAO {
 	 */
 	function getLocaleFieldNames() {
 		return array(
-                    'coverPageAltText', 
-                    'showCoverPage', 
-                    'hideCoverPageToc', 
-                    'hideCoverPageAbstract', 
-                    'originalFileName', 
-                    'fileName', 
-                    'width', 
-                    'height', 
-                    'discipline', 
-                    'subjectClass', 
-                    'subject', 
-                    'coverageGeo', 
-                    'coverageChron', 
-                    'coverageSample', 
-                    'type', 
-                    'sponsor', 
                     'withdrawReason', 
                     'withdrawComments' 
                );
@@ -192,7 +180,9 @@ class ArticleDAO extends DAO {
                 $article->setArticleSecIds($this->articleSecIdDao->getArticleSecIdsByArticleId($row['article_id']));
 
 		$article->setArticleDetails($this->articleDetailsDao->getArticleDetailsByArticleId($row['article_id']));
-                
+
+                $article->setArticlePurposes($this->articlePurposeDao->getArticlePurposesByArticleId($row['article_id']));
+
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
                 if ($publicFiles) {
@@ -325,7 +315,7 @@ class ArticleDAO extends DAO {
 				$this->articleSecIdDao->insertArticleSecId($articleSecId);
 			}
                 }
-                // Remove deleted article texts
+                // Remove deleted article sec Ids
 		$removedArticleSecIds = $article->getRemovedArticleSecIds();
 		foreach ($removedArticleSecIds as $removedArticleSecId) {
 			$this->articleSecIdDao->deleteArticleSecId($removedArticleSecId->getId());
@@ -339,6 +329,20 @@ class ArticleDAO extends DAO {
 			$this->articleDetailsDao->insertArticleDetails($articleDetails);
 		}
                 
+                // update article purposes for this article
+		$articlePurposes =& $article->getArticlePurposes();
+		foreach ($articlePurposes as $articlePurpose) {
+			if ($articlePurpose->getId() > 0) {
+				$this->articlePurposeDao->updateArticlePurpose($articlePurpose);
+			} else {
+				$this->articlePurposeDao->insertArticlePurpose($articlePurpose);
+			}
+                }
+                // Remove deleted article purposes
+		$removedArticlePurposes = $article->getRemovedArticlePurposes();
+		foreach ($removedArticlePurposes as $removedArticlePurpose) {
+			$this->articlePurposeDao->deleteArticlePurpose($removedArticlePurpose->getId());
+		}
                 
 		$this->flushCache();
 	}
@@ -428,6 +432,8 @@ class ArticleDAO extends DAO {
                 //Delete article details
                 $this->articleDetailsDao->deleteArticleDetails($articleId);
 
+                //Delete article texts
+                $this->articlePurposeDao->deleteArticlePurposes($articleId);
                 
 		// Delete article citations.
 		$citationDao =& DAORegistry::getDAO('CitationDAO');
@@ -953,6 +959,8 @@ class ArticleDAO extends DAO {
                 $article->setArticleSecIds($this->articleSecIdDao->getArticleSecIdsByArticleId($row['article_id']));
 
                 $article->setArticleDetails($this->articleDetailsDao->getArticlelDetailsByArticleId($row['article_id']));
+
+                $article->setArticlePurposes($this->articlePurposeDao->getArticlePurposesByArticleId($row['article_id']));
 
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
