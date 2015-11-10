@@ -28,6 +28,7 @@ class ArticleDAO extends DAO {
 
         var $articlePurposeDao;
 
+        var $articleOutcomeDao;
         
 	function _cacheMiss(&$cache, $id) {
 		$article =& $this->getArticle($id, null, false);
@@ -51,7 +52,8 @@ class ArticleDAO extends DAO {
 		$this->articleTextDao =& DAORegistry::getDAO('ArticleTextDAO');   
 		$this->articleSecIdDao =& DAORegistry::getDAO('ArticleSecIdDAO');   
                 $this->articleDetailsDao =& DAORegistry::getDAO('ArticleDetailsDAO');   
-                $this->articlePurposeDao =& DAORegistry::getDAO('ArticlePurposeDAO');                   
+                $this->articlePurposeDao =& DAORegistry::getDAO('ArticlePurposeDAO'); 
+                $this->articleOutcomeDao =& DAORegistry::getDAO('ArticleOutcomeDAO');                 
         }
 
 	/**
@@ -182,6 +184,8 @@ class ArticleDAO extends DAO {
 		$article->setArticleDetails($this->articleDetailsDao->getArticleDetailsByArticleId($row['article_id']));
 
                 $article->setArticlePurposes($this->articlePurposeDao->getArticlePurposesByArticleId($row['article_id']));
+
+                $article->setArticleOutcomes($this->articleOutcomeDao->getArticleOutcomesByArticleId($row['article_id']));
 
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
@@ -344,6 +348,21 @@ class ArticleDAO extends DAO {
 			$this->articlePurposeDao->deleteArticlePurpose($removedArticlePurpose->getId());
 		}
                 
+                // update article outcomes for this article
+		$articleOutcomes =& $article->getArticleOutcomes();
+		foreach ($articleOutcomes as $articleOutcome) {
+			if ($articleOutcome->getId() > 0) {
+				$this->articleOutcomeDao->updateArticleOutcome($articleOutcome);
+			} else {
+				$this->articleOutcomeDao->insertArticleOutcome($articleOutcome);
+			}
+                }
+                // Remove deleted article outcomes
+		$removedArticleOutcomes = $article->getRemovedArticleOutcomes();
+		foreach ($removedArticleOutcomes as $removedArticleOutcome) {
+			$this->articleOutcomeDao->deleteArticleOutcome($removedArticleOutcome->getId());
+		}
+                
 		$this->flushCache();
 	}
 
@@ -426,14 +445,18 @@ class ArticleDAO extends DAO {
                 //Delete article texts
                 $this->articleTextDao->deleteArticleTextsByArticleId($articleId);
 
-                //Delete article texts
+                //Delete article secondary IDs
                 $this->articleSecIdDao->deleteArticleSecIdsByArticleId($articleId);
 
                 //Delete article details
                 $this->articleDetailsDao->deleteArticleDetails($articleId);
 
-                //Delete article texts
+                //Delete article purposes
                 $this->articlePurposeDao->deleteArticlePurposes($articleId);
+
+                //Delete article outcomes
+                $this->articleOutcomeDao->deleteArticleOutcomes($articleId);
+
                 
 		// Delete article citations.
 		$citationDao =& DAORegistry::getDAO('CitationDAO');
@@ -961,6 +984,8 @@ class ArticleDAO extends DAO {
                 $article->setArticleDetails($this->articleDetailsDao->getArticlelDetailsByArticleId($row['article_id']));
 
                 $article->setArticlePurposes($this->articlePurposeDao->getArticlePurposesByArticleId($row['article_id']));
+
+                $article->setArticleOutcomes($this->articleOutcomeDao->getArticleOutcomesByArticleId($row['article_id']));
 
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');

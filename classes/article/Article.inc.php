@@ -53,7 +53,11 @@ class Article extends Submission {
         var $articlePurposes;
         
         var $removedArticlePurposes;
+
+        var $articleOutcomes;
         
+        var $removedArticleOutcomes;
+
 	/**
 	 * Constructor.
 	 */
@@ -65,6 +69,8 @@ class Article extends Submission {
 		$this->removedArticleSecIds = array();	
                 $this->articlePurposes = array();
 		$this->removedArticlePurposes = array();	
+                $this->articleOutcomes = array();
+		$this->removedArticleOutcomes = array();	
         }
 
 	/**
@@ -842,6 +848,71 @@ class Article extends Submission {
 	 */
 	function setArticlePurposes($articlePurposes) {
 		return $this->articlePurposes = $articlePurposes;
+	}
+        
+        
+        
+        
+        /**
+	 * Add an article outcome.
+	 * @param $articleOutcome ArticleOutcome
+	 */
+	function addArticleOutcome($articleOutcome) {
+		$this->articleOutcomes[$articleOutcome->getId()] = $articleOutcome;
+	}
+        /**
+	 * Remove an article outcome.
+	 * @param $articleOutcomeId ID of the article outcome to remove
+	 * @return boolean article outcome was removed
+	 */
+	function removeArticleOutcome($articleOutcomeId) {
+                $found = false;
+		if ($articleOutcomeId != 0) {
+                    $articleOutcomes = array();
+                    foreach ($this->articleOutcomes as $articleOutcome) {
+                        if ($articleOutcome->getId() == $articleOutcomeId) {
+                            array_push($this->removedArticleOutcomes, $articleOutcome->geId());
+                            $found = true;
+                        }
+                        else array_push($articleOutcomes[$articleOutcome->getId()], $articleOutcome);       
+                    }
+                    $this->articleOutcomes = $articleOutcomes;
+		}
+		return $found;
+	}
+	/**
+	 * Get all article outcomes for this submission.
+	 * @return array ArticleOutcome
+	 */
+	function &getArticleOutcomes() {
+		return $this->articleOutcomes;
+	}
+        /**
+	 * Get the IDs of all article outcomes removed from this submission.
+	 * @return array int
+	 */
+	function &getRemovedArticleOutcomes() {
+		return $this->removedArticleOutcomes;
+	}
+        /**
+	 * Set article outcomes of this submission.
+	 * @param $articleOutcomes array ArticleOutcome
+	 */
+	function setArticleOutcomes($articleOutcomes) {
+		return $this->articleOutcomes = $articleOutcomes;
+	}
+        /**
+	 * Get all article outcomes for this submission by type (primary/secondary).
+	 * @return array ArticleOutcome
+	 */
+	function &getArticleOutcomesByType($type) {
+                $array = array();
+                foreach ($this->articleOutcomes as $articleOutcome) {
+                    if ($articleOutcome->getType() == $type) {
+                        array_push($array, $articleOutcome);
+                    }
+                }
+		return $array;
 	}
         
 }
