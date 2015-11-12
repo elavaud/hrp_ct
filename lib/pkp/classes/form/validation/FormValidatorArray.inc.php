@@ -22,6 +22,9 @@ class FormValidatorArray extends FormValidator {
 	/** @var array Array of field names where an error occurred */
 	var $_errorFields;
 
+        /** @var boolean sub array to go through */
+	var $_subArray;
+
 	/**
 	 * Constructor.
 	 * @param $form Form the associated form
@@ -30,9 +33,10 @@ class FormValidatorArray extends FormValidator {
 	 * @param $message string the error message for validation failures (i18n key)
 	 * @param $fields array all subfields for each item in the array, i.e. name[][foo]. If empty it is assumed that name[] is a data field
 	 */
-	function FormValidatorArray(&$form, $field, $type, $message, $fields = array()) {
+	function FormValidatorArray(&$form, $field, $type, $message, $fields = array(), $subArray = false) {
 		parent::FormValidator($form, $field, $type, $message);
 		$this->_fields = $fields;
+		$this->_subArray = $subArray;                
 		$this->_errorFields = array();
 	}
 
@@ -64,6 +68,42 @@ class FormValidatorArray extends FormValidator {
 		if (!is_array($data)) return false;
                 $isValid = true;
 		foreach ($data as $key => $value) {
+                    if ($this->_subArray) {
+        		foreach ($value as $subKey => $subValue) {
+                            if (count($this->_fields) == 0) {
+                                    // We expect all fields to contain values.
+                                    if (is_array($subValue)) {
+                                            foreach($subValue as $subsubkey => $subsubvalue ) {
+                                                if( empty( $subsubvalue ) )
+                                                {
+                                                   unset( $subValue[$subsubkey] );
+                                                }
+                                            }
+                                            if (empty($subValue)){
+                                                $isValid = false;
+                                                array_push($this->_errorFields, $this->getField()."[{$subKey}]");
+                                            }
+                                    } elseif (is_null($subValue) || trim((string)$subValue) == '') {
+                                            $isValid = false;
+                                            array_push($this->_errorFields, $this->getField()."[{$subKey}]");
+                                    }
+                            } else {
+                                    // In the two-dimensional case we always expect a value array.
+                                    if (!is_array($subValue)) {
+                                            $isValid = false;
+                                            array_push($this->_errorFields, $this->getField()."[{$subKey}]");
+                                            continue;
+                                    }
+                                    // Go through all sub-sub-fields and check them explicitly
+                                    foreach ($this->_fields as $field) {
+                                            if (!isset($subValue[$field]) || trim((string)$subValue[$field]) == '') {
+                                                    $isValid = false;
+                                                    array_push($this->_errorFields, $this->getField()."[{$subKey}][{$field}]");
+                                            }
+                                    }
+                            }
+                        }
+                    } else {
 			if (count($this->_fields) == 0) {
 				// We expect all fields to contain values.
                                 if (is_array($value)) {
@@ -96,6 +136,8 @@ class FormValidatorArray extends FormValidator {
 					}
 				}
 			}
+                    }
+                        
 		}
 
 		return $isValid;
