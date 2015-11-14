@@ -15,12 +15,13 @@
 define ('ARTICLE_PURPOSE_NOT_PROVIDED', 0);
 
 define ('ARTICLE_PURPOSE_TYPE_OBS', 1);             //Obeservational Study
-define ('ARTICLE_PURPOSE_TYPE_DIAGNOSIS', 2);       //Interventional Study Diagnosis
-define ('ARTICLE_PURPOSE_TYPE_EARLY', 3);           //Interventional Study Early Detection - Screening
-define ('ARTICLE_PURPOSE_TYPE_PREVENTION', 4);      //Interventional Study Prevention
-define ('ARTICLE_PURPOSE_TYPE_TREAT_DRUGS', 5);     //Interventional Study Treatment Drugs
-define ('ARTICLE_PURPOSE_TYPE_TREAT_DEVICES', 6);   //Interventional Study Treatment Devices
-define ('ARTICLE_PURPOSE_TYPE_TREAT_OTHERS', 7);    //Interventional Study Treatment Others
+define ('ARTICLE_PURPOSE_TYPE_INT', 2);             //Interventional Study
+define ('ARTICLE_PURPOSE_TYPE_DIAGNOSIS', 3);       //Interventional Study Diagnosis
+define ('ARTICLE_PURPOSE_TYPE_EARLY', 4);           //Interventional Study Early Detection - Screening
+define ('ARTICLE_PURPOSE_TYPE_PREVENTION', 5);      //Interventional Study Prevention
+define ('ARTICLE_PURPOSE_TYPE_TREAT_DRUGS', 6);     //Interventional Study Treatment Drugs
+define ('ARTICLE_PURPOSE_TYPE_TREAT_DEVICES', 7);   //Interventional Study Treatment Devices
+define ('ARTICLE_PURPOSE_TYPE_TREAT_OTHERS', 8);    //Interventional Study Treatment Others
 
 define ('ARTICLE_PURPOSE_CT_PHASE_0', 1);           //Clinical Trial Phase 0
 define ('ARTICLE_PURPOSE_CT_PHASE_I', 2);           //Clinical Trial Phase I
@@ -88,6 +89,11 @@ class ArticlePurpose extends DataObject {
 	 * @param $type int
 	 */
 	function setType($type) {
+                if ($type == ARTICLE_PURPOSE_TYPE_OBS || $type == ARTICLE_PURPOSE_NOT_PROVIDED) {
+                    $this->setInterventional($type);
+                } else {
+                    $this->setInterventional(ARTICLE_PURPOSE_TYPE_INT);                    
+                }
 		return $this->setData('type', $type);
 	}    
 	/**
@@ -125,6 +131,19 @@ class ArticlePurpose extends DataObject {
 		$typeMap =& $this->getTypeMap();
 		return $typeMap[$type];
 	}
+        /**
+         * Set if the study is interventional
+	 * @param $interventional int
+         */
+        function setInterventional($interventional){
+		return $this->setData('interventional', $interventional);
+        }
+        /**
+         * Get if the study is interventional
+         */
+        function getInterventional(){
+		return $this->getData('interventional');
+        }
         
         
         /**
@@ -274,7 +293,7 @@ class ArticlePurpose extends DataObject {
                                 ARTICLE_PURPOSE_NOT_PROVIDED => 'common.dataNotProvided',
 				ARTICLE_PURPOSE_CONTROL_PLACEBO => 'proposal.purpose.control.placebo',
 				ARTICLE_PURPOSE_CONTROL_ACTIVE => 'proposal.purpose.control.active',
-				ARTICLE_PURPOSE_CONTROL_UNCONTROLLED => 'proposal.purpose.control.unctrolled',
+				ARTICLE_PURPOSE_CONTROL_UNCONTROLLED => 'proposal.purpose.control.uncontrolled',
 				ARTICLE_PURPOSE_CONTROL_HISTORICAL => 'proposal.purpose.control.historical',
 				ARTICLE_PURPOSE_CONTROL_DOSE => 'proposal.purpose.control.dose'
                         );
@@ -344,7 +363,7 @@ class ArticlePurpose extends DataObject {
 	 * Get $endpoint.
 	 * @return int
 	 */
-	function getEndoint() {
+	function getEndpoint() {
 		return $this->getData('endpoint');
 	}
         /**
@@ -370,7 +389,7 @@ class ArticlePurpose extends DataObject {
 	 * Get a locale key for the endpoint
 	 */
 	function getEndpointKey() {
-                $endpoint = $this->getEndoint();
+                $endpoint = $this->getEndpoint();
 		$endpointMap =& $this->getEndpointMap();
 		return $endpointMap[$$endpoint];
 	}

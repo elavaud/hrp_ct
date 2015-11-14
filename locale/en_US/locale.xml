@@ -337,52 +337,263 @@
 
     <message key="proposal.title">Title</message>
     <message key="proposal.scientificTitle">Scientific title</message>
-    <message key="proposal.scientificTitleInstruct">Scientific title of the study as it appears in the protocol submitted for funding and ethical review. This title should contain information on population, intervention, comparator and outcome(s).</message>
+    <message key="proposal.scientificTitle.instruct">This is the scientific name of the study provided by the principal investigator or sponsor. The title should contain information on participants, the intervention, the condition being studied, and the outcome.</message>
     <message key="proposal.publicTitle">Public title</message>
-    <message key="proposal.publicTitleInstruct">Title intended for the lay public in easily understood language.</message>
-    <message key="proposal.abstract">Abstract</message>
-    <message key="proposal.objectives">Objectives</message>
-    <message key="proposal.keywords">Keywords</message>
-    <message key="proposal.objectivesInstruct">Key research questions, hypothesis, objectives in bullet points if feasible.</message>
-    <message key="proposal.background">Background</message>
-    <message key="proposal.backgroundInstruct">Key issues under investigation, importance, what is known already, and why this study.</message>
-    <message key="proposal.studyMethods">Study Methods</message>
-    <message key="proposal.studyMethodsInstruct">Relevant features of study design (qualitative/quantitative, cross-sectional survey/case-control...), estimated sample size, manner of data collection, etc. [e.g. study involves key informant interviews with policy-makers, involving 6-8 people at national or provincial level...]</message>
-    <message key="proposal.expectedOutcomes">Expected outcomes and use of results</message>
-    <message key="proposal.expectedOutcomesInstruct">Potential outcomes of study such as measurement of prevalence, other indicators being measured, how the results will be used to inform particular policy or program...</message>
-    <message key="proposal.keywordsInstruct">Significant or descriptive words.</message>
-    <message key="proposal.startDateInstruct">Start date of the research.</message>
-    <message key="proposal.endDateInstruct">End date of the research.</message>
-    <message key="proposal.primarySponsorInstruct">The individual, organization, group or other legal entity which takes responsibility for initiating, managing and/or financing a study. The Primary Sponsor is responsible for ensuring that the research is properly registered. The Primary Sponsor may or may not be the main funder.</message>
-    <message key="proposal.otherPrimarySponsorInstruct">If your primary sponsor is not included in the above list, please specify it here.</message>
-    <message key="proposal.secondarySponsorsInstruct">Additional individuals, organizations or other legal persons, if any, that have agreed with the primary sponsor to take on responsibilities of sponsorship. A secondary sponsor may have agreed: 
-•	to take on all the responsibilities of sponsorship jointly with the primary sponsor; or 
-•	to form a group with the primary sponsor in which the responsibilities of sponsorship are allocated among the members of the group; or 
-•	to act as the sponsor’s legal representative in relation to some or all of the trial sites; or 
-•	to take responsibility for the accuracy of trial registration information submitted.</message>
-    <message key="proposal.multiCountryResearchInstruct">Is the research involving patients from different countries?</message>
-    <message key="proposal.studentInitiatedResearchInstruct">Is the research undertaken as part of academic degree requirements?</message>
-    <message key="proposal.studentInstitutionInstruct">Institution where the student is enrolled.</message>
-    <message key="proposal.studentSupervisorNameInstruct">Please provide the full name and title of the supervisor of the student(s).</message>
-    <message key="proposal.studentSupervisorEmailInstruct">Please provide the email of the supervisor of the student(s).</message>
-    <message key="proposal.academicDegreeInstruct">Academic degree in which the student is enrolled.</message>
-    <message key="proposal.undergraduate">Undergraduate</message>
-    <message key="proposal.master">Master</message>
-    <message key="proposal.postDoc">Post-Doc</message>
-    <message key="proposal.phd">Ph.D.</message>
-    <message key="proposal.geoAreaInstruct">Geographical area(s) where the research take place.</message>
-    <message key="proposal.otherSecondarySponsorInstruct">If one or more of your secondary sponsor(s) is/are not included in the above list, please sepcify it/them here.</message>
-    <message key="proposal.abstractInstruct">Short description of the primary purpose of the protocol, including a brief statement of the study hypothesis. Include publication/s details (link/reference), if any.</message>
-    <message key="proposal.addAnotherSecondarySponsor">Add another secondary sponsor</message>
-    <message key="proposal.addAnotherCountry">Add another country</message>
-    <message key="proposal.addAnotherArea">Add another area</message>
-    <message key="proposal.addAnotherFieldOfResearch">Add another field of research</message>
-    <message key="proposal.addAnotherProposalType">Add another proposal type</message>
-    <message key="proposal.addAnotherAgency">Add another agency</message>
-    <message key="proposal.randomlySelectedProvince">Yes, with randomly selected geographical areas</message>
+    <message key="proposal.publicTitle.instruct">Title of the study is intended for the lay public and should be in easily understood language.</message>
+    <message key="proposal.articleSecId">Secondary ID</message>
+    <message key="proposal.articleSecId.type">Type</message>
+    <message key="proposal.articleSecId.id">ID</message>
+    <message key="proposal.articleSecId.instruct">
+        <![CDATA[Other identifiers besides the Trial Identifying Number allocated by the Primary Registry, if any. These include:
+            <ul>
+                <li>The Universal Trial Number (UTN) - The Universal Trial Number (UTN) is a unique number which aims to facilitate the unambiguous identification of clinical trials registered in Primary Registries in the WHO registry network and displayed on the WHO International Clinical Trials Registry Platform's (ICTRP) Search Portal. A UTN should be obtained early in the history of a trial and should be used every time the trial is identified. To obtain a UTN please go to: <a href="http://apps.who.int/trialsearch/utn.aspx">http://apps.who.int/trialsearch/utn.aspx</a></li>
+                <li>Identifiers assigned by the sponsor (record Sponsor name and Sponsor-issued trial number (e.g. protocol number))</li>
+                <li>Other trial registration numbers issued by other Registries (ISCTRN, ClinicalTrials.gov, etc.)</li>
+                <li>Identifiers issued by funding bodies, collaborative research groups, regulatory authorities, ethics committees / institutional review boards, etc.</li>
+            </ul>
+            It is possible that the trial may not have a secondary ID. Please include the text ‘Nil known’ if you do not know of any secondary IDs.
+            <br/>Enter only one secondary ID and issuing authority per box. Click “Add” to add more boxes if the study has multiple identifying numbers and issuing authorities. There is no limit to the number of Secondary ID entries (boxes) that can be added.
+        ]]>
+    </message>
+    <message key="proposal.addAnotherSecId">Add another secondary ID</message>Secondary ID 
+    <message key="proposal.title">Title</message>
+    <message key="proposal.protocolVersion">Protocol Version</message>
+    <message key="proposal.protocolVersion.instruct">Current version of the protocol submitted.</message>
+    <message key="proposal.therapeuticArea">Therapeutic Area</message>    
+    <message key="proposal.therapeuticArea.instruct">Provide primary therapeutic area that the conduct of the trial addresses</message>
+    <message key="proposal.icd10s">ICD 10 Classification Code(s)</message>
+    <message key="proposal.icd10s.instruct"><![CDATA[The specific medical condition being studied (e.g. asthma, myocardial infarction, hyperlipidemia, depression). Include ICD 10 classification code. Please visit <a href="http://apps.who.int/classifications/icd10/browse/2016/en">http://apps.who.int/classifications/icd10/browse/2016/en</a> for more information.<br/><br/>Select one health condition or problem studied in the selection menu and specify the code if you know it. Click “Add” to add more boxes if the study has multiple health conditions or problems studied. The form allows maximum of 20 entries (boxes) for the health condition(s) or disease(s) studied.]]></message>
+    <message key="proposal.icd10.exact">Exact code</message>
+    <message key="proposal.addAnotherICD10">Add another health condition</message>
+        
+    <message key="proposal.purposes">Type and purpose of study</message>
+    <message key="proposal.purposes.instruct">
+        <![CDATA[
+            Choose the most appropriate.
+            <ul>
+                <li><b>Observational study:</b> study in which no experimental intervention or treatment is applied. The investigator observes the effect of a risk factor, diagnostic test, or treatment on a particular outcome, e.g. the relationship between smoking and heart attacks. It involves observing without altering or influencing that which is being observed. For example, in an observational study, the researchers examine and report on what is happening, without controlling the course of events. Certain outcomes are measured but no attempt is made to affect the outcome.</li>
+                <li><b>Interventional Study:</b> Any research study that prospectively assigns human participants or groups of humans to one or more health-related intervention to evaluate the effect on outcomes. Interventions include, but are not restricted to, drugs, cells and other biological products, surgical procedures, radiologic procedures, devices, process-of-care changes, preventive care, diagnostic procedures.</li>
+            </ul>
+        ]]>
+    </message>
+    <message key="proposal.purposes.type">Type</message>
+    <message key="proposal.purposes.type.instruct">
+        <![CDATA[
+            Choose the most appropriate.
+            <ul>
+                <li><b>Diagnosis:</b> study designed to evaluate one or more interventions aimed at identifying a disease or health condition.</li>
+                <li><b>Early detection / screening:</b> study that involves the systematic examination of a group of participants, in order to separate well persons from those who have an undiagnosed pathologic condition or who are at high risk. It could also refer to the initial evaluation of an individual, intended to determine suitability for a particular treatment modality or to detect specific markers or characteristics that may require further investigation.</li>
+                <li><b>Prevention:</b> study designed to assess one or more interventions aimed at preventing the development of a specific disease or health condition.</li>
+                <li><b>Treatment - drugs:</b> study designed to assess the effect(s) of one or more chemical or biological agents including vaccines.</li>
+                <li><b>Treatment - devices:</b> study designed to evaluate the use of any physical item used in medical treatment whether it be an instrument, piece of equipment, machine, apparatus, appliance, material or other article, and whether it is used alone or in combination with the intention of preventing, diagnosing, treating, and curing a disease or condition. Examples include: artificial limbs, contact lenses, ventilators, catheters, implants, vibration therapy machines.</li>
+                <li><b>Treatment - other:</b> studies that do not fall under the broad definitions of drug, surgical, or device trials. Examples include interventions such as exercise, physiotherapy, cognitive therapy, special diets, herbal medicines, web-based treatments, motivational classes, music therapy, stem cell interventions.</li>                
+            </ul>
+        ]]>
+    </message>
+    <message key="proposal.purposes.ctPhase">CT Phase</message>
+    <message key="proposal.purposes.ctPhase.instruct">
+        <![CDATA[
+            Choose the most appropriate.
+            <ul>
+                <li><b>Phase 0:</b> includes exploratory, first-in-human trials. Phase 0 trials are also known as human microdosing studies and are designed to speed up the development of promising drugs or imaging agents by establishing very early on whether the drug or agent behaves in human subjects as was anticipated from preclinical studies. Exploratory trials are conducted before traditional dose escalation and safety studies and gives no data on safety or efficacy, being by definition a dose too low to cause any therapeutic effect.</li>
+                <li><b>Phase 1:</b> includes initial study to determine the metabolism and pharmacologic actions of drugs in humans, the side effects associated with increasing doses, and to gain early evidence of effectiveness; may include healthy participants and/or patients. Trials are often dose ranging/escalating trials which are done to determine the maximum dose of a new medication that can be safely given to a patient.</li>
+                <li><b>Phase 2:</b> includes controlled clinical studies conducted to evaluate/test the effectiveness of a new drug/medication or intervention for a particular indication or indications in patients with the disease or condition being studied and to determine the common short-term side effects and risks</li>
+                <li><b>Phase 3:</b> includes expanded controlled and uncontrolled trials after preliminary evidence suggesting effectiveness of the drug has been obtained, and are intended to gather additional information to evaluate the overall benefit-risk relationship of a new drug/medication or intervention, including possible adverse reactions. It is also to provide an adequate basis for physician labelling</li>
+                <li><b>Phase 4:</b> post-marketing study to delineate additional information. Trials are done to monitor the toxicity, risks, utility, benefits and optimal use after the efficacy of the drug/medication or intervention has been proven.</li>
+                <li><b>Bioequivalence:</b> a comparative bioavailability study designed to establish whether or not there is bioequivalence between test and reference products.</li>                
+            </ul>
+        ]]>
+    </message>    
+    <message key="proposal.purposes.allocation">Allocation</message>
+    <message key="proposal.purposes.allocation.instruct">
+        <![CDATA[
+            Choose the appropriate type of allocation to intervention:
+            <ul>
+                <li><b>Randomized controlled trial</b> means that allocation of subjects into different groups (i.e. intervention and control) was random or by a method based on chance.</li>
+                <li><b>Non-randomized trial</b> means that allocation of subjects into different groups (i.e. intervention and control) is expressly or deliberately done, and is not random or by chance.</li>                
+            </ul>
+        ]]>
+    </message>    
+    <message key="proposal.purposes.studyDesign">Study Design</message>
+    <message key="proposal.purposes.masking">Masking</message>
+    <message key="proposal.purposes.masking.instruct">
+        <![CDATA[
+            Choose appropriate masking/blinding from the list:
+            <ul>
+                <li><b>Masking / blinding:</b> knowledge of the interventions assigned to subjects. This means the person in question (subjects, therapist (clinician), assessor or data analyst) did not know which group the subject had been allocated to.</li>
+                <li><b>Open label (masking not used):</b> all involved in the study know the identity of the intervention assignment. Subject, therapist (clinician), assessor and data analyst are not blinded.</li>  
+                <li><b>Blinded (masking used):</b> when one or more of the parties (subjects, therapist (clinician), assessor or data analyst) is/are blinded or unaware of the intervention assignment.</li>
+            </ul>
+        ]]>
+</message>    
+    <message key="proposal.purposes.control">Control</message>
+    <message key="proposal.purposes.control.instruct">
+        <![CDATA[
+            A "control" group is the type of treatment to which the intervention is being compared. Also known as a "comparator" group. Choose the most appropriate description of the study’s control group from the list:
+            <ul>
+                <li><b>Placebo:</b> an inactive or sham treatment that has no treatment value is given to the control group, such as sugar pill or saline solution.</li>
+                <li><b>Active:</b> when the control treatment is active. This includes standard care, alternate forms of treatment, no treatment given, or if patients act as their own control (crossover study).</li>    
+                <li><b>Uncontrolled:</b> when there is no control group, as in single group trials. The same intervention is applied to all subjects in the study.</li>                
+                <li><b>Historical:</b> a group of people who received their care in the past, i.e. not at the same time as the people receiving the intervention. This selection is not applicable for randomized controlled trials. The source and time period that historical data was collected needs to be described in the comparator field.</li>                
+                <li><b>Dose comparison:</b> the comparator group receives the same treatment as the intervention group, but in a different dose. Dose, duration and mode of administration for both the intervention and control groups need to be described in the intervention and comparator fields.</li>                                            
+            </ul>
+        ]]>
 
+    </message>    
+    <message key="proposal.purposes.assignment">Assignment</message>
+    <message key="proposal.purposes.assignment.instruct">
+        <![CDATA[
+            Choose the most appropriate description of the study’s assignment from the list.
+            <ul>
+                <li><b>Single Group:</b> all participants receive the same intervention throughout the study. Trials in which participants are assigned to receiving one of two or more interventions are not single group studies. Crossover trials are not single group studies.</li>
+                <li><b>Parallel:</b> different groups of participants receive different interventions during the same time span of the study.</li>      
+                <li><b>Crossover:</b> all participants receive all the interventions in different sequences during the study. They act as their own control.</li>                
+                <li><b>Factorial:</b> participants are randomly allocated to receive either no intervention, one or some interventions, or all interventions simultaneously.</li>                
+                <li><b>Other:</b> None of the selections provides an appropriate description of the study’s assignment.</li>                
+            </ul>
+        ]]> 
+    </message>    
+    <message key="proposal.purposes.endpoint">Endpoint</message>
+    <message key="proposal.purposes.endpoint.instruct">
+        <![CDATA[
+            Choose the most appropriate description of the study’s endpoint(s) from the list.
+            <ul>
+                <li><b>Safety:</b> to show if the intervention is safe under conditions of proposed protocol/use</li>
+                <li><b>Efficacy:</b> to measure an intervention’s influence on a disease or health condition</li>  
+                <li><b>Safety/efficacy:</b> combination of safety and efficacy</li>  
+                <li><b>Pharmacokinetics:</b> the action of a drug in the body over a period of time including the process of absorption, distribution and localisation in tissue, biotransformation, and excretion of the compound</li>  
+                <li><b>Pharmacodynamics:</b> action of drugs in living systems</li>  
+                <li><b>Pharmacokinetics / Pharmacodynamics:</b> combination of pharmacokinetics and pharmacodynamics</li>                                
+            </ul>
+        ]]>       
+    </message>    
+    
+    <message key="proposal.addAnotherPurpose">Add another type and purpose of study</message>
 
-        <message key="proposal.purpose.endpoint.saf">Safety</message>
+    <message key="proposal.description">Description of intervention / exposure</message>
+    <message key="proposal.description.instruct">
+        <![CDATA[
+            Describe the specific name of the intervention(s) being studied. Use the International Non-Proprietary Name if possible (not brand/trade names). For an unregistered drug, the generic name, chemical name, or company serial number is acceptable. If there are multiple treatment arms, please label with subheadings (e.g. Arm 1, Arm 2, etc.).
+            <br/><br/>For each intervention, describe other intervention details as applicable (dose, duration, mode of administration, etc). A brief description of the strategies used to improve adherence to intervention protocols and any procedures for monitoring adherence (e.g. drug tablet return, laboratory tests, etc.) also need to be included where applicable.
+            <br/><br/>For an observational study, this is a description of the condition observed. The duration of the observation must also be described.
+        ]]>
+    </message>
+    <message key="proposal.keyInclusionCriteria">Key Inclusion Criteria</message>
+    <message key="proposal.keyInclusionCriteria.instruct">Summary of key inclusion criteria of patient characteristics that determine eligibility for participation in the study.</message>
+    <message key="proposal.keyExclusionCriteria">Key Exclusion Criteria</message>
+    <message key="proposal.keyExclusionCriteria.instruct">Summary of key exclusion criteria of patient characteristics that determine eligibility for participation in the study.</message>
+
+    <message key="proposal.primaryOutcomes">Primary Outcome(s)</message>
+    <message key="proposal.primaryOutcomes.instruct">
+        <![CDATA[
+            The Primary Outcome should be the outcome used in sample size calculations, or the main outcome(s) used to determine the effects of the intervention(s). Most trials should have only one primary outcome.
+            <br/><br/>For each primary outcome provide:
+            <ul>
+                <li>The name of the outcome (do not use abbreviations)</li>
+                <li>The metric or method of measurement used (be as specific as possible)</li>
+                <li>The timepoint(s) of primary interest</li>                
+            </ul>
+            <u>Example:</u>
+            <br/>Primary Outcome Name: Depression
+            <br/>Metric/method of measurement: Beck Depression Score
+            <br/>Timepoint: 18 weeks following end of treatment
+            <br/><br/>Enter only one primary outcome in the primary outcome box (one at a time) and the timepoint(s) at which this particular outcome is measured in the timepoint box.
+            <br/><br/>Click “Add” to add more boxes if the study has multiple primary outcomes. The form allows maximum of 3 sets of entries for the primary outcome and timepoint.
+            <br/>
+        ]]>
+    </message>
+    <message key="proposal.primaryOutcome">Primary Outcome</message>
+    <message key="proposal.primaryOutcome.name">Name</message>
+    <message key="proposal.primaryOutcome.measurement">Metric/Method of measurement</message>
+    <message key="proposal.primaryOutcome.timepoint">Timepoint</message>
+    <message key="proposal.primaryOutcome.add">Add another primary outcome (3 max)</message>
+
+    <message key="proposal.secondaryOutcomes">Secondary Outcome(s)</message>
+    <message key="proposal.secondaryOutcomes.instruct">
+        <![CDATA[
+            Secondary outcomes are events, variables, or experiences that are of secondary interest or that are measured at timepoints of secondary interest. A secondary outcome may involve the same event, variable, or experience as the primary outcome, but measured at timepoints other than those of primary interest (e.g. Primary outcome: all-cause mortality at 5 years; Secondary outcome: all-cause mortality at 1 year, 3 years), or may involve a different event, variable, or experience altogether (e.g. Primary outcome: all cause mortality at 5 years; Secondary outcome: hospitalization rate at 5 years).
+            <br/><br/>For each secondary outcome provide:
+            <ul>
+                <li>The name of the outcome (do not use abbreviations)</li>
+                <li>The metric or method of measurement used (be as specific as possible)</li>
+                <li>The timepoint(s) of primary interest</li>                
+            </ul>
+            <u>Example:</u>
+            <br/>Secondary Outcome 1 : knee pain
+            <br/>Metric/method of measurement : Visual Analogue Scale
+            <br/>Timepoint: at 6 months after randomization
+            <br/><br/> Enter only one secondary outcome in the secondary outcome box (one at a time) and the timepoint(s) at which this particular outcome is measured in the timepoint box.
+            <br/><br/> Click “Add” to add more boxes if the study has multiple secondary outcomes. The form allows a maximum of 20 sets of entries for the secondary outcome(s) and timepoint(s).
+            <br/>
+        ]]>
+    </message>        
+    <message key="proposal.secondaryOutcome">Secondary Outcome</message>
+    <message key="proposal.secondaryOutcome.name">Name</message>
+    <message key="proposal.secondaryOutcome.measurement">Metric/Method of measurement</message>
+    <message key="proposal.secondaryOutcome.timepoint">Timepoint</message>
+    <message key="proposal.secondaryOutcome.add">Add another secondary outcome</message>
+
+    <message key="proposal.age.minimum">Minimum age</message>
+    <message key="proposal.age.minimum.instruct">
+        <![CDATA[
+            Specify age range of the study’s participants. Enter the numbers for minimum and maximum ages and choose the unit to specify the period (for the age) from the list. If there is no age limit for either minimum or maximum age or both, enter "0" in the corresponding boxe(s) .
+            <br/><br/><u>Examples:</u>
+            <br/><br/>Minimum age: 18 Years
+            <br/>Maximum age: No limit
+            <br/><br/>Minimum Age: 20 Weeks
+            <br/>Maximum Age: 6 Months
+        ]]>
+    </message>
+    <message key="proposal.age.maximum">Maximum age</message>
+    <message key="proposal.age.maximum.instruct">
+        <![CDATA[
+            Specify age range of the study’s participants. Enter the numbers for minimum and maximum ages and choose the unit to specify the period (for the age) from the list. If there is no age limit for either minimum or maximum age or both, enter "0" in the corresponding boxe(s) .
+            <br/><br/><u>Examples:</u>
+            <br/><br/>Minimum age: 18 Years
+            <br/>Maximum age: No limit
+            <br/><br/>Minimum Age: 20 Weeks
+            <br/>Maximum Age: 6 Months
+        ]]>
+    </message>
+    <message key="proposal.age.unit">Unit</message>
+    <message key="proposal.age.int">(Integers only)</message>
+    <message key="proposal.age.int.alert">This value should be numerical (integers only).</message>
+   
+    <message key="proposal.sex">Sex</message>
+    <message key="proposal.sex.instruct">Choose the appropriate description for sex of the study’s participants.</message>
+    <message key="proposal.healthy">Healthy Volunteers</message>
+    <message key="proposal.healthy.instruct">Specify whether or not the study includes healthy volunteers.</message>    
+    <message key="proposal.localeSampleSize">target sample size</message>
+    <message key="proposal.localeSampleSize.instruct">Total number of subjects that is planned to be enroll in Philippines</message>    
+    <message key="proposal.multinational">Recruiting outside of</message>
+    <message key="proposal.multinational.instruct">Is the study is conducted in multiple countries, select yes and specify the target numbers o participants in each country.</message>
+    <message key="proposal.multinational.number">Number</message>
+    <message key="proposal.multinational.add">Add another country</message>
+
+    <message key="proposal.recruitment">Recruitment</message>
+    <message key="proposal.recruitment.status">Status</message>
+    <message key="proposal.recruitment.status.instruct">
+        <![CDATA[
+            Choose the most appropriate description of the study’s recruitment status at the time of approval. This information will be publicly displayed and can be updated anytime until the completion of the research.
+            <ul>
+                <li><b>Recruiting:</b> open for recruitment and the first participant has been enrolled.</li>
+                <li><b>Not yet recruiting:</b> participants are not yet being recruited.</li>
+                <li><b>Active, not recruiting:</b> study is ongoing (i.e. participants are being treated or examined), but participants are not currently being recruited or enrolled.</li>                
+                <li><b>Completed:<closed to recruitment of participants and data analysis complete/b> </li>
+                <li><b>Enrolling by invitation:</b> participants were/are being/will be invited to participate from a predetermined population.</li>
+                <li><b>Suspended:</b> there is a temporary halt in recruitment and enrolment but potentially will resume</li>
+                <li><b>Terminated:</b> recruiting or enrolling participants has halted prematurely and will not resume; participants are no longer being examined or treated</li>
+                <li><b>Withdrawn:</b> study halted prematurely, prior to enrolment of first participant.</li>
+                <li><b>Closed - follow-up continuing:</b> closed to recruitment of participants and follow-up is still continuing.</li>
+                <li><b>Closed - follow-up complete:</b> closed to recruitment of participants and follow-up is complete.</li>
+            </ul>
+        ]]>
+    </message>
+    <message key="proposal.recruitment.info">Public information</message>
+    <message key="proposal.recruitment.info.instruct">Provide recruitment information for potential participants. This information will be publicly displayed and can be modified anytime until completion of the research</message>    
+    <message key="proposal.recruitment.adScheme">Advertisement scheme</message>
+    <message key="proposal.recruitment.adScheme.instruct">Are you planning to use any advertisement scheme(s) for recruiting participants?</message>    
+    <message key="proposal.purpose.endpoint.saf">Safety</message>
         <message key="proposal.purpose.endpoint.eff">Efficacy</message>
         <message key="proposal.purpose.endpoint.safAndEff">Safety and Efficacy</message>
         <message key="proposal.purpose.endpoint.kin">Pharmacokinetics</message>
@@ -432,6 +643,8 @@
         <message key="proposal.recruit.withdrawn">Withdrawn</message>
         <message key="proposal.recruit.closedCont">Closed. Follow-up continuing</message>
         <message key="proposal.recruit.closedComp">Closed. Follow-up completed</message>
+        <message key="proposal.expectedDate">Excpected dates of enrolment</message>
+        <message key="proposal.expectedDate.instruct">Estimated enrolment date of the first participant and the anticipated date (dd/mm/yyyy) that recruitment into the study will cease.</message>
         <message key="proposal.startDate">Start Date</message>
         <message key="proposal.endDate">End Date</message>
         <message key="proposal.fundsRequired">Total Estimated Budget</message>

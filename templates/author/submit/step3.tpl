@@ -22,4 +22,4 @@
 
 {include file="common/footer.tpl"}
 
-{include file="common/proposalSubmission/javascript.tpl"}
+{include file="common/proposalSubmission/javascript3.tpl"}

@@ -48,7 +48,7 @@ class ArticleSecIdDAO extends DAO {
 
 		while (!$result->EOF) {
                     	$row =& $result->getRowAssoc(false);
-			$articleSecIds[$row['locale']] =& $this->_returnArticleSecIdFromRow($row);
+			$articleSecIds[] =& $this->_returnArticleSecIdFromRow($row);
 			$result->moveNext();
 		}
 		$result->Close();
@@ -152,6 +152,23 @@ class ArticleSecIdDAO extends DAO {
 		HookRegistry::call('ArticleSecIdDAO::_returnArticleSecIdFromRow', array(&$articleSecId, &$row));
 
 		return $articleSecId;
+	}
+        
+        /**
+	 * Get a map for the type constants to locale key.
+	 * @return array
+	 */
+	function &getTypeMap() {
+		static $typeMap;
+		if (!isset($typeMap)) {
+			$typeMap = array(
+				ARTICLE_SEC_ID_TYPE_SPONSOR => Locale::translate('proposal.secId.sponsor'),
+				ARTICLE_SEC_ID_TYPE_OTHER_REGISTRY => Locale::translate('proposal.secId.otherRegistry'),
+				ARTICLE_SEC_ID_TYPE_UTN => Locale::translate('proposal.secId.utn'),
+				ARTICLE_SEC_ID_TYPE_OTHER => Locale::translate('common.other')                            
+			);
+		}
+		return $typeMap;
 	}
 }
 

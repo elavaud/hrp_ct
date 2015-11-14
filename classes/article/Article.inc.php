@@ -740,7 +740,20 @@ class Article extends Submission {
 	 * @param $articleSecId ArticleSecId
 	 */
 	function addArticleSecId($articleSecId) {
-		$this->articleSecIds[$articleSecId->getId()] = $articleSecId;
+                $found = false;
+                $i = 0;
+                $articleSecIds = $this->articleSecIds;
+                foreach ($this->articleSecIds as $asiKey => $asiValue) {
+                    if ($articleSecId->getId() == $asiValue->getId()){
+                        $articleSecIds[$asiKey] = $articleSecId;
+                        $found = true;
+                    }
+                    $i++;
+                }
+                if (!$found) {
+                    $articleSecIds[$i] = $articleSecId;
+                }
+                $this->articleSecIds = $articleSecIds;
 	}
         /**
 	 * Remove an article secondary ID.
@@ -749,14 +762,18 @@ class Article extends Submission {
 	 */
 	function removeArticleSecId($articleSecIdId) {
                 $found = false;
+                $i = 0;
 		if ($articleSecIdId != 0) {
-                    $articleSecIds = array();
+                    $articleSecIds = $this->articleSecIds;
                     foreach ($this->articleSecIds as $articleSecId) {
                         if ($articleSecId->getId() == $articleSecIdId) {
-                            array_push($this->removedArticleSecIds, $articleSecId->geId());
+                            array_push($this->removedArticleSecIds, $articleSecIdId);
                             $found = true;
                         }
-                        else array_push($articleSecIds[$articleSecId->getId()], $articleSecId);       
+                        else {
+                            $articleSecIds[$i] = $articleSecId;
+                            $i++;
+                        }       
                     }
                     $this->articleSecIds = $articleSecIds;
 		}
@@ -768,6 +785,18 @@ class Article extends Submission {
 	 */
 	function &getArticleSecIds() {
 		return $this->articleSecIds;
+	}
+        /**
+	 * Get article secondary ID by ID for this submission.
+	 * @return object ArticleSecId
+	 */
+	function &getArticleSecId($id) {
+                foreach ($this->articleSecIds as $articleSecId) {
+                    if ($articleSecId->getId() == $id) {
+                        return $articleSecId;
+                    }
+                }
+		return null;
 	}
         /**
 	 * Get the IDs of all article secondary IDs removed from this submission.
@@ -806,7 +835,20 @@ class Article extends Submission {
 	 * @param $articlePurpose ArticlePurpose
 	 */
 	function addArticlePurpose($articlePurpose) {
-		$this->articlePurposes[$articlePurpose->getId()] = $articlePurpose;
+                $articlePurposes = $this->articlePurposes;
+                $i = 0;
+                $found = false;
+                foreach ($this->articlePurposes as $apKey => $apValue) {
+                    if ($articlePurpose->getId() == $apValue->getId()){
+                        $articlePurposes[$apKey] = $articlePurpose;
+                        $found = true;
+                    }
+                    $i++;
+                }
+                if (!$found) {
+                    $articlePurposes[$i] = $articlePurpose;
+                }
+		$this->articlePurposes = $articlePurposes;
 	}
         /**
 	 * Remove an article purpose.
@@ -817,12 +859,16 @@ class Article extends Submission {
                 $found = false;
 		if ($articlePurposeId != 0) {
                     $articlePurposes = array();
+                    $i = 0;
                     foreach ($this->articlePurposes as $articlePurpose) {
                         if ($articlePurpose->getId() == $articlePurposeId) {
-                            array_push($this->removedArticlePurposes, $articlePurpose->geId());
+                            array_push($this->removedArticlePurposes, $articlePurpose->getId());
                             $found = true;
                         }
-                        else array_push($articlePurposes[$articlePurpose->getId()], $articlePurpose);       
+                        else {
+                            $articlePurposes[$i] = $articlePurpose;      
+                            $i++;
+                        }
                     }
                     $this->articlePurposes = $articlePurposes;
 		}
@@ -834,6 +880,18 @@ class Article extends Submission {
 	 */
 	function &getArticlePurposes() {
 		return $this->articlePurposes;
+	}
+        /**
+	 * Get a specific article purpose for this submission.
+	 * @return object ArticlePurpose
+	 */
+	function &getArticlePurpose($purposeId) {
+                foreach ($this->articlePurposes as $purpose) {
+                    if ($purpose->getId() == $purposeId) {
+                        return $purpose;
+                    }
+                }
+		return null;
 	}
         /**
 	 * Get the IDs of all article purposes removed from this submission.
@@ -858,7 +916,31 @@ class Article extends Submission {
 	 * @param $articleOutcome ArticleOutcome
 	 */
 	function addArticleOutcome($articleOutcome) {
-		$this->articleOutcomes[$articleOutcome->getId()] = $articleOutcome;
+                $journal = Request::getJournal();
+                $articleOutcomes = $this->articleOutcomes;
+                $found=false;
+                $i = 0;
+                if(!empty($this->articleOutcomes)){
+                    foreach ($this->articleOutcomes as $key => $value) {
+                        foreach ($journal->getSupportedLocaleNames() as $localeKey => $localeValue) {
+                            if (!empty($value[$localeKey]) && $articleOutcome->getId()) {
+                                if ($value[$localeKey]->getId() == $articleOutcome->getId()) {
+                                    $articleOutcomes[$key][$localeKey] = $articleOutcome;
+                                    $found =true;
+                                }                            
+                            }
+                        }
+                        $i++;
+                    }
+                    if (!$found) {
+                        $articleOutcomes[$i][$articleOutcome->getLocale()] = $articleOutcome;
+                    }
+                    
+                } else {
+                    $articleOutcomes[0][$articleOutcome->getLocale()] = $articleOutcome;
+                    
+                }
+		$this->articleOutcomes = $articleOutcomes;
 	}
         /**
 	 * Remove an article outcome.
@@ -866,15 +948,25 @@ class Article extends Submission {
 	 * @return boolean article outcome was removed
 	 */
 	function removeArticleOutcome($articleOutcomeId) {
+                $journal = Request::getJournal();
                 $found = false;
 		if ($articleOutcomeId != 0) {
                     $articleOutcomes = array();
-                    foreach ($this->articleOutcomes as $articleOutcome) {
-                        if ($articleOutcome->getId() == $articleOutcomeId) {
-                            array_push($this->removedArticleOutcomes, $articleOutcome->geId());
-                            $found = true;
+                    $i = 0;
+                    foreach ($this->articleOutcomes as $aoKey => $articleOutcome) {
+                        foreach ($journal->getSupportedLocaleNames() as $localeKey => $localeValue) {
+                            if(!empty($articleOutcome[$localeKey])) {
+                                if ($articleOutcome[$localeKey]->getId() == $articleOutcomeId) {
+                                    array_push($this->removedArticleOutcomes, $articleOutcome[$localeKey]->getId());
+                                    $found = true;
+                                }
+                                else {
+                                    $articleOutcomes[$i][$localeKey] = $articleOutcome[$localeKey];  
+                                    $i++;
+                                }
+                            }
+                            
                         }
-                        else array_push($articleOutcomes[$articleOutcome->getId()], $articleOutcome);       
                     }
                     $this->articleOutcomes = $articleOutcomes;
 		}
@@ -886,6 +978,24 @@ class Article extends Submission {
 	 */
 	function &getArticleOutcomes() {
 		return $this->articleOutcomes;
+	}
+        /**
+	 * Get a specific article outcome for this submission.
+	 * @return object ArticleOutcome
+	 */
+	function &getArticleOutcome($outcomeId) {
+                $found = false;
+                $journal = Request::getJournal();
+                foreach ($this->articleOutcomes as $outcome) {
+                    foreach ($journal->getSupportedLocaleNames() as $localeKey => $localeValue) {
+                        if (!empty($outcome[$localeKey])) {
+                            if ($outcome[$localeKey]->getId() == $outcomeId) {
+                                return $outcome[$localeKey];
+                            }   
+                        }
+                    }
+                }
+		return $found;
 	}
         /**
 	 * Get the IDs of all article outcomes removed from this submission.
@@ -906,10 +1016,17 @@ class Article extends Submission {
 	 * @return array ArticleOutcome
 	 */
 	function &getArticleOutcomesByType($type) {
+                $journal = Request::getJournal();
                 $array = array();
+                $i = 0;
                 foreach ($this->articleOutcomes as $articleOutcome) {
-                    if ($articleOutcome->getType() == $type) {
-                        array_push($array, $articleOutcome);
+                    foreach ($journal->getSupportedLocaleNames() as $localeKey => $localeValue) {
+                        if (!empty($articleOutcome[$localeKey])) {
+                            if ($articleOutcome[$localeKey]->getType() == $type) {
+                                $array[$i][$localeKey] = $articleOutcome[$localeKey];
+                                $i++;
+                            }
+                        }
                     }
                 }
 		return $array;

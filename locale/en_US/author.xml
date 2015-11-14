@@ -123,8 +123,29 @@
 	<message key="author.submit.coverageInstructions">Refers to geo-spatial location, chronological or historical coverage, and/or characteristics of research sample.</message>
 	<message key="author.submit.subjectClassInstructions">Use the hyperlinked classification system to select classification terms and, if appropriate, numbers.</message>
 	<message key="author.submit.languageInstructions"><![CDATA[English=en; French=fr; Spanish=es. <a href="http://www.loc.gov/standards/iso639-2/php/code_list.php" target="_blank">Additional codes</a>.]]></message>
-    
-        <message key="author.submit.form.abstractRequiredFields">The scientific title, public title, background, objectives, study methods, expected outcomes and keywords are required, if multiple languages in each language.</message>    
+
+    	<message key="author.submit.form.titlesRequired">The scientific title and the public title are required. If this portal handle multiple languages, these fields are required in every languages.</message>
+    	<message key="author.submit.form.textsRequired">The description and the key inlclusion / exclusion criteria are required. If this portal handle multiple languages, these fields are required in every languages.</message>    	
+        <message key="author.submit.form.protocolVersion.required">The protocol version is required.</message>
+        <message key="author.submit.form.therapeuticArea.required">The therapeutic area is required.</message>
+        <message key="author.submit.form.otherTherapeuticArea.required">You selected "Other" for you therapeutic area. Please specify</message>
+        <message key="author.submit.form.icd10s.required">At least one ICD 10 classification code is required. If you know the exact code, specify it in the corresponding area.</message>
+        <message key="author.submit.form.purposes.required">Specify if this study is observational or interventional.</message>
+        <message key="author.submit.form.primaryOutcome.required">At least one primary outcome is required. For each outcome, provide the name, the metric / method of measurement and the timepoint.</message>            
+        <message key="author.submit.form.minAgeNum.required">Specify the minimum age of the study's participants.</message>            
+        <message key="author.submit.form.maxAgeNum.required">Specify the maximum age of the study's participants.</message>            
+        <message key="author.submit.form.sex.required">Specify the sex of the study's participants.</message>            
+        <message key="author.submit.form.healthy.required">Specify wether or not the study includes healthy volunteers.</message>            
+        <message key="author.submit.form.localeSampleSize.required">Specify the total number of subjects that is planned to be enroll in the country.</message>            
+        <message key="author.submit.form.multinational.required">Specify if the study is conducted in other countries.</message>            
+        <message key="author.submit.form.intSampleSize.required">Your study is conducted internationally. Specify the countries and the target number of participants in each country.</message>            
+        <message key="author.submit.form.startDate.required">Specify the locale expected start date of recruitment.</message>            
+        <message key="author.submit.form.endDate.required">Specify the locale expected end date of recruitment.</message>            
+        <message key="author.submit.form.recruitStatus.required">Specify the recruitment status of your study.</message>            
+        <message key="author.submit.form.adScheme.required">Specify if you intend to use any advertising scheme for your recruitment.</message>            
+            
+            
+            
 	<message key="author.submit.form.authorRequired">At least one investigator is required.</message>
 	<message key="author.submit.form.authorRequiredFields">The first name, last name, affiliation, phone number, and email address of each investigator is required.</message>
         <message key="author.submit.uploadWithdrawReport">Upload withdraw report</message>

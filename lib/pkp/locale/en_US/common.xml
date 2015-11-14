@@ -49,7 +49,7 @@
         <message key="common.fileTooBig2"> Kb). It should not exceed </message>
         <message key="common.fullName">Full Name</message>
         <message key="common.idInstruct">Identification code of the research proposal.</message>
-        <message key="common.mouseOver">[?] Explanations on mouse over.</message>
+        <message key="common.mouseOver">[?] Show or hide help information.</message>
         <message key="common.notSure">Not sure</message>
         <message key="common.ongoing">Ongoing</message>
         <message key="common.picountry"> Country of usual Residence</message>

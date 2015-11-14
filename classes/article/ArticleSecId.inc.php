@@ -27,6 +27,7 @@ class ArticleSecId extends DataObject {
 	 * Constructor.
 	 */
 	function ArticleSecId() {
+            parent::DataObject();
 	}
 
 	
@@ -71,7 +72,7 @@ class ArticleSecId extends DataObject {
                                 ARTICLE_SEC_ID_NOT_PROVIDED => 'common.dataNotProvided',
 				ARTICLE_SEC_ID_TYPE_SPONSOR => 'proposal.secId.sponsor',
 				ARTICLE_SEC_ID_TYPE_OTHER_REGISTRY => 'proposal.secId.otherRegistry',
-				ARTICLE_SEC_ID_TYPE_UTN => 'proposal.secId.sponsor',
+				ARTICLE_SEC_ID_TYPE_UTN => 'proposal.secId.utn',
 				ARTICLE_SEC_ID_TYPE_OTHER => 'common.other'                            
 			);
 		}

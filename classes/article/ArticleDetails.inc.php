@@ -12,31 +12,31 @@
  */
 
 // For integers
-define ('PROPOSAL_DETAIL_NOT_PROVIDED', 0);
+define ('ARTICLE_DETAIL_NOT_PROVIDED', 0);
 
-define ('PROPOSAL_DETAIL_NO', 1);
-define ('PROPOSAL_DETAIL_YES', 2);
+define ('ARTICLE_DETAIL_NO', 1);
+define ('ARTICLE_DETAIL_YES', 2);
 
-define ('PROPOSAL_DETAIL_AGE_UNIT_HOURS', 1);      // Hours
-define ('PROPOSAL_DETAIL_AGE_UNIT_DAYS', 2);       // Days
-define ('PROPOSAL_DETAIL_AGE_UNIT_WEEKS', 3);      // Weeks
-define ('PROPOSAL_DETAIL_AGE_UNIT_MONTHS', 4);     // Months
-define ('PROPOSAL_DETAIL_AGE_UNIT_YEARS', 5);      // Years
+define ('ARTICLE_DETAIL_AGE_UNIT_HOURS', 1);      // Hours
+define ('ARTICLE_DETAIL_AGE_UNIT_DAYS', 2);       // Days
+define ('ARTICLE_DETAIL_AGE_UNIT_WEEKS', 3);      // Weeks
+define ('ARTICLE_DETAIL_AGE_UNIT_MONTHS', 4);     // Months
+define ('ARTICLE_DETAIL_AGE_UNIT_YEARS', 5);      // Years
 
-define ('PROPOSAL_DETAIL_MALES', 1);                // Males
-define ('PROPOSAL_DETAIL_FEMALES', 2);              // Females
-define ('PROPOSAL_DETAIL_BOTH_MALES_FEMALES', 3);   // Both males and females
+define ('ARTICLE_DETAIL_MALES', 1);                // Males
+define ('ARTICLE_DETAIL_FEMALES', 2);              // Females
+define ('ARTICLE_DETAIL_BOTH_MALES_FEMALES', 3);   // Both males and females
 
-define ('PROPOSAL_DETAIL_RECRUIT_RECRUITING', 1);    // Currently recruiting
-define ('PROPOSAL_DETAIL_RECRUIT_NOTYET', 2);        // Not yet recruiting
-define ('PROPOSAL_DETAIL_RECRUIT_ACTIVE', 3);        // Active, not yet recruiting
-define ('PROPOSAL_DETAIL_RECRUIT_COMPLETED', 4);     // Completed
-define ('PROPOSAL_DETAIL_RECRUIT_INVITATION', 5);    // Enrolling by invitation
-define ('PROPOSAL_DETAIL_RECRUIT_SUSPENDED', 6);     // Suspended
-define ('PROPOSAL_DETAIL_RECRUIT_TERMINATED', 7);    // Terminated
-define ('PROPOSAL_DETAIL_RECRUIT_WITHDRAWN', 8);     // Withdrawn
-define ('PROPOSAL_DETAIL_RECRUIT_CLOSED_CONT', 9);   // Closed - follow up continuing
-define ('PROPOSAL_DETAIL_RECRUIT_CLOSED_COMP', 10);  // Closed - follow-up complete
+define ('ARTICLE_DETAIL_RECRUIT_RECRUITING', 1);    // Currently recruiting
+define ('ARTICLE_DETAIL_RECRUIT_NOTYET', 2);        // Not yet recruiting
+define ('ARTICLE_DETAIL_RECRUIT_ACTIVE', 3);        // Active, not yet recruiting
+define ('ARTICLE_DETAIL_RECRUIT_COMPLETED', 4);     // Completed
+define ('ARTICLE_DETAIL_RECRUIT_INVITATION', 5);    // Enrolling by invitation
+define ('ARTICLE_DETAIL_RECRUIT_SUSPENDED', 6);     // Suspended
+define ('ARTICLE_DETAIL_RECRUIT_TERMINATED', 7);    // Terminated
+define ('ARTICLE_DETAIL_RECRUIT_WITHDRAWN', 8);     // Withdrawn
+define ('ARTICLE_DETAIL_RECRUIT_CLOSED_CONT', 9);   // Closed - follow up continuing
+define ('ARTICLE_DETAIL_RECRUIT_CLOSED_COMP', 10);  // Closed - follow-up complete
 
 
 
@@ -88,16 +88,56 @@ class ArticleDetails extends DataObject {
 	 * Set therapeutic area.
 	 * @param $therapeuticArea string
 	 */
-	function setTherapeuticArea($therapeuticArea) {
-		return $this->setData('therapeuticArea', $therapeuticArea);
-	}    
+	function setTherapeuticArea($therapeuticArea, $other = false) {
+                if ($therapeuticArea == 'OTHER' && $other) {
+                    return $this->setData('therapeuticArea', 'OTHER['.$other.']');
+                }
+                else return $this->setData('therapeuticArea', $therapeuticArea);
+	}
 	/**
 	 * Get therapeutic area.
 	 * @return string
 	 */
 	function getTherapeuticArea() {
-		return $this->getData('therapeuticArea');
+                $therapeuticArea = $this->getData('therapeuticArea');
+                if (preg_match('/OTHER/', $therapeuticArea)) {
+                    return 'OTHER';
+                } else return $therapeuticArea;
 	}
+        /**
+	 * Get therapeutic area.
+	 * @return string
+	 */
+	function getOtherTherapeuticArea() {
+                $therapeuticArea = $this->getData('therapeuticArea');
+                if (preg_match('/^OTHER/', $therapeuticArea)) {
+                    return substr($therapeuticArea, 6, -1);
+                } else return 'NA';
+	}
+        /**
+	 * Get therapeutic area.
+	 * @return string
+	 */
+	function getRightTherapeuticAreaDisplay() {
+                $therapeuticArea = $this->getData('therapeuticArea');
+                if (preg_match('/OTHER/', $therapeuticArea)) {
+                    $string = substr($therapeuticArea, 0, 6);
+                    return substr($string, 0, -1);
+                } else {
+                    $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
+                    $extraField = $extraFieldDao->getExtraField($therapeuticArea);
+                    return $extraField->getLocalizedExtraFieldName();
+                }
+                            
+	}
+        /**
+	 * Get therapeutic area.
+	 * @return string
+	 */
+	function getRightTherapeuticAreaInsert() {
+                return $this->getData('therapeuticArea');                            
+	}
+
         
         /**
 	 * Set health condition or disease.
@@ -111,6 +151,9 @@ class ArticleDetails extends DataObject {
 	 * @param $healthConds array
 	 */
 	function setHealthCondDiseaseFromArray($healthConds) {
+                foreach ($healthConds as $key => $item) {
+                    $healthConds[$key] = $item['code'].'='.$item['exactCode'];
+                }
                 return $this->setHealthCondDisease(implode("+", $healthConds));
 	}
 	/**
@@ -128,8 +171,13 @@ class ArticleDetails extends DataObject {
                 $healthConds = $this->getHealthCondDisease();
                 if($healthConds == '' || $healthConds == null) {
                     return null;
-                } else {                
-                    return explode("+", $healthConds);
+                } else {   
+                    $healthCondsArray = explode("+", $healthConds);
+                    foreach ($healthCondsArray as $key => $item) {
+                        $subArray = explode("=", $item);
+                        $healthCondsArray[$key] = array('code' => $subArray[0], 'exactCode' => $subArray[1]);
+                    }
+                    return $healthCondsArray;
                 }
         }
         
@@ -198,12 +246,12 @@ class ArticleDetails extends DataObject {
 		static $ageUnitMap;
 		if (!isset($ageUnitMap)) {
 			$ageUnitMap = array(
-                                PROPOSAL_DETAIL_NOT_PROVIDED => 'common.dataNotProvided',
-				PROPOSAL_DETAIL_AGE_UNIT_HOURS => 'common.time.hours',
-				PROPOSAL_DETAIL_AGE_UNIT_DAYS => 'common.days',
-				PROPOSAL_DETAIL_AGE_UNIT_WEEKS => 'common.weeks',
-				PROPOSAL_DETAIL_AGE_UNIT_MONTHS => 'common.months',
-				PROPOSAL_DETAIL_AGE_UNIT_YEARS => 'common.years'                            
+                                ARTICLE_DETAIL_NOT_PROVIDED => 'common.dataNotProvided',
+				ARTICLE_DETAIL_AGE_UNIT_HOURS => 'common.time.hours',
+				ARTICLE_DETAIL_AGE_UNIT_DAYS => 'common.days',
+				ARTICLE_DETAIL_AGE_UNIT_WEEKS => 'common.weeks',
+				ARTICLE_DETAIL_AGE_UNIT_MONTHS => 'common.months',
+				ARTICLE_DETAIL_AGE_UNIT_YEARS => 'common.years'                            
 			);
 		}
 		return $ageUnitMap;
@@ -248,10 +296,10 @@ class ArticleDetails extends DataObject {
 		static $sexMap;
 		if (!isset($sexMap)) {
 			$sexMap = array(
-                                PROPOSAL_DETAIL_NOT_PROVIDED => 'common.dataNotProvided',
-				PROPOSAL_DETAIL_MALES => 'proposal.participants.males',
-				PROPOSAL_DETAIL_FEMALES => 'proposal.participants.females',
-				PROPOSAL_DETAIL_BOTH_MALES_FEMALES => 'proposal.participants.both'                            
+                                ARTICLE_DETAIL_NOT_PROVIDED => 'common.dataNotProvided',
+				ARTICLE_DETAIL_MALES => 'proposal.participants.males',
+				ARTICLE_DETAIL_FEMALES => 'proposal.participants.females',
+				ARTICLE_DETAIL_BOTH_MALES_FEMALES => 'proposal.participants.both'                            
 			);
 		}
 		return $sexMap;
@@ -284,17 +332,17 @@ class ArticleDetails extends DataObject {
         
         /**
 	 * Set local sample size.
-	 * @param $localSampleSize int
+	 * @param $localeSampleSize int
 	 */
-	function setLocalSampleSize($localSampleSize) {
-		return $this->setData('localSampleSize', $localSampleSize);
+	function setLocaleSampleSize($localeSampleSize) {
+		return $this->setData('localeSampleSize', $localeSampleSize);
 	}    
 	/**
 	 * Get local sample size.
 	 * @return int
 	 */
-	function getLocalSampleSize() {
-		return $this->getData('localSampleSize');
+	function getLocaleSampleSize() {
+		return $this->getData('localeSampleSize');
 	}
         
         
@@ -363,13 +411,24 @@ class ArticleDetails extends DataObject {
 	 * @param $startDate date
 	 */
 	function setStartDate($startDate) {
-		return $this->setData('startDate', $startDate);
+                if (strlen($startDate) > 9) {
+                    return $this->setData('startDate', $startDate);                    
+                } else {
+                    return $this->setData('startDate', '01-'.$startDate);                                        
+                }
 	}
 	/**
 	 * Get start date of the enrollment.
 	 * @return date
 	 */
 	function getStartDate() {
+		return substr($this->getData('startDate'), -8);
+	}
+        /**
+	 * Get start date of the enrollment.
+	 * @return date
+	 */
+	function getStartDateForDB() {
 		return $this->getData('startDate');
 	}
 
@@ -379,13 +438,24 @@ class ArticleDetails extends DataObject {
 	 * @param $endDate date
 	 */
 	function setEndDate($endDate) {
-		return $this->setData('endDate', $endDate);
+                if (strlen($endDate) > 9) {
+                    return $this->setData('endDate', $endDate);                    
+                } else {
+                    return $this->setData('endDate', '01-'.$endDate);                                        
+                }
 	}
 	/**
 	 * Get end date of the enrollment.
 	 * @return date
 	 */
 	function getEndDate() {
+		return substr($this->getData('endDate'), -8);
+	}
+	/**
+	 * Get end date of the enrollment.
+	 * @return date
+	 */
+	function getEndDateForDB() {
 		return $this->getData('endDate');
 	}
 
@@ -404,7 +474,7 @@ class ArticleDetails extends DataObject {
 	function getRecruitmentStatus() {
 		return $this->getData('recruitStatus');
 	}
-/**
+        /**
 	 * Get a map for recruitment status constants to locale key.
 	 * @return array
 	 */
@@ -412,17 +482,17 @@ class ArticleDetails extends DataObject {
 		static $recruitmentStatusMap;
 		if (!isset($recruitmentStatusMap)) {
 			$recruitmentStatusMap = array(
-                                PROPOSAL_DETAIL_NOT_PROVIDED => 'common.dataNotProvided',
-				PROPOSAL_DETAIL_RECRUIT_RECRUITING => 'proposal.recruit.recruiting',
-				PROPOSAL_DETAIL_RECRUIT_NOTYET => 'proposal.recruit.notyet',
-				PROPOSAL_DETAIL_RECRUIT_ACTIVE => 'proposal.recruit.active',
-				PROPOSAL_DETAIL_RECRUIT_COMPLETED => 'proposal.recruit.completed',
-				PROPOSAL_DETAIL_RECRUIT_INVITATION => 'proposal.recruit.invitation',
-				PROPOSAL_DETAIL_RECRUIT_SUSPENDED => 'proposal.recruit.suspended',
-				PROPOSAL_DETAIL_RECRUIT_TERMINATED => 'proposal.recruit.terminated',
-				PROPOSAL_DETAIL_RECRUIT_WITHDRAWN => 'proposal.recruit.withdrawn',
-				PROPOSAL_DETAIL_RECRUIT_CLOSED_CONT => 'proposal.recruit.closedCont',
-				PROPOSAL_DETAIL_RECRUIT_CLOSED_COMP => 'proposal.recruit.closedComp'                            
+                                ARTICLE_DETAIL_NOT_PROVIDED => 'common.dataNotProvided',
+				ARTICLE_DETAIL_RECRUIT_RECRUITING => 'proposal.recruit.recruiting',
+				ARTICLE_DETAIL_RECRUIT_NOTYET => 'proposal.recruit.notyet',
+				ARTICLE_DETAIL_RECRUIT_ACTIVE => 'proposal.recruit.active',
+				ARTICLE_DETAIL_RECRUIT_COMPLETED => 'proposal.recruit.completed',
+				ARTICLE_DETAIL_RECRUIT_INVITATION => 'proposal.recruit.invitation',
+				ARTICLE_DETAIL_RECRUIT_SUSPENDED => 'proposal.recruit.suspended',
+				ARTICLE_DETAIL_RECRUIT_TERMINATED => 'proposal.recruit.terminated',
+				ARTICLE_DETAIL_RECRUIT_WITHDRAWN => 'proposal.recruit.withdrawn',
+				ARTICLE_DETAIL_RECRUIT_CLOSED_CONT => 'proposal.recruit.closedCont',
+				ARTICLE_DETAIL_RECRUIT_CLOSED_COMP => 'proposal.recruit.closedComp'                            
 			);
 		}
 		return $recruitmentStatusMap;
@@ -461,9 +531,9 @@ class ArticleDetails extends DataObject {
 		static $yesNoMap;
 		if (!isset($yesNoMap)) {
 			$yesNoMap = array(
-                                PROPOSAL_DETAIL_NOT_PROVIDED => 'common.dataNotProvided',
-				PROPOSAL_DETAIL_NO => 'common.no',
-				PROPOSAL_DETAIL_YES => 'common.yes'
+                                ARTICLE_DETAIL_NOT_PROVIDED => 'common.dataNotProvided',
+				ARTICLE_DETAIL_NO => 'common.no',
+				ARTICLE_DETAIL_YES => 'common.yes'
 			);
 		}
 		return $yesNoMap;

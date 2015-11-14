@@ -306,8 +306,8 @@ class ArticleDAO extends DAO {
                 }
                 // Remove deleted article texts
 		$removedArticleTexts = $article->getRemovedArticleTexts();
-		foreach ($removedArticleTexts as $removedArticleText) {
-			$this->articleTextDao->deleteArticleText($removedArticleText->getId());
+		foreach ($removedArticleTexts as $removedArticleTextId) {
+			$this->articleTextDao->deleteArticleText($removedArticleTextId);
 		}
                 
                 // update article secondary IDs for this article
@@ -321,8 +321,8 @@ class ArticleDAO extends DAO {
                 }
                 // Remove deleted article sec Ids
 		$removedArticleSecIds = $article->getRemovedArticleSecIds();
-		foreach ($removedArticleSecIds as $removedArticleSecId) {
-			$this->articleSecIdDao->deleteArticleSecId($removedArticleSecId->getId());
+		foreach ($removedArticleSecIds as $removedArticleSecIdId) {
+			$this->articleSecIdDao->deleteArticleSecId($removedArticleSecIdId);
 		}
                 
                 // update articleDetails for this article
@@ -344,23 +344,28 @@ class ArticleDAO extends DAO {
                 }
                 // Remove deleted article purposes
 		$removedArticlePurposes = $article->getRemovedArticlePurposes();
-		foreach ($removedArticlePurposes as $removedArticlePurpose) {
-			$this->articlePurposeDao->deleteArticlePurpose($removedArticlePurpose->getId());
+		foreach ($removedArticlePurposes as $removedArticlePurposeId) {
+			$this->articlePurposeDao->deleteArticlePurpose($removedArticlePurposeId);
 		}
                 
                 // update article outcomes for this article
+                $journal = Request::getJournal();
 		$articleOutcomes =& $article->getArticleOutcomes();
 		foreach ($articleOutcomes as $articleOutcome) {
-			if ($articleOutcome->getId() > 0) {
-				$this->articleOutcomeDao->updateArticleOutcome($articleOutcome);
-			} else {
-				$this->articleOutcomeDao->insertArticleOutcome($articleOutcome);
-			}
+                    foreach ($journal->getSupportedLocaleNames() as $localeKey => $localeValue) {
+                        if(!empty($articleOutcome[$localeKey])) {
+                            if ($articleOutcome[$localeKey]->getId() > 0) {
+                                    $this->articleOutcomeDao->updateArticleOutcome($articleOutcome[$localeKey]);
+                            } else {
+                                    $this->articleOutcomeDao->insertArticleOutcome($articleOutcome[$localeKey]);
+                            }                            
+                        }
+                    }			
                 }
                 // Remove deleted article outcomes
 		$removedArticleOutcomes = $article->getRemovedArticleOutcomes();
-		foreach ($removedArticleOutcomes as $removedArticleOutcome) {
-			$this->articleOutcomeDao->deleteArticleOutcome($removedArticleOutcome->getId());
+		foreach ($removedArticleOutcomes as $removedArticleOutcomeId) {
+			$this->articleOutcomeDao->deleteArticleOutcome($removedArticleOutcomeId);
 		}
                 
 		$this->flushCache();

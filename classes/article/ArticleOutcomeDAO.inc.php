@@ -44,15 +44,20 @@ class ArticleOutcomeDAO extends DAO {
 	 */
 	function &getArticleOutcomesByArticleId($articleId, $locale = null) {
             
-		if ($locale === null) $locale = Locale::getLocale();
+                if ($locale === null) {
+                    $sqlEnd = '';
+                } else {
+                    $sqlEnd = ' AND locale = "' . $locale . '"';
+                }
                 
                 $articleOutcomes = array();
                 
-		$result =& $this->retrieve('SELECT * FROM article_outcome WHERE article_id = ' . $articleId . ' AND locale = ' . $locale);		
-
+		$result =& $this->retrieve('SELECT * FROM article_outcome WHERE article_id = ' . $articleId . $sqlEnd);		
+                $i = 0;
 		while (!$result->EOF) {
                     	$row =& $result->getRowAssoc(false);
-			$articleOutcomes[$row['locale']] =& $this->_returnArticleOutcomeFromRow($row);
+			$articleOutcomes[$i][$row['locale']] =& $this->_returnArticleOutcomeFromRow($row);
+                        $i++;
 			$result->moveNext();
 		}
 		$result->Close();

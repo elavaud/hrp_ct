@@ -7,8 +7,8 @@
 {literal}
     <script type="text/javascript">
     
-       var PROPOSAL_DETAIL_NO = "{/literal}{$smarty.const.PROPOSAL_DETAIL_NO}{literal}";
-       var PROPOSAL_DETAIL_YES = "{/literal}{$smarty.const.PROPOSAL_DETAIL_YES}{literal}";
+       var ARTICLE_DETAIL_NO = "{/literal}{$smarty.const.ARTICLE_DETAIL_NO}{literal}";
+       var ARTICLE_DETAIL_YES = "{/literal}{$smarty.const.ARTICLE_DETAIL_YES}{literal}";
        var INITIAL_REVIEW = "{/literal}{$smarty.const.INITIAL_REVIEW}{literal}";
        var SUBMISSION_SECTION_DECISION_APPROVED = "{/literal}{$smarty.const.SUBMISSION_SECTION_DECISION_APPROVED}{literal}";
        var OR_STRING = "{/literal}{translate key='common.or'}{literal}";
