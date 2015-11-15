@@ -58,6 +58,11 @@ class Article extends Submission {
         
         var $removedArticleOutcomes;
 
+        var $articleDrugs;
+        
+        var $removedArticleDrugs;
+        
+        
 	/**
 	 * Constructor.
 	 */
@@ -70,7 +75,9 @@ class Article extends Submission {
                 $this->articlePurposes = array();
 		$this->removedArticlePurposes = array();	
                 $this->articleOutcomes = array();
-		$this->removedArticleOutcomes = array();	
+		$this->removedArticleOutcomes = array();
+                $this->articleDrugs = array();
+		$this->removedArticleDrugs = array();
         }
 
 	/**
@@ -1032,5 +1039,83 @@ class Article extends Submission {
 		return $array;
 	}
         
+        
+        /**
+	 * Add an article drug.
+	 * @param $articleDrug ArticleDrug
+	 */
+	function addArticleDrug($articleDrug) {
+                $found = false;
+                $i = 0;
+                $articleDrugs = $this->articleDrugs;
+                foreach ($this->articleDrugs as $adKey => $adValue) {
+                    if ($articleDrug->getId() == $adValue->getId()){
+                        $articleDrugs[$adKey] = $adValue;
+                        $found = true;
+                    }
+                    $i++;
+                }
+                if (!$found) {
+                    $articleDrugs[$i] = $articleDrug;
+                }
+                $this->articleDrugs = $articleDrugs;
+	}
+        /**
+	 * Remove an article drug.
+	 * @param $articleDrugId ID of the article drug to remove
+	 * @return boolean article drug was removed
+	 */
+	function removeArticleDrug($articleDrugId) {
+                $found = false;
+                $i = 0;
+		if ($articleDrugId != 0) {
+                    $articleDrugs = $this->articleDrugs;
+                    foreach ($this->articleDrugs as $articleDrug) {
+                        if ($articleDrug->getId() == $articleDrugId) {
+                            array_push($this->removedArticleDrugs, $articleDrugId);
+                            $found = true;
+                        }
+                        else {
+                            $articleDrugs[$i] = $articleDrug;
+                            $i++;
+                        }       
+                    }
+                    $this->articleDrugs = $articleDrugs;
+		}
+		return $found;
+	}
+	/**
+	 * Get all article drugs for this submission.
+	 * @return array ArticleDrugInfo
+	 */
+	function &getArticleDrugs() {
+		return $this->articleDrugs;
+	}
+        /**
+	 * Get article drug by ID for this submission.
+	 * @return object ArticleDrugInfo
+	 */
+	function &getArticleDrug($id) {
+                foreach ($this->articleDrugs as $articleDrug) {
+                    if ($articleDrug->getId() == $id) {
+                        return $articleDrug;
+                    }
+                }
+		return null;
+	}
+        /**
+	 * Get the IDs of all article drugs removed from this submission.
+	 * @return array int
+	 */
+	function &getRemovedArticleDrugs() {
+		return $this->removedArticleDrugs;
+	}
+        /**
+	 * Set article drugs of this submission.
+	 * @param $articleDrugs array ArticleDrugInfo
+	 */
+	function setArticleDrugs($articleDrugs) {
+		return $this->articleDrugs = $articleDrugs;
+	}
 }
 ?>
