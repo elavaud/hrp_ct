@@ -439,7 +439,7 @@
                         <td width="20%" class="noSecondaryOutcomeTitle" {if $l == 0}style="display: none;"{/if}>&nbsp;</td>
                         <td width="15%" class="label">{fieldLabel name=$secondaryOutcomeNameIdLocale key="proposal.secondaryOutcome.name"}</td>
                         <td width="65%" class="value">
-                            {if $primaryOutcomes.$l.$localeKey.secondaryOutcomeId}<input type="hidden" class="hiddenInputs" name="srimaryOutcomes[{$l|escape}][{$localeKey|escape}][secondaryOutcomeId]" value="{$secondaryOutcomes.$l.$localeKey.secondaryOutcomeId|escape}" />{/if}
+                            {if $secondaryOutcomes.$l.$localeKey.secondaryOutcomeId}<input type="hidden" class="hiddenInputs" name="secondaryOutcomes[{$l|escape}][{$localeKey|escape}][secondaryOutcomeId]" value="{$secondaryOutcomes.$l.$localeKey.secondaryOutcomeId|escape}" />{/if}
                             <input type="text" class="textField" name={$secondaryOutcomeNameIdLocaleInput|escape} id={$secondaryOutcomeNameIdLocale|escape} value="{$secondaryOutcomes.$l.$localeKey.name|escape}" size="40" maxlength="255" />
                             ({$localeName})
                             {if $firstLocale == 1}<a class="removeSecondaryOutcome" style="{if $l == 0}display: none; {/if}cursor: pointer;">{translate key="common.remove"}</a>{/if}
