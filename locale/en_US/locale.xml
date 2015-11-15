@@ -593,7 +593,61 @@
     <message key="proposal.recruitment.info.instruct">Provide recruitment information for potential participants. This information will be publicly displayed and can be modified anytime until completion of the research</message>    
     <message key="proposal.recruitment.adScheme">Advertisement scheme</message>
     <message key="proposal.recruitment.adScheme.instruct">Are you planning to use any advertisement scheme(s) for recruiting participants?</message>    
-    <message key="proposal.purpose.endpoint.saf">Safety</message>
+
+    <message key="proposal.drugInfo.type.studyDrug">Study drug</message>    
+    <message key="proposal.drugInfo.type.comparator">Comparator</message>    
+    <message key="proposal.drugInfo.type.concomitant">Concomitant</message>    
+    <message key="proposal.drugInfo.type.placebo">Placebo</message>    
+    
+    <message key="proposal.drugInfo.administration.gastro">Gastro-intestinal</message>    
+    <message key="proposal.drugInfo.administration.injection">Injection</message>    
+    <message key="proposal.drugInfo.administration.mucosal">Mucosla</message>    
+    <message key="proposal.drugInfo.administration.topical">Topical/Dermal</message>    
+    <message key="proposal.drugInfo.administration.inhalation">Inhalation</message>    
+
+    <message key="proposal.drugInfo.form.aerosols">Aerosols</message>    
+    <message key="proposal.drugInfo.form.capsules">Capsules</message>    
+    <message key="proposal.drugInfo.form.dpinhaleur">Dry powder inhaleur</message>    
+    <message key="proposal.drugInfo.form.emulsions">Emulsions (Creams, Lotions)</message>    
+    <message key="proposal.drugInfo.form.foams">Foams</message>    
+    <message key="proposal.drugInfo.form.gases">Medical Gases</message>    
+    <message key="proposal.drugInfo.form.gels">Gels</message>    
+    <message key="proposal.drugInfo.form.granules">Granules</message>    
+    <message key="proposal.drugInfo.form.gums">Medicated gums</message>    
+    <message key="proposal.drugInfo.form.implants">Implants</message>    
+    <message key="proposal.drugInfo.form.inserts">Inserts</message>    
+    <message key="proposal.drugInfo.form.liquids">Liquids</message>    
+    <message key="proposal.drugInfo.form.lozenges">Lozenges</message>    
+    <message key="proposal.drugInfo.form.ointment">Ointment</message>    
+    <message key="proposal.drugInfo.form.pastes">Pastes</message>    
+    <message key="proposal.drugInfo.form.patches">Transdermal System (Patches)</message>    
+    <message key="proposal.drugInfo.form.pellets">Pellets</message>    
+    <message key="proposal.drugInfo.form.pills">Pills</message>    
+    <message key="proposal.drugInfo.form.plasters">Plasters</message>    
+    <message key="proposal.drugInfo.form.powders">Powders</message>    
+    <message key="proposal.drugInfo.form.soaps">Medicated soaps and shampoos</message>    
+    <message key="proposal.drugInfo.form.solutions">Solutions</message>    
+    <message key="proposal.drugInfo.form.sprays">Sprays</message>    
+    <message key="proposal.drugInfo.form.suppositories">Suppositories</message>    
+    <message key="proposal.drugInfo.form.suspensions">Suspensions</message>    
+    <message key="proposal.drugInfo.form.tablet">Tablet</message>    
+    <message key="proposal.drugInfo.form.tapes">Tapes</message>    
+    
+    <message key="proposal.drugInfo.storage.freezer">Freezer (temperature between −25° and −10°)</message>    
+    <message key="proposal.drugInfo.storage.cold">Cold (temperature not exceeding 8°)</message>    
+    <message key="proposal.drugInfo.storage.cool">Cool (temperature between 8°-15°)</message>    
+    <message key="proposal.drugInfo.storage.contCold">Controlled Cold temperature (temperature between 2°-8° with excursions between 8°-15°)</message>    
+    <message key="proposal.drugInfo.storage.room">Room temperature (temperature prevailing in the working area)</message>    
+    <message key="proposal.drugInfo.storage.contRoom">Controlled room temperature</message>    
+    <message key="proposal.drugInfo.storage.warm">Warm (temperature between 30° and 40°)</message>    
+    <message key="proposal.drugInfo.storage.heat">Excessive heat ( above 40°)</message>    
+
+    <message key="proposal.drugInfo.class.I">Class I</message>    
+    <message key="proposal.drugInfo.class.II">Class II</message>    
+    <message key="proposal.drugInfo.class.III">Class III</message>    
+    <message key="proposal.drugInfo.class.IV">Class IV</message>    
+        
+        <message key="proposal.purpose.endpoint.saf">Safety</message>
         <message key="proposal.purpose.endpoint.eff">Efficacy</message>
         <message key="proposal.purpose.endpoint.safAndEff">Safety and Efficacy</message>
         <message key="proposal.purpose.endpoint.kin">Pharmacokinetics</message>

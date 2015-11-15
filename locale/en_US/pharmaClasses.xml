@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : pharmaClasses.xml
+    http://apps.who.int/medicinedocs/en/d/Js4895e/5.html
+-->
+
+<pharmaClasses>
+        <pharmaClass code="A000" name="CNS DEPRESSANTS" />
+        <pharmaClass code="A100" name="General anaesthetics" />
+        <pharmaClass code="A110" name="General anaesthetics, volatile" />
+        <pharmaClass code="A120" name="General anaesthetics, other" />
+        <pharmaClass code="A200" name="Hypnotics - sedatives" />
+        <pharmaClass code="A210" name="Barbiturates" />
+        <pharmaClass code="A220" name="Hypnotic sedatives, other" />
+        <pharmaClass code="A230" name="Monoureids, hypnotic sedatives" />
+        <pharmaClass code="A240" name="Chloral derivatives, hypnotic sedatives" />
+        <pharmaClass code="A300" name="Centrally acting voluntary muscle tone modifying drugs" />
+        <pharmaClass code="A310" name="Anticonvulsants" />
+        <pharmaClass code="A311" name="Hydantoins, anticonvulsants" />
+        <pharmaClass code="A312" name="Acetylureas, anticonvulsants" />
+        <pharmaClass code="A313" name="Oxazolidinediones, anticonvulsants" />
+        <pharmaClass code="A314" name="Succinimides, anticonvulsants" />
+        <pharmaClass code="A315" name="Barbiturates, anticonvulsants" />
+        <pharmaClass code="A316" name="Anticonvulsants, other" />
+        <pharmaClass code="A320" name="Central anticholinergics" />
+        <pharmaClass code="A330" name="Centrally acting voluntary-muscle relaxants" />
+        <pharmaClass code="A400" name="Analgesics" />
+        <pharmaClass code="A410" name="Narcotic analgesics" />
+        <pharmaClass code="A420" name="Analgesics - Antipyretics" />
+        <pharmaClass code="A430" name="Analgesics, other" />
+        <pharmaClass code="A440" name="Central antiemetics" />
+        <pharmaClass code="A500" name="Antivertigo drugs" />
+        <pharmaClass code="B000" name="CNS STIMULANTS" />
+        <pharmaClass code="B100" name="Analeptics" />
+        <pharmaClass code="B200" name="Opioid receptor antagonists" />
+        <pharmaClass code="B300" name="Benzodiazepine receptor antagonists" />
+        <pharmaClass code="C000" name="PSYCHOPHARMACOLOGICS" />
+        <pharmaClass code="C100" name="Anxiolytic sedatives" />
+        <pharmaClass code="C200" name="Antipsychotics (neuroleptics)" />
+        <pharmaClass code="C210" name="Brain amine depleters" />
+        <pharmaClass code="C220" name="Central adrenoreceptor antagonists" />
+        <pharmaClass code="C300" name="Antidepressants" />
+        <pharmaClass code="C310" name="MAO inhbitors" />
+        <pharmaClass code="C320" name="Tricyclic antidepressants" />
+        <pharmaClass code="C330" name="Tetracyclic antidepressants" />
+        <pharmaClass code="C340" name="Bicyclic antidepressants" />
+        <pharmaClass code="C400" name="Indirect releasers of catecholamines" />
+        <pharmaClass code="C500" name="Psychodysleptics (hallucinogens)" />
+        <pharmaClass code="C600" name="CNS metabolites" />
+        <pharmaClass code="C700" name="Serotonin receptor antagonists" />
+        <pharmaClass code="D000" name="PERIPHERAL NERVOUS SYSTEM DRUGS" />
+        <pharmaClass code="D100" name="Local anaesthetics" />
+        <pharmaClass code="E000" name="DRUGS ACTING AT SYNAPTIC AND NEUROEFFECTOR JUNCTIONAL SITES" />
+        <pharmaClass code="E100" name="Cholinergic agents" />
+        <pharmaClass code="E110" name="Cholinergic receptor agonists" />
+        <pharmaClass code="E111" name="Muscarinic receptor agonists" />
+        <pharmaClass code="E112" name="Nicotinic receptor agonists" />
+        <pharmaClass code="E120" name="Anticholinesterase agents" />
+        <pharmaClass code="E200" name="Cholinergic antagonists" />
+        <pharmaClass code="E210" name="Peripheral cholinergic antagonists" />
+        <pharmaClass code="E220" name="Ganglionic antagonists" />
+        <pharmaClass code="E300" name="Neuromuscular blocking agents" />
+        <pharmaClass code="E400" name="Adrenergic agents" />
+        <pharmaClass code="E410" name="Beta adrenoreceptor agonists" />
+        <pharmaClass code="E420" name="Alpha adrenoreceptor agonists" />
+        <pharmaClass code="E500" name="Adrenoreceptor antagonists" />
+        <pharmaClass code="E510" name="Alpha adrenoreceptor antagonists" />
+        <pharmaClass code="E520" name="Beta adrenoreceptor antagonists" />
+        <pharmaClass code="E530" name="Catecholamines false transmitters" />
+        <pharmaClass code="E540" name="Adrenergic neurone blocking agents" />
+        <pharmaClass code="E600" name="Stimulant cathartics" />
+        <pharmaClass code="F000" name="AGENTS ACTING ON SMOOTH MUSCLES" />
+        <pharmaClass code="F100" name="Spasmolytics, general" />
+        <pharmaClass code="F200" name="Vasodilators" />
+        <pharmaClass code="F210" name="Coronary vasodilators, also calcium channel blockers" />
+        <pharmaClass code="F220" name="Peripheral vasodilators" />
+        <pharmaClass code="F300" name="Smooth muscle stimulants" />
+        <pharmaClass code="F310" name="Vasoconstrictor agents" />
+        <pharmaClass code="F400" name="Agents acting on the uterus" />
+        <pharmaClass code="G000" name="HISTAMINE AND ANTIHISTAMINICS" />
+        <pharmaClass code="G100" name="Histamine and histamine-like drugs" />
+        <pharmaClass code="G200" name="Antihistaminics" />
+        <pharmaClass code="G220" name="Histamine H2-receptor antagonists" />
+        <pharmaClass code="G230" name="Histamine H3-receptor antagonists" />
+        <pharmaClass code="G300" name="Histamine metabolism agents" />
+        <pharmaClass code="H000" name="CARDIOVASCULAR AGENTS" />
+        <pharmaClass code="H100" name="Cardiac glycosides and drugs with similar action" />
+        <pharmaClass code="H200" name="Agents influencing heart muscle excitability and conductivity" />
+        <pharmaClass code="H300" name="Antihypertensives" />
+        <pharmaClass code="H400" name="Antihyperlipidaemic drugs" />
+        <pharmaClass code="H500" name="Antivaricose drugs" />
+        <pharmaClass code="H510" name="Sclerosing drugs" />
+        <pharmaClass code="H600" name="Capillary-active drugs, haemostyptics" />
+        <pharmaClass code="H700" name="Calcium channel blockers" />
+        <pharmaClass code="H800" name="Agents influencing the renin-angiotensin system" />
+        <pharmaClass code="H810" name="Angiotensin converting enzyme inhibitors" />
+        <pharmaClass code="H820" name="Angiotensin receptor antagonists" />
+        <pharmaClass code="I000" name="BLOOD AND AGENTS ACTING ON THE HAEMOPOIETIC SYSTEM (EXCL. CYTOSTATICS)" />
+        <pharmaClass code="I100" name="Antianaemic agents" />
+        <pharmaClass code="I110" name="Iron preparations" />
+        <pharmaClass code="I120" name="Haematinics, other (Vit. B-12, folic acid, etc.)" />
+        <pharmaClass code="I130" name="Miscellaneous antianaemic agents" />
+        <pharmaClass code="I200" name="Agents influencing blood coagulation" />
+        <pharmaClass code="I210" name="Anticoagulants" />
+        <pharmaClass code="I220" name="Prothrombin inhibitors" />
+        <pharmaClass code="I230" name="Prothrombin synthesis inhibitors" />
+        <pharmaClass code="I240" name="Anticoagulant inhibitors" />
+        <pharmaClass code="I250" name="Agents affecting fibrinolysis" />
+        <pharmaClass code="I260" name="Coagulation promoting agents" />
+        <pharmaClass code="I261" name="Blood clotting factors" />
+        <pharmaClass code="I300" name="Blood proteins and their fractions" />
+        <pharmaClass code="I310" name="Blood substitutes (macromolecular)" />
+        <pharmaClass code="I400" name="Platelet-function regulators" />
+        <pharmaClass code="I500" name="Colony stimulating factors" />
+        <pharmaClass code="I510" name="Granulocyte stimulating factors" />
+        <pharmaClass code="I520" name="Macrophage stimulating factor" />
+        <pharmaClass code="J000" name="AGENTS INFLUENCING THE GASTROINTESTINAL TRACT" />
+        <pharmaClass code="J100" name="Digestives" />
+        <pharmaClass code="J110" name="Stomachics" />
+        <pharmaClass code="J120" name="Choleretics (and hepatoprotective agents)" />
+        <pharmaClass code="J130" name="Digestive enzymes" />
+        <pharmaClass code="J200" name="Emetics" />
+        <pharmaClass code="J300" name="Hepato-protective agents" />
+        <pharmaClass code="J400" name="Gastro-intestinal anti-infectives (see S000)" />
+        <pharmaClass code="J500" name="Antidiarrhoeals" />
+        <pharmaClass code="K000" name="AGENTS INFLUENCING THE RESPIRATORY TRACT" />
+        <pharmaClass code="K100" name="Antitussives" />
+        <pharmaClass code="K110" name="Antitussives - central" />
+        <pharmaClass code="K120" name="Antitussives - peripheral" />
+        <pharmaClass code="K200" name="Expectorants" />
+        <pharmaClass code="L000" name="ANTINEOPLASTICS" />
+        <pharmaClass code="L100" name="Immunosuppressants" />
+        <pharmaClass code="L200" name="Alkylating agents" />
+        <pharmaClass code="L300" name="Radioisotopes (except diagnostics)" />
+        <pharmaClass code="L310" name="Radioisotopes - systemic" />
+        <pharmaClass code="L320" name="Radioisotopes - locally applied" />
+        <pharmaClass code="L400" name="Antineoplastics - antimetabolites" />
+        <pharmaClass code="L410" name="Ornithine decarboxylase inhibitors" />
+        <pharmaClass code="L500" name="Antineoplastics - natural products (incl. antibiotics)" />
+        <pharmaClass code="L600" name="Antineoplastics - sex hormone analogues and inhibitors" />
+        <pharmaClass code="L610" name="Aromatase inhibitors" />
+        <pharmaClass code="L620" name="Luteinizing hormone-releasing hormone agonists" />
+        <pharmaClass code="M000" name="METABOLISM AND NUTRITION (EXCL. WATER AND MINERAL METABOLISM)" />
+        <pharmaClass code="M100" name="Anoretics" />
+        <pharmaClass code="M200" name="Dietetics and antiadipositas drugs" />
+        <pharmaClass code="M210" name="Bulk forming drugs" />
+        <pharmaClass code="M300" name="Agents influencing lipid and fat metabolism" />
+        <pharmaClass code="M310" name="Antiatherosclerosis agents" />
+        <pharmaClass code="M320" name="Lipotropic agents" />
+        <pharmaClass code="M330" name="Lipogenesis inducing agents" />
+        <pharmaClass code="M400" name="Agents influencing protein metabolism" />
+        <pharmaClass code="M410" name="Anabolic steroids" />
+        <pharmaClass code="M420" name="Catabolic agents" />
+        <pharmaClass code="M430" name="Amino acids" />
+        <pharmaClass code="M500" name="Agents influencing carbohydrate metabolism" />
+        <pharmaClass code="M510" name="Insulins" />
+        <pharmaClass code="M520" name="Oral antidiabetics - islet mediated" />
+        <pharmaClass code="M530" name="Oral antidiabetics - extra pancreatic" />
+        <pharmaClass code="M540" name="Gluconeogenesis influencing agents" />
+        <pharmaClass code="M600" name="Agents influencing uric acid metabolism" />
+        <pharmaClass code="M610" name="Uricosurics" />
+        <pharmaClass code="M620" name="Uric acid synthesis inhibitors" />
+        <pharmaClass code="M630" name="Agents influencing oxalic acid metabolism" />
+        <pharmaClass code="M700" name="Thyroid and antithyroids" />
+        <pharmaClass code="M710" name="Thyroid and thyroid hormones" />
+        <pharmaClass code="M720" name="Thyroid stimulators" />
+        <pharmaClass code="M730" name="Antithyroids" />
+        <pharmaClass code="M740" name="Radioactive iodine agents (for therapy)" />
+        <pharmaClass code="M800" name="Enzymes" />
+        <pharmaClass code="M810" name="Enzyme inhibitors" />
+        <pharmaClass code="M820" name="Enzyme stimulators" />
+        <pharmaClass code="N000" name="AGENTS INFLUENCING WATER AND MINERAL METABOLISM" />
+        <pharmaClass code="N100" name="Diuretics" />
+        <pharmaClass code="N110" name="Carbonic anhydrase inhibitors" />
+        <pharmaClass code="N120" name="Saluretics" />
+        <pharmaClass code="N121" name="Thiazide derivatives" />
+        <pharmaClass code="N122" name="Ethacrynic acid derivatives" />
+        <pharmaClass code="N123" name="Chlortalidone derivatives" />
+        <pharmaClass code="N129" name="Saluretics, other" />
+        <pharmaClass code="N130" name="Mercurial diuretics" />
+        <pharmaClass code="N170" name="Purines and other diuretics" />
+        <pharmaClass code="N180" name="Aldosterone inhibitors" />
+        <pharmaClass code="N200" name="Acidifiers" />
+        <pharmaClass code="N400" name="Saline cathartics" />
+        <pharmaClass code="N500" name="Alkalizers" />
+        <pharmaClass code="N510" name="Parenteral alkalizer solutions" />
+        <pharmaClass code="N520" name="Oral antacids" />
+        <pharmaClass code="N600" name="Fluid and electrolyte replacement therapy" />
+        <pharmaClass code="N610" name="Electrolyte and carbohydrate solutions" />
+        <pharmaClass code="N700" name="Mineral salts" />
+        <pharmaClass code="N710" name="Ion exchange resins" />
+        <pharmaClass code="N800" name="Vitamin D group and calcium metabolism drugs" />
+        <pharmaClass code="P000" name="VITAMINS" />
+        <pharmaClass code="P100" name="Vitamin A" />
+        <pharmaClass code="P200" name="Vitamin B1" />
+        <pharmaClass code="P300" name="Vitamin B2" />
+        <pharmaClass code="P400" name="Vitamin B6" />
+        <pharmaClass code="P500" name="Vitamin C" />
+        <pharmaClass code="P600" name="Vitamin E" />
+        <pharmaClass code="P700" name="Nicotinic acid derivatives" />
+        <pharmaClass code="P800" name="Vitamins, other" />
+        <pharmaClass code="Q000" name="HORMONES OR HORMONE RELEASE-STIMULATING PEPTIDES" />
+        <pharmaClass code="Q100" name="Hypophysis hormones" />
+        <pharmaClass code="Q110" name="Hypophysis anterior lobe" />
+        <pharmaClass code="Q111" name="Hypophysis anterior lobe hormones" />
+        <pharmaClass code="Q112" name="Hypophysis anterior lobe inhibitors" />
+        <pharmaClass code="Q120" name="Hypophysis posterior lobe (incl. other oxytocics)" />
+        <pharmaClass code="Q200" name="Sex hormones and analogues" />
+        <pharmaClass code="Q210" name="Estrogens, also interceptive contraceptive agents e.g. epostane (51)" />
+        <pharmaClass code="Q220" name="Progestogens" />
+        <pharmaClass code="Q230" name="Androgens" />
+        <pharmaClass code="Q231" name="Androgens" />
+        <pharmaClass code="Q240" name="Gonadotrophins and gonadotrophin secretion stimulating drugs" />
+        <pharmaClass code="Q241" name="Antigonadotrophins" />
+        <pharmaClass code="Q300" name="Adrenocortical hormones and analogues" />
+        <pharmaClass code="Q310" name="Mineralosteroids" />
+        <pharmaClass code="Q320" name="Mineralosteroid antagonists" />
+        <pharmaClass code="Q330" name="Glucosteroids" />
+        <pharmaClass code="Q340" name="Glucosteroids antagonists" />
+        <pharmaClass code="R000" name="IMMUNOLOGICALS" />
+        <pharmaClass code="R100" name="Sera and immunoglobulins" />
+        <pharmaClass code="R200" name="Vaccines" />
+        <pharmaClass code="R210" name="Vaccines, live" />
+        <pharmaClass code="R220" name="Vaccines, activated" />
+        <pharmaClass code="R300" name="Immunostimulants" />
+        <pharmaClass code="R310" name="Biological response modifier" />
+        <pharmaClass code="S000" name="ANTI-INFECTIVES" />
+        <pharmaClass code="S100" name="Ectoparasiticides" />
+        <pharmaClass code="S200" name="Antiseptics and disinfectants" />
+        <pharmaClass code="S210" name="Antiseptics (excl. heavy metal antiseptics)" />
+        <pharmaClass code="S220" name="Heavy metal antiseptics" />
+        <pharmaClass code="S230" name="Detergent antiseptics" />
+        <pharmaClass code="S300" name="Chemotherapeutics of parasitic diseases" />
+        <pharmaClass code="S310" name="Anthelminthics (excl. antinematode agents)" />
+        <pharmaClass code="S320" name="Antinematode agents" />
+        <pharmaClass code="S330" name="Antiprotozoal agents (incl. all arsphenamines)" />
+        <pharmaClass code="S400" name="Chemotherapeutics of fungal diseases" />
+        <pharmaClass code="S410" name="Antifungal agents" />
+        <pharmaClass code="S420" name="Fungicides" />
+        <pharmaClass code="S430" name="Antifungal antibiotics" />
+        <pharmaClass code="S500" name="Antibiotics, antibacterial and antiviral agents" />
+        <pharmaClass code="S510" name="Sulfonamides" />
+        <pharmaClass code="S520" name="Antimycobacterials" />
+        <pharmaClass code="S530" name="Antiviral" />
+        <pharmaClass code="S550" name="Antibacterial/other" />
+        <pharmaClass code="S600" name="Antibiotics (except antineoplastic antibiotics)" />
+        <pharmaClass code="S610" name="Antibiotics acting on the bacterial cell wall" />
+        <pharmaClass code="S620" name="Antibiotics affecting cell membrane and with detergent effect" />
+        <pharmaClass code="S630" name="Antibiotics affecting protein synthesis" />
+        <pharmaClass code="S640" name="Antibiotics affecting nucleic acid metabolism" />
+        <pharmaClass code="S650" name="Antibiotics-action unclassified (including beta-lactamase inhibitors)" />
+        <pharmaClass code="S700" name="Immunomodulators and immunostimulants (incl. gamma globulins)" />
+        <pharmaClass code="S710" name="Interferons and immunomodulators" />
+        <pharmaClass code="T000" name="LOCALLY ACTING AGENTS (INCL. DERMATOLOGIC AND INTERNALLY USED DRUGS)" />
+        <pharmaClass code="T100" name="Locally acting externally-applied agents" />
+        <pharmaClass code="T110" name="Vasodilators (external) - rubefaciens" />
+        <pharmaClass code="T200" name="Locally acting internally-applied agents" />
+        <pharmaClass code="T210" name="Adsorbents, astringents" />
+        <pharmaClass code="T220" name="Lubricant cathartics" />
+        <pharmaClass code="T230" name="Irritant cathartics" />
+        <pharmaClass code="T240" name="Gastro-intestinal anti-infectives, non-resorbed" />
+        <pharmaClass code="T250" name="Saponins" />
+        <pharmaClass code="T260" name="Detergents" />
+        <pharmaClass code="T300" name="Intravaginal contraceptives" />
+        <pharmaClass code="U000" name="MISCELLANEOUS DRUGS" />
+        <pharmaClass code="U100" name="Diagnostic aids" />
+        <pharmaClass code="U110" name="Radiocontrast media" />
+        <pharmaClass code="U120" name="Diagnostic aids, other" />
+        <pharmaClass code="U130" name="Diagnostic radioisotopes" />
+        <pharmaClass code="U200" name="Chelating agents, detoxicants, etc." />
+        <pharmaClass code="U210" name="Alcohol deterrents" />
+        <pharmaClass code="U300" name="Anti-inflammatory agents" />
+        <pharmaClass code="U310" name="Non-antipyretic antirheumatics" />
+        <pharmaClass code="U320" name="Anti-inflammatory agents, other" />
+        <pharmaClass code="U400" name="Pharmaceutical adjuncts" />
+        <pharmaClass code="V000" name="UNCLASSIFIED PHARMACOLOGICAL MECHANISMS" />
+        <pharmaClass code="V100" name="Intrauterine contraceptive device" />
+        <pharmaClass code="V200" name="Medicinal plants" />
+        <pharmaClass code="V300" name="Homoeopathic preparations" />
+        <pharmaClass code="W000" name="ENZYMES AND VARIOUS" />
+        <pharmaClass code="Y000" name="VETERINARY DRUGS" />
+</pharmaClasses>
