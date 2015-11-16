@@ -61,13 +61,16 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
                         $articleDrugs =& $article->getArticleDrugs();
                         $articleDrugsArray = array();
                         if ($articleDrugs == null) {
-                            $articleDrugsArray = array(0 => array('type' => null));
+                            $articleDrugsArray = array(0 => array('type' => null, 'name' => null, 'brandName' => null));
                         } else foreach ($articleDrugs as $articleDrug) {
                             array_push(
                                     $articleDrugsArray,
                                     array(
-                                            'id' => $articleDrug->getId(),
-                                            'type' => $articleDrug->getType()
+                                        'id' => $articleDrug->getId(),
+                                        'type' => $articleDrug->getType(),
+                                        'name' => $articleDrug->getName(),
+                                        'brandName' => $articleDrug->getBrandName(),
+                                        'administration' => $articleDrug->getAdministration()
                                     )
                             );
 			}
@@ -110,9 +113,8 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
                 
 		$templateMgr =& TemplateManager::getManager();
                 $templateMgr->assign('drugTypeMap', $articleDrugInfoDao->getTypeMap());
+                $templateMgr->assign('drugAdministrationMap', $articleDrugInfoDao->getAdministrationMap());
                 
-                
-                                
                 parent::display();
 	}
 

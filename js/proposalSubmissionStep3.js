@@ -12,10 +12,10 @@ function addDrugInfo(){
         var fieldId = 1;
     }     
     drugHtml = drugHtml.replace('articleDrugs-X', 'articleDrugs-'+fieldId);
-    for (i = 0; i < 3; i++) { 
+    for (i = 0; i < 7; i++) { 
         drugHtml = drugHtml.replace('articleDrugs-0', 'articleDrugs-'+fieldId);
     }
-    for (i = 0; i < 3; i++) { 
+    for (i = 0; i < 7; i++) { 
         drugHtml = drugHtml.replace('articleDrugs[0', 'articleDrugs['+fieldId);
     }
     if ($(".drugSupp").length){
@@ -33,4 +33,8 @@ function addDrugInfo(){
     $('#articleDrugs-'+fieldId).find('.removeDrug').show();
     $('#articleDrugs-'+fieldId).find('.removeDrug').click(function(){$(this).closest('div').remove();});   
     $('#articleDrugs-'+fieldId+'-title').html(fieldId+1);
+    $('#articleDrugs-'+fieldId+'-name').val('');
+    $('#articleDrugs-'+fieldId+'-brandName').val('');
+    $('#articleDrugs-'+fieldId+'-administration').val('');
+
 }

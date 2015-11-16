@@ -229,6 +229,23 @@ class ArticleDrugInfoDAO extends DAO {
 		}
 		return $typeMap;
 	}
+        /**
+	 * Get a map for the administration constants to locale key.
+	 * @return array
+	 */
+	function &getAdministrationMap() {
+		static $administrationMap;
+		if (!isset($administrationMap)) {
+			$administrationMap = array(
+                                ARTICLE_DRUG_INFO_ADMINISTRATION_GASTRO => Locale::translate('proposal.drugInfo.administration.gastro'),
+                                ARTICLE_DRUG_INFO_ADMINISTRATION_INJECTION => Locale::translate('proposal.drugInfo.administration.injection'),
+                                ARTICLE_DRUG_INFO_ADMINISTRATION_MUCOSAL => Locale::translate('proposal.drugInfo.administration.mucosal'),
+                                ARTICLE_DRUG_INFO_ADMINISTRATION_TOPICAL => Locale::translate('proposal.drugInfo.administration.topical'),
+                                ARTICLE_DRUG_INFO_ADMINISTRATION_INHALATION => Locale::translate('proposal.drugInfo.administration.inhalation')                            
+			);
+		}
+		return $administrationMap;
+	}
 
         
         ////////////////////////////

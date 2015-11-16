@@ -596,6 +596,12 @@
 
     <message key="proposal.drugInfo">Drug product</message>   
     <message key="proposal.drugInfo.add">Add another drug product</message>    
+    <message key="proposal.drugInfo.administration">Route of administration</message>    
+    <message key="proposal.drugInfo.administration.instruct">Provide the route of administration that will be used to administer the active pharmaceutical ingredient.</message>    
+    <message key="proposal.drugInfo.name">Name of active ingredient / generic name / chemical code</message>    
+    <message key="proposal.drugInfo.name.instruct">Provide the active ingredient’s name, generic name (if applicable) and the chemical code.</message>  
+    <message key="proposal.drugInfo.brandName">Brand name</message>    
+    <message key="proposal.drugInfo.brandName.instruct">Provide the brand name, if applicable.</message>    
     <message key="proposal.drugInfo.type">Type</message>  
     <message key="proposal.drugInfo.type.instruct">Please select the appropriate type of the drug product. Your first drug product should be your study drug. This selection menu is therefore disabled for the first drug product but will become available for other drug products.</message>   
     <message key="proposal.drugInfo.type.studyDrug">Study drug</message>    
