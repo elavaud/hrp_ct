@@ -614,6 +614,8 @@
     <message key="proposal.drugInfo.strength.instruct">The strength of the IDP is expressed in terms of micrograms or milligrams, or grams, or percentage of the therapeutically active moiety or drug substance (e.g. 5 g/mL, 2%, 20 mcg).</message>    
     <message key="proposal.drugInfo.storage">Storage condition</message>    
     <message key="proposal.drugInfo.storage.instruct">Specific temperature at which the product shall be stored.</message>    
+    <message key="proposal.drugInfo.pharmaClass">Pharmacological class</message>    
+    <message key="proposal.drugInfo.pharmaClass.instruct"><![CDATA[Based on WHO Pharmacological Classification (<a href="http://apps.who.int/medicinedocs/en/d/Js4895e/5.html">http://apps.who.int/medicinedocs/en/d/Js4895e/5.html</a>).]]></message>    
     
     <message key="proposal.drugInfo.administration.gastro">Gastro-intestinal</message>    
     <message key="proposal.drugInfo.administration.injection">Injection</message>    

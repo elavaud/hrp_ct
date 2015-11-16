@@ -61,7 +61,7 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
                         $articleDrugs =& $article->getArticleDrugs();
                         $articleDrugsArray = array();
                         if ($articleDrugs == null) {
-                            $articleDrugsArray = array(0 => array('type' => null, 'name' => null, 'brandName' => null));
+                            $articleDrugsArray = array(0 => array());
                         } else foreach ($articleDrugs as $articleDrug) {
                             array_push(
                                     $articleDrugsArray,
@@ -70,7 +70,12 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
                                         'type' => $articleDrug->getType(),
                                         'name' => $articleDrug->getName(),
                                         'brandName' => $articleDrug->getBrandName(),
-                                        'administration' => $articleDrug->getAdministration()
+                                        'administration' => $articleDrug->getAdministration(),
+                                        'otherAdministration' => $articleDrug->getOtherAdministration(),
+                                        'form' => $articleDrug->getForm(),
+                                        'otherForm' => $articleDrug->getOtherForm(),
+                                        'strength' => $articleDrug->getStrength(),
+                                        'storage' => $articleDrug->getStorage()
                                     )
                             );
 			}
@@ -114,14 +119,13 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
 
                 $drugFormMap = $articleDrugInfoDao->getFormMap();
                 $drugFormMapWithOther = $drugFormMap + array('OTHER' => Locale::translate('common.other'));   
-
-                $drugStorageMap = $articleDrugInfoDao->getStorageMap();
-
+                
 		$templateMgr =& TemplateManager::getManager();
                 $templateMgr->assign('drugTypeMap', $articleDrugInfoDao->getTypeMap());
                 $templateMgr->assign('drugAdministrationMap', $drugAdministrationMapWithOther);
                 $templateMgr->assign('drugFormMap', $drugFormMapWithOther);
-                $templateMgr->assign('drugStorageMap', $drugStorageMap);
+                $templateMgr->assign('drugStorageMap', $articleDrugInfoDao->getStorageMap());
+                $templateMgr->assign('drugPharmaClasses', $articleDrugInfoDao->getPharmaClasses());
                 
                 parent::display();
 	}

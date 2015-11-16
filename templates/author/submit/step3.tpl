@@ -48,6 +48,8 @@
                 {assign var="articleDrugStrengthD" value='articleDrugs-'|cat:$i|cat:'-strength'}   
                 {assign var="articleDrugStorageB" value='articleDrugs['|cat:$i|cat:'][storage]'}
                 {assign var="articleDrugStorageD" value='articleDrugs-'|cat:$i|cat:'-storage'}   
+                {assign var="articleDrugPharmClassB" value='articleDrugs['|cat:$i|cat:'][pharmaClass]'}
+                {assign var="articleDrugPharmClassD" value='articleDrugs-'|cat:$i|cat:'-pharmaClass'}   
                 <tr valign="top">
                     <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleDrugTypeD required="true" key="proposal.drugInfo.type"}</td>
                     <td width="80%" class="value">
@@ -148,6 +150,21 @@
                     <tr valign="top" hidden class="showHideHelpField">
                         <td width="20%">&nbsp;</td>
                         <td width="80%" class="value"><i>[?] {translate key="proposal.drugInfo.storage.instruct"}</i></td>
+                    </tr>    
+                {/if}
+                <tr valign="top">
+                    <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleDrugPharmaClassD required="true" key="proposal.drugInfo.pharmaClass"}</td>
+                    <td width="80%" class="value">
+                        <select name="{$articleDrugPharmaClassB|escape}" id="{$articleDrugPharmaClassD|escape}" class="selectMenu">
+                            <option value=""></option>
+                            {html_options options=$drugPharmaClasses selected=$articleDrugs.$i.pharmaClass}                                
+                        </select>
+                    </td>                     
+                </tr>
+                {if $i == 0}
+                    <tr valign="top" hidden class="showHideHelpField">
+                        <td width="20%">&nbsp;</td>
+                        <td width="80%" class="value"><i>[?] {translate key="proposal.drugInfo.pharmaClass.instruct"}</i></td>
                     </tr>    
                 {/if}    
             </table><br/><br/>

@@ -13,10 +13,10 @@ function addDrugInfo(){
         var fieldId = 1;
     }     
     drugHtml = drugHtml.replace('articleDrugs-X', 'articleDrugs-'+fieldId);
-    for (i = 0; i < 20; i++) { 
+    for (i = 0; i < 30; i++) { 
         drugHtml = drugHtml.replace('articleDrugs-0', 'articleDrugs-'+fieldId);
     }
-    for (i = 0; i < 20; i++) { 
+    for (i = 0; i < 30; i++) { 
         drugHtml = drugHtml.replace('articleDrugs[0', 'articleDrugs['+fieldId);
     }
     if ($(".drugSupp").length){
@@ -43,6 +43,7 @@ function addDrugInfo(){
     showOrHideOherFormFields();
     $('#articleDrugs-'+fieldId+'-strength').val('');
     $('#articleDrugs-'+fieldId+'-storage').val('');
+    $('#articleDrugs-'+fieldId+'-pharmaClass').val('');
 }
 
 function showOrHideOherAdministrationField(id){
