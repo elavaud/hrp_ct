@@ -11,6 +11,17 @@
  {literal}
      <script type="text/javascript">
         
+        $("#addDrugInfoClick").click(addDrugInfo);
+        $('a.removeDrug').each(function() {$(this).click(function(){$(this).closest('div').remove();});});           
+        
+        $("a.showHideHelpButton").each(function() {$(this).click(function(){
+            if ($(this).parent().parent().nextAll('.showHideHelpField').first().is(':hidden')) {
+                $(this).parent().parent().nextAll('.showHideHelpField').first().show();
+            } else {
+                $(this).parent().parent().nextAll('.showHideHelpField').first().hide();
+            } 
+        });});
+
         $(document).ready(
             function() {
             }

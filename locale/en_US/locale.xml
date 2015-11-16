@@ -594,6 +594,10 @@
     <message key="proposal.recruitment.adScheme">Advertisement scheme</message>
     <message key="proposal.recruitment.adScheme.instruct">Are you planning to use any advertisement scheme(s) for recruiting participants?</message>    
 
+    <message key="proposal.drugInfo">Drug product</message>   
+    <message key="proposal.drugInfo.add">Add another drug product</message>    
+    <message key="proposal.drugInfo.type">Type</message>  
+    <message key="proposal.drugInfo.type.instruct">Please select the appropriate type of the drug product. Your first drug product should be your study drug. This selection menu is therefore disabled for the first drug product but will become available for other drug products.</message>   
     <message key="proposal.drugInfo.type.studyDrug">Study drug</message>    
     <message key="proposal.drugInfo.type.comparator">Comparator</message>    
     <message key="proposal.drugInfo.type.concomitant">Concomitant</message>    

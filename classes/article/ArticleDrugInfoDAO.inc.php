@@ -213,6 +213,23 @@ class ArticleDrugInfoDAO extends DAO {
 		return $articleDrugInfo;
 	}
      
+        /**
+	 * Get a map for the type constants to locale key.
+	 * @return array
+	 */
+	function &getTypeMap() {
+		static $typeMap;
+		if (!isset($typeMap)) {
+			$typeMap = array(
+				ARTICLE_DRUG_INFO_TYPE_STUDY_DRUG => Locale::translate('proposal.drugInfo.type.studyDrug'),
+				ARTICLE_DRUG_INFO_TYPE_CONCOMITANT => Locale::translate('proposal.drugInfo.type.concomitant'),
+				ARTICLE_DRUG_INFO_TYPE_COMPARATOR => Locale::translate('proposal.drugInfo.type.comparator'),
+				ARTICLE_DRUG_INFO_TYPE_PLACEBO => Locale::translate('proposal.drugInfo.type.placebo')
+			);
+		}
+		return $typeMap;
+	}
+
         
         ////////////////////////////
         ////// Pharma Classes //////
