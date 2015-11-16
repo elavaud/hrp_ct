@@ -43,7 +43,9 @@
                 {assign var="articleDrugFormD" value='articleDrugs-'|cat:$i|cat:'-form'}  
                 {assign var="articleDrugOtherFormB" value='articleDrugs['|cat:$i|cat:'][otherForm]'}
                 {assign var="articleDrugOtherFormD" value='articleDrugs-'|cat:$i|cat:'-otherForm'}  
-                {assign var="articleDrugOtherFormFieldD" value='articleDrugs-'|cat:$i|cat:'-otherFormField'}                   
+                {assign var="articleDrugOtherFormFieldD" value='articleDrugs-'|cat:$i|cat:'-otherFormField'}   
+                {assign var="articleDrugStrengthB" value='articleDrugs['|cat:$i|cat:'][strength]'}
+                {assign var="articleDrugStrengthD" value='articleDrugs-'|cat:$i|cat:'-strength'}   
                 <tr valign="top">
                     <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleDrugTypeD required="true" key="proposal.drugInfo.type"}</td>
                     <td width="80%" class="value">
@@ -122,7 +124,16 @@
                         <td width="80%" class="value"><i>[?] {translate key="proposal.drugInfo.form.instruct"}</i></td>
                     </tr>    
                 {/if}    
-
+                <tr valign="top">
+                    <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleDrugStrengthD required="true" key="proposal.drugInfo.strength"}</td>
+                    <td width="80%" class="value"><input type="text" class="textField" name="{$articleDrugStrengthB|escape}" id="{$articleDrugStrengthD|escape}" value="{$articleDrugs.$i.strength|escape}" size="50" maxlength="255" /></td>                   
+                </tr>
+                {if $i == 0}
+                    <tr valign="top" hidden class="showHideHelpField">
+                        <td width="20%">&nbsp;</td>
+                        <td width="80%" class="value"><i>[?] {translate key="proposal.drugInfo.strength.instruct"}</i></td>
+                    </tr>    
+                {/if}
             </table><br/><br/>
         </div>
     {/foreach}

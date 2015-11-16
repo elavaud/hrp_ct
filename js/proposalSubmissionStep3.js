@@ -37,10 +37,11 @@ function addDrugInfo(){
     $('#articleDrugs-'+fieldId+'-brandName').val('');
     $('#articleDrugs-'+fieldId+'-administration').val('');
     $('#articleDrugs-'+fieldId+'-administration').change(function(e) {var id = e.target.id;showOrHideOherAdministrationField(id);});
+    showOrHideOherAdministrationFields();
     $('#articleDrugs-'+fieldId+'-form').val('');
     $('#articleDrugs-'+fieldId+'-form').change(function(e) {var id = e.target.id;showOrHideOherFormField(id);});
-    showOrHideOherAdministrationFields();
     showOrHideOherFormFields();
+    $('#articleDrugs-'+fieldId+'-strength').val('');
 }
 
 function showOrHideOherAdministrationField(id){
