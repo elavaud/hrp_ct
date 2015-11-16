@@ -106,9 +106,7 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
 	/**
 	 * Display the form.
 	 */
-	function display() {
-                $journal = Request::getJournal();
-                
+	function display() {                
                 $articleDrugInfoDao =& DAORegistry::getDAO('ArticleDrugInfoDAO');
                 
                 $drugAdministrationMap = $articleDrugInfoDao->getAdministrationMap();
@@ -117,10 +115,13 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
                 $drugFormMap = $articleDrugInfoDao->getFormMap();
                 $drugFormMapWithOther = $drugFormMap + array('OTHER' => Locale::translate('common.other'));   
 
+                $drugStorageMap = $articleDrugInfoDao->getStorageMap();
+
 		$templateMgr =& TemplateManager::getManager();
                 $templateMgr->assign('drugTypeMap', $articleDrugInfoDao->getTypeMap());
                 $templateMgr->assign('drugAdministrationMap', $drugAdministrationMapWithOther);
                 $templateMgr->assign('drugFormMap', $drugFormMapWithOther);
+                $templateMgr->assign('drugStorageMap', $drugStorageMap);
                 
                 parent::display();
 	}

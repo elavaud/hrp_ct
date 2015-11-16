@@ -286,6 +286,29 @@ class ArticleDrugInfoDAO extends DAO {
 		}
 		return $formMap;
 	}
+        /**
+	 * Get a map for the storage conditions constants to locale key.
+	 * @return array
+	 */
+	function &getStorageMap() {
+		static $storageMap;
+		if (!isset($storageMap)) {
+			$storageMap = array(
+                                ARTICLE_DRUG_INFO_STORAGE_FREEZER => Locale::translate('proposal.drugInfo.storage.freezer'),
+                                ARTICLE_DRUG_INFO_STORAGE_COLD => Locale::translate('proposal.drugInfo.storage.cold'),
+                                ARTICLE_DRUG_INFO_STORAGE_COOL => Locale::translate('proposal.drugInfo.storage.cool'),
+                                ARTICLE_DRUG_INFO_STORAGE_CONTCOLD => Locale::translate('proposal.drugInfo.storage.contCold'),
+                                ARTICLE_DRUG_INFO_STORAGE_ROOM => Locale::translate('proposal.drugInfo.storage.room'),
+                                ARTICLE_DRUG_INFO_STORAGE_CONTROOM => Locale::translate('proposal.drugInfo.storage.contRoom'),
+                                ARTICLE_DRUG_INFO_STORAGE_WARM => Locale::translate('proposal.drugInfo.storage.warm'),
+                                ARTICLE_DRUG_INFO_STORAGE_HEAT => Locale::translate('proposal.drugInfo.storage.heat')
+			);
+		}
+		return $storageMap;
+	}
+        
+        
+        
 
         ////////////////////////////
         ////// Pharma Classes //////
