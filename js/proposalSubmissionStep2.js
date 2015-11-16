@@ -8,7 +8,9 @@ function addSecId(){
     var secIdHtml = '<tr valign="top" class="secIdSupp">' + $('#firstSecId').html() + '</tr>';
     if ($("#secIds tr.secIdSupp")[0]){
         var selectName = $('#secIds tr.secIdSupp:last').find('select').attr('name');
-        var fieldId = parseInt(selectName.slice(14,15)) + 1;
+        var selectNameStartRemoved = selectName.replace('articleSecIds[', '');
+        var selectNameStartAndEndRemoved = selectNameStartRemoved.replace('][type]', '');
+        var fieldId = parseInt(selectNameStartAndEndRemoved) + 1;
         $('#secIds tr.secIdSupp:last').after(secIdHtml);
         $('#secIds tr.secIdSupp:last').find('.hiddenInputs').remove();
         $('#secIds tr.secIdSupp:last').find('select').attr('selectedIndex', 0);
@@ -20,8 +22,7 @@ function addSecId(){
         $('#secIds tr.secIdSupp:last').find('.secIdTitle').hide();
         $('#secIds tr.secIdSupp:last').find('.noSecIdTitle').show();
     } else {
-        var selectName = $('#firstSecId').find('select').attr('name');
-        var fieldId = parseInt(selectName.slice(14,15)) + 1;        
+        var fieldId = 1;        
         $('#firstSecId').after(secIdHtml);
         $('#firstSecId').next().find('.hiddenInputs').remove();
         $('#firstSecId').next().find('select').attr('selectedIndex', 0);
@@ -53,7 +54,9 @@ function addHealthCond(){
     if ($("#healthConds tr.healthCondSupp")[0]){
         if ($("#healthConds tr.healthCondSupp").length < 19) {
             var selectName = $('#healthConds tr.healthCondSupp:last').find('select').attr('name');
-            var fieldId = parseInt(selectName.slice(28,29)) + 1;
+            var selectNameStartRemoved = selectName.replace('articleDetails[healthConds][', '');
+            var selectNameStartAndEndRemoved = selectNameStartRemoved.replace('][code]', '');
+            var fieldId = parseInt(selectNameStartAndEndRemoved) + 1;
             $('#healthConds tr.healthCondSupp:last').after(healthCondHtml);
             $('#healthConds tr.healthCondSupp:last').find('select').attr('selectedIndex', 0);
             $('#healthConds tr.healthCondSupp:last').find('select').attr('name', 'articleDetails[healthConds]['+fieldId+'][code]');
@@ -65,8 +68,7 @@ function addHealthCond(){
             $('#healthConds tr.healthCondSupp:last').find('.noHealthCondTitle').show();            
         }
     } else {
-        var selectName = $('#firstHealthCond').find('select').attr('name');
-        var fieldId = parseInt(selectName.slice(28,29)) + 1;
+        var fieldId = 1;
         $('#firstHealthCond').after(healthCondHtml);
         $('#firstHealthCond').next().find('select').attr('selectedIndex', 0);
         $('#firstHealthCond').next().find('select').attr('name', 'articleDetails[healthConds]['+fieldId+'][code]');
@@ -83,7 +85,9 @@ function addPurpose(){
     var purposeHtml = '<table valign="top" class="purposeSupp" width="100%">' + $('#firstPurpose').html() + '</table>';
     if ($("#purposes .purposeSupp").length){
         var selectName = $('#purposes table.purposeSupp:last').find('input:radio').attr('name');
-        var fieldId = parseInt(selectName.slice(9,10)) + 1;
+        var selectNameStartRemoved = selectName.replace('purposes[', '');
+        var selectNameStartAndEndRemoved = selectNameStartRemoved.replace('][interventional]', '');
+        var fieldId = parseInt(selectNameStartAndEndRemoved) + 1;
     } else {
         var fieldId = 1;
     }
@@ -280,9 +284,9 @@ function addPrimaryOutcome(){
         var outcomeHtml = '<table valign="top" class="primaryOutcomeSupp" id="primaryOutcomes-X" width="100%">' + $('#primaryOutcomes-0').html() + '</table>';
 
         if ($("#primaryOutcomes .primaryOutcomeSupp").length){
-            var selectName = $('#primaryOutcomes table.primaryOutcomeSupp:last').attr('id');
-            var fieldId = parseInt(selectName.slice(16,17)) + 1;
-            var locale = selectName.slice(18,23);
+            var selectName = $('#primaryOutcomes table.primaryOutcomeSupp:last').attr('id');            
+            var selectNameStartRemoved = selectName.replace('primaryOutcomes-', '');
+            var fieldId = parseInt(selectNameStartRemoved) + 1;
             outcomeHtml = outcomeHtml.replace('primaryOutcomes-X', 'primaryOutcomes-'+fieldId);
             for (i = 0; i < 8; i++) { 
                 outcomeHtml = outcomeHtml.replace('primaryOutcomes-0', 'primaryOutcomes-'+fieldId);
@@ -294,8 +298,6 @@ function addPrimaryOutcome(){
             $('#primaryOutcomes table.primaryOutcomeSupp:last').find('.hiddenInputs').remove('');
             $('#primaryOutcomes table.primaryOutcomeSupp:last').find('.showHideHelpField').remove('');
         } else {    
-            var selectName = $('#primaryOutcomes-0').find('input[type!=hidden]:first').attr('id');
-            var locale = selectName.slice(18,23);
             var fieldId = 1;
             outcomeHtml = outcomeHtml.replace('primaryOutcomes-X', 'primaryOutcomes-1');
             for (i = 0; i < 8; i++) { 
@@ -308,9 +310,9 @@ function addPrimaryOutcome(){
             $('#primaryOutcomes-0').next().find('.hiddenInputs').remove('');
             $('#primaryOutcomes-0').next().find('.showHideHelpField').remove('');
         }      
-        $('#primaryOutcomes-'+fieldId+'-'+locale+'-name').val('');
-        $('#primaryOutcomes-'+fieldId+'-'+locale+'-measurement').val('');
-        $('#primaryOutcomes-'+fieldId+'-'+locale+'-timepoint').val('');
+        $('#primaryOutcomes-'+fieldId+'-en_US-name').val('');
+        $('#primaryOutcomes-'+fieldId+'-en_US-measurement').val('');
+        $('#primaryOutcomes-'+fieldId+'-en_US-timepoint').val('');
 
         $('#primaryOutcomes-'+fieldId).find('.removePrimaryOutcome').show();
         $('#primaryOutcomes-'+fieldId).find('.removePrimaryOutcome').click(function(){$(this).closest('table').remove();});
@@ -324,8 +326,8 @@ function addSecondaryOutcome(){
 
     if ($("#secondaryOutcomes .secondaryOutcomeSupp").length){
         var selectName = $('#secondaryOutcomes table.secondaryOutcomeSupp:last').attr('id');
-        var fieldId = parseInt(selectName.slice(18,19)) + 1;
-        var locale = selectName.slice(20,25);
+        var selectNameStartRemoved = selectName.replace('secondaryOutcomes-', '');
+        var fieldId = parseInt(selectNameStartRemoved) + 1;
         outcomeHtml = outcomeHtml.replace('secondaryOutcomes-X', 'secondaryOutcomes-'+fieldId);
         for (i = 0; i < 8; i++) { 
             outcomeHtml = outcomeHtml.replace('secondaryOutcomes-0', 'secondaryOutcomes-'+fieldId);
@@ -336,8 +338,6 @@ function addSecondaryOutcome(){
         $('#secondaryOutcomes table.secondaryOutcomeSupp:last').after(outcomeHtml);
         $('#secondaryOutcomes table.secondaryOutcomeSupp:last').find('.showHideHelpField').remove('');
     } else {    
-        var selectName = $('#secondaryOutcomes-0').find('input[type!=hidden]:first').attr('id');
-        var locale = selectName.slice(20,25);
         var fieldId = 1;
         outcomeHtml = outcomeHtml.replace('secondaryOutcomes-X', 'secondaryOutcomes-1');
         for (i = 0; i < 8; i++) { 
@@ -349,9 +349,9 @@ function addSecondaryOutcome(){
         $('#secondaryOutcomes-0').after(outcomeHtml);
         $('#secondaryOutcomes-0').next().find('.showHideHelpField').remove('');
     }      
-    $('#secondaryOutcomes-'+fieldId+'-'+locale+'-name').val('');
-    $('#secondaryOutcomes-'+fieldId+'-'+locale+'-measurement').val('');
-    $('#secondaryOutcomes-'+fieldId+'-'+locale+'-timepoint').val('');
+    $('#secondaryOutcomes-'+fieldId+'-en_US-name').val('');
+    $('#secondaryOutcomes-'+fieldId+'-en_US-measurement').val('');
+    $('#secondaryOutcomes-'+fieldId+'-en_US-timepoint').val('');
 
     $('#secondaryOutcomes-'+fieldId).find('.removeSecondaryOutcome').show();
     $('#secondaryOutcomes-'+fieldId).find('.removeSecondaryOutcome').click(function(){$(this).closest('table').remove();});
@@ -386,8 +386,9 @@ function addIntCountry(){
     var intCountryHtml = '<table class="countryAndSizeSupp" id="articleDetails-intSampleSize-X" width="100%">' + $('#articleDetails-intSampleSize-0').html() + '</table>';
     
     if ($("#intSampleSizeFields table.countryAndSizeSupp").length){
-        var selectName = $('#intSampleSizeFields table.countryAndSizeSupp:last').attr('id');
-        var fieldId = parseInt(selectName.slice(29,30)) + 1;
+        var selectName = $('#intSampleSizeFields table.countryAndSizeSupp:last').attr('id');        
+        var selectNameStartRemoved = selectName.replace('articleDetails-intSampleSize-', '');
+        var fieldId = parseInt(selectNameStartRemoved) + 1;
         intCountryHtml = intCountryHtml.replace('articleDetails-intSampleSize-X', 'articleDetails-intSampleSize-'+fieldId);
         for (i = 0; i < 4; i++) { 
             intCountryHtml = intCountryHtml.replace('articleDetails-intSampleSize-0', 'articleDetails-intSampleSize-'+fieldId);

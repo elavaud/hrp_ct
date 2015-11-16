@@ -363,7 +363,7 @@
     <div id="primaryOutcomes">
         {foreach from=$primaryOutcomes key=l item=primaryOutcome}
             {assign var="primaryOutcomeId" value='primaryOutcomes-'|cat:$l}
-            <table width="100%" class="data" id="{$primaryOutcomeId|escape}" {if $l != 0}class="primaryOutcomeSupp"{/if}>
+            <table width="100%" id="{$primaryOutcomeId|escape}" {if $l > 0}class="primaryOutcomeSupp"{/if}>
                 <tr valign="top"><td width="20%"></td><td width="15%"></td><td width="65%"></td></tr>
                 {assign var="firstLocale" value=1}
                 {foreach from=$articleTextLocales item=localeName key=localeKey}
@@ -423,7 +423,7 @@
     <div id="secondaryOutcomes">
         {foreach from=$secondaryOutcomes key=l item=secondaryOutcome}
             {assign var="secondaryOutcomeId" value='secondaryOutcomes-'|cat:$l}
-            <table width="100%" class="data" id="{$secondaryOutcomeId|escape}" {if $l != 0}class="secondaryOutcomeSupp"{/if}>
+            <table width="100%" id="{$secondaryOutcomeId|escape}" {if $l != 0}class="secondaryOutcomeSupp"{/if}>
                 <tr valign="top"><td width="20%"></td><td width="15%"></td><td width="65%"></td></tr>
                 {assign var="firstLocale" value=1}
                 {foreach from=$articleTextLocales item=localeName key=localeKey}
