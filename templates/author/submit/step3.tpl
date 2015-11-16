@@ -23,7 +23,8 @@
             <table width="100%">
                 <tr>
                     <td width="50%"><h2>{translate key="proposal.drugInfo"} #<span id="{$articleDrugTitleId|escape}">{$i+1|escape}</span></h2></td>
-                    <td width="50%"><input type="button"  class="removeDrug" value="{translate key="common.remove"}" style="{if $i == 0}display: none; {/if}" /></td></tr>
+                    <td width="50%"><input type="button"  class="removeDrug" value="{translate key="common.remove"}" style="{if $i == 0}display: none; {/if}" /></td>
+                </tr>
             </table>
             {if $articleDrugs.$i.id}<input type="hidden" class="hiddenInputs" name="articleDrugs[{$i|escape}][id]" value="{$articleDrugs.$i.id|escape}" />{/if}
             <table width="100%" class="data">
@@ -35,6 +36,14 @@
                 {assign var="articleDrugBrandNameD" value='articleDrugs-'|cat:$i|cat:'-brandName'}  
                 {assign var="articleDrugAdministrationB" value='articleDrugs['|cat:$i|cat:'][administration]'}
                 {assign var="articleDrugAdministrationD" value='articleDrugs-'|cat:$i|cat:'-administration'}  
+                {assign var="articleDrugOtherAdministrationB" value='articleDrugs['|cat:$i|cat:'][otherAdministration]'}
+                {assign var="articleDrugOtherAdministrationD" value='articleDrugs-'|cat:$i|cat:'-otherAdministration'}  
+                {assign var="articleDrugOtherAdministrationFieldD" value='articleDrugs-'|cat:$i|cat:'-otherAdministrationField'}   
+                {assign var="articleDrugFormB" value='articleDrugs['|cat:$i|cat:'][form]'}
+                {assign var="articleDrugFormD" value='articleDrugs-'|cat:$i|cat:'-form'}  
+                {assign var="articleDrugOtherFormB" value='articleDrugs['|cat:$i|cat:'][otherForm]'}
+                {assign var="articleDrugOtherFormD" value='articleDrugs-'|cat:$i|cat:'-otherForm'}  
+                {assign var="articleDrugOtherFormFieldD" value='articleDrugs-'|cat:$i|cat:'-otherFormField'}                   
                 <tr valign="top">
                     <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleDrugTypeD required="true" key="proposal.drugInfo.type"}</td>
                     <td width="80%" class="value">
@@ -83,10 +92,34 @@
                         </select>
                     </td>                     
                 </tr>
+                <tr valign="top" id="{$articleDrugOtherAdministrationFieldD|escape}">
+                    <td width="20%">&nbsp;</td>
+                    <td width="80%" class="value">{fieldLabel name=$articleDrugOtherAdministrationD required="true" key="common.other"}&nbsp;&nbsp;<input type="text" class="textField" name="{$articleDrugOtherAdministrationB|escape}" id="{$articleDrugOtherAdministrationD|escape}" value="{$articleDrugs.$i.otherAdministration|escape}" size="20" maxlength="90" /></td>                   
+                </tr>
                 {if $i == 0}
                     <tr valign="top" hidden class="showHideHelpField">
                         <td width="20%">&nbsp;</td>
                         <td width="80%" class="value"><i>[?] {translate key="proposal.drugInfo.administration.instruct"}</i></td>
+                    </tr>    
+                {/if}    
+                
+                <tr valign="top">
+                    <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleDrugFormD required="true" key="proposal.drugInfo.form"}</td>
+                    <td width="80%" class="value">
+                        <select name="{$articleDrugFormB|escape}" id="{$articleDrugFormD|escape}" class="selectMenu">
+                            <option value=""></option>
+                            {html_options options=$drugFormMap selected=$articleDrugs.$i.form}                                
+                        </select>
+                    </td>                     
+                </tr>
+                <tr valign="top" id="{$articleDrugOtherFormFieldD|escape}">
+                    <td width="20%">&nbsp;</td>
+                    <td width="80%" class="value">{fieldLabel name=$articleDrugOtherFormD required="true" key="common.other"}&nbsp;&nbsp;<input type="text" class="textField" name="{$articleDrugOtherFormB|escape}" id="{$articleDrugOtherFormD|escape}" value="{$articleDrugs.$i.otherForm|escape}" size="20" maxlength="90" /></td>                   
+                </tr>
+                {if $i == 0}
+                    <tr valign="top" hidden class="showHideHelpField">
+                        <td width="20%">&nbsp;</td>
+                        <td width="80%" class="value"><i>[?] {translate key="proposal.drugInfo.form.instruct"}</i></td>
                     </tr>    
                 {/if}    
 

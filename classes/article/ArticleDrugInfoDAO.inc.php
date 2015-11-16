@@ -247,7 +247,46 @@ class ArticleDrugInfoDAO extends DAO {
 		return $administrationMap;
 	}
 
-        
+        /**
+	 * Get a map for the pharmaceutical form constants to locale key.
+	 * @return array
+	 */
+	function &getFormMap() {
+		static $formMap;
+		if (!isset($formMap)) {
+			$formMap = array(
+                                ARTICLE_DRUG_INFO_FORM_AEROSOLS => Locale::translate('proposal.drugInfo.form.aerosols'),
+                                ARTICLE_DRUG_INFO_FORM_CAPSULES => Locale::translate('proposal.drugInfo.form.capsules'),
+                                ARTICLE_DRUG_INFO_FORM_DPINHALEUR => Locale::translate('proposal.drugInfo.form.dpinhaleur'),
+                                ARTICLE_DRUG_INFO_FORM_EMULSIONS => Locale::translate('proposal.drugInfo.form.emulsions'),
+                                ARTICLE_DRUG_INFO_FORM_FOAMS => Locale::translate('proposal.drugInfo.form.foams'),
+                                ARTICLE_DRUG_INFO_FORM_GASES => Locale::translate('proposal.drugInfo.form.gases'),
+                                ARTICLE_DRUG_INFO_FORM_GELS => Locale::translate('proposal.drugInfo.form.gels'),
+                                ARTICLE_DRUG_INFO_FORM_GRANULES => Locale::translate('proposal.drugInfo.form.granules'),
+                                ARTICLE_DRUG_INFO_FORM_GUMS => Locale::translate('proposal.drugInfo.form.gums'),
+                                ARTICLE_DRUG_INFO_FORM_IMPLANTS => Locale::translate('proposal.drugInfo.form.implants'),
+                                ARTICLE_DRUG_INFO_FORM_INSERTS => Locale::translate('proposal.drugInfo.form.inserts'),
+                                ARTICLE_DRUG_INFO_FORM_LIQUIDS => Locale::translate('proposal.drugInfo.form.liquids'),
+                                ARTICLE_DRUG_INFO_FORM_LOZENGES => Locale::translate('proposal.drugInfo.form.lozenges'),
+                                ARTICLE_DRUG_INFO_FORM_OINTMENT => Locale::translate('proposal.drugInfo.form.ointment'),
+                                ARTICLE_DRUG_INFO_FORM_PASTES => Locale::translate('proposal.drugInfo.form.pastes'),
+                                ARTICLE_DRUG_INFO_FORM_PATCHES => Locale::translate('proposal.drugInfo.form.patches'),
+                                ARTICLE_DRUG_INFO_FORM_PELLETS => Locale::translate('proposal.drugInfo.form.pellets'),
+                                ARTICLE_DRUG_INFO_FORM_PILLS => Locale::translate('proposal.drugInfo.form.pills'),
+                                ARTICLE_DRUG_INFO_FORM_PLASTERS => Locale::translate('proposal.drugInfo.form.plasters'),
+                                ARTICLE_DRUG_INFO_FORM_POWDERS => Locale::translate('proposal.drugInfo.form.powders'),
+                                ARTICLE_DRUG_INFO_FORM_SOAPS => Locale::translate('proposal.drugInfo.form.soaps'),
+                                ARTICLE_DRUG_INFO_FORM_SOLUTIONS => Locale::translate('proposal.drugInfo.form.solutions'),
+                                ARTICLE_DRUG_INFO_FORM_SPRAYS => Locale::translate('proposal.drugInfo.form.sprays'),
+                                ARTICLE_DRUG_INFO_FORM_SUPPOSITORIES => Locale::translate('proposal.drugInfo.form.suppositories'),
+                                ARTICLE_DRUG_INFO_FORM_SUSPENSIONS => Locale::translate('proposal.drugInfo.form.suspensions'),
+                                ARTICLE_DRUG_INFO_FORM_TABLET => Locale::translate('proposal.drugInfo.form.tablet'),
+                                ARTICLE_DRUG_INFO_FORM_TAPES => Locale::translate('proposal.drugInfo.form.tapes')
+			);
+		}
+		return $formMap;
+	}
+
         ////////////////////////////
         ////// Pharma Classes //////
         ////////////////////////////

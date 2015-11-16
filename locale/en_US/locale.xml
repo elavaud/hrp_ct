@@ -598,6 +598,8 @@
     <message key="proposal.drugInfo.add">Add another drug product</message>    
     <message key="proposal.drugInfo.administration">Route of administration</message>    
     <message key="proposal.drugInfo.administration.instruct">Provide the route of administration that will be used to administer the active pharmaceutical ingredient.</message>    
+    <message key="proposal.drugInfo.form">Pharmaceutical form</message>    
+    <message key="proposal.drugInfo.form.instruct">Identify the dosage form on which the investigational product is produced.</message>    
     <message key="proposal.drugInfo.name">Name of active ingredient / generic name / chemical code</message>    
     <message key="proposal.drugInfo.name.instruct">Provide the active ingredient’s name, generic name (if applicable) and the chemical code.</message>  
     <message key="proposal.drugInfo.brandName">Brand name</message>    

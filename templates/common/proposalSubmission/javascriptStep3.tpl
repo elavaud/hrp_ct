@@ -11,6 +11,28 @@
  {literal}
      <script type="text/javascript">
         
+        $("select[id*=-administration]").each(
+            function () {
+                $(this).change(
+                    function(e) {
+                        var id = e.target.id;
+                        showOrHideOherAdministrationField(id);
+                    }
+                );
+            }
+        );
+
+        $("select[id*=-form]").each(
+            function () {
+                $(this).change(
+                    function(e) {
+                        var id = e.target.id;
+                        showOrHideOherFormField(id);
+                    }
+                );
+            }
+        );
+
         $("#addDrugInfoClick").click(addDrugInfo);
         $('a.removeDrug').each(function() {$(this).click(function(){$(this).closest('div').remove();});});           
         
@@ -24,7 +46,10 @@
 
         $(document).ready(
             function() {
+                showOrHideOherAdministrationFields();
+                showOrHideOherFormFields();
             }
         );  
+
      </script>
  {/literal}

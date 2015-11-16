@@ -7,15 +7,16 @@ function addDrugInfo(){
     var drugHtml = '<div class="drugSupp" id="articleDrugs-X">' + $('#articleDrugs-0').html() + '</div>';
     if ($(".drugSupp").length){
         var selectName = $('div.drugSupp:last').attr('id');
-        var fieldId = parseInt(selectName.slice(13,14)) + 1;            
+        var selectNameStartRemoved = selectName.replace('articleDrugs-', '');
+        var fieldId = parseInt(selectNameStartRemoved) + 1;
     } else {    
         var fieldId = 1;
     }     
     drugHtml = drugHtml.replace('articleDrugs-X', 'articleDrugs-'+fieldId);
-    for (i = 0; i < 7; i++) { 
+    for (i = 0; i < 15; i++) { 
         drugHtml = drugHtml.replace('articleDrugs-0', 'articleDrugs-'+fieldId);
     }
-    for (i = 0; i < 7; i++) { 
+    for (i = 0; i < 15; i++) { 
         drugHtml = drugHtml.replace('articleDrugs[0', 'articleDrugs['+fieldId);
     }
     if ($(".drugSupp").length){
@@ -23,7 +24,6 @@ function addDrugInfo(){
     } else {
         $('#articleDrugs-0').after(drugHtml);
     }
-    //alert($('#articleDrugs-'+fieldId+'-title').val());
     $('div.drugSupp:last').find('.hiddenInputs').remove('');
     $('div.drugSupp:last').find('tr.showHideHelpField').remove('');
     $('div.drugSupp:last').find('a.showHideHelpButton').remove('');    
@@ -36,5 +36,57 @@ function addDrugInfo(){
     $('#articleDrugs-'+fieldId+'-name').val('');
     $('#articleDrugs-'+fieldId+'-brandName').val('');
     $('#articleDrugs-'+fieldId+'-administration').val('');
+    $('#articleDrugs-'+fieldId+'-administration').change(function(e) {var id = e.target.id;showOrHideOherAdministrationField(id);});
+    $('#articleDrugs-'+fieldId+'-form').val('');
+    $('#articleDrugs-'+fieldId+'-form').change(function(e) {var id = e.target.id;showOrHideOherFormField(id);});
+    showOrHideOherAdministrationFields();
+    showOrHideOherFormFields();
+}
 
+function showOrHideOherAdministrationField(id){
+    var idStartRemoved = id.replace('articleDrugs-', '');
+    var idStartAndEndRemoved = idStartRemoved.replace('-administration', '');
+    var fieldId = parseInt(idStartAndEndRemoved);
+    var value = $("#"+id).val();
+    if (value === 'OTHER') {
+        $('#articleDrugs-'+fieldId+'-otherAdministrationField').show();
+        if($('#articleDrugs-'+fieldId+'-otherAdministration').val() === "NA") {
+            $('#articleDrugs-'+fieldId+'-otherAdministration').val("");
+        }
+    } else {
+        $('#articleDrugs-'+fieldId+'-otherAdministrationField').hide();
+        $('#articleDrugs-'+fieldId+'-otherAdministration').val("NA");
+    }
+}
+
+function showOrHideOherAdministrationFields(){
+    $("select[id*='-administration']").each(
+        function() {
+           showOrHideOherAdministrationField($(this).attr("id"));
+        }
+    );
+}
+
+function showOrHideOherFormField(id){
+    var idStartRemoved = id.replace('articleDrugs-', '');
+    var idStartAndEndRemoved = idStartRemoved.replace('-form', '');
+    var fieldId = parseInt(idStartAndEndRemoved);
+    var value = $("#"+id).val();
+    if (value === 'OTHER') {
+        $('#articleDrugs-'+fieldId+'-otherFormField').show();
+        if($('#articleDrugs-'+fieldId+'-otherForm').val() === "NA") {
+            $('#articleDrugs-'+fieldId+'-otherForm').val("");
+        }
+    } else {
+        $('#articleDrugs-'+fieldId+'-otherFormField').hide();
+        $('#articleDrugs-'+fieldId+'-otherForm').val("NA");
+    }
+}
+
+function showOrHideOherFormFields(){
+    $("select[id*='-form']").each(
+        function() {
+           showOrHideOherFormField($(this).attr("id"));
+        }
+    );
 }

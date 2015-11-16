@@ -111,9 +111,16 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
                 
                 $articleDrugInfoDao =& DAORegistry::getDAO('ArticleDrugInfoDAO');
                 
+                $drugAdministrationMap = $articleDrugInfoDao->getAdministrationMap();
+                $drugAdministrationMapWithOther = $drugAdministrationMap + array('OTHER' => Locale::translate('common.other'));   
+
+                $drugFormMap = $articleDrugInfoDao->getFormMap();
+                $drugFormMapWithOther = $drugFormMap + array('OTHER' => Locale::translate('common.other'));   
+
 		$templateMgr =& TemplateManager::getManager();
                 $templateMgr->assign('drugTypeMap', $articleDrugInfoDao->getTypeMap());
-                $templateMgr->assign('drugAdministrationMap', $articleDrugInfoDao->getAdministrationMap());
+                $templateMgr->assign('drugAdministrationMap', $drugAdministrationMapWithOther);
+                $templateMgr->assign('drugFormMap', $drugFormMapWithOther);
                 
                 parent::display();
 	}
