@@ -84,7 +84,7 @@ class Application extends PKPApplication {
 			'ArticleDAO' => 'classes.article.ArticleDAO',
 			'ArticleDetailsDAO' => 'classes.article.ArticleDetailsDAO',
 			'ArticleDrugInfoDAO' => 'classes.article.ArticleDrugInfoDAO',
-                        'ArticleDrugManufacturer' => 'classes.article.ArticleDrugManufacturerDAO',
+                        'ArticleDrugManufacturerDAO' => 'classes.article.ArticleDrugManufacturerDAO',
 			'ArticleFileDAO' => 'classes.article.ArticleFileDAO',
 			'ArticleGalleyDAO' => 'classes.article.ArticleGalleyDAO',
 			'ArticleNoteDAO' => 'classes.article.ArticleNoteDAO', // DEPRECATED
