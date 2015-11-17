@@ -306,8 +306,38 @@ class ArticleDrugInfoDAO extends DAO {
 		}
 		return $storageMap;
 	}
+        /**
+	 * Get a map for the class of drug study constants to locale key.
+	 * @return array
+	 */
+	function &getClassMap() {
+            static $classMap;
+            if (!isset($classMap)) {
+                $classMap = array(
+                    ARTICLE_DRUG_INFO_CLASS_I => Locale::translate('proposal.drugInfo.class.I'),
+                    ARTICLE_DRUG_INFO_CLASS_II => Locale::translate('proposal.drugInfo.class.II'),
+                    ARTICLE_DRUG_INFO_CLASS_III => Locale::translate('proposal.drugInfo.class.III'),
+                    ARTICLE_DRUG_INFO_CLASS_IV => Locale::translate('proposal.drugInfo.class.IV')                            
+                );
+            }
+            return $classMap;
+	}
         
-        
+        /**
+	 * Get a map for the conditions of use in the CT constants to locale key.
+	 * @return array
+	 */
+	function &getYesNoMap() {
+            static $yesNoMap;
+            if (!isset($yesNoMap)) {
+                $yesNoMap = array(
+                    ARTICLE_DRUG_INFO_YES => Locale::translate('common.yes'),
+                    ARTICLE_DRUG_INFO_NO => Locale::translate('common.no')                            
+                );
+            }
+            return $yesNoMap;
+	}
+
         
 
         ////////////////////////////

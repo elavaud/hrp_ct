@@ -23,7 +23,7 @@
             <table width="100%">
                 <tr>
                     <td width="50%"><h2>{translate key="proposal.drugInfo"} #<span id="{$articleDrugTitleId|escape}">{$i+1|escape}</span></h2></td>
-                    <td width="50%"><input type="button"  class="removeDrug" value="{translate key="common.remove"}" style="{if $i == 0}display: none; {/if}" /></td>
+                    <td width="50%"><input type="button"  class="removeDrug" value="{translate key="proposal.drugInfo.remove"}" style="{if $i == 0}display: none; {/if}" /></td>
                 </tr>
             </table>
             {if $articleDrugs.$i.id}<input type="hidden" class="hiddenInputs" name="articleDrugs[{$i|escape}][id]" value="{$articleDrugs.$i.id|escape}" />{/if}
@@ -50,6 +50,8 @@
                 {assign var="articleDrugStorageD" value='articleDrugs-'|cat:$i|cat:'-storage'}   
                 {assign var="articleDrugPharmClassB" value='articleDrugs['|cat:$i|cat:'][pharmaClass]'}
                 {assign var="articleDrugPharmClassD" value='articleDrugs-'|cat:$i|cat:'-pharmaClass'}   
+                {assign var="articleDrugStudyClassesB" value='articleDrugs['|cat:$i|cat:'][studyClasses]'}
+                {assign var="articleDrugStudyClassesD" value='articleDrugs-'|cat:$i|cat:'-studyClasses'}     
                 <tr valign="top">
                     <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleDrugTypeD required="true" key="proposal.drugInfo.type"}</td>
                     <td width="80%" class="value">
@@ -167,6 +169,63 @@
                         <td width="80%" class="value"><i>[?] {translate key="proposal.drugInfo.pharmaClass.instruct"}</i></td>
                     </tr>    
                 {/if}    
+                <tr valign="top">
+                    <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleDrugStudyClassesD required="true" key="proposal.drugInfo.studyClasses"}</td>
+                    <td width="80%" class="value">
+                        {html_checkboxes name=$articleDrugStudyClassesB options=$drugStudyClasses selected=$articleDrugs.$i.studyClasses separator='&nbsp;&nbsp;&nbsp;&nbsp;'}
+                    </td>                     
+                </tr>
+                {if $i == 0}
+                    <tr valign="top" hidden class="showHideHelpField">
+                        <td width="20%">&nbsp;</td>
+                        <td width="80%" class="value"><i>[?] {translate key="proposal.drugInfo.studyClasses.instruct"}</i></td>
+                    </tr>    
+                {/if}
+            </table><br/>
+            {assign var="articleDrugClassIIIOrIVD" value='articleDrugs-'|cat:$i|cat:'-classIIIOrIV'}   
+            {assign var="articleDrugAddCountryD" value='articleDrugs-'|cat:$i|cat:'-addCountry'}      
+            {assign var="articleDrugConditionsOfUseB" value='articleDrugs['|cat:$i|cat:'][conditionsOfUse]'}
+            {assign var="articleDrugConditionsOfUseD" value='articleDrugs-'|cat:$i|cat:'-conditionsOfUse'}                 
+            <table width="100%" class="data" id="{$articleDrugClassIIIOrIVD|escape}">
+                {foreach from=$articleDrugs.$i.countries key=j item=country}
+                    {assign var="articleDrugCountryB" value='articleDrugs['|cat:$i|cat:'][country]['|cat:$j|cat:']'}
+                    {assign var="articleDrugCountryD" value='articleDrugs-'|cat:$i|cat:'-country-'|cat:$j}     
+                    {assign var="articleDrugCountryTrD" value='articleDrugs-'|cat:$i|cat:'-countryTr-'|cat:$j}  
+                    {assign var="articleDrugCountryClassSuppD" value='countrySupp-'|cat:$i}                      
+                    <tr valign="bottom" id="{$articleDrugCountryTrD|escape}" {if $j > 0}class="{$articleDrugCountryClassSuppD|escape}"{/if}>
+                        <td width="20%">&nbsp;</td>
+                        <td width="20%" class="countryTitle" {if $j > 0}style="display: none;"{/if}>{fieldLabel name=$articleDrugStudyClassesD required="true" key="proposal.drugInfo.countries"}</td>
+                        <td width="20%" class="noCountryTitle" {if $j == 0}style="display: none;"{/if}>&nbsp;</td>                        
+                        <td width="60%" class="value">
+                            <select name="{$articleDrugCountryB|escape}" id="{$articleDrugCountryD|escape}" class="selectMenu">
+                                <option value=""></option>
+                                {html_options options=$coutryList selected=$articleDrugs.$i.countries.$j}
+                            </select>     
+                            <a class="removeCountry" style="{if $j == 0}display: none; {/if}cursor: pointer;">{translate key="common.remove"}</a>
+                        </td>                     
+                    </tr>
+                {/foreach}
+                <tr valign="middle">
+                    <td width="20%">&nbsp;</td>
+                    <td width="20%">&nbsp;</td>                        
+                    <td width="60%" class="value">
+                        <a class="addAnotherCountryClick" id="{$articleDrugAddCountryD|escape}" style="cursor: pointer;">{translate key="proposal.drugInfo.countries.add"}</a>
+                    </td>                     
+                </tr>
+                <tr valign="middle">
+                    <td width="20%">&nbsp;</td>
+                    <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleDrugConditionsOfUseD required="true" key="proposal.drugInfo.conditionsOfUse"}</td>                        
+                    <td width="60%" class="value">
+                        {html_radios name=$articleDrugConditionsOfUseB options=$yesNoMap selected=$articleDrugs.$i.conditionsOfUse separator='&nbsp;&nbsp;&nbsp;&nbsp;'}
+                    </td>
+                </tr>
+                {if $i == 0}
+                    <tr valign="top" hidden class="showHideHelpField">
+                        <td width="20%">&nbsp;</td>
+                        <td width="20%">&nbsp;</td>
+                        <td width="60%" class="value"><i>[?] {translate key="proposal.drugInfo.conditionsOfUse.instruct"}</i></td>
+                    </tr>    
+                {/if}
             </table><br/><br/>
         </div>
     {/foreach}

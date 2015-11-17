@@ -44,6 +44,10 @@ function addDrugInfo(){
     $('#articleDrugs-'+fieldId+'-strength').val('');
     $('#articleDrugs-'+fieldId+'-storage').val('');
     $('#articleDrugs-'+fieldId+'-pharmaClass').val('');
+    $('#articleDrugs-'+fieldId).find("input:checkbox").removeAttr("checked");
+    $('#articleDrugs-'+fieldId).find("input:checkbox").each(function () {$(this).click(function(e) {var name = e.target.name;showOrHideCountriesConditionsField(name);});});
+    showOrHideCountriesConditionsFields();
+    $('#articleDrugs-'+fieldId).find('.addAnotherCountryClick').click(function(e) {var id = e.target.id;addCountry(id);}); 
 }
 
 function showOrHideOherAdministrationField(id){
@@ -92,4 +96,86 @@ function showOrHideOherFormFields(){
            showOrHideOherFormField($(this).attr("id"));
         }
     );
+}
+
+function showOrHideCountriesConditionsField(name){
+    var nameStartRemoved = name.replace('articleDrugs[', '');
+    var nameStartAndEndRemoved = nameStartRemoved.replace('][studyClasses][]', '');
+    var fieldId = parseInt(nameStartAndEndRemoved);
+    var show = false;    
+    $('input[type=checkbox]').each(
+        function () {
+            var cbName = $(this).attr('name');
+            var cbNameStartRemoved = cbName.replace('articleDrugs[', '');
+            var cbNameStartAndEndRemoved = cbNameStartRemoved.replace('][studyClasses][]', '');
+            var cbFieldId = parseInt(cbNameStartAndEndRemoved);
+            if (cbFieldId === fieldId) {
+                if ($(this).val() === ARTICLE_DRUG_INFO_CLASS_III || $(this).val() == ARTICLE_DRUG_INFO_CLASS_IV) {
+                    if ($(this).is(':checked')) {
+                        show = true;
+                    }
+                }
+            }
+        }
+    );
+    if (show) {
+        $('#articleDrugs-'+fieldId+'-classIIIOrIV').show();
+        if ($('#articleDrugs-'+fieldId+'-country-0').find('option[value="NA"]').length) {
+            $('#articleDrugs-'+fieldId+'-country-0').find('option[value="NA"]').remove();
+        }
+        if ($('#articleDrugs-'+fieldId+'-classIIIOrIV').find(':radio[value=NA]').length) {
+            $('#articleDrugs-'+fieldId+'-classIIIOrIV').find(':radio[value=NA]').remove();
+        }
+    } else {
+        $('#articleDrugs-'+fieldId+'-classIIIOrIV').hide();   
+        if (!$('#articleDrugs-'+fieldId+'-country-0').find('option[value="NA"]').length) {
+            $('#articleDrugs-'+fieldId+'-country-0').append('<option value="NA"></option>');
+        }
+        $('#articleDrugs-'+fieldId+'-country-0').val('NA')
+        $('#articleDrugs-'+fieldId+'-classIIIOrIV').find('.countrySupp-'+fieldId).remove();
+        if (!$('#articleDrugs-'+fieldId+'-classIIIOrIV').find(':radio[value=NA]').length) {
+            $('#articleDrugs-'+fieldId+'-classIIIOrIV').append('<input type="radio" style="display:none;" name="articleDrugs['+fieldId+'][conditionsOfUse]" value="NA">');
+        }
+        $('#articleDrugs-'+fieldId+'-classIIIOrIV').find(':radio[value=NA]').attr('checked', 'checked');        
+    }
+}
+
+function showOrHideCountriesConditionsFields(){
+    $("input:checkbox").each(
+        function () {
+            showOrHideCountriesConditionsField($(this).attr("name"));
+        }
+    );
+}
+
+function addCountry(id) {
+    var idStartRemoved = id.replace('articleDrugs-', '');
+    var idStartAndEndRemoved = idStartRemoved.replace('-addCountry', '');
+    var fieldId = parseInt(idStartAndEndRemoved);
+    
+    var countryHtml = '<tr class="countrySupp-'+fieldId+'" id="articleDrugs-"'+fieldId+'-countryTr-X>' + $('#articleDrugs-'+fieldId+'-countryTr-0').html() + '</tr>';
+    if ($("tr.countrySupp-"+fieldId).length){
+        var selectName = $('tr.countrySupp-'+fieldId+':last').attr('id');
+        var selectNameStartRemoved = selectName.replace('articleDrugs-'+fieldId+'-countryTr-', '');
+        var subFieldId = parseInt(selectNameStartRemoved) + 1;
+    } else {    
+        var subFieldId = 1;
+    }     
+    countryHtml = countryHtml.replace('articleDrugs-'+fieldId+'-countryTr-X', 'articleDrugs-'+fieldId+'-countryTr-'+subFieldId);
+    for (i = 0; i < 10; i++) { 
+        countryHtml = countryHtml.replace('articleDrugs-'+fieldId+'-country-0', 'articleDrugs-'+fieldId+'-country-'+subFieldId);
+    }
+    for (i = 0; i < 10; i++) { 
+        countryHtml = countryHtml.replace('articleDrugs['+fieldId+'][country][0', 'articleDrugs['+fieldId+'][country]['+subFieldId);
+    }
+    if ($("tr.countrySupp-"+fieldId).length){
+        $('tr.countrySupp-'+fieldId+':last').after(countryHtml);
+    } else {
+        $('#articleDrugs-'+fieldId+'-countryTr-0').after(countryHtml);
+    }
+    $('tr.countrySupp-'+fieldId+':last').find('td.countryTitle').hide();    
+    $('tr.countrySupp-'+fieldId+':last').find('td.noCountryTitle').show();   
+    $('#articleDrugs-'+fieldId+'-country-'+subFieldId).val('');
+    $('tr.countrySupp-'+fieldId+':last').find('a.removeCountry').show();
+    $('tr.countrySupp-'+fieldId+':last').find('a.removeCountry').click(function(){$(this).closest('tr').remove();});   
 }

@@ -596,6 +596,9 @@
 
     <message key="proposal.drugInfo">Drug product</message>   
     <message key="proposal.drugInfo.add">Add another drug product</message>    
+    <message key="proposal.drugInfo.remove">Remove drug product</message>   
+    <message key="proposal.drugInfo.conditionsOfUse">Authorized conditions of use</message>   
+    <message key="proposal.drugInfo.conditionsOfUse.instruct">Does the conditions of use in the clinical trial differ from those authorized?</message>       
     <message key="proposal.drugInfo.administration">Route of administration</message>    
     <message key="proposal.drugInfo.administration.instruct">Provide the route of administration that will be used to administer the active pharmaceutical ingredient.</message>    
     <message key="proposal.drugInfo.form">Pharmaceutical form</message>    
@@ -616,7 +619,20 @@
     <message key="proposal.drugInfo.storage.instruct">Specific temperature at which the product shall be stored.</message>    
     <message key="proposal.drugInfo.pharmaClass">Pharmacological class</message>    
     <message key="proposal.drugInfo.pharmaClass.instruct"><![CDATA[Based on WHO Pharmacological Classification (<a href="http://apps.who.int/medicinedocs/en/d/Js4895e/5.html">http://apps.who.int/medicinedocs/en/d/Js4895e/5.html</a>).]]></message>    
-    
+    <message key="proposal.drugInfo.studyClasses">Class(es) of drug study</message>    
+    <message key="proposal.drugInfo.studyClasses.instruct">
+        <![CDATA[
+            Tick box, choose as many as possible 
+            <ul>
+                <li><b>Class I</b> New investigational drug without any clinical trial conducted</li>
+                <li><b>Class II</b> New investigational drug with ongoing Phase 1, 2 and 3 trials</li>
+                <li><b>Class III</b> Registered drug that is used on an ongoing trial for new indication, route of administration, dosage, etc.</li>
+                <li><b>Class IV</b> Registered drug and is used in this trial as study drug, comparator or concomitant drug for approved indication, route of administration, dosage, etc.</li>                
+            </ul>
+        ]]>
+    </message>        
+    <message key="proposal.drugInfo.countries">Country(ies) in which the drug has been granted marketing authorisation</message>   
+    <message key="proposal.drugInfo.countries.add">Add another country</message>   
     <message key="proposal.drugInfo.administration.gastro">Gastro-intestinal</message>    
     <message key="proposal.drugInfo.administration.injection">Injection</message>    
     <message key="proposal.drugInfo.administration.mucosal">Mucosla</message>    

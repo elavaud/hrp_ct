@@ -11,6 +11,9 @@
  {literal}
      <script type="text/javascript">
         
+       var ARTICLE_DRUG_INFO_CLASS_III = "{/literal}{$smarty.const.ARTICLE_DRUG_INFO_CLASS_III}{literal}";
+       var ARTICLE_DRUG_INFO_CLASS_IV = "{/literal}{$smarty.const.ARTICLE_DRUG_INFO_CLASS_IV}{literal}";       
+        
         $("select[id*=-administration]").each(
             function () {
                 $(this).change(
@@ -33,6 +36,29 @@
             }
         );
 
+        $("a.addAnotherCountryClick").each(
+            function () {
+                $(this).click(
+                    function(e) {
+                        var id = e.target.id;
+                        addCountry(id);
+                    }
+                );
+            }
+        );        
+
+
+        $("input:checkbox").each(
+            function () {
+                $(this).click(
+                    function(e) {
+                        var name = e.target.name;
+                        showOrHideCountriesConditionsField(name);
+                    }
+                );
+            }
+        );
+
         $("#addDrugInfoClick").click(addDrugInfo);
         $('a.removeDrug').each(function() {$(this).click(function(){$(this).closest('div').remove();});});           
         
@@ -48,6 +74,7 @@
             function() {
                 showOrHideOherAdministrationFields();
                 showOrHideOherFormFields();
+                showOrHideCountriesConditionsFields();
             }
         );  
 

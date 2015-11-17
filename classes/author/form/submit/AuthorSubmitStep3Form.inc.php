@@ -61,22 +61,26 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
                         $articleDrugs =& $article->getArticleDrugs();
                         $articleDrugsArray = array();
                         if ($articleDrugs == null) {
-                            $articleDrugsArray = array(0 => array());
+                            $articleDrugsArray = array(0 => array('countries' => array(0 =>null)));
                         } else foreach ($articleDrugs as $articleDrug) {
                             array_push(
-                                    $articleDrugsArray,
-                                    array(
-                                        'id' => $articleDrug->getId(),
-                                        'type' => $articleDrug->getType(),
-                                        'name' => $articleDrug->getName(),
-                                        'brandName' => $articleDrug->getBrandName(),
-                                        'administration' => $articleDrug->getAdministration(),
-                                        'otherAdministration' => $articleDrug->getOtherAdministration(),
-                                        'form' => $articleDrug->getForm(),
-                                        'otherForm' => $articleDrug->getOtherForm(),
-                                        'strength' => $articleDrug->getStrength(),
-                                        'storage' => $articleDrug->getStorage()
-                                    )
+                                $articleDrugsArray,
+                                array(
+                                    'id' => $articleDrug->getId(),
+                                    'type' => $articleDrug->getType(),
+                                    'name' => $articleDrug->getName(),
+                                    'brandName' => $articleDrug->getBrandName(),
+                                    'administration' => $articleDrug->getAdministration(),
+                                    'otherAdministration' => $articleDrug->getOtherAdministration(),
+                                    'form' => $articleDrug->getForm(),
+                                    'otherForm' => $articleDrug->getOtherForm(),
+                                    'strength' => $articleDrug->getStrength(),
+                                    'storage' => $articleDrug->getStorage(),
+                                    'pharmaClass' => $articleDrug->getPharmaClass(),
+                                    'studyClasses' => $articleDrug->getClassesArray(),
+                                    'countries' => $articleDrug->getCountriesArray(),
+                                    'conditionsOfUse' => $articleDrug->getDifferentConditionsOfUse()
+                                )
                             );
 			}
                         
@@ -113,6 +117,7 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
 	 */
 	function display() {                
                 $articleDrugInfoDao =& DAORegistry::getDAO('ArticleDrugInfoDAO');
+		$countryDao =& DAORegistry::getDAO('CountryDAO');
                 
                 $drugAdministrationMap = $articleDrugInfoDao->getAdministrationMap();
                 $drugAdministrationMapWithOther = $drugAdministrationMap + array('OTHER' => Locale::translate('common.other'));   
@@ -126,6 +131,9 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
                 $templateMgr->assign('drugFormMap', $drugFormMapWithOther);
                 $templateMgr->assign('drugStorageMap', $articleDrugInfoDao->getStorageMap());
                 $templateMgr->assign('drugPharmaClasses', $articleDrugInfoDao->getPharmaClasses());
+                $templateMgr->assign('drugStudyClasses', $articleDrugInfoDao->getClassMap());
+                $templateMgr->assign('coutryList', $countryDao->getCountries());
+                $templateMgr->assign('yesNoMap', $articleDrugInfoDao->getYesNoMap());
                 
                 parent::display();
 	}
