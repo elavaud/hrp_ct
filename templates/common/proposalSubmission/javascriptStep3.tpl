@@ -12,8 +12,11 @@
      <script type="text/javascript">
         
        var ARTICLE_DRUG_INFO_CLASS_III = "{/literal}{$smarty.const.ARTICLE_DRUG_INFO_CLASS_III}{literal}";
-       var ARTICLE_DRUG_INFO_CLASS_IV = "{/literal}{$smarty.const.ARTICLE_DRUG_INFO_CLASS_IV}{literal}";       
-        
+       var ARTICLE_DRUG_INFO_CLASS_IV = "{/literal}{$smarty.const.ARTICLE_DRUG_INFO_CLASS_IV}{literal}";    
+       
+       var ARTICLE_DRUG_INFO_YES = "{/literal}{$smarty.const.ARTICLE_DRUG_INFO_YES}{literal}";
+       var ARTICLE_DRUG_INFO_NO = "{/literal}{$smarty.const.ARTICLE_DRUG_INFO_NO}{literal}";     
+    
         $("select[id*=-administration]").each(
             function () {
                 $(this).change(
@@ -59,6 +62,17 @@
             }
         );
 
+        $('input:radio[name*="[cpr]"]').each(
+            function () {
+                $(this).click(
+                    function(e) {
+                        var name = e.target.name;
+                        showOrHideDrugRegistrationNumber(name);
+                    }
+                );
+            }
+        );
+
         $("#addDrugInfoClick").click(addDrugInfo);
         $('a.removeDrug').each(function() {$(this).click(function(){$(this).closest('div').remove();});});           
         
@@ -69,12 +83,13 @@
                 $(this).parent().parent().nextAll('.showHideHelpField').first().hide();
             } 
         });});
-
+    
         $(document).ready(
             function() {
                 showOrHideOherAdministrationFields();
                 showOrHideOherFormFields();
                 showOrHideCountriesConditionsFields();
+                showOrHideDrugRegistrationNumbers();
             }
         );  
 

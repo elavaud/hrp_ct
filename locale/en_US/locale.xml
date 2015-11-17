@@ -599,6 +599,11 @@
     <message key="proposal.drugInfo.remove">Remove drug product</message>   
     <message key="proposal.drugInfo.conditionsOfUse">Authorized conditions of use</message>   
     <message key="proposal.drugInfo.conditionsOfUse.instruct">Does the conditions of use in the clinical trial differ from those authorized?</message>       
+    <message key="proposal.drugInfo.cpr">Has the IDP been granted CPR</message>   
+    <message key="proposal.drugInfo.cpr.instruct">Has the IDP to be used in the study has been granted CPR (Certificate of Product Registration), if yes provide drug registration number [e.g. DR-XY225].</message>       
+    <message key="proposal.drugInfo.drugRegistrationNumber">Drug registration number</message>       
+    <message key="proposal.drugInfo.importedQuantity">Imported quantity</message>   
+    <message key="proposal.drugInfo.importedQuantity.instruct">If to be imported, declare estimated amount of investigational drug.</message>       
     <message key="proposal.drugInfo.administration">Route of administration</message>    
     <message key="proposal.drugInfo.administration.instruct">Provide the route of administration that will be used to administer the active pharmaceutical ingredient.</message>    
     <message key="proposal.drugInfo.form">Pharmaceutical form</message>    

@@ -13,10 +13,10 @@ function addDrugInfo(){
         var fieldId = 1;
     }     
     drugHtml = drugHtml.replace('articleDrugs-X', 'articleDrugs-'+fieldId);
-    for (i = 0; i < 30; i++) { 
+    for (i = 0; i < 50; i++) { 
         drugHtml = drugHtml.replace('articleDrugs-0', 'articleDrugs-'+fieldId);
     }
-    for (i = 0; i < 30; i++) { 
+    for (i = 0; i < 50; i++) { 
         drugHtml = drugHtml.replace('articleDrugs[0', 'articleDrugs['+fieldId);
     }
     if ($(".drugSupp").length){
@@ -48,6 +48,11 @@ function addDrugInfo(){
     $('#articleDrugs-'+fieldId).find("input:checkbox").each(function () {$(this).click(function(e) {var name = e.target.name;showOrHideCountriesConditionsField(name);});});
     showOrHideCountriesConditionsFields();
     $('#articleDrugs-'+fieldId).find('.addAnotherCountryClick').click(function(e) {var id = e.target.id;addCountry(id);}); 
+    $('#articleDrugs-'+fieldId).find('input:radio[name="articleDrugs['+fieldId+'][cpr]"]').each(function () {this.checked = false;});
+    $('#articleDrugs-'+fieldId).find('input:radio[name="articleDrugs['+fieldId+'][cpr]"]').each(function () {$(this).click(function (e){var name = e.target.name;showOrHideDrugRegistrationNumber(name);});});
+    $('#articleDrugs-'+fieldId+'-drugRegistrationNumber').val('');
+    showOrHideDrugRegistrationNumbers();
+    $('#articleDrugs-'+fieldId+'-importedQuantity').val('');
 }
 
 function showOrHideOherAdministrationField(id){
@@ -178,4 +183,37 @@ function addCountry(id) {
     $('#articleDrugs-'+fieldId+'-country-'+subFieldId).val('');
     $('tr.countrySupp-'+fieldId+':last').find('a.removeCountry').show();
     $('tr.countrySupp-'+fieldId+':last').find('a.removeCountry').click(function(){$(this).closest('tr').remove();});   
+}
+
+function showOrHideDrugRegistrationNumber(name){
+    var nameStartRemoved = name.replace('articleDrugs[', '');
+    var nameStartAndEndRemoved = nameStartRemoved.replace('][cpr]', '');
+    var fieldId = parseInt(nameStartAndEndRemoved);
+    var show = false;
+    $('input:radio[name="'+name+'"]').each(
+        function () {
+            if ($(this).val() == ARTICLE_DRUG_INFO_YES) {
+                if ($(this).is(':checked')) {
+                    show = true;                    
+                }
+            }
+        }
+    );
+    if (show) {
+        $('#articleDrugs-'+fieldId+'-drugRegistrationNumberField').show();
+        if ($('#articleDrugs-'+fieldId+'-drugRegistrationNumber').val() == 'NA') {
+            $('#articleDrugs-'+fieldId+'-drugRegistrationNumber').val('');
+        }
+    } else {
+        $('#articleDrugs-'+fieldId+'-drugRegistrationNumberField').hide();        
+        $('#articleDrugs-'+fieldId+'-drugRegistrationNumber').val('NA');
+    }
+}
+
+function showOrHideDrugRegistrationNumbers(){
+    $('input:radio[name*="[cpr]"]').each(
+        function () {
+            showOrHideDrugRegistrationNumber($(this).attr("name"));
+        }
+    );
 }

@@ -52,6 +52,12 @@
                 {assign var="articleDrugPharmClassD" value='articleDrugs-'|cat:$i|cat:'-pharmaClass'}   
                 {assign var="articleDrugStudyClassesB" value='articleDrugs['|cat:$i|cat:'][studyClasses]'}
                 {assign var="articleDrugStudyClassesD" value='articleDrugs-'|cat:$i|cat:'-studyClasses'}     
+                {assign var="articleDrugCPRB" value='articleDrugs['|cat:$i|cat:'][cpr]'}
+                {assign var="articleDrugCPRD" value='articleDrugs-'|cat:$i|cat:'-cpr'}     
+                {assign var="articleDrugRegistrationNumberB" value='articleDrugs['|cat:$i|cat:'][drugRegistrationNumber]'}
+                {assign var="articleDrugRegistrationNumberD" value='articleDrugs-'|cat:$i|cat:'-drugRegistrationNumber'}     
+                {assign var="articleDrugImportedQuantityB" value='articleDrugs['|cat:$i|cat:'][importedQuantity]'}
+                {assign var="articleDrugImportedQuantityD" value='articleDrugs-'|cat:$i|cat:'-importedQuantity'}     
                 <tr valign="top">
                     <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleDrugTypeD required="true" key="proposal.drugInfo.type"}</td>
                     <td width="80%" class="value">
@@ -224,6 +230,44 @@
                         <td width="20%">&nbsp;</td>
                         <td width="20%">&nbsp;</td>
                         <td width="60%" class="value"><i>[?] {translate key="proposal.drugInfo.conditionsOfUse.instruct"}</i></td>
+                    </tr>    
+                {/if}
+            </table>
+            <table width="100%" class="data">
+                {assign var="articleDrugCPRB" value='articleDrugs['|cat:$i|cat:'][cpr]'}
+                {assign var="articleDrugCPRD" value='articleDrugs-'|cat:$i|cat:'-cpr'}     
+                {assign var="articleDrugRegistrationNumberB" value='articleDrugs['|cat:$i|cat:'][drugRegistrationNumber]'}
+                {assign var="articleDrugRegistrationNumberD" value='articleDrugs-'|cat:$i|cat:'-drugRegistrationNumber'}     
+                {assign var="articleDrugRegistrationNumberFieldD" value='articleDrugs-'|cat:$i|cat:'-drugRegistrationNumberField'}     
+                {assign var="articleDrugImportedQuantityB" value='articleDrugs['|cat:$i|cat:'][importedQuantity]'}
+                {assign var="articleDrugImportedQuantityD" value='articleDrugs-'|cat:$i|cat:'-importedQuantity'}                
+                <tr valign="middle">
+                    <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleDrugCPRD required="true" key="proposal.drugInfo.cpr"}</td>                        
+                    <td width="80%" colspan="2" class="value">
+                        {html_radios name=$articleDrugCPRB options=$yesNoMap selected=$articleDrugs.$i.cpr separator='&nbsp;&nbsp;&nbsp;&nbsp;'}
+                    </td>
+                </tr>
+                {if $i == 0}
+                    <tr valign="top" hidden class="showHideHelpField">
+                        <td width="20%">&nbsp;</td>
+                        <td width="80%" colspan="2" class="value"><i>[?] {translate key="proposal.drugInfo.cpr.instruct"}</i></td>
+                    </tr>    
+                {/if}
+                <tr valign="middle" id="{$articleDrugRegistrationNumberFieldD|escape}">
+                    <td width="20%">&nbsp;</td>
+                    <td width="20%">{fieldLabel name=$articleDrugRegistrationNumberD required="true" key="proposal.drugInfo.drugRegistrationNumber"}</td>                        
+                    <td width="60%" class="value"><input type="text" class="textField" name="{$articleDrugRegistrationNumberB|escape}" id="{$articleDrugRegistrationNumberD|escape}" value="{$articleDrugs.$i.drugRegistrationNumber|escape}" size="20" maxlength="90" /></td>                                           
+                </tr>
+                <tr valign="middle">
+                    <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleDrugImportedQuantityD key="proposal.drugInfo.importedQuantity"}</td>                        
+                    <td width="80%" colspan="2" class="value">
+                        <input type="text" class="textField" name="{$articleDrugImportedQuantityB|escape}" id="{$articleDrugImportedQuantityD|escape}" value="{$articleDrugs.$i.importedQuantity|escape}" size="30" maxlength="90" />
+                    </td>                                           
+                </tr>     
+                {if $i == 0}
+                    <tr valign="top" hidden class="showHideHelpField">
+                        <td width="20%">&nbsp;</td>
+                        <td width="80%" colspan="2" class="value"><i>[?] {translate key="proposal.drugInfo.importedQuantity.instruct"}</i></td>
                     </tr>    
                 {/if}
             </table><br/><br/>

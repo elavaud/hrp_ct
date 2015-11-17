@@ -79,7 +79,10 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
                                     'pharmaClass' => $articleDrug->getPharmaClass(),
                                     'studyClasses' => $articleDrug->getClassesArray(),
                                     'countries' => $articleDrug->getCountriesArray(),
-                                    'conditionsOfUse' => $articleDrug->getDifferentConditionsOfUse()
+                                    'conditionsOfUse' => $articleDrug->getDifferentConditionsOfUse(),
+                                    'cpr' => $articleDrug->getCPR(),
+                                    'drugRegistrationNumber' => $articleDrug->getDrugRegistrationNumber(),
+                                    'importedQuantity' => $articleDrug->getImportedQuantity()
                                 )
                             );
 			}
