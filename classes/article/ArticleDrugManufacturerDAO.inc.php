@@ -114,13 +114,13 @@ class ArticleDrugManufacturerDAO extends DAO {
 	 * Delete articleDrugManufacturers by drug ID
 	 * @param $drugId int
 	 */
-	function deleteArticleDrugManufacturersByArticleId($drugId) {
+	function deleteArticleDrugManufacturersByDrugId($drugId) {
 		
 		$returner = $this->update('DELETE FROM article_drug_manu_info WHERE drug_id = ?',(int) $drugId);
 		
 		return $returner;
 	}
-      
+              
 	/**
 	 * Internal function to return an articleDrugManufacturer object from a row.
 	 * @param $row array

@@ -11,12 +11,15 @@
 import('classes.article.ArticleDrugInfo');
 
 class ArticleDrugInfoDAO extends DAO {
+    
+        var $drugManufacturerDao;
 
         /**
 	 * Constructor
 	 */
 	function ArticleDrugInfoDAO() {
             parent::DAO();
+            $this->drugManufacturerDao =& DAORegistry::getDAO('ArticleDrugManufacturerDAO');   
 	}
         
     	/**
@@ -141,6 +144,22 @@ class ArticleDrugInfoDAO extends DAO {
                                 $articleDrugInfo->getId()
 			)
 		);
+                
+                // update drug manufacturers for this drug
+		$manufacturers =& $articleDrugInfo->getManufacturers();
+		foreach ($manufacturers as $manufacturer) {
+			if ($manufacturer->getId() > 0) {
+				$this->drugManufacturerDao->updateArticleDrugManufacturer($manufacturer);
+			} else {
+				$this->drugManufacturerDao->insertArticleDrugManufacturer($manufacturer);
+			}
+                }
+                // Remove deleted manufacturers
+		$removedManufacturers = $articleDrugInfo->getRemovedManufacturers();
+		foreach ($removedManufacturers as $removedManufacturerId) {
+			$this->drugManufacturerDao->deleteArticleDrugManufacturer($removedManufacturerId);
+		}
+                
 		return true;
 	}
 
@@ -151,6 +170,8 @@ class ArticleDrugInfoDAO extends DAO {
 	function deleteArticleDrugInfo($articleDrugInfoId) {
 		
 		$returner = $this->update('DELETE FROM article_drug_info WHERE drug_id = ?',(int) $articleDrugInfoId);
+                
+                $this->drugManufacturerDao->deleteArticleDrugManufacturersByDrugId($articleDrugInfoId);
 		
 		return $returner;
 	}
@@ -161,11 +182,37 @@ class ArticleDrugInfoDAO extends DAO {
 	 */
 	function deleteArticleDrugInfosByArticleId($articleId) {
 		
+                $drugIds = $this->_getArticleDrugsIdsByArticleId($articleId);
+                
+                foreach ($drugIds as $drugId) {
+                    $this->drugManufacturerDao->deleteArticleDrugManufacturersByDrugId($drugId);
+                }
+                
 		$returner = $this->update('DELETE FROM article_drug_info WHERE article_id = ?',(int) $articleId);
 		
 		return $returner;
 	}
       
+        /**
+	 * internal function for getting all the drug IDs related to an article.
+	 * @param $articleId int
+	 * @return array ArticleDrugInfo IDs
+	 */
+	function &_getArticleDrugsIdsByArticleId($articleId) {
+                $articleDrugIds = array();
+                
+		$result =& $this->retrieve('SELECT drug_id FROM article_drug_info WHERE article_id = ?', (int) $articleId);		
+
+		while (!$result->EOF) {
+                    	$row =& $result->getRowAssoc(false);
+			$articleDrugIds[] =& $row['drug_id'];
+			$result->moveNext();
+		}
+		$result->Close();
+		unset($result);
+
+		return $articleDrugIds;
+	}
         
 	/**
 	 * Check if an articleDrugInfo exists
@@ -207,6 +254,8 @@ class ArticleDrugInfoDAO extends DAO {
                 $articleDrugInfo->setCPR($row['cpr']);
                 $articleDrugInfo->setDrugRegistrationNumber($row['drug_registration_number']);
                 $articleDrugInfo->setImportedQuantity($row['imported_quantity']);
+                
+                $articleDrugInfo->setManufacturers($this->drugManufacturerDao->getArticleDrugManufacturersByDrugId($row['drug_id']));
                 
 		HookRegistry::call('ArticleDrugInfoDAO::_returnArticleDrugInfoFromRow', array(&$articleDrugInfo, &$row));
 

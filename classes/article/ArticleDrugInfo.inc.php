@@ -73,11 +73,17 @@ define ('ARTICLE_DRUG_INFO_NO', 2);
 
 class ArticleDrugInfo extends DataObject {
 	
-	/**
+        var $drugManufacturers;
+        
+        var $removedDrugManufacturers;
+
+        /**
 	 * Constructor.
 	 */
 	function ArticleDrugInfo() {
             parent::DataObject();
+            $this->drugManufacturers = array();
+            $this->removedDrugManufacturers = array();	
 	}
 
 	
@@ -566,5 +572,86 @@ class ArticleDrugInfo extends DataObject {
 	function setImportedQuantity($importedQuantity) {
 		return $this->setData('importedQuantity', $importedQuantity);
 	}
+        
+        /**
+	 * Add a drug manufacturer.
+	 * @param $manufacturer ArticleDrugManufacturer
+	 */
+	function addManufacturer($manufacturer) {
+                $found = false;
+                $i = 0;
+                $manufacturers = $this->drugManufacturers;
+                foreach ($this->drugManufacturers as $dmKey => $dmValue) {
+                    if ($manufacturer->getId() == $dmValue->getId()){
+                        $manufacturers[$dmKey] = $manufacturer;
+                        $found = true;
+                    }
+                    $i++;
+                }
+                if (!$found) {
+                    $manufacturers[$i] = $manufacturer;
+                }
+                $this->drugManufacturers = $manufacturers;
+	}
+        /**
+	 * Remove a drug manufacturer.
+	 * @param $manufacturerId ID of the drug manufacturer to remove
+	 * @return boolean drug manufacturer ID was removed
+	 */
+	function removeManufacturer($manufacturerId) {
+                $found = false;
+                $i = 0;
+		if ($manufacturerId != 0) {
+                    $manufacturers = $this->drugManufacturers;
+                    foreach ($this->drugManufacturers as $drugManufacturer) {
+                        if ($drugManufacturer->getId() == $manufacturerId) {
+                            array_push($this->removedDrugManufacturers, $manufacturerId);
+                            $found = true;
+                        }
+                        else {
+                            $manufacturers[$i] = $drugManufacturer;
+                            $i++;
+                        }       
+                    }
+                    $this->drugManufacturers = $manufacturers;
+		}
+		return $found;
+	}
+	/**
+	 * Get all manufacturers for this drug.
+	 * @return array ArticleDrugManufacturer
+	 */
+	function &getManufacturers() {
+		return $this->drugManufacturers;
+	}
+        /**
+	 * Get manufacturer by ID for this drug.
+	 * @return object ArticleDrugManufacturer
+	 */
+	function &getManufacturer($id) {
+                foreach ($this->drugManufacturers as $drugManufacturer) {
+                    if ($drugManufacturer->getId() == $id) {
+                        return $drugManufacturer;
+                    }
+                }
+		return null;
+	}
+        /**
+	 * Get the IDs of all manufacturers removed from this drug.
+	 * @return array int
+	 */
+	function &getRemovedManufacturers() {
+		return $this->removedDrugManufacturers;
+	}
+        /**
+	 * Set drug manufacturers fir this drug.
+	 * @param $manufacturers array ArticleDrugManufacturer
+	 */
+	function setManufacturers($manufacturers) {
+		return $this->drugManufacturers = $manufacturers;
+	}
+        
+        
+        
 }
 ?>
