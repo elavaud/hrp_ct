@@ -50,6 +50,16 @@
             }
         );        
 
+        $("a.addAnotherManufacturerClick").each(
+            function () {
+                $(this).click(
+                    function(e) {
+                        var id = e.target.id;
+                        addManufacturer(id);
+                    }
+                );
+            }
+        );        
 
         $("input:checkbox").each(
             function () {
@@ -75,7 +85,11 @@
 
         $("#addDrugInfoClick").click(addDrugInfo);
         $('a.removeDrug').each(function() {$(this).click(function(){$(this).closest('div').remove();});});           
-        
+
+        $('a.removeCountry').each(function() {$(this).click(function(){$(this).closest('tr').remove();});});           
+
+        $('a.removeManufacturer').each(function() {$(this).click(function(){$(this).closest('table').remove();});});           
+
         $("a.showHideHelpButton").each(function() {$(this).click(function(){
             if ($(this).parent().parent().nextAll('.showHideHelpField').first().is(':hidden')) {
                 $(this).parent().parent().nextAll('.showHideHelpField').first().show();

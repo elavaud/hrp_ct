@@ -270,7 +270,47 @@
                         <td width="80%" colspan="2" class="value"><i>[?] {translate key="proposal.drugInfo.importedQuantity.instruct"}</i></td>
                     </tr>    
                 {/if}
-            </table><br/><br/>
+            </table>
+            {foreach from=$articleDrugs.$i.manufacturers key=k item=manufacturer} 
+                {if $articleDrugs.$i.manufacturers.$k.id}<input type="hidden" class="hiddenInputs" name="articleDrugs[{$i|escape}][manufacturers][{$k|escape}][id]" value="{$articleDrugs.$i.manufacturers.$k.id|escape}" />{/if}
+                {assign var="articleDrugManufacturerTitleD" value='articleDrugs-'|cat:$i|cat:'-manufacturer-'|cat:$k}   
+                {assign var="articleDrugManufacturerNameB" value='articleDrugs['|cat:$i|cat:'][manufacturer]['|cat:$k|cat:'][name]'}
+                {assign var="articleDrugManufacturerNameD" value='articleDrugs-'|cat:$i|cat:'-manufacturer-'|cat:$k|cat:'-name'}                
+                {assign var="articleDrugManufacturerAddressB" value='articleDrugs['|cat:$i|cat:'][manufacturer]['|cat:$k|cat:'][address]'}
+                {assign var="articleDrugManufacturerAddressD" value='articleDrugs-'|cat:$i|cat:'-manufacturer-'|cat:$k|cat:'-address'}   
+                {assign var="articleDrugManufacturerClassSuppD" value='manufacturerSupp-'|cat:$i}                      
+                <table width="100%" id="{$articleDrugManufacturerTitleD|escape}" {if $k > 0}class="{$articleDrugManufacturerClassSuppD|escape}"{/if}>
+                    <tr valign="top">
+                        <td width="20%" class="manufacturerTitle" {if $k > 0}style="display: none;"{/if}>{if $i==0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleDrugManufacturerTitleD required="true" key="proposal.drugInfo.manufacturers"}</td>
+                        <td width="20%" class="noManufacturerTitle" {if $k == 0}style="display: none;"{/if}>&nbsp;</td>                        
+                        <td width="10%">{fieldLabel name=$articleDrugManufacturerNameD required="true" key="proposal.drugInfo.manufacturer.name"}</td>                        
+                        <td width="70%" class="value">
+                            <input type="text" class="textField" name="{$articleDrugManufacturerNameB|escape}" id="{$articleDrugManufacturerNameD|escape}" value="{$articleDrugs.$i.manufacturers.$k.name|escape}" size="30" maxlength="255" />
+                            <a class="removeManufacturer" style="{if $k == 0}display: none; {/if}cursor: pointer;">{translate key="common.remove"}</a>
+                        </td>                                           
+                    </tr>
+                    <tr valign="top">
+                        <td width="20%">&nbsp;</td>                        
+                        <td width="10%">{fieldLabel name=$articleDrugManufacturerAddressD required="true" key="proposal.drugInfo.manufacturer.address"}</td>                        
+                        <td width="70%" class="value"><input type="text" class="textField" name="{$articleDrugManufacturerAddressB|escape}" id="{$articleDrugManufacturerAddressD|escape}" value="{$articleDrugs.$i.manufacturers.$k.address|escape}" size="30" maxlength="255" /></td>                                           
+                    </tr>
+                    {if $i == 0}
+                    <tr valign="top" hidden class="showHideHelpField">
+                        <td width="20%">&nbsp;</td>
+                        <td width="80%" colspan="2" class="value"><i>[?] {translate key="proposal.drugInfo.manufacturers.instruct"}</i></td>
+                    </tr>    
+                {/if}
+                <tr><td colspan="3">&nbsp;</td></tr>
+            </table>
+            {/foreach}
+            <table width="100%" class="data">
+                {assign var="articleDrugAddManufacturerD" value='articleDrugs-'|cat:$i|cat:'-addManufacturer'}                
+                <tr valign="top">
+                    <td width="20%">&nbsp;</td>
+                    <td width="80%" class="value"><a class="addAnotherManufacturerClick" id="{$articleDrugAddManufacturerD|escape}" style="cursor: pointer;">{translate key="proposal.drugInfo.manufacturers.add"}</a></td>
+                </tr>
+            </table>
+            <br/><br/>
         </div>
     {/foreach}
 

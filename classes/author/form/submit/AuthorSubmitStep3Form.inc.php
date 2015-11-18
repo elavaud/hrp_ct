@@ -56,41 +56,55 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
 	function initData() {
 		$sectionDao =& DAORegistry::getDAO('SectionDAO');
 		if (isset($this->article)) {
-			$article =& $this->article;
-                                                                        						
-                        $articleDrugs =& $article->getArticleDrugs();
-                        $articleDrugsArray = array();
-                        if ($articleDrugs == null) {
-                            $articleDrugsArray = array(0 => array('countries' => array(0 =>null)));
-                        } else foreach ($articleDrugs as $articleDrug) {
-                            array_push(
-                                $articleDrugsArray,
-                                array(
-                                    'id' => $articleDrug->getId(),
-                                    'type' => $articleDrug->getType(),
-                                    'name' => $articleDrug->getName(),
-                                    'brandName' => $articleDrug->getBrandName(),
-                                    'administration' => $articleDrug->getAdministration(),
-                                    'otherAdministration' => $articleDrug->getOtherAdministration(),
-                                    'form' => $articleDrug->getForm(),
-                                    'otherForm' => $articleDrug->getOtherForm(),
-                                    'strength' => $articleDrug->getStrength(),
-                                    'storage' => $articleDrug->getStorage(),
-                                    'pharmaClass' => $articleDrug->getPharmaClass(),
-                                    'studyClasses' => $articleDrug->getClassesArray(),
-                                    'countries' => $articleDrug->getCountriesArray(),
-                                    'conditionsOfUse' => $articleDrug->getDifferentConditionsOfUse(),
-                                    'cpr' => $articleDrug->getCPR(),
-                                    'drugRegistrationNumber' => $articleDrug->getDrugRegistrationNumber(),
-                                    'importedQuantity' => $articleDrug->getImportedQuantity()
-                                )
-                            );
-			}
-                        
-                        $this->_data = array(
-                            	'articleDrugs' => $articleDrugsArray
-			);
+                    $article =& $this->article;
 
+                    $articleDrugs =& $article->getArticleDrugs();
+                    $articleDrugsArray = array();
+                    if ($articleDrugs == null) {
+                        $articleDrugsArray = array(0 => array('countries' => array(0 =>null), 'manufacturers' => array(0 => null)));
+                    } else foreach ($articleDrugs as $articleDrug) {
+                        $manufacturers = $articleDrug->getManufacturers();
+                        $manufacturersArray = array();
+                        if ($manufacturers) {
+                            foreach ($manufacturers as $manufacturer){
+                                array_push(
+                                    $manufacturersArray, 
+                                    array (
+                                        'id' => $manufacturer->getId(),
+                                        'drugId' => $manufacturer->getDrugId(),
+                                        'name' => $manufacturer->getName(),
+                                        'address' => $manufacturer->getAddress()
+                                    )
+                                );
+                            }
+                        }
+                        array_push(
+                            $articleDrugsArray,
+                            array(
+                                'id' => $articleDrug->getId(),
+                                'type' => $articleDrug->getType(),
+                                'name' => $articleDrug->getName(),
+                                'brandName' => $articleDrug->getBrandName(),
+                                'administration' => $articleDrug->getAdministration(),
+                                'otherAdministration' => $articleDrug->getOtherAdministration(),
+                                'form' => $articleDrug->getForm(),
+                                'otherForm' => $articleDrug->getOtherForm(),
+                                'strength' => $articleDrug->getStrength(),
+                                'storage' => $articleDrug->getStorage(),
+                                'pharmaClass' => $articleDrug->getPharmaClass(),
+                                'studyClasses' => $articleDrug->getClassesArray(),
+                                'countries' => $articleDrug->getCountriesArray(),
+                                'conditionsOfUse' => $articleDrug->getDifferentConditionsOfUse(),
+                                'cpr' => $articleDrug->getCPR(),
+                                'drugRegistrationNumber' => $articleDrug->getDrugRegistrationNumber(),
+                                'importedQuantity' => $articleDrug->getImportedQuantity(),
+                                'manufacturers' => $manufacturersArray
+                            )
+                        );
+                    }
+                    $this->_data = array(
+                            'articleDrugs' => $articleDrugsArray
+                    );
 		}
 		return parent::initData();
 	}
