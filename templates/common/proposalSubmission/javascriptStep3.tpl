@@ -84,7 +84,7 @@
         );
 
         $("#addDrugInfoClick").click(addDrugInfo);
-        $('a.removeDrug').each(function() {$(this).click(function(){$(this).closest('div').remove();});});           
+        $('.removeDrug').each(function() {$(this).click(function(){$(this).closest('div').remove();});});           
 
         $('a.removeCountry').each(function() {$(this).click(function(){$(this).closest('tr').remove();});});           
 
@@ -97,13 +97,18 @@
                 $(this).parent().parent().nextAll('.showHideHelpField').first().hide();
             } 
         });});
+
+        $('form').bind('submit', function () {
+            $('#articleDrugs-0-type').removeAttr('disabled');
+        });                
+
     
         $(document).ready(
             function() {
                 showOrHideOherAdministrationFields();
                 showOrHideOherFormFields();
                 showOrHideCountriesConditionsFields();
-                showOrHideDrugRegistrationNumbers();
+                showOrHideDrugRegistrationNumbers();                
             }
         );  
 

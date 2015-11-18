@@ -128,18 +128,18 @@ function showOrHideCountriesConditionsField(name){
     );
     if (show) {
         $('#articleDrugs-'+fieldId+'-classIIIOrIV').show();
-        if ($('#articleDrugs-'+fieldId+'-country-0').find('option[value="NA"]').length) {
-            $('#articleDrugs-'+fieldId+'-country-0').find('option[value="NA"]').remove();
+        if ($('#articleDrugs-'+fieldId+'-countries-0').find('option[value="NA"]').length) {
+            $('#articleDrugs-'+fieldId+'-countries-0').find('option[value="NA"]').remove();
         }
         if ($('#articleDrugs-'+fieldId+'-classIIIOrIV').find(':radio[value=NA]').length) {
             $('#articleDrugs-'+fieldId+'-classIIIOrIV').find(':radio[value=NA]').remove();
         }
     } else {
         $('#articleDrugs-'+fieldId+'-classIIIOrIV').hide();   
-        if (!$('#articleDrugs-'+fieldId+'-country-0').find('option[value="NA"]').length) {
-            $('#articleDrugs-'+fieldId+'-country-0').append('<option value="NA"></option>');
+        if (!$('#articleDrugs-'+fieldId+'-countries-0').find('option[value="NA"]').length) {
+            $('#articleDrugs-'+fieldId+'-countries-0').append('<option value="NA"></option>');
         }
-        $('#articleDrugs-'+fieldId+'-country-0').val('NA')
+        $('#articleDrugs-'+fieldId+'-countries-0').val('NA')
         $('#articleDrugs-'+fieldId+'-classIIIOrIV').find('.countrySupp-'+fieldId).remove();
         if (!$('#articleDrugs-'+fieldId+'-classIIIOrIV').find(':radio[value=NA]').length) {
             $('#articleDrugs-'+fieldId+'-classIIIOrIV').append('<input type="radio" style="display:none;" name="articleDrugs['+fieldId+'][conditionsOfUse]" value="NA">');
@@ -171,10 +171,10 @@ function addCountry(id) {
     }     
     countryHtml = countryHtml.replace('articleDrugs-'+fieldId+'-countryTr-X', 'articleDrugs-'+fieldId+'-countryTr-'+subFieldId);
     for (i = 0; i < 10; i++) { 
-        countryHtml = countryHtml.replace('articleDrugs-'+fieldId+'-country-0', 'articleDrugs-'+fieldId+'-country-'+subFieldId);
+        countryHtml = countryHtml.replace('articleDrugs-'+fieldId+'-countries-0', 'articleDrugs-'+fieldId+'-countries-'+subFieldId);
     }
     for (i = 0; i < 10; i++) { 
-        countryHtml = countryHtml.replace('articleDrugs['+fieldId+'][country][0', 'articleDrugs['+fieldId+'][country]['+subFieldId);
+        countryHtml = countryHtml.replace('articleDrugs['+fieldId+'][countries][0', 'articleDrugs['+fieldId+'][countries]['+subFieldId);
     }
     if ($("tr.countrySupp-"+fieldId).length){
         $('tr.countrySupp-'+fieldId+':last').after(countryHtml);
@@ -183,7 +183,7 @@ function addCountry(id) {
     }
     $('tr.countrySupp-'+fieldId+':last').find('td.countryTitle').hide();    
     $('tr.countrySupp-'+fieldId+':last').find('td.noCountryTitle').show();   
-    $('#articleDrugs-'+fieldId+'-country-'+subFieldId).val('');
+    $('#articleDrugs-'+fieldId+'-countries-'+subFieldId).val('');
     $('tr.countrySupp-'+fieldId+':last').find('a.removeCountry').show();
     $('tr.countrySupp-'+fieldId+':last').find('a.removeCountry').click(function(){$(this).closest('tr').remove();});   
 }
@@ -226,30 +226,30 @@ function addManufacturer(id) {
     var idStartAndEndRemoved = idStartRemoved.replace('-addManufacturer', '');
     var fieldId = parseInt(idStartAndEndRemoved);
     
-    var manufacturerHtml = '<table width="100%" class="manufacturerSupp-'+fieldId+'" id="articleDrugs-"'+fieldId+'-manufacturer-X>' + $('#articleDrugs-'+fieldId+'-manufacturer-0').html() + '</table>';
+    var manufacturerHtml = '<table width="100%" class="manufacturerSupp-'+fieldId+'" id="articleDrugs-"'+fieldId+'-manufacturers-X>' + $('#articleDrugs-'+fieldId+'-manufacturers-0').html() + '</table>';
     if ($("table.manufacturerSupp-"+fieldId).length){
         var selectName = $('table.manufacturerSupp-'+fieldId+':last').attr('id');
-        var selectNameStartRemoved = selectName.replace('articleDrugs-'+fieldId+'-manufacturer-', '');
+        var selectNameStartRemoved = selectName.replace('articleDrugs-'+fieldId+'-manufacturers-', '');
         var subFieldId = parseInt(selectNameStartRemoved) + 1;
     } else {    
         var subFieldId = 1;
     }     
-    manufacturerHtml = manufacturerHtml.replace('articleDrugs-'+fieldId+'-manufacturer-X', 'articleDrugs-'+fieldId+'-manufacturer-'+subFieldId);
+    manufacturerHtml = manufacturerHtml.replace('articleDrugs-'+fieldId+'-manufacturers-X', 'articleDrugs-'+fieldId+'-manufacturers-'+subFieldId);
     for (i = 0; i < 10; i++) { 
-        manufacturerHtml = manufacturerHtml.replace('articleDrugs-'+fieldId+'-manufacturer-0', 'articleDrugs-'+fieldId+'-manufacturer-'+subFieldId);
+        manufacturerHtml = manufacturerHtml.replace('articleDrugs-'+fieldId+'-manufacturers-0', 'articleDrugs-'+fieldId+'-manufacturers-'+subFieldId);
     }
     for (i = 0; i < 10; i++) { 
-        manufacturerHtml = manufacturerHtml.replace('articleDrugs['+fieldId+'][manufacturer][0', 'articleDrugs['+fieldId+'][manufacturer]['+subFieldId);
+        manufacturerHtml = manufacturerHtml.replace('articleDrugs['+fieldId+'][manufacturers][0', 'articleDrugs['+fieldId+'][manufacturers]['+subFieldId);
     }
     if ($("table.manufacturerSupp-"+fieldId).length){
         $('table.manufacturerSupp-'+fieldId+':last').after(manufacturerHtml);
     } else {
-        $('#articleDrugs-'+fieldId+'-manufacturer-0').after(manufacturerHtml);
+        $('#articleDrugs-'+fieldId+'-manufacturers-0').after(manufacturerHtml);
     }
     $('table.manufacturerSupp-'+fieldId+':last').find('td.manufacturerTitle').hide();    
     $('table.manufacturerSupp-'+fieldId+':last').find('td.noManufacturerTitle').show();   
-    $('#articleDrugs-'+fieldId+'-manufacturer-'+subFieldId+'-name').val('');
-    $('#articleDrugs-'+fieldId+'-manufacturer-'+subFieldId+'-address').val('');    
+    $('#articleDrugs-'+fieldId+'-manufacturers-'+subFieldId+'-name').val('');
+    $('#articleDrugs-'+fieldId+'-manufacturers-'+subFieldId+'-address').val('');    
     $('table.manufacturerSupp-'+fieldId+':last').find('a.removeManufacturer').show();
     $('table.manufacturerSupp-'+fieldId+':last').find('a.removeManufacturer').click(function(){$(this).closest('table').remove();});   
 }

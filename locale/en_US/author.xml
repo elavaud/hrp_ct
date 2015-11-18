@@ -144,6 +144,21 @@
         <message key="author.submit.form.recruitStatus.required">Specify the recruitment status of your study.</message>            
         <message key="author.submit.form.adScheme.required">Specify if you intend to use any advertising scheme for your recruitment.</message>            
             
+        <message key="author.submit.form.drugType.required">Specify the type of all your drug product(s).</message>            
+        <message key="author.submit.form.drugName.required">Specify the name of all your drug product(s).</message>                        
+        <message key="author.submit.form.drugAdministration.required">Specify the route of administration of all your drug product(s).</message>                        
+        <message key="author.submit.form.drugOtherAdministration.required">The route of administration of your drug product(s) was not listed and you selected "Other". Specify this other route of administration.</message>                        
+        <message key="author.submit.form.drugForm.required">Specify the pharmaceutical form of all your drug product(s).</message>                        
+        <message key="author.submit.form.drugOtherForm.required">The pharmaceutical form of your drug product(s) was not listed and you selected "Other". Specify this other pharmaceuticalForm.</message>                        
+        <message key="author.submit.form.drugStrength.required">Specify the strength of all your drug product(s).</message>                        
+        <message key="author.submit.form.drugStorage.required">Specify the storage condition of all your drug product(s).</message>                        
+        <message key="author.submit.form.drugPharmaClass.required">Specify the pharmacological class of all your drug product(s).</message>                        
+        <message key="author.submit.form.drugStudyClasses.required">Specify the class(es) of drug study of all your drug product(s).</message>                        
+        <message key="author.submit.form.drugCountry.required">The class(es) of study of one or multiple of your drug produc(s) is/are class III and/or IV. Specify the countries in which the drug has been granted marketing authorization.</message>                        
+        <message key="author.submit.form.drugConditionsOfUse.required">The class(es) of study of one or multiple of your drug produc(s) is/are class III and/or IV. Specify if the conditions of use in the clinical trial differ from those authorized.</message>                                    
+        <message key="author.submit.form.drugCPR.required">Specify if the IDP has been granted CPR.</message>            
+        <message key="author.submit.form.drugRegistrationNumber.required">One of your dur product(s) has been granted CPR. Specify the drug registration number.</message>            
+            
             
             
 	<message key="author.submit.form.authorRequired">At least one investigator is required.</message>

@@ -48,8 +48,8 @@
                 {assign var="articleDrugStrengthD" value='articleDrugs-'|cat:$i|cat:'-strength'}   
                 {assign var="articleDrugStorageB" value='articleDrugs['|cat:$i|cat:'][storage]'}
                 {assign var="articleDrugStorageD" value='articleDrugs-'|cat:$i|cat:'-storage'}   
-                {assign var="articleDrugPharmClassB" value='articleDrugs['|cat:$i|cat:'][pharmaClass]'}
-                {assign var="articleDrugPharmClassD" value='articleDrugs-'|cat:$i|cat:'-pharmaClass'}   
+                {assign var="articleDrugPharmaClassB" value='articleDrugs['|cat:$i|cat:'][pharmaClass]'}
+                {assign var="articleDrugPharmaClassD" value='articleDrugs-'|cat:$i|cat:'-pharmaClass'}                   
                 {assign var="articleDrugStudyClassesB" value='articleDrugs['|cat:$i|cat:'][studyClasses]'}
                 {assign var="articleDrugStudyClassesD" value='articleDrugs-'|cat:$i|cat:'-studyClasses'}     
                 {assign var="articleDrugCPRB" value='articleDrugs['|cat:$i|cat:'][cpr]'}
@@ -194,8 +194,8 @@
             {assign var="articleDrugConditionsOfUseD" value='articleDrugs-'|cat:$i|cat:'-conditionsOfUse'}                 
             <table width="100%" class="data" id="{$articleDrugClassIIIOrIVD|escape}">
                 {foreach from=$articleDrugs.$i.countries key=j item=country}
-                    {assign var="articleDrugCountryB" value='articleDrugs['|cat:$i|cat:'][country]['|cat:$j|cat:']'}
-                    {assign var="articleDrugCountryD" value='articleDrugs-'|cat:$i|cat:'-country-'|cat:$j}     
+                    {assign var="articleDrugCountryB" value='articleDrugs['|cat:$i|cat:'][countries]['|cat:$j|cat:']'}
+                    {assign var="articleDrugCountryD" value='articleDrugs-'|cat:$i|cat:'-countries-'|cat:$j}     
                     {assign var="articleDrugCountryTrD" value='articleDrugs-'|cat:$i|cat:'-countryTr-'|cat:$j}  
                     {assign var="articleDrugCountryClassSuppD" value='countrySupp-'|cat:$i}                      
                     <tr valign="bottom" id="{$articleDrugCountryTrD|escape}" {if $j > 0}class="{$articleDrugCountryClassSuppD|escape}"{/if}>
@@ -273,11 +273,11 @@
             </table>
             {foreach from=$articleDrugs.$i.manufacturers key=k item=manufacturer} 
                 {if $articleDrugs.$i.manufacturers.$k.id}<input type="hidden" class="hiddenInputs" name="articleDrugs[{$i|escape}][manufacturers][{$k|escape}][id]" value="{$articleDrugs.$i.manufacturers.$k.id|escape}" />{/if}
-                {assign var="articleDrugManufacturerTitleD" value='articleDrugs-'|cat:$i|cat:'-manufacturer-'|cat:$k}   
-                {assign var="articleDrugManufacturerNameB" value='articleDrugs['|cat:$i|cat:'][manufacturer]['|cat:$k|cat:'][name]'}
-                {assign var="articleDrugManufacturerNameD" value='articleDrugs-'|cat:$i|cat:'-manufacturer-'|cat:$k|cat:'-name'}                
-                {assign var="articleDrugManufacturerAddressB" value='articleDrugs['|cat:$i|cat:'][manufacturer]['|cat:$k|cat:'][address]'}
-                {assign var="articleDrugManufacturerAddressD" value='articleDrugs-'|cat:$i|cat:'-manufacturer-'|cat:$k|cat:'-address'}   
+                {assign var="articleDrugManufacturerTitleD" value='articleDrugs-'|cat:$i|cat:'-manufacturers-'|cat:$k}   
+                {assign var="articleDrugManufacturerNameB" value='articleDrugs['|cat:$i|cat:'][manufacturers]['|cat:$k|cat:'][name]'}
+                {assign var="articleDrugManufacturerNameD" value='articleDrugs-'|cat:$i|cat:'-manufacturers-'|cat:$k|cat:'-name'}                
+                {assign var="articleDrugManufacturerAddressB" value='articleDrugs['|cat:$i|cat:'][manufacturers]['|cat:$k|cat:'][address]'}
+                {assign var="articleDrugManufacturerAddressD" value='articleDrugs-'|cat:$i|cat:'-manufacturers-'|cat:$k|cat:'-address'}   
                 {assign var="articleDrugManufacturerClassSuppD" value='manufacturerSupp-'|cat:$i}                      
                 <table width="100%" id="{$articleDrugManufacturerTitleD|escape}" {if $k > 0}class="{$articleDrugManufacturerClassSuppD|escape}"{/if}>
                     <tr valign="top">

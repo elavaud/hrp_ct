@@ -18,10 +18,24 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
 	 * Constructor.
 	 */
 	function AuthorSubmitStep3Form(&$article, &$journal) {
-		parent::AuthorSubmitForm($article, 3, $journal);
-		        
+            parent::AuthorSubmitForm($article, 3, $journal);
+            $this->addCheck(new FormValidatorArray($this, 'articleDrugs', 'required', 'author.submit.form.drugType.required', array('type')));
+            $this->addCheck(new FormValidatorArray($this, 'articleDrugs', 'required', 'author.submit.form.drugName.required', array('name')));
+            $this->addCheck(new FormValidatorArray($this, 'articleDrugs', 'required', 'author.submit.form.drugAdministration.required', array('administration')));		        
+            $this->addCheck(new FormValidatorArray($this, 'articleDrugs', 'required', 'author.submit.form.drugOtherAdministration.required', array('otherAdministration')));		        
+            $this->addCheck(new FormValidatorArray($this, 'articleDrugs', 'required', 'author.submit.form.drugForm.required', array('form')));		        
+            $this->addCheck(new FormValidatorArray($this, 'articleDrugs', 'required', 'author.submit.form.drugOtherForm.required', array('otherForm')));		        
+            $this->addCheck(new FormValidatorArray($this, 'articleDrugs', 'required', 'author.submit.form.drugStrength.required', array('strength')));		        
+            $this->addCheck(new FormValidatorArray($this, 'articleDrugs', 'required', 'author.submit.form.drugStorage.required', array('storage')));		        
+            $this->addCheck(new FormValidatorArray($this, 'articleDrugs', 'required', 'author.submit.form.drugPharmaClass.required', array('pharmaClass')));		        
+            $this->addCheck(new FormValidatorArray($this, 'articleDrugs', 'required', 'author.submit.form.drugStudyClasses.required', array('studyClasses')));
+            $this->addCheck(new FormValidatorArray($this, 'articleDrugs', 'required', 'author.submit.form.drugCountry.required', array('countries')));
+            $this->addCheck(new FormValidatorArray($this, 'articleDrugs', 'required', 'author.submit.form.drugConditionsOfUse.required', array('conditionsOfUse')));
+            $this->addCheck(new FormValidatorArray($this, 'articleDrugs', 'required', 'author.submit.form.drugCPR.required', array('cpr')));            
+            $this->addCheck(new FormValidatorArray($this, 'articleDrugs', 'required', 'author.submit.form.drugRegistrationNumber.required', array('drugRegistrationNumber')));                        
+            $this->addCheck(new FormValidatorArray($this, 'articleDrugs', 'required', 'author.submit.form.drugManufacturerName.required', array('manufacturers')));                        
+            
         }
-
         /* Overwrite getting the value of a form field for allowing sub-arrays of arrays.
 	 * @param $key string
 	 * @return mixed
