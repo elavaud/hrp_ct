@@ -70,23 +70,20 @@ class FormValidatorArray extends FormValidator {
             foreach ($data as $key => $value) {
                 if ($this->_subArray) {
                     foreach ($value as $subKey => $subValue) {
-                        foreach ($subValue as $subSubKey => $subSubValue) {
-                        // Go through all sub-sub-fields and check them explicitly
-                            foreach ($this->_fields as $field) {
-                                if ($field == $subSubKey) {
-                                    if (!is_array($subValue)) {
-                                        $isValid = false;
-                                        array_push($this->_errorFields, $this->getField()."[{$subKey}]");
-                                        continue;
+                        if (is_array($subValue)) {
+                            foreach ($subValue as $subSubKey => $subSubValue) {
+                            // Go through all sub-sub-fields and check them explicitly
+                                foreach ($this->_fields as $field) {
+                                    if ($field === $subSubKey) {
+                                        if (!isset($subSubValue) || trim((string)$subSubValue) == '') {
+                                            $isValid = false;
+                                            array_push($this->_errorFields, $this->getField()."[{$subKey}][{$subSubKey}][{$field}]");
+                                        }                                        
                                     }
-                                    if (!isset($subSubValue) || trim((string)$subSubValue) == '') {
-                                        $isValid = false;
-                                        array_push($this->_errorFields, $this->getField()."[{$subKey}][{$subSubKey}][{$field}]");
-                                    }                                        
                                 }
                             }
                         }
-                    }
+                    } 
                 } else {
                     if (count($this->_fields) == 0) {
                         // We expect all fields to contain values.
@@ -116,7 +113,15 @@ class FormValidatorArray extends FormValidator {
                         foreach ($this->_fields as $field) {
                             if (is_array($value[$field])) {
                                 foreach ($value[$field] as $ssKey => $ssValue) {
-                                    if (!isset($ssValue) || trim((string)$ssValue) == '') {
+                                    if (is_array($ssValue)) {
+                                        foreach ($ssValue as $sssKey => $sssValue) {
+                                            if (!isset($sssValue) || trim((string)$sssValue) == ''){
+                                                $isValid = false;
+                                                array_push($this->_errorFields, $this->getField()."[{$key}][{$ssKey}][{$sssKey}][{$field}]");                                                
+                                            }
+                                        }
+                                    }
+                                    elseif (!isset($ssValue) || trim((string)$ssValue) == '') {
                                         $isValid = false;
                                         array_push($this->_errorFields, $this->getField()."[{$key}][{$ssKey}][{$field}]");
                                     }                                    
