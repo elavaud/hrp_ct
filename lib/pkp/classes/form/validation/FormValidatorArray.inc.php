@@ -62,85 +62,74 @@ class FormValidatorArray extends FormValidator {
 	 * @return boolean
 	 */
 	function isValid() {
-		if ($this->getType() == FORM_VALIDATOR_OPTIONAL_VALUE) return true;
+            if ($this->getType() == FORM_VALIDATOR_OPTIONAL_VALUE) return true;
 
-                $data = $this->getFieldValue();
-		if (!is_array($data)) return false;
-                $isValid = true;
-		foreach ($data as $key => $value) {
-                    if ($this->_subArray) {
-        		foreach ($value as $subKey => $subValue) {
-                            if (count($this->_fields) == 0) {
-                                    // We expect all fields to contain values.
-                                    if (is_array($subValue)) {
-                                            foreach($subValue as $subsubkey => $subsubvalue ) {
-                                                if( empty( $subsubvalue ) )
-                                                {
-                                                   unset( $subValue[$subsubkey] );
-                                                }
-                                            }
-                                            if (empty($subValue)){
-                                                $isValid = false;
-                                                array_push($this->_errorFields, $this->getField()."[{$subKey}]");
-                                            }
-                                    } elseif (is_null($subValue) || trim((string)$subValue) == '') {
-                                            $isValid = false;
-                                            array_push($this->_errorFields, $this->getField()."[{$subKey}]");
-                                    }
-                            } else {
-                                    // In the two-dimensional case we always expect a value array.
+            $data = $this->getFieldValue();
+            if (!is_array($data)) return false;
+            $isValid = true;
+            foreach ($data as $key => $value) {
+                if ($this->_subArray) {
+                    foreach ($value as $subKey => $subValue) {
+                        foreach ($subValue as $subSubKey => $subSubValue) {
+                        // Go through all sub-sub-fields and check them explicitly
+                            foreach ($this->_fields as $field) {
+                                if ($field == $subSubKey) {
                                     if (!is_array($subValue)) {
-                                            $isValid = false;
-                                            array_push($this->_errorFields, $this->getField()."[{$subKey}]");
-                                            continue;
+                                        $isValid = false;
+                                        array_push($this->_errorFields, $this->getField()."[{$subKey}]");
+                                        continue;
                                     }
-                                    // Go through all sub-sub-fields and check them explicitly
-                                    foreach ($this->_fields as $field) {
-                                            if (!isset($subValue[$field]) || trim((string)$subValue[$field]) == '') {
-                                                    $isValid = false;
-                                                    array_push($this->_errorFields, $this->getField()."[{$subKey}][{$field}]");
-                                            }
-                                    }
+                                    if (!isset($subSubValue) || trim((string)$subSubValue) == '') {
+                                        $isValid = false;
+                                        array_push($this->_errorFields, $this->getField()."[{$subKey}][{$subSubKey}][{$field}]");
+                                    }                                        
+                                }
                             }
                         }
-                    } else {
-			if (count($this->_fields) == 0) {
-				// We expect all fields to contain values.
-                                if (is_array($value)) {
-                                        foreach($value as $subkey => $subvalue ) {
-                                            if( empty( $subvalue ) )
-                                            {
-                                               unset( $value[$subkey] );
-                                            }
-                                        }
-                                        if (empty($value)){
-                                            $isValid = false;
-                                            array_push($this->_errorFields, $this->getField()."[{$key}]");
-                                        }
-                                } elseif (is_null($value) || trim((string)$value) == '') {
-					$isValid = false;
-					array_push($this->_errorFields, $this->getField()."[{$key}]");
-				}
-			} else {
-				// In the two-dimensional case we always expect a value array.
-				if (!is_array($value)) {
-					$isValid = false;
-					array_push($this->_errorFields, $this->getField()."[{$key}]");
-					continue;
-				}
-				// Go through all sub-sub-fields and check them explicitly
-				foreach ($this->_fields as $field) {
-					if (!isset($value[$field]) || trim((string)$value[$field]) == '') {
-						$isValid = false;
-						array_push($this->_errorFields, $this->getField()."[{$key}][{$field}]");
-					}
-				}
-			}
                     }
-                        
-		}
-
-		return $isValid;
+                } else {
+                    if (count($this->_fields) == 0) {
+                        // We expect all fields to contain values.
+                        if (is_array($value)) {
+                            foreach($value as $subkey => $subvalue ) {
+                                if( empty( $subvalue ) )
+                                {
+                                   unset( $value[$subkey] );
+                                }
+                            }
+                            if (empty($value)){
+                                $isValid = false;
+                                array_push($this->_errorFields, $this->getField()."[{$key}]");
+                            }
+                        } elseif (is_null($value) || trim((string)$value) == '') {
+                            $isValid = false;
+                            array_push($this->_errorFields, $this->getField()."[{$key}]");
+                        }
+                    } else {
+                        // In the two-dimensional case we always expect a value array.
+                        if (!is_array($value)) {
+                            $isValid = false;
+                            array_push($this->_errorFields, $this->getField()."[{$key}]");
+                            continue;
+                        }
+                        // Go through all sub-sub-fields and check them explicitly
+                        foreach ($this->_fields as $field) {
+                            if (is_array($value[$field])) {
+                                foreach ($value[$field] as $ssKey => $ssValue) {
+                                    if (!isset($ssValue) || trim((string)$ssValue) == '') {
+                                        $isValid = false;
+                                        array_push($this->_errorFields, $this->getField()."[{$key}][{$ssKey}][{$field}]");
+                                    }                                    
+                                }
+                            } elseif (!isset($value[$field]) || trim((string)$value[$field]) == '') {
+                                $isValid = false;
+                                array_push($this->_errorFields, $this->getField()."[{$key}][{$field}]");
+                            }
+                        }
+                    }
+                }
+            }
+            return $isValid;
 	}
 }
 
