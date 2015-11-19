@@ -62,6 +62,9 @@ class Article extends Submission {
         
         var $removedArticleDrugs;
         
+        var $articleSites;
+        
+        var $removedArticleSites;
         
 	/**
 	 * Constructor.
@@ -78,6 +81,8 @@ class Article extends Submission {
 		$this->removedArticleOutcomes = array();
                 $this->articleDrugs = array();
 		$this->removedArticleDrugs = array();
+                $this->articleSites = array();
+		$this->removedArticleSites = array();
         }
 
 	/**
@@ -1117,5 +1122,85 @@ class Article extends Submission {
 	function setArticleDrugs($articleDrugs) {
 		return $this->articleDrugs = $articleDrugs;
 	}
+        
+        
+        /**
+	 * Add an article site.
+	 * @param $articleSite ArticleSite
+	 */
+	function addArticleSite($articleSite) {
+                $found = false;
+                $i = 0;
+                $articleSites = $this->articleSites;
+                foreach ($this->articleSites as $asKey => $asValue) {
+                    if ($articleSite->getId() != null && $articleSite->getId() == $asValue->getId()){
+                        $articleSites[$asKey] = $asValue;
+                        $found = true;
+                    }
+                    $i++;
+                }
+                if (!$found) {
+                    $articleSites[$i] = $articleSite;
+                }
+                $this->articleSites = $articleSites;
+	}
+        /**
+	 * Remove an article site.
+	 * @param $articleSiteId ID of the article site to remove
+	 * @return boolean article site was removed
+	 */
+	function removeArticleSite($articleSiteId) {
+                $found = false;
+                $i = 0;
+		if ($articleSiteId != 0) {
+                    $articleSites = $this->articleSites;
+                    foreach ($this->articleSites as $articleSite) {
+                        if ($articleSite->getId() == $articleSiteId) {
+                            array_push($this->removedArticleSites, $articleSiteId);
+                            $found = true;
+                        }
+                        else {
+                            $articleSites[$i] = $articleSite;
+                            $i++;
+                        }       
+                    }
+                    $this->articleSites = $articleSites;
+		}
+		return $found;
+	}
+	/**
+	 * Get all article sites for this submission.
+	 * @return array ArticleSite
+	 */
+	function &getArticleSites() {
+		return $this->articleSites;
+	}
+        /**
+	 * Get article site by ID for this submission.
+	 * @return object ArticleSite
+	 */
+	function &getArticleSite($id) {
+                foreach ($this->articleSites as $articleSite) {
+                    if ($articleSite->getId() == $id) {
+                        return $articleSite;
+                    }
+                }
+		return null;
+	}
+        /**
+	 * Get the IDs of all article sites removed from this submission.
+	 * @return array int
+	 */
+	function &getRemovedArticleSites() {
+		return $this->removedArticleSites;
+	}
+        /**
+	 * Set article sites of this submission.
+	 * @param $articleSites array ArticleSite
+	 */
+	function setArticleSites($articleSites) {
+		return $this->articleSites = $articleSites;
+	}
+        
 }
 ?>
