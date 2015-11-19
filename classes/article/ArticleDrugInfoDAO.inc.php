@@ -93,8 +93,18 @@ class ArticleDrugInfoDAO extends DAO {
 				$articleDrugInfo->getDrugRegistrationNumber(),
 				$articleDrugInfo->getImportedQuantity()
 			)
-		);		
-		return true;
+		);
+                
+                $articleDrugInfo->setId($this->getInsertDrugId());
+                
+                // insert drug manufacturers for this drug
+		$manufacturers =& $articleDrugInfo->getManufacturers();
+		foreach ($manufacturers as $manufacturer) {
+                    $manufacturer->setDrugId($articleDrugInfo->getId());
+                    $this->drugManufacturerDao->insertArticleDrugManufacturer($manufacturer);	
+                }
+                
+		return $articleDrugInfo->getId();
 	}
 
 	/**
@@ -149,9 +159,10 @@ class ArticleDrugInfoDAO extends DAO {
 		$manufacturers =& $articleDrugInfo->getManufacturers();
 		foreach ($manufacturers as $manufacturer) {
 			if ($manufacturer->getId() > 0) {
-				$this->drugManufacturerDao->updateArticleDrugManufacturer($manufacturer);
+                            $this->drugManufacturerDao->updateArticleDrugManufacturer($manufacturer);
 			} else {
-				$this->drugManufacturerDao->insertArticleDrugManufacturer($manufacturer);
+                            $manufacturer->setDrugId($articleDrugInfo->getId());
+                            $this->drugManufacturerDao->insertArticleDrugManufacturer($manufacturer);
 			}
                 }
                 // Remove deleted manufacturers
@@ -388,6 +399,13 @@ class ArticleDrugInfoDAO extends DAO {
 	}
 
         
+	/**
+	 * Get the ID of the last inserted article.
+	 * @return int
+	 */
+	function getInsertDrugId() {
+		return $this->getInsertId('article_drug_info', 'drug_id');
+	}
 
         ////////////////////////////
         ////// Pharma Classes //////

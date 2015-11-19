@@ -37,25 +37,26 @@ function addDrugInfo(){
     $('#articleDrugs-'+fieldId+'-brandName').val('');
     $('#articleDrugs-'+fieldId+'-administration').val('');
     $('#articleDrugs-'+fieldId+'-administration').change(function(e) {var id = e.target.id;showOrHideOherAdministrationField(id);});
-    showOrHideOherAdministrationFields();
     $('#articleDrugs-'+fieldId+'-form').val('');
     $('#articleDrugs-'+fieldId+'-form').change(function(e) {var id = e.target.id;showOrHideOherFormField(id);});
-    showOrHideOherFormFields();
     $('#articleDrugs-'+fieldId+'-strength').val('');
     $('#articleDrugs-'+fieldId+'-storage').val('');
     $('#articleDrugs-'+fieldId+'-pharmaClass').val('');
     $('#articleDrugs-'+fieldId).find("input:checkbox").removeAttr("checked");
     $('#articleDrugs-'+fieldId).find("input:checkbox").each(function () {$(this).click(function(e) {var name = e.target.name;showOrHideCountriesConditionsField(name);});});
-    showOrHideCountriesConditionsFields();
     $('#articleDrugs-'+fieldId).find('.addAnotherCountryClick').click(function(e) {var id = e.target.id;addCountry(id);}); 
-    $('#articleDrugs-'+fieldId).find('.countrySupp-'+fieldId).remove(); 
+    $('#articleDrugs-'+fieldId).find('.countrySupp-0').remove(); 
     $('#articleDrugs-'+fieldId).find('input:radio[name="articleDrugs['+fieldId+'][cpr]"]').each(function () {this.checked = false;});
     $('#articleDrugs-'+fieldId).find('input:radio[name="articleDrugs['+fieldId+'][cpr]"]').each(function () {$(this).click(function (e){var name = e.target.name;showOrHideDrugRegistrationNumber(name);});});
     $('#articleDrugs-'+fieldId+'-drugRegistrationNumber').val('');
-    showOrHideDrugRegistrationNumbers();
     $('#articleDrugs-'+fieldId+'-importedQuantity').val('');
     $('#articleDrugs-'+fieldId).find('.addAnotherManufacturerClick').click(function(e) {var id = e.target.id;addManufacturer(id);}); 
-    $('#articleDrugs-'+fieldId).find('.manufacturerSupp-'+fieldId).remove();     
+    $('#articleDrugs-'+fieldId).find('.manufacturerSupp-0').remove();   
+    $('#articleDrugs-'+fieldId).find('.removeManufacturer').click(function(){$(this).closest('table').remove();});   
+    showOrHideOherAdministrationFields();
+    showOrHideOherFormFields();
+    showOrHideCountriesConditionsFields();
+    showOrHideDrugRegistrationNumbers();
 }
 
 function showOrHideOherAdministrationField(id){
@@ -226,7 +227,7 @@ function addManufacturer(id) {
     var idStartAndEndRemoved = idStartRemoved.replace('-addManufacturer', '');
     var fieldId = parseInt(idStartAndEndRemoved);
     
-    var manufacturerHtml = '<table width="100%" class="manufacturerSupp-'+fieldId+'" id="articleDrugs-"'+fieldId+'-manufacturers-X>' + $('#articleDrugs-'+fieldId+'-manufacturers-0').html() + '</table>';
+    var manufacturerHtml = '<table width="100%" class="manufacturerSupp-'+fieldId+'" id="articleDrugs-'+fieldId+'-manufacturers-X">' + $('#articleDrugs-'+fieldId+'-manufacturers-0').html() + '</table>';
     if ($("table.manufacturerSupp-"+fieldId).length){
         var selectName = $('table.manufacturerSupp-'+fieldId+':last').attr('id');
         var selectNameStartRemoved = selectName.replace('articleDrugs-'+fieldId+'-manufacturers-', '');

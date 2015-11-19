@@ -33,7 +33,7 @@ class ArticleDrugManufacturer extends DataObject {
 	 * Set drug id.
 	 * @param $drugId int
 	 */
-	function setDrugId($articleId) {
+	function setDrugId($drugId) {
 		return $this->setData('drugId', $drugId);
 	}
         

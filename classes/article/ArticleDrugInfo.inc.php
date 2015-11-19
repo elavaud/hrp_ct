@@ -411,7 +411,7 @@ class ArticleDrugInfo extends DataObject {
 	 * Set class of drug study.
 	 * @param $classes string
 	 */
-	function setClasses($class) {
+	function setClasses($classes) {
 		return $this->setData('classes', $classes);
 	}
         /**
@@ -582,7 +582,7 @@ class ArticleDrugInfo extends DataObject {
                 $i = 0;
                 $manufacturers = $this->drugManufacturers;
                 foreach ($this->drugManufacturers as $dmKey => $dmValue) {
-                    if ($manufacturer->getId() == $dmValue->getId()){
+                    if ($manufacturer->getId() != null && $manufacturer->getId() == $dmValue->getId()){
                         $manufacturers[$dmKey] = $manufacturer;
                         $found = true;
                     }

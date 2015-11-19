@@ -34,8 +34,8 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
             $this->addCheck(new FormValidatorArray($this, 'articleDrugs', 'required', 'author.submit.form.drugCPR.required', array('cpr')));            
             $this->addCheck(new FormValidatorArray($this, 'articleDrugs', 'required', 'author.submit.form.drugRegistrationNumber.required', array('drugRegistrationNumber')));                        
             $this->addCheck(new FormValidatorArray($this, 'articleDrugs', 'required', 'author.submit.form.drugManufacturerName.required', array('manufacturers')));                        
-            
         }
+        
         /* Overwrite getting the value of a form field for allowing sub-arrays of arrays.
 	 * @param $key string
 	 * @return mixed
@@ -178,9 +178,50 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
 		$articleDao =& DAORegistry::getDAO('ArticleDAO');
 		$article =& $this->article;
                 
-		// Retrieve the previous citation list for comparison.
-		$previousRawCitationList = $article->getCitations();
-              
+                $articleDrugsData = $this->getData('articleDrugs');
+                foreach ($articleDrugsData as $articleDrugData) {
+                    if (isset($articleDrugData['id'])) {
+                        $articleDrug = $article->getArticleDrug($articleDrugData['id']);
+                        $isExistingDrug = true;
+                    } else {
+                        $articleDrug = new ArticleDrugInfo();
+                        $isExistingDrug = false;
+                    }
+                    $articleDrug->setArticleId($article->getId());
+                    $articleDrug->setType($articleDrugData['type']);
+                    $articleDrug->setName($articleDrugData['name']);
+                    $articleDrug->setBrandName($articleDrugData['brandName']);
+                    $articleDrug->setAdministration($articleDrugData['administration']);
+                    $articleDrug->setOtherAdministration($articleDrugData['otherAdministration']);
+                    $articleDrug->setForm($articleDrugData['form']);
+                    $articleDrug->setOtherForm($articleDrugData['otherForm']);
+                    $articleDrug->setStrength($articleDrugData['strength']);
+                    $articleDrug->setStorage($articleDrugData['storage']);
+                    $articleDrug->setPharmaClass($articleDrugData['pharmaClass']);
+                    $articleDrug->setClassesFromArray($articleDrugData['studyClasses']);
+                    $articleDrug->setCountriesFromArray($articleDrugData['countries']);
+                    $articleDrug->setDifferentConditionsOfUse($articleDrugData['conditionsOfUse']);
+                    $articleDrug->setCPR($articleDrugData['cpr']);
+                    $articleDrug->setDrugRegistrationNumber($articleDrugData['drugRegistrationNumber']);
+                    $articleDrug->setImportedQuantity($articleDrugData['importedQuantity']);
+                    
+                    $manufacturersData = $articleDrugData['manufacturers'];
+                    foreach ($manufacturersData as $manufacturerData) {                        
+                        if (isset($manufacturerData['id'])) {
+                            $manufacturer = $articleDrug->getManufacturer($manufacturerData['id']);
+                        } else {
+                            $manufacturer = new ArticleDrugManufacturer();
+                        }
+                        if ($isExistingDrug) {
+                            $manufacturer->setDrugId($articleDrug->getId());
+                        }
+                        $manufacturer->setName($manufacturerData['name']);
+                        $manufacturer->setAddress($manufacturerData['address']);
+                        $articleDrug->addManufacturer($manufacturer);
+                    }
+                    $article->addArticleDrug($articleDrug);
+                }
+                
                 //update step
                 if ($article->getSubmissionProgress() <= $this->step) {
 			$article->stampStatusModified();
