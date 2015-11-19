@@ -751,7 +751,7 @@ class Article extends Submission {
                 $i = 0;
                 $articleSecIds = $this->articleSecIds;
                 foreach ($this->articleSecIds as $asiKey => $asiValue) {
-                    if ($articleSecId->getId() == $asiValue->getId()){
+                    if ($articleSecId->getId() != null && $articleSecId->getId() == $asiValue->getId()){
                         $articleSecIds[$asiKey] = $articleSecId;
                         $found = true;
                     }
@@ -846,7 +846,7 @@ class Article extends Submission {
                 $i = 0;
                 $found = false;
                 foreach ($this->articlePurposes as $apKey => $apValue) {
-                    if ($articlePurpose->getId() == $apValue->getId()){
+                    if ($articlePurpose->getId() != null && $articlePurpose->getId() == $apValue->getId()){
                         $articlePurposes[$apKey] = $articlePurpose;
                         $found = true;
                     }
@@ -931,7 +931,7 @@ class Article extends Submission {
                     foreach ($this->articleOutcomes as $key => $value) {
                         foreach ($journal->getSupportedLocaleNames() as $localeKey => $localeValue) {
                             if (!empty($value[$localeKey]) && $articleOutcome->getId()) {
-                                if ($value[$localeKey]->getId() == $articleOutcome->getId()) {
+                                if ($value[$localeKey]->getId()!= null && $value[$localeKey]->getId() == $articleOutcome->getId()) {
                                     $articleOutcomes[$key][$localeKey] = $articleOutcome;
                                     $found =true;
                                 }                            
@@ -1049,7 +1049,7 @@ class Article extends Submission {
                 $i = 0;
                 $articleDrugs = $this->articleDrugs;
                 foreach ($this->articleDrugs as $adKey => $adValue) {
-                    if ($articleDrug->getId() == $adValue->getId()){
+                    if ($articleDrug->getId() != null && $articleDrug->getId() == $adValue->getId()){
                         $articleDrugs[$adKey] = $adValue;
                         $found = true;
                     }
