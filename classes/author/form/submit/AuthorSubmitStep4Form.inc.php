@@ -26,14 +26,29 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
 	 * Initialize form data from current article.
 	 */
 	function initData() {
-		$sectionDao =& DAORegistry::getDAO('SectionDAO');
-		if (isset($this->article)) {
-			$article =& $this->article;
-                                                                        						
-			
+            $sectionDao =& DAORegistry::getDAO('SectionDAO');
+            if (isset($this->article)) {
+                $article =& $this->article;
 
-		}
-		return parent::initData();
+                $articleSites = $article->getArticleSites();
+                $articleSitesArray = array();
+                if ($articleSites == null) {
+                    $articleSitesArray = array(0 => null);
+                } else foreach ($articleSites as $articleSite) {
+                    array_push(
+                        $articleSitesArray,
+                        array(
+                            'id' => $articleSite->getId(),
+                            'site' => $articleSite->getSiteId()
+                        )
+                    );
+                }
+                $this->_data = array(
+                    'articleSites' => $articleSitesArray
+                );
+
+            }
+            return parent::initData();
 	}
 
 	/**
@@ -68,21 +83,19 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
 	/**
 	 * Display the form.
 	 */
-	function display() {
-                $journal = Request::getJournal();
-                
-		$countryDao =& DAORegistry::getDAO('CountryDAO');
+	function display() {                
                 $extraFieldDAO =& DAORegistry::getDAO('ExtraFieldDAO');
-		$institutionDao =& DAORegistry::getDAO('InstitutionDAO');
-		$currencyDao =& DAORegistry::getDAO('CurrencyDAO');
+		$trialSiteDao =& DAORegistry::getDAO('TrialSiteDAO');
                 
                 $geoAreas =& $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_GEO_AREA, EXTRA_FIELD_ACTIVE);
                 
-                $institutionsList = $institutionDao->getInstitutionsList();
-                $institutionsListWithOther = $institutionsList + array('OTHER' => Locale::translate('common.other'));
+                $sitesList = $trialSiteDao->getTrialSitesList();
+                $sitesListWithOther = $sitesList + array('OTHER' => Locale::translate('common.other'));
                 
 		$templateMgr =& TemplateManager::getManager();
-                                
+                $templateMgr->assign('sitesList', $sitesListWithOther);
+                $templateMgr->assign('geoAreas', $geoAreas);
+                
                 parent::display();
 	}
 

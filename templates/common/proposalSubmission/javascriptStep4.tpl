@@ -11,7 +11,8 @@
  {literal}
      <script type="text/javascript">
         
-    
+        $("#addSiteClick").click(addSite);
+        
         $(document).ready(
             function() {
             }
