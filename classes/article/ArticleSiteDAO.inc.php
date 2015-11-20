@@ -12,11 +12,14 @@ import('classes.article.ArticleSite');
 
 class ArticleSiteDAO extends DAO {
 
+        var $investigatorDao;
+    
         /**
 	 * Constructor
 	 */
 	function ArticleSiteDAO() {
             parent::DAO();
+            $this->investigatorDao =& DAORegistry::getDAO('AuthorDAO');   
 	}
         
     	/**
@@ -78,8 +81,18 @@ class ArticleSiteDAO extends DAO {
 				$articleSite->getEmail(),
 				(int) $articleSite->getSubjectsNumber()
 			)
-		);		
-		return true;
+		);	
+                
+                $articleSite->setId($this->getInsertSiteId());
+                
+                // insert investigators for this site
+		$investigators =& $articleSite->getInvestigators();
+		foreach ($investigators as $investigator) {
+                    $investigator->setSiteId($articleSite->getId());
+                    $this->investigatorDao->insertAuthor($investigator);	
+                }
+                
+		return $articleSite->getId();                
 	}
 
 	/**
@@ -111,6 +124,23 @@ class ArticleSiteDAO extends DAO {
                                 (int) $articleSite->getId()
 			)
 		);
+                
+                // update investigators for this site
+		$investigators =& $articleSite->getInvestigators();
+		foreach ($investigators as $investigator) {
+			if ($investigator->getId() > 0) {
+                            $this->investigatorDao->updateAuthor($investigator);
+			} else {
+                            $investigator->setSiteId($articleSite->getId());
+                            $this->investigatorDao->insertAuthor($investigator);
+			}
+                }
+                // Remove deleted investigators
+		$removedInvestigators = $articleSite->getRemovedInvestigators();
+		foreach ($removedInvestigators as $removedInvestigatorId) {
+			$this->investigatorDao->deleteAuthorById($removedInvestigatorId);
+		}
+                
 		return $returner;
 	}
 
@@ -120,6 +150,8 @@ class ArticleSiteDAO extends DAO {
 	 */
 	function deleteArticleSite($articleSiteId) {
 		
+                $this->investigatorDao->deleteAuthorsBySite($articleSiteId);
+                
 		$returner = $this->update('DELETE FROM article_site WHERE article_site_id = ?',(int) $articleSiteId);
 		
 		return $returner;
@@ -131,6 +163,8 @@ class ArticleSiteDAO extends DAO {
 	 */
 	function deleteArticleSitesByArticleId($articleId) {
 		
+                $this->investigatorDao->deleteAuthorsByArticle($articleId);
+                
 		$returner = $this->update('DELETE FROM article_site WHERE article_id = ?',(int) $articleId);
 		
 		return $returner;
@@ -157,6 +191,15 @@ class ArticleSiteDAO extends DAO {
 		HookRegistry::call('ArticleSiteDAO::_returnArticleSiteFromRow', array(&$articleSite, &$row));
 
 		return $articleSite;
+	}
+        
+        
+	/**
+	 * Get the ID of the last inserted article site.
+	 * @return int
+	 */
+	function getInsertSiteId() {
+		return $this->getInsertId('article_site', 'article_site_id');
 	}
 }
 

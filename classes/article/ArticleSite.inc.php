@@ -13,11 +13,17 @@
 
 class ArticleSite extends DataObject {
 	
+        var $investigators;
+        
+        var $removedInvestigators;
+    
 	/**
 	 * Constructor.
 	 */
 	function ArticleSite() {
             parent::DataObject();
+            $this->investigators = array();
+            $this->removedInvestigators = array();
 	}
 
 	
@@ -147,5 +153,85 @@ class ArticleSite extends DataObject {
 	function setSubjectsNumber($subjectsNumber) {
 		return $this->setData('subjectsNumber', $subjectsNumber);
 	}
+        
+        
+        /**
+	 * Add an investigator.
+	 * @param $investigator Author
+	 */
+	function addInvestigator($investigator) {
+                $found = false;
+                $i = 0;
+                $investigators = $this->investigators;
+                foreach ($this->investigators as $iKey => $iValue) {
+                    if ($investigator->getId() != null && $investigator->getId() == $iValue->getId()){
+                        $investigators[$iKey] = $iValue;
+                        $found = true;
+                    }
+                    $i++;
+                }
+                if (!$found) {
+                    $investigators[$i] = $investigator;
+                }
+                $this->investigators = $investigators;
+	}
+        /**
+	 * Remove an investigator.
+	 * @param $investigatorId ID of the investigator to remove
+	 * @return boolean investigator was removed
+	 */
+	function removeInvestigator($investigatorId) {
+                $found = false;
+                $i = 0;
+		if ($investigatorId != 0) {
+                    $investigators = $this->investigators;
+                    foreach ($this->investigators as $investigator) {
+                        if ($investigator->getId() == $investigatorId) {
+                            array_push($this->removedInvestigators, $investigatorId);
+                            $found = true;
+                        }
+                        else {
+                            $investigators[$i] = $investigator;
+                            $i++;
+                        }       
+                    }
+                    $this->investigators = $investigators;
+		}
+		return $found;
+	}
+	/**
+	 * Get all investigators for this site.
+	 * @return array Author
+	 */
+	function &getInvestigators() {
+		return $this->investigators;
+	}
+        /**
+	 * Get investigator by ID for this site.
+	 * @return object Author
+	 */
+	function &getInvestigator($id) {
+                foreach ($this->investigators as $investigator) {
+                    if ($investigator->getId() == $id) {
+                        return $investigator;
+                    }
+                }
+		return null;
+	}
+        /**
+	 * Get the IDs of all investigators removed from this site.
+	 * @return array int
+	 */
+	function &getRemovedInvestigators() {
+		return $this->removedInvestigators;
+	}
+        /**
+	 * Set investigators for this site.
+	 * @param $investigators array Author
+	 */
+	function setInvestigators($investigators) {
+		return $this->investigators = $investigators;
+	}
+        
 }
 ?>

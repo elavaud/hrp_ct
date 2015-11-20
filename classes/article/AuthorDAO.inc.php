@@ -377,6 +377,21 @@ class AuthorDAO extends PKPAuthorDAO {
                 
                 return $authors;
         }
+        
+        
+        /**
+	 * Delete authors by site.
+	 * @param $siteId int
+	 */
+	function deleteAuthorsBySite($siteId) {
+		$params = array((int) $siteId);
+		$returner = $this->update(
+			'DELETE FROM authors WHERE site_id = ?',
+			$params
+		);
+		return $returner;
+	}
+
 }
 
 ?>
