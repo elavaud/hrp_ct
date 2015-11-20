@@ -202,7 +202,7 @@ class AuthorDAO extends PKPAuthorDAO {
 	function insertAuthor(&$author) {
 		$this->update(
 			'INSERT INTO authors
-				(site_id, first_name, middle_name, last_name, affiliation, email, primary_phone, secondary_phone, fax, primary_contact, seq)
+				(site_id, first_name, middle_name, last_name, expertise, affiliation, email, primary_phone, secondary_phone, fax, primary_contact, seq)
 				VALUES
 				(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
 			array(
@@ -210,6 +210,7 @@ class AuthorDAO extends PKPAuthorDAO {
 				$author->getFirstName(),
 				$author->getMiddleName() . '', // make non-null
 				$author->getLastName(),
+				$author->getExpertise(),                            
 				$author->getAffiliation(),
 				$author->getEmail(),
 				$author->getPrimaryPhoneNumber(),
@@ -234,6 +235,7 @@ class AuthorDAO extends PKPAuthorDAO {
 			SET	first_name = ?,
 				middle_name = ?,
 				last_name = ?,
+				expertise = ?,
 				affiliation = ?,
 				email = ?,
 				primary_phone = ?,
@@ -246,6 +248,7 @@ class AuthorDAO extends PKPAuthorDAO {
 				$author->getFirstName(),
 				$author->getMiddleName() . '', // make non-null
 				$author->getLastName(),
+				$author->getExpertise(),                            
 				$author->getAffiliation(),
 				$author->getEmail(),
 				$author->getPrimaryPhoneNumber(),

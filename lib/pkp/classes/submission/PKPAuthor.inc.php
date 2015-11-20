@@ -298,6 +298,37 @@ class PKPAuthor extends DataObject {
 	function setSequence($sequence) {
 		return $this->setData('sequence', $sequence);
 	}
+        
+        
+        /**
+	 * Get area(s) of expertise.
+	 * @return string
+	 */
+	function getExpertise() {
+		return $this->getData('expertise');
+	}
+        /**
+	 * Get expertise in an array.
+	 * @return array
+	 */
+	function getExpertiseArray() {
+                $expertise = $this->getExpertise();
+                return explode("+", $expertise);
+        }        
+	/**
+	 * Set area(s) of expertise.
+	 * @param $expertise string
+	 */
+	function setExpertise($expertise) {
+		return $this->setData('expertise', $expertise);
+	}
+        /**
+	 * Set area(s) of expertise from an array.
+	 * @param $expertise array
+	 */
+	function setExpertiseFromArray($expertise) {
+                return $this->setClasses(implode("+", $expertise));
+	}        
 }
 
 ?>
