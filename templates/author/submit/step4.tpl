@@ -28,8 +28,8 @@
             </table>
             {if $articleSites.$i.id}<input type="hidden" class="hiddenInputs" name="articleSites[{$i|escape}][id]" value="{$articleSites.$i.id|escape}" />{/if}
             <table width="100%" class="data">
-                {assign var="articleSiteSiteB" value='articleSites['|cat:$i|cat:'][site]'}
-                {assign var="articleSiteSiteD" value='articleSites-'|cat:$i|cat:'-site'}   
+                {assign var="articleSiteSiteB" value='articleSites['|cat:$i|cat:'][siteSelect]'}
+                {assign var="articleSiteSiteD" value='articleSites-'|cat:$i|cat:'-siteSelect'}   
                 {assign var="articleSiteSiteNameB" value='articleSites['|cat:$i|cat:'][siteName]'}
                 {assign var="articleSiteSiteNameD" value='articleSites-'|cat:$i|cat:'-siteName'}                   
                 {assign var="articleSiteSiteNameFieldD" value='articleSites-'|cat:$i|cat:'-siteNameField'}                   
@@ -176,6 +176,83 @@
                     </tr>    
                 {/if}
             </table>
+            {foreach from=$articleSites.$i.investigators key=k item=investigator} 
+                {if $articleSites.$i.investigators.$k.id}<input type="hidden" class="hiddenInputs" name="articleSites[{$i|escape}][investigators][{$k|escape}][id]" value="{$articleSites.$i.investigators.$k.id|escape}" />{/if}
+                {assign var="articleSiteInvestigatorTitleD" value='articleSites-'|cat:$i|cat:'-investigators-'|cat:$k}   
+                {assign var="articleSiteInvestigatorFirstNameB" value='articleSites['|cat:$i|cat:'][investigators]['|cat:$k|cat:'][firstName]'}
+                {assign var="articleSiteInvestigatorFirstNameD" value='articleSites-'|cat:$i|cat:'-investigators-'|cat:$k|cat:'-firstName'}     
+                {assign var="articleSiteInvestigatorLastNameB" value='articleSites['|cat:$i|cat:'][investigators]['|cat:$k|cat:'][lastName]'}
+                {assign var="articleSiteInvestigatorLastNameD" value='articleSites-'|cat:$i|cat:'-investigators-'|cat:$k|cat:'-lastName'}     
+                {assign var="articleSiteInvestigatorPrimaryPhoneB" value='articleSites['|cat:$i|cat:'][investigators]['|cat:$k|cat:'][iPrimaryPhone]'}
+                {assign var="articleSiteInvestigatorPrimaryPhoneD" value='articleSites-'|cat:$i|cat:'-investigators-'|cat:$k|cat:'-iPrimaryPhone'}                     
+                {assign var="articleSiteInvestigatorSecondaryPhoneB" value='articleSites['|cat:$i|cat:'][investigators]['|cat:$k|cat:'][iSecondaryPhone]'}
+                {assign var="articleSiteInvestigatorSecondaryPhoneD" value='articleSites-'|cat:$i|cat:'-investigators-'|cat:$k|cat:'-iSecondaryPhone'}     
+                {assign var="articleSiteInvestigatorFaxB" value='articleSites['|cat:$i|cat:'][investigators]['|cat:$k|cat:'][iFax]'}
+                {assign var="articleSiteInvestigatorFaxD" value='articleSites-'|cat:$i|cat:'-investigators-'|cat:$k|cat:'-iFax'}     
+                {assign var="articleSiteInvestigatorEmailB" value='articleSites['|cat:$i|cat:'][investigators]['|cat:$k|cat:'][iEmail]'}
+                {assign var="articleSiteInvestigatorEmailD" value='articleSites-'|cat:$i|cat:'-investigators-'|cat:$k|cat:'-iEmail'}     
+                {assign var="articleSiteInvestigatorClassSuppD" value='investigatorSupp-'|cat:$i}                      
+                <table width="100%" id="{$articleSiteInvestigatorTitleD|escape}" {if $k > 0}class="{$articleSiteInvestigatorClassSuppD|escape}"{/if}>
+                    <tr valign="top">
+                        <td width="20%" class="investigatorTitle" {if $k > 0}style="display: none;"{/if}>{if $i==0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleSiteInvestigatorTitleD required="true" key="proposal.articleSite.investigators"}</td>
+                        <td width="20%" class="noInvestigatorTitle" {if $k == 0}style="display: none;"{/if}>&nbsp;</td>                        
+                        <td width="10%">{fieldLabel name=$articleSiteInvestigatorFirstNameD required="true" key="proposal.articleSite.investigator.firstName"}</td>                        
+                        <td width="70%" class="value">
+                            <input type="text" class="textField" name="{$articleSiteInvestigatorFirstNameB|escape}" id="{$articleSiteInvestigatorFirstNameD|escape}" value="{$articleSites.$i.investigators.$k.firstName|escape}" size="30" maxlength="255" />
+                            <a class="removeInvestigator" style="{if $k == 0}display: none; {/if}cursor: pointer;">{translate key="common.remove"}</a>
+                        </td>                                           
+                    </tr>
+                    <tr valign="top">
+                        <td width="20%">&nbsp;</td>                        
+                        <td width="10%">{fieldLabel name=$articleSiteInvestigatorLastNameD required="true" key="proposal.articleSite.investigator.lastName"}</td>                        
+                        <td width="70%" class="value"><input type="text" class="textField" name="{$articleSiteInvestigatorLastNameB|escape}" id="{$articleSiteInvestigatorLastNameD|escape}" value="{$articleSites.$i.investigators.$k.lastName|escape}" size="30" maxlength="255" /></td>                                           
+                    </tr>
+                    <tr valign="top">
+                        <td width="20%">&nbsp;</td>                        
+                        <td width="10%">{fieldLabel name=$articleSiteInvestigatorPrimaryPhoneD required="true" key="proposal.articleSite.investigator.iPrimaryPhone"}</td>                        
+                        <td width="70%" class="value"><input type="text" class="textField" name="{$articleSiteInvestigatorPrimaryPhoneB|escape}" id="{$articleSiteInvestigatorPrimaryPhoneD|escape}" value="{$articleSites.$i.investigators.$k.iPrimaryPhone|escape}" size="30" maxlength="255" /></td>                                           
+                    </tr>
+                    <tr valign="top">
+                        <td width="20%">&nbsp;</td>                        
+                        <td width="10%">{fieldLabel name=$articleSiteInvestigatorSecondaryPhoneD key="proposal.articleSite.investigator.iSecondaryPhone"}</td>                        
+                        <td width="70%" class="value"><input type="text" class="textField" name="{$articleSiteInvestigatorSecondaryPhoneB|escape}" id="{$articleSiteInvestigatorSecondaryPhoneD|escape}" value="{$articleSites.$i.investigators.$k.iSecondaryPhone|escape}" size="30" maxlength="255" /></td>                                           
+                    </tr>
+                    <tr valign="top">
+                        <td width="20%">&nbsp;</td>                        
+                        <td width="10%">{fieldLabel name=$articleSiteInvestigatorFaxD key="proposal.articleSite.investigator.iFax"}</td>                        
+                        <td width="70%" class="value"><input type="text" class="textField" name="{$articleSiteInvestigatorFaxB|escape}" id="{$articleSiteInvestigatorFaxD|escape}" value="{$articleSites.$i.investigators.$k.iFax|escape}" size="30" maxlength="255" /></td>                                           
+                    </tr>
+                    <tr valign="top">
+                        <td width="20%">&nbsp;</td>                        
+                        <td width="10%">{fieldLabel name=$articleSiteInvestigatorEmailD required="true" key="proposal.articleSite.investigator.iEmail"}</td>                        
+                        <td width="70%" class="value"><input type="text" class="textField" name="{$articleSiteInvestigatorEmailB|escape}" id="{$articleSiteInvestigatorEmailD|escape}" value="{$articleSites.$i.investigators.$k.iEmail|escape}" size="30" maxlength="255" /></td>                                           
+                    </tr>
+                    {if $i == 0}
+                    <tr valign="top" hidden class="showHideHelpField">
+                        <td width="20%">&nbsp;</td>
+                        <td width="80%" colspan="2" class="value"><i>[?] {translate key="proposal.articleSite.investigators.instruct"}</i></td>
+                    </tr>    
+                    {/if}
+                    <tr><td colspan="3">&nbsp;</td></tr>
+                </table>
+            {/foreach}
+            <table width="100%" class="data">
+                {assign var="articleSiteAddInvestigatorD" value='articleSites-'|cat:$i|cat:'-addInvestigator'}                
+                <tr valign="top">
+                    <td width="20%">&nbsp;</td>
+                    <td width="80%" class="value"><a class="addAnotherInvestigatorClick" id="{$articleSiteAddInvestigatorD|escape}" style="cursor: pointer;">{translate key="proposal.articleSite.investigator.add"}</a></td>
+                </tr>
+            </table>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
         </div>
     {/foreach}
     

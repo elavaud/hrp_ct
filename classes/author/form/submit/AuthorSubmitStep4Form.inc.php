@@ -34,19 +34,36 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
                 $articleSites = $article->getArticleSites();
                 $articleSitesArray = array();
                 if ($articleSites == null) {
-                    $articleSitesArray = array(0 => null);
+                    $articleSitesArray = array(0 => array('investigators' => array(0 => null)));
                 } else foreach ($articleSites as $articleSite) {
+                    $investigators = $articleSite->getInvestigators();
+                    $investigatorsArray = array();
+                    foreach ($investigators as $investigator) {
+                        array_push(
+                            $investigatorsArray, 
+                            array (
+                                'id' => $investigator->getId(),
+                                'firstName' => $investigator->getFirstName(),
+                                'lastName' => $investigator->getLastName(),
+                                'iPrimaryPhone' => $investigator->getPrimaryPhoneNumber(),
+                                'iSecondaryPhone' => $investigator->getSecondaryPhoneNumber(),
+                                'iFax' => $investigator->getFaxNumber(),
+                                'iEmail' => $investigator->getEmail()
+                            )
+                        );
+                    }
                     array_push(
                         $articleSitesArray,
                         array(
                             'id' => $articleSite->getId(),
-                            'site' => $articleSite->getSiteId(),
+                            'siteSelect' => $articleSite->getSiteId(),
                             'authority' => $articleSite->getAuthority(),
                             'primaryPhone' => $articleSite->getPrimaryPhone(),
                             'secondaryPhone' => $articleSite->getSecondaryPhone(),
                             'fax' => $articleSite->getFax(),
                             'email' => $articleSite->getEmail(),
-                            'subjectsNumber' =>  $articleSite->getSubjectsNumber()
+                            'subjectsNumber' =>  $articleSite->getSubjectsNumber(),
+                            'investigators' => $investigatorsArray
                         )
                     );
                 }

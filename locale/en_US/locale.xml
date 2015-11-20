@@ -711,6 +711,15 @@
     <message key="proposal.articleSite.email.instruct">Email of the approving authority. Only professional contact details should be provided.</message>   
     <message key="proposal.articleSite.subjectsNumber">Number of subjects</message>   
     <message key="proposal.articleSite.subjectsNumber.instruct">Planned number of trial subjects for this site.</message>   
+    <message key="proposal.articleSite.investigators">Investigator(s)</message>   
+    <message key="proposal.articleSite.investigator.add">Add a co-investigator</message>   
+    <message key="proposal.articleSite.investigator.firstName">First name</message>   
+    <message key="proposal.articleSite.investigator.lastName">Last name</message>   
+    <message key="proposal.articleSite.investigator.iPrimaryPhone">Primary phone</message>   
+    <message key="proposal.articleSite.investigator.iSecondaryPhone">Secondary phone</message>   
+    <message key="proposal.articleSite.investigator.iFax">Fax</message>   
+    <message key="proposal.articleSite.investigator.iEmail">Email</message>   
+    <message key="proposal.articleSite.investigators.instruct">Enter information related to the investigator(s) for this site. The first investigator entered will be the primary investigator.</message>   
 
         <message key="proposal.purpose.endpoint.saf">Safety</message>
         <message key="proposal.purpose.endpoint.eff">Efficacy</message>

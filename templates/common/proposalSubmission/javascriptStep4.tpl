@@ -15,6 +15,8 @@
     
         $("#addSiteClick").click(addSite);
         
+        $('.removeSite').each(function() {$(this).click(function(){$(this).closest('div').remove();});});           
+        
         $("a.showHideHelpButton").each(function() {$(this).click(function(){
             if ($(this).parent().parent().nextAll('.showHideHelpField').first().is(':hidden')) {
                 $(this).parent().parent().nextAll('.showHideHelpField').first().show();
@@ -23,7 +25,7 @@
             } 
         });});        
         
-        $("select[id*=-site]").each(
+        $("select[id*=-siteSelect]").each(
             function () {
                 $(this).change(
                     function(e) {
@@ -33,6 +35,19 @@
                 );
             }
         );
+
+        $("a.addAnotherInvestigatorClick").each(
+            function () {
+                $(this).click(
+                    function(e) {
+                        var id = e.target.id;
+                        addInvestigator(id);
+                    }
+                );
+            }
+        );        
+
+        $('a.removeInvestigator').each(function() {$(this).click(function(){$(this).closest('table').remove();});});  
         
         $("input.numField").each(function() {$(this).keyup(isNumeric);});
         
