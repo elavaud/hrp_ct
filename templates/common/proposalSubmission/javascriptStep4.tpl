@@ -13,8 +13,28 @@
         
         $("#addSiteClick").click(addSite);
         
+        $("a.showHideHelpButton").each(function() {$(this).click(function(){
+            if ($(this).parent().parent().nextAll('.showHideHelpField').first().is(':hidden')) {
+                $(this).parent().parent().nextAll('.showHideHelpField').first().show();
+            } else {
+                $(this).parent().parent().nextAll('.showHideHelpField').first().hide();
+            } 
+        });});        
+        
+        $("select[id*=-site]").each(
+            function () {
+                $(this).change(
+                    function(e) {
+                        var id = e.target.id;
+                        showOrHideSiteFields(id);
+                    }
+                );
+            }
+        );
+        
         $(document).ready(
             function() {
+                showOrHideAllSiteFields();
             }
         );  
 

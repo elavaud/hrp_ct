@@ -30,4 +30,70 @@ function addSite(){
     $('#articleSites-'+fieldId).find('.removeSite').show();
     $('#articleSites-'+fieldId).find('.removeSite').click(function(){$(this).closest('div').remove();});   
     $('#articleSites-'+fieldId+'-title').html(fieldId+1);
+    $('#articleSites-'+fieldId+'-site').val('');
+    $('#articleSites-'+fieldId+'-site').change(function(e) {var id = e.target.id;showOrHideSiteFields(id);});
+    $('#articleSites-'+fieldId+'-siteName').val('');
+    $('#articleSites-'+fieldId+'-siteAddress').val('');
+    $('#articleSites-'+fieldId+'-siteCity').val('');
+    $('#articleSites-'+fieldId+'-siteRegion').val('');
+    $('#articleSites-'+fieldId+'-siteLicensure').val('');
+    $('#articleSites-'+fieldId+'-siteAccreditation').val('');
+    showOrHideAllSiteFields();
+}
+
+
+function showOrHideSiteFields(id){
+    var idStartRemoved = id.replace('articleSites-', '');
+    var idStartAndEndRemoved = idStartRemoved.replace('-site', '');
+    var fieldId = parseInt(idStartAndEndRemoved);
+    var value = $("#"+id).val();
+    if (value === 'OTHER') {
+        $('#articleSites-'+fieldId+'-siteNameField').show();
+        if($('#articleSites-'+fieldId+'-siteName').val() === "NA") {
+            $('#articleSites-'+fieldId+'-siteName').val("");
+        }
+        $('#articleSites-'+fieldId+'-siteAddressField').show();
+        if($('#articleSites-'+fieldId+'-siteAddress').val() === "NA") {
+            $('#articleSites-'+fieldId+'-siteAddress').val("");
+        }
+        $('#articleSites-'+fieldId+'-siteCityField').show();
+        if($('#articleSites-'+fieldId+'-siteCity').val() === "NA") {
+            $('#articleSites-'+fieldId+'-siteCity').val("");
+        }
+        $('#articleSites-'+fieldId+'-siteRegionField').show();
+        if($('#articleSites-'+fieldId+'-siteRegion').find('option[value="NA"]').length > 0) {
+            $('#articleSites-'+fieldId+'-siteRegion').find('option[value="NA"]').remove();
+        }
+        $('#articleSites-'+fieldId+'-siteLicensureField').show();
+        if($('#articleSites-'+fieldId+'-siteLicensure').val() === "NA") {
+            $('#articleSites-'+fieldId+'-siteLicensure').val("");
+        }
+        $('#articleSites-'+fieldId+'-siteAccreditationField').show();
+        if($('#articleSites-'+fieldId+'-siteAccreditation').val() === "NA") {
+            $('#articleSites-'+fieldId+'-siteAccreditation').val("");
+        }
+    } else {
+        $('#articleSites-'+fieldId+'-siteNameField').hide();
+        $('#articleSites-'+fieldId+'-siteName').val("NA");
+        $('#articleSites-'+fieldId+'-siteAddressField').hide();
+        $('#articleSites-'+fieldId+'-siteAddress').val("NA");
+        $('#articleSites-'+fieldId+'-siteCityField').hide();
+        $('#articleSites-'+fieldId+'-siteCity').val("NA");
+        $('#articleSites-'+fieldId+'-siteRegionField').hide();        
+        if (!$('#articleSites-'+fieldId+'-siteRegion').find('option[value="NA"]').length > 0){
+            $('#articleSites-'+fieldId+'-siteRegion').append('<option value="NA"></option>');
+        }
+        $('#articleSites-'+fieldId+'-siteLicensureField').hide();
+        $('#articleSites-'+fieldId+'-siteLicensure').val("NA");
+        $('#articleSites-'+fieldId+'-siteAccreditationField').hide();
+        $('#articleSites-'+fieldId+'-siteAccreditation').val("NA");
+    }
+}
+
+function showOrHideAllSiteFields(){
+    $("select[id*='-site']").each(
+        function() {
+           showOrHideSiteFields($(this).attr("id"));
+        }
+    );
 }

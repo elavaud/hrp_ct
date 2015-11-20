@@ -691,9 +691,14 @@
     <message key="proposal.articleSite">Clinical trial site</message>   
     <message key="proposal.articleSite.add">Add trial site</message>       
     <message key="proposal.articleSite.remove">Remove trial site</message>   
-
-
-
+    <message key="proposal.articleSite.site">Select site location</message>   
+    <message key="proposal.articleSite.site.instruct">Select the site location. If your site location is not listed, please select "Other" at the bottom of the list and provide the information about the location.</message>   
+    <message key="proposal.articleSite.siteRegion">Area</message>   
+    <message key="proposal.articleSite.siteName">Full name</message>   
+    <message key="proposal.articleSite.siteAddress">Full address</message>   
+    <message key="proposal.articleSite.siteCity">City</message>   
+    <message key="proposal.articleSite.siteLicensure">DOH Licensure number</message>   
+    <message key="proposal.articleSite.siteAccreditation">Philhealth accreditation number</message>   
 
         <message key="proposal.purpose.endpoint.saf">Safety</message>
         <message key="proposal.purpose.endpoint.eff">Efficacy</message>
