@@ -38,6 +38,13 @@ function addSite(){
     $('#articleSites-'+fieldId+'-siteRegion').val('');
     $('#articleSites-'+fieldId+'-siteLicensure').val('');
     $('#articleSites-'+fieldId+'-siteAccreditation').val('');
+    $('#articleSites-'+fieldId+'-authority').val('');
+    $('#articleSites-'+fieldId+'-primaryPhone').val('');
+    $('#articleSites-'+fieldId+'-secondaryPhone').val('');
+    $('#articleSites-'+fieldId+'-fax').val('');
+    $('#articleSites-'+fieldId+'-email').val('');
+    $('#articleSites-'+fieldId+'-subjectsNumber').val('');
+    $('#articleSites-'+fieldId+'-subjectsNumber').keyup(isNumeric);
     showOrHideAllSiteFields();
 }
 
@@ -96,4 +103,27 @@ function showOrHideAllSiteFields(){
            showOrHideSiteFields($(this).attr("id"));
         }
     );
+}
+
+function isNumeric(){
+    var numericExpression = /^([\s]*[0-9]+[\s]*)+$/;
+    $('input.numField').each(function() {
+        if ($(this).val() != '') {
+            if ($(this).val().match(numericExpression)){
+                return true;
+            } else {
+                alert(NOT_NUMERIC);
+                var input = $(this).val();
+                for (var i = 0; i < input.length; i++) {
+                    if (!input.charAt(i).match(numericExpression)) {
+                        $(this).val($(this).val().replace(input.charAt(i), ''));
+                    }
+                }                
+                $(this).focus();
+                return false;
+            }   
+        } else {
+            return true;
+        }
+    });
 }

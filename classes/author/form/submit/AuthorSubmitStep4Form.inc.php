@@ -40,7 +40,13 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
                         $articleSitesArray,
                         array(
                             'id' => $articleSite->getId(),
-                            'site' => $articleSite->getSiteId()
+                            'site' => $articleSite->getSiteId(),
+                            'authority' => $articleSite->getAuthority(),
+                            'primaryPhone' => $articleSite->getPrimaryPhone(),
+                            'secondaryPhone' => $articleSite->getSecondaryPhone(),
+                            'fax' => $articleSite->getFax(),
+                            'email' => $articleSite->getEmail(),
+                            'subjectsNumber' =>  $articleSite->getSubjectsNumber()
                         )
                     );
                 }

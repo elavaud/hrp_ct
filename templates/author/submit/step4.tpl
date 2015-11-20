@@ -99,6 +99,83 @@
                     </tr>    
                 {/if}    
             </table>
+            <table width="100%" class="data">
+                {assign var="articleSiteAuthorityB" value='articleSites['|cat:$i|cat:'][authority]'}
+                {assign var="articleSiteAuthorityD" value='articleSites-'|cat:$i|cat:'-authority'}    
+                {assign var="articleSitePrimaryPhoneB" value='articleSites['|cat:$i|cat:'][primaryPhone]'}
+                {assign var="articleSitePrimaryPhoneD" value='articleSites-'|cat:$i|cat:'-primaryPhone'}    
+                {assign var="articleSiteSecondaryPhoneB" value='articleSites['|cat:$i|cat:'][secondaryPhone]'}
+                {assign var="articleSiteSecondaryPhoneD" value='articleSites-'|cat:$i|cat:'-secondaryPhone'}    
+                {assign var="articleSiteFaxB" value='articleSites['|cat:$i|cat:'][fax]'}
+                {assign var="articleSiteFaxD" value='articleSites-'|cat:$i|cat:'-fax'}    
+                {assign var="articleSiteEmailB" value='articleSites['|cat:$i|cat:'][email]'}
+                {assign var="articleSiteEmailD" value='articleSites-'|cat:$i|cat:'-email'}    
+                {assign var="articleSiteSubjectsNumberB" value='articleSites['|cat:$i|cat:'][subjectsNumber]'}
+                {assign var="articleSiteSubjectsNumberD" value='articleSites-'|cat:$i|cat:'-subjectsNumber'}    
+                <tr valign="top">
+                    <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleSiteAuthorityD required="true" key="proposal.articleSite.authority"}</td>
+                    <td width="80%" class="value"><input type="text" class="textField" name="{$articleSiteAuthorityB|escape}" id="{$articleSiteAuthorityD|escape}" value="{$articleSites.$i.authority|escape}" size="40" maxlength="255" /></td>
+                </tr>
+                {if $i == 0}
+                    <tr valign="top" hidden class="showHideHelpField">
+                        <td width="20%">&nbsp;</td>
+                        <td width="80%" class="value"><i>[?] {translate key="proposal.articleSite.authority.instruct"}</i></td>
+                    </tr>    
+                {/if}
+                <tr valign="top">
+                    <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleSitePrimaryPhoneD required="true" key="proposal.articleSite.primaryPhone"}</td>
+                    <td width="80%" class="value"><input type="text" class="textField" name="{$articleSitePrimaryPhoneB|escape}" id="{$articleSitePrimaryPhoneD|escape}" value="{$articleSites.$i.primaryPhone|escape}" size="40" maxlength="24" /></td>
+                </tr>
+                {if $i == 0}
+                    <tr valign="top" hidden class="showHideHelpField">
+                        <td width="20%">&nbsp;</td>
+                        <td width="80%" class="value"><i>[?] {translate key="proposal.articleSite.primaryPhone.instruct"}</i></td>
+                    </tr>    
+                {/if}
+                <tr valign="top">
+                    <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleSiteSecondaryPhoneD key="proposal.articleSite.secondaryPhone"}</td>
+                    <td width="80%" class="value"><input type="text" class="textField" name="{$articleSiteSecondaryPhoneB|escape}" id="{$articleSiteSecondaryPhoneD|escape}" value="{$articleSites.$i.secondaryPhone|escape}" size="40" maxlength="24" /></td>
+                </tr>
+                {if $i == 0}
+                    <tr valign="top" hidden class="showHideHelpField">
+                        <td width="20%">&nbsp;</td>
+                        <td width="80%" class="value"><i>[?] {translate key="proposal.articleSite.secondaryPhone.instruct"}</i></td>
+                    </tr>    
+                {/if}
+                <tr valign="top">
+                    <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleSiteFaxD key="proposal.articleSite.fax"}</td>
+                    <td width="80%" class="value"><input type="text" class="textField" name="{$articleSiteFaxB|escape}" id="{$articleSiteFaxD|escape}" value="{$articleSites.$i.fax|escape}" size="40" maxlength="24" /></td>
+                </tr>
+                {if $i == 0}
+                    <tr valign="top" hidden class="showHideHelpField">
+                        <td width="20%">&nbsp;</td>
+                        <td width="80%" class="value"><i>[?] {translate key="proposal.articleSite.fax.instruct"}</i></td>
+                    </tr>    
+                {/if}
+                <tr valign="top">
+                    <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleSiteEmailD required="true" key="proposal.articleSite.email"}</td>
+                    <td width="80%" class="value"><input type="text" class="textField" name="{$articleSiteEmailB|escape}" id="{$articleSiteEmailD|escape}" value="{$articleSites.$i.email|escape}" size="40" maxlength="90" /></td>
+                </tr>
+                {if $i == 0}
+                    <tr valign="top" hidden class="showHideHelpField">
+                        <td width="20%">&nbsp;</td>
+                        <td width="80%" class="value"><i>[?] {translate key="proposal.articleSite.email.instruct"}</i></td>
+                    </tr>    
+                {/if}
+                <tr valign="top">
+                    <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleSiteSubjectsNumberD required="true" key="proposal.articleSite.subjectsNumber"}</td>
+                    <td width="80%" class="value">
+                        <input type="text" class="numField" name="{$articleSiteSubjectsNumberB|escape}" id="{$articleSiteSubjectsNumberD|escape}" value="{$articleSites.$i.subjectsNumber|escape}" size="20" maxlength="20" />
+                        &nbsp;<i>{translate key="proposal.age.int"}</i>
+                    </td>
+                </tr>
+                {if $i == 0}
+                    <tr valign="top" hidden class="showHideHelpField">
+                        <td width="20%">&nbsp;</td>
+                        <td width="80%" class="value"><i>[?] {translate key="proposal.articleSite.subjectsNumber.instruct"}</i></td>
+                    </tr>    
+                {/if}
+            </table>
         </div>
     {/foreach}
     

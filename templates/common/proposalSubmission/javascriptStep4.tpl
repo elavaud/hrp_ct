@@ -10,7 +10,9 @@
 
  {literal}
      <script type="text/javascript">
-        
+
+       var NOT_NUMERIC = "{/literal}{translate key="proposal.age.int.alert"}{literal}";
+    
         $("#addSiteClick").click(addSite);
         
         $("a.showHideHelpButton").each(function() {$(this).click(function(){
@@ -31,6 +33,8 @@
                 );
             }
         );
+        
+        $("input.numField").each(function() {$(this).keyup(isNumeric);});
         
         $(document).ready(
             function() {
