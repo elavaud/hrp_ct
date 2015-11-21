@@ -47,6 +47,17 @@ class TrialSite extends DataObject {
 	function getRegion() {
 		return $this->getData('region');
 	} 
+        /**
+	 * Get trial site region text.
+	 * @return int
+	 */
+	function getRegionText() {
+                $extraFieldDAO =& DAORegistry::getDAO('ExtraFieldDAO');
+                $extraField =& $extraFieldDAO->getExtraField($this->getRegion());
+                if (isset($extraField)){$returner = $extraField->getLocalizedExtraFieldName();}
+                else {$returner = '-';}
+		return $returner;
+	} 
 	/**
 	 * Set trial site region.
 	 * @param $region int
@@ -54,7 +65,6 @@ class TrialSite extends DataObject {
 	function setRegion($region) {
 		return $this->setData('region', $region);
 	}
-        
         
         /**
 	 * Get trial site city.

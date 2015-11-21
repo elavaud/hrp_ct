@@ -77,7 +77,21 @@ switch ($op) {
 		define('HANDLER_CLASS', 'InstitutionHandler');
 		import('pages.manager.InstitutionHandler');
 		break;
-	
+
+	//
+	// Trial Sites Management
+	//
+	case 'trialSites':
+	case 'deleteTrialSite':
+	case 'deleteTrialSiteForm':
+	case 'editTrialSite':
+	case 'createTrialSite':
+	case 'updateTrialSite':
+		define('HANDLER_CLASS', 'TrialSiteHandler');
+		import('pages.manager.TrialSiteHandler');
+		break;
+            
+            
 	//
 	// Section Management
 	//

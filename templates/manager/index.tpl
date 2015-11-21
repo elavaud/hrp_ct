@@ -24,6 +24,7 @@
 	<li>&#187; <a href="{url op="approvalNotices"}">{translate key="manager.approvalNotices"}</a></li>
         <li>&#187; <a href="{url op="sections"}">{translate key="section.sections"}</a></li>
         <li>&#187; <a href="{url op="institutions"}">{translate key="manager.institutions"}</a></li>
+        <li>&#187; <a href="{url op="trialSites"}">{translate key="manager.trialSites"}</a></li>
         <li>&#187; <a href="{url op='extraFields' path='geoAreas'}">{translate key="manager.extraFields.geoAreas"}</a></li>
         <li>&#187; <a href="{url op='extraFields' path='therapeuticAreas'}">{translate key="manager.extraFields.therapeuticAreas"}</a></li>
         <li>&#187; <a href="{url op="reviewForms"}">{translate key="manager.reviewForms"}</a></li>

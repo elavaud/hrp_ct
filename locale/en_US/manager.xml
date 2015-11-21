@@ -134,6 +134,19 @@
         <message key="manager.institutions.form.replacementInstitutionRequired">Please choose a replacement institution. The institution you intend to delete is used by some proposals in the database. You therefore need to choose a replacing institution for these proposals. Please choose carefully: this operation can not be undone.</message>
         <message key="manager.institutions.form.typeRequired">The type of the institution is required.</message>
         
+        <message key="manager.trialSites">Trial Sites</message>
+        <message key="manager.trialSites.create">Create a new trial site</message>
+        <message key="manager.trialSites.noneCreated">No trial site have been created yet.</message>
+        <message key="manager.trialSites.form.name.required">The name of the trial site is required.</message>
+        <message key="manager.trialSites.form.address.required">The address of the trial site is required.</message>
+        <message key="manager.trialSites.form.city.required">The city of the trial site is required.</message>
+        <message key="manager.trialSites.form.region.required">The geographical area of the trial site is required.</message>
+        <message key="manager.trialSites.form.licensure.required">The DOH Licensure number of the trial site is required.</message>
+        <message key="manager.trialSites.form.accreditation.required">The Philhealth accreditation number of the trial site is required.</message>
+        <message key="manager.trialSites.form.nameAndCityExists">A trial site already exists with this name and city.</message>
+        <message key="manager.trialSites.form.licensureExists">A trial site already exists with this DOH licensure number.</message>
+        <message key="manager.trialSites.form.accreditationExists">A trial site already exists with this Philhealth accreditation number.</message>
+        
         <message key="manager.setup.location">Covering area</message>
         <message key="manager.setup.location.instruct">Country, geographical area, or location covered by this Health Research Portal.</message>
 	<message key="manager.setup.form.locationRequired">The area covered by this Health Research Portal is required.</message>

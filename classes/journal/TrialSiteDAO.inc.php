@@ -48,7 +48,7 @@ class TrialSiteDAO extends DAO {
 
 		while (!$result->EOF) {
                         $row = $result->GetRowAssoc(false);
-			$trialSites = $trialSites + array($row['site_id'] => $row['name']);
+			$trialSites = $trialSites + array($row['site_id'] => $row['name'].' ('.$row['city'].')');
 			$result->moveNext();
 		}
 
@@ -148,15 +148,16 @@ class TrialSiteDAO extends DAO {
 	}        
                 
         /**
-	 * Check if a trial site exists with the specified name.
+	 * Check if a trial site exists with the specified name and city.
 	 * @param $name string
+	 * @param $city string
 	 * @param $trialSiteId int optional, ignore matches with this trialSite ID
 	 * @return boolean
 	 */
-	function trialSiteExistsByName($name, $trialSiteId = null) {
+	function trialSiteExistsByNameAndCity($name, $city, $trialSiteId = null) {
 		$result =& $this->retrieve(
-			'SELECT COUNT(*) FROM trial_site WHERE name = ?' . (isset($trialSiteId) ? ' AND site_id != ?' : ''),
-			isset($trialSiteId) ? array($name, (int) $trialSiteId) : array($name)
+			'SELECT COUNT(*) FROM trial_site WHERE name = ? AND city = ?' . (isset($trialSiteId) ? ' AND site_id != ?' : ''),
+			isset($trialSiteId) ? array($name, $city, (int) $trialSiteId) : array($name, $city)
 		);
 		$returner = isset($result->fields[0]) && $result->fields[0] == 1 ? true : false;
 
@@ -164,7 +165,42 @@ class TrialSiteDAO extends DAO {
 		unset($result);
 		return $returner;
 	}
-                
+        
+        /**
+	 * Check if a trial site exists with the specified DOH licensure number
+	 * @param $licensure string
+	 * @param $trialSiteId int optional, ignore matches with this trialSite ID
+	 * @return boolean
+	 */
+	function trialSiteExistsByLicensure($licensure, $trialSiteId = null) {
+		$result =& $this->retrieve(
+			'SELECT COUNT(*) FROM trial_site WHERE doh_licensure_number = ?' . (isset($trialSiteId) ? ' AND site_id != ?' : ''),
+			isset($trialSiteId) ? array($licensure, (int) $trialSiteId) : array($licensure)
+		);
+		$returner = isset($result->fields[0]) && $result->fields[0] == 1 ? true : false;
+
+		$result->Close();
+		unset($result);
+		return $returner;
+	}
+        
+        /**
+	 * Check if a trial site exists with the specified accreditation number
+	 * @param $accreditation string
+	 * @param $trialSiteId int optional, ignore matches with this trialSite ID
+	 * @return boolean
+	 */
+	function trialSiteExistsByAccreditation($accreditation, $trialSiteId = null) {
+		$result =& $this->retrieve(
+			'SELECT COUNT(*) FROM trial_site WHERE philhealth_accreditation_number = ?' . (isset($trialSiteId) ? ' AND site_id != ?' : ''),
+			isset($trialSiteId) ? array($accreditation, (int) $trialSiteId) : array($accreditation)
+		);
+		$returner = isset($result->fields[0]) && $result->fields[0] == 1 ? true : false;
+
+		$result->Close();
+		unset($result);
+		return $returner;
+	}
         
         /**
 	 * Get the ID of the last inserted trialSite.
