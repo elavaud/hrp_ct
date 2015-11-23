@@ -32,12 +32,6 @@ function addSite(){
     $('#articleSites-'+fieldId+'-title').html(fieldId+1);
     $('#articleSites-'+fieldId+'-siteSelect').val('');
     $('#articleSites-'+fieldId+'-siteSelect').change(function(e) {var id = e.target.id;showOrHideSiteFields(id);});
-    $('#articleSites-'+fieldId+'-siteName').val('');
-    $('#articleSites-'+fieldId+'-siteAddress').val('');
-    $('#articleSites-'+fieldId+'-siteCity').val('');
-    $('#articleSites-'+fieldId+'-siteRegion').val('');
-    $('#articleSites-'+fieldId+'-siteLicensure').val('');
-    $('#articleSites-'+fieldId+'-siteAccreditation').val('');
     $('#articleSites-'+fieldId+'-authority').val('');
     $('#articleSites-'+fieldId+'-primaryPhone').val('');
     $('#articleSites-'+fieldId+'-secondaryPhone').val('');
@@ -98,6 +92,7 @@ function showOrHideSiteFields(id){
         if (!$('#articleSites-'+fieldId+'-siteRegion').find('option[value="NA"]').length > 0){
             $('#articleSites-'+fieldId+'-siteRegion').append('<option value="NA"></option>');
         }
+        $('#articleSites-'+fieldId+'-siteRegion').val('NA');
         $('#articleSites-'+fieldId+'-siteLicensureField').hide();
         $('#articleSites-'+fieldId+'-siteLicensure').val("NA");
         $('#articleSites-'+fieldId+'-siteAccreditationField').hide();

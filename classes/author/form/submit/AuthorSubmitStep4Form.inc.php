@@ -14,13 +14,23 @@ import('classes.form.validation.FormValidatorArrayRadios');
 
 class AuthorSubmitStep4Form extends AuthorSubmitForm {
 
+        var $trialSiteDao;
 	/**
 	 * Constructor.
 	 */
 	function AuthorSubmitStep4Form(&$article, &$journal) {
             parent::AuthorSubmitForm($article, 4, $journal);
-                
-            $this->addCheck(new FormValidatorArray($this, 'articleDrugs', 'required', 'author.submit.form.drugType.required', array('type')));		        
+            $this->trialSiteDao = DAORegistry::getDAO("TrialSiteDAO");
+            $this->addCheck(new FormValidatorArray($this, 'articleSites', 'required', 'author.submit.form.siteSelect.required', array('siteSelect')));	
+            $this->addCheck(new FormValidatorArray($this, 'articleSites', 'required', 'author.submit.form.siteInfo.required', array('siteName', 'siteAddress', 'siteCity', 'siteRegion', 'siteLicensure', 'siteAccreditation')));	
+            $this->addCheck(new FormValidatorCustom($this, 'articleSites', 'required', 'author.submit.form.site.nameAndCityUsed', function($articleSites) {foreach ($articleSites as $articleSite) { if($this->trialSiteDao->trialSiteExistsByNameAndCity($articleSite['siteName'], $articleSite['siteCity'])) {return false;}} return true;})); 
+            $this->addCheck(new FormValidatorCustom($this, 'articleSites', 'required', 'author.submit.form.site.licensureUsed', function($articleSites) {foreach ($articleSites as $articleSite) {if($this->trialSiteDao->trialSiteExistsByLicensure($articleSite['siteLicensure'])) {return false;}}return true;})); 
+            $this->addCheck(new FormValidatorCustom($this, 'articleSites', 'required', 'author.submit.form.site.accreditationUsed', function($articleSites) {foreach ($articleSites as $articleSite) { if($this->trialSiteDao->trialSiteExistsByAccreditation($articleSite['siteAccreditation'])) {return false;}}return true;})); 
+            $this->addCheck(new FormValidatorArray($this, 'articleSites', 'required', 'author.submit.form.authority.required', array('authority')));	
+            $this->addCheck(new FormValidatorArray($this, 'articleSites', 'required', 'author.submit.form.primaryPhone.required', array('primaryPhone')));	
+            $this->addCheck(new FormValidatorArray($this, 'articleSites', 'required', 'author.submit.form.email.required', array('email')));	
+            $this->addCheck(new FormValidatorArray($this, 'articleSites', 'required', 'author.submit.form.subjectsNumber.required', array('subjectsNumber')));
+            $this->addCheck(new FormValidatorArray($this, 'articleSites', 'required', 'author.submit.form.investigators.required', array('investigators')));
         }
 
 	/**

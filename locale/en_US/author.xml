@@ -159,8 +159,17 @@
         <message key="author.submit.form.drugCPR.required">Specify if the IDP has been granted CPR.</message>            
         <message key="author.submit.form.drugRegistrationNumber.required">One of your dur product(s) has been granted CPR. Specify the drug registration number.</message>            
             
-            
-            
+        <message key="author.submit.form.siteSelect.required">One of your trial sites is missing a location. Select a site location in the list. If the site location for one of your clinical trial sites is not listed, select "Other" at the and of the list and provide its information.</message>                        
+        <message key="author.submit.form.siteInfo.required">For one or more of your trial site(s), you selected "Other" as a location. Provide the name, the address, the city, the geographical area, the DOH licensure number and the Philhealth accreditation number for this site. The list of available sites will then be automatically populated by your information.</message>                        
+        <message key="author.submit.form.site.nameAndCityUsed">There is already a trial site with this name in this city. Please verify that your trial site is not already listed.</message>                        
+        <message key="author.submit.form.site.licensureUsed">There is already a trial site with this DOH licensure number. Please verify that your trial site is not already listed.</message>                        
+        <message key="author.submit.form.site.accreditationUsed">There is already a trial site with this Philhealth accreditation number. Please verify that your trial site is not already listed.</message>                        
+        <message key="author.submit.form.authority.required">Provide the full name of Approving Authority (Director ) for the Trial Site who has issued the endorsement letter..</message>                        
+        <message key="author.submit.form.primaryPhone.required">Provide the primary phone number of the approving authority. Only professional contact details should be provided. Telephone and fax numbers should be entered in this format +Country code, Area Code, Number. Example: +63 44 7911111.</message>                        
+        <message key="author.submit.form.email.required">Provide the email address of the approving authority. Only professional contact details should be provided.</message>                        
+        <message key="author.submit.form.subjectsNumber.required">Provide the planned number of trial subjects.</message>                        
+        <message key="author.submit.form.investigators.required">For each investigator of each trial site, provide the first name, last name, primary phone number, area of expertise and email.</message>                        
+
 	<message key="author.submit.form.authorRequired">At least one investigator is required.</message>
 	<message key="author.submit.form.authorRequiredFields">The first name, last name, affiliation, phone number, and email address of each investigator is required.</message>
         <message key="author.submit.uploadWithdrawReport">Upload withdraw report</message>

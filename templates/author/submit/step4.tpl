@@ -53,7 +53,7 @@
                     <td width="80%" colspan=2" class="value">
                         <select name="{$articleSiteSiteB|escape}" id="{$articleSiteSiteD|escape}" class="selectMenu">
                             <option value=""></option>
-                            {html_options options=$sitesList selected=$articleSites.$i.site}                                
+                            {html_options options=$sitesList selected=$articleSites.$i.siteSelect}                                
                         </select>
                     </td>                     
                 </tr>
