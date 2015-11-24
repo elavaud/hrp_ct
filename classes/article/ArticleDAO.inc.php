@@ -31,7 +31,9 @@ class ArticleDAO extends DAO {
         var $articleOutcomeDao;
         
         var $articleDrugInfoDao;
-        
+
+        var $articleSiteDao;
+
 	function _cacheMiss(&$cache, $id) {
 		$article =& $this->getArticle($id, null, false);
 		$cache->setCache($id, $article);
@@ -57,6 +59,8 @@ class ArticleDAO extends DAO {
                 $this->articlePurposeDao =& DAORegistry::getDAO('ArticlePurposeDAO'); 
                 $this->articleOutcomeDao =& DAORegistry::getDAO('ArticleOutcomeDAO'); 
 		$this->articleDrugInfoDao =& DAORegistry::getDAO('ArticleDrugInfoDAO');   
+		$this->articleSiteDao =& DAORegistry::getDAO('ArticleSiteDAO');   
+                
         }
 
 	/**
@@ -191,6 +195,8 @@ class ArticleDAO extends DAO {
                 $article->setArticleOutcomes($this->articleOutcomeDao->getArticleOutcomesByArticleId($row['article_id']));
 
                 $article->setArticleDrugs($this->articleDrugInfoDao->getArticleDrugInfosByArticleId($row['article_id']));
+
+                $article->setArticleSites($this->articleSiteDao->getArticleSitesByArticleId($row['article_id']));
 
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
@@ -387,7 +393,22 @@ class ArticleDAO extends DAO {
 		foreach ($removedArticleDrugs as $removedArticleDrugId) {
 			$this->articleDrugInfoDao->deleteArticleDrugInfo($removedArticleDrugId);
 		}
-                
+
+                // update article sites for this article
+		$articleSites =& $article->getArticleSites();
+		foreach ($articleSites as $articleSite) {
+			if ($articleSite->getId() > 0) {
+				$this->articleSiteDao->updateArticleSite($articleSite);
+			} else {
+				$this->articleSiteDao->insertArticleSite($articleSite);
+			}
+                }
+                // Remove deleted article sec Ids
+		$removedArticleSites = $article->getRemovedArticleSites();
+		foreach ($removedArticleSites as $removedArticleSiteId) {
+			$this->articleSiteDao->deleteArticleSite($removedArticleSiteId);
+		}
+
 		$this->flushCache();
 	}
 
@@ -484,7 +505,10 @@ class ArticleDAO extends DAO {
 
                 //Delete article drugs
                 $this->articleDrugInfoDao->deleteArticleDrugInfosByArticleId($articleId);
-                
+
+                //Delete article sites
+                $this->articleSiteDao->deleteArticleSitesByArticleId($articleId);
+
 		// Delete article citations.
 		$citationDao =& DAORegistry::getDAO('CitationDAO');
 		$citationDao->deleteObjectsByAssocId(ASSOC_TYPE_ARTICLE, $articleId);
@@ -1015,7 +1039,9 @@ class ArticleDAO extends DAO {
                 $article->setArticleOutcomes($this->articleOutcomeDao->getArticleOutcomesByArticleId($row['article_id']));
 
                 $article->setArticleDrugs($this->articleDrugInfoDao->getArticleDrugInfosByArticleId($row['article_id']));
-                                
+
+                $article->setArticleSites($this->articleSiteDao->getArticleSitesByArticleId($row['article_id']));
+
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
                 if($publicFiles) $article->setPublishedFinalReport($publicFiles[0]); // FIX ME: Only one file in folder 'public' -> alwas the final report: Pretty ugly
