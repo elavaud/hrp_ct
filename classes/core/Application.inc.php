@@ -93,6 +93,7 @@ class Application extends PKPApplication {
 			'ArticleSearchDAO' => 'classes.search.ArticleSearchDAO',
 			'ArticleSecIdDAO' => 'classes.article.ArticleSecIdDAO',
 			'ArticleSiteDAO' => 'classes.article.ArticleSiteDAO',
+			'ArticleSponsorDAO' => 'classes.article.ArticleSponsorDAO',
 			'ArticleTextDAO' => 'classes.article.ArticleTextDAO',                    
 			'AuthorDAO' => 'classes.article.AuthorDAO',
 			'AuthorSubmissionDAO' => 'classes.submission.author.AuthorSubmissionDAO',
