@@ -204,7 +204,7 @@ class AuthorDAO extends PKPAuthorDAO {
 			'INSERT INTO authors
 				(site_id, first_name, middle_name, last_name, expertise, affiliation, email, primary_phone, secondary_phone, fax, primary_contact, seq)
 				VALUES
-				(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+				(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
 			array(
 				$author->getSiteId(),
 				$author->getFirstName(),

@@ -23,7 +23,7 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
             $this->trialSiteDao = DAORegistry::getDAO("TrialSiteDAO");
             $this->addCheck(new FormValidatorArray($this, 'articleSites', 'required', 'author.submit.form.siteSelect.required', array('siteSelect')));	
             $this->addCheck(new FormValidatorArray($this, 'articleSites', 'required', 'author.submit.form.siteInfo.required', array('siteName', 'siteAddress', 'siteCity', 'siteRegion', 'siteLicensure', 'siteAccreditation')));	
-            $this->addCheck(new FormValidatorCustom($this, 'articleSites', 'required', 'author.submit.form.site.nameAndCityUsed', function($articleSites) {foreach ($articleSites as $articleSite) { if($this->trialSiteDao->trialSiteExistsByNameAndCity($articleSite['siteName'], $articleSite['siteCity'])) {return false;}} return true;})); 
+            $this->addCheck(new FormValidatorCustom($this, 'articleSites', 'required', 'author.submit.form.site.nameAndCityUsed', function($articleSites) {foreach ($articleSites as $articleSite) { if($this->trialSiteDao->trialSiteExistsByNameAndCity($articleSite['siteName'], $articleSite['siteCity'])) {echo $articleSite['siteName'].' '.$articleSite['siteCity']; $bug->bug(); return false;}} return true;})); 
             $this->addCheck(new FormValidatorCustom($this, 'articleSites', 'required', 'author.submit.form.site.licensureUsed', function($articleSites) {foreach ($articleSites as $articleSite) {if($this->trialSiteDao->trialSiteExistsByLicensure($articleSite['siteLicensure'])) {return false;}}return true;})); 
             $this->addCheck(new FormValidatorCustom($this, 'articleSites', 'required', 'author.submit.form.site.accreditationUsed', function($articleSites) {foreach ($articleSites as $articleSite) { if($this->trialSiteDao->trialSiteExistsByAccreditation($articleSite['siteAccreditation'])) {return false;}}return true;})); 
             $this->addCheck(new FormValidatorArray($this, 'articleSites', 'required', 'author.submit.form.authority.required', array('authority')));	
@@ -132,9 +132,65 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
 		$articleDao =& DAORegistry::getDAO('ArticleDAO');
 		$article =& $this->article;
                 
-		// Retrieve the previous citation list for comparison.
-		$previousRawCitationList = $article->getCitations();
-              
+                $articleSitesData = $this->getData('articleSites');
+		import('classes.journal.TrialSite');
+		import('classes.article.ArticleSite');
+
+                foreach ($articleSitesData as $articleSiteData) {
+                    if (isset($articleSiteData['id'])) {
+                        $articleSite = $article->getArticleSite($articleSiteData['id']);
+                        $isExistingSite = true;
+                    } else {
+                        $articleSite = new ArticleSite();
+                        $isExistingSite = false;
+                    }
+                    $articleSite->setArticleId($article->getId());
+                    if ($articleSiteData['siteSelect'] == "OTHER") {
+                        $trialSite = new TrialSite();
+                        $trialSite->setName($articleSiteData['siteName']);
+                        $trialSite->setAddress($articleSiteData['siteAddress']);
+                        $trialSite->setCity($articleSiteData['siteCity']);
+                        $trialSite->setRegion($articleSiteData['siteRegion']);
+                        $trialSite->setLicensure($articleSiteData['siteLicensure']);
+                        $trialSite->setAccreditation($articleSiteData['siteAccreditation']);
+                        $articleSite->setSiteId($this->trialSiteDao->insertTrialSite($trialSite));
+                    } else {
+                        $articleSite->setSiteId($articleSiteData['siteSelect']);
+                    }
+                    $articleSite->setAuthority($articleSiteData['authority']);
+                    $articleSite->setPrimaryPhone($articleSiteData['primaryPhone']);
+                    $articleSite->setSecondaryPhone($articleSiteData['secondaryPhone']);
+                    $articleSite->setFax($articleSiteData['fax']);
+                    $articleSite->setEmail($articleSiteData['email']);
+                    $articleSite->setSubjectsNumber($articleSiteData['subjectsNumber']);
+                    
+                    $investigatorsData = $articleSiteData['investigators'];
+                    $investigatorIterator = 1;
+                    foreach ($investigatorsData as $investigatorData) {
+                        if (isset($investigatorData['id'])){
+                            $investigator = $articleSite->getInvestigator($investigatorData['id']);
+                        } else {
+                            $investigator = new Author();
+                        }
+                        if ($isExistingSite) {
+                            $investigator->setSiteId($articleSite->getId());
+                        }
+                        if ($investigatorIterator == 1) {
+                            $investigator->setPrimaryContact(1);
+                        }
+                        $investigator->setSequence($investigatorIterator);
+                        $investigator->setFirstName($investigatorData['firstName']);
+                        $investigator->setLastName($investigatorData['lastName']);
+                        $investigator->setPrimaryPhoneNumber($investigatorData['iPrimaryPhone']);
+                        $investigator->setSecondaryPhoneNumber($investigatorData['iSecondaryPhone']);
+                        $investigator->setFaxNumber($investigatorData['iFax']);
+                        $investigator->setEmail($investigatorData['iEmail']);
+                        $articleSite->addInvestigator($investigator);
+                        $investigatorIterator++;
+                    }
+                    $article->addArticleSite($articleSite);
+                }
+                
                 //update step
                 if ($article->getSubmissionProgress() <= $this->step) {
 			$article->stampStatusModified();
@@ -146,12 +202,6 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
 		// Save the article
 		$articleDao->updateArticle($article);
 
-		// Update references list if it changed.
-		$citationDao =& DAORegistry::getDAO('CitationDAO');
-		$rawCitationList = $article->getCitations();
-		if ($previousRawCitationList != $rawCitationList) {
-			$citationDao->importCitations($request, ASSOC_TYPE_ARTICLE, $article->getId(), $rawCitationList);
-		}
 		return $this->articleId;
 	}
 }

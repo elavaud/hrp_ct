@@ -177,7 +177,6 @@
                 {/if}
             </table>
             {foreach from=$articleSites.$i.investigators key=k item=investigator} 
-                {if $articleSites.$i.investigators.$k.id}<input type="hidden" class="hiddenInputs" name="articleSites[{$i|escape}][investigators][{$k|escape}][id]" value="{$articleSites.$i.investigators.$k.id|escape}" />{/if}
                 {assign var="articleSiteInvestigatorTitleD" value='articleSites-'|cat:$i|cat:'-investigators-'|cat:$k}   
                 {assign var="articleSiteInvestigatorFirstNameB" value='articleSites['|cat:$i|cat:'][investigators]['|cat:$k|cat:'][firstName]'}
                 {assign var="articleSiteInvestigatorFirstNameD" value='articleSites-'|cat:$i|cat:'-investigators-'|cat:$k|cat:'-firstName'}     
@@ -193,6 +192,7 @@
                 {assign var="articleSiteInvestigatorEmailD" value='articleSites-'|cat:$i|cat:'-investigators-'|cat:$k|cat:'-iEmail'}     
                 {assign var="articleSiteInvestigatorClassSuppD" value='investigatorSupp-'|cat:$i}                      
                 <table width="100%" id="{$articleSiteInvestigatorTitleD|escape}" {if $k > 0}class="{$articleSiteInvestigatorClassSuppD|escape}"{/if}>
+                    {if $articleSites.$i.investigators.$k.id}<input type="hidden" class="hiddenInputs" name="articleSites[{$i|escape}][investigators][{$k|escape}][id]" value="{$articleSites.$i.investigators.$k.id|escape}" />{/if}
                     <tr valign="top">
                         <td width="20%" class="investigatorTitle" {if $k > 0}style="display: none;"{/if}>{if $i==0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleSiteInvestigatorTitleD required="true" key="proposal.articleSite.investigators"}</td>
                         <td width="20%" class="noInvestigatorTitle" {if $k == 0}style="display: none;"{/if}>&nbsp;</td>                        

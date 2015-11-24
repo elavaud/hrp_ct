@@ -188,6 +188,8 @@ class ArticleSiteDAO extends DAO {
                 $articleSite->setEmail($row['email']);
                 $articleSite->setSubjectsNumber($row['subjects_number']);
                 
+                $articleSite->setInvestigators($this->investigatorDao->getAuthorsByArticleSite($row['article_site_id']));
+                
 		HookRegistry::call('ArticleSiteDAO::_returnArticleSiteFromRow', array(&$articleSite, &$row));
 
 		return $articleSite;

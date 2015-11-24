@@ -29,24 +29,6 @@ class Author extends PKPAuthor {
 	//
 
 	/**
-	 * Get ID of site.
-	 * @return int
-	 */
-	function getSiteId() {
-		if (Config::getVar('debug', 'deprecation_warnings')) trigger_error('Deprecated function.');
-		return $this->getSiteId();
-	}
-
-	/**
-	 * Set ID of site.
-	 * @param $siteId int
-	 */
-	function setSiteId($siteId) {
-		if (Config::getVar('debug', 'deprecation_warnings')) trigger_error('Deprecated function.');
-		return $this->setSiteId($siteId);
-	}
-
-	/**
 	 * Get the localized competing interests statement for this author
 	 */
 	function getLocalizedCompetingInterests() {

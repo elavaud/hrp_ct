@@ -158,7 +158,7 @@ function addInvestigator(id) {
     }
     $('table.investigatorSupp-'+fieldId+':last').find('td.investigatorTitle').hide();    
     $('table.investigatorSupp-'+fieldId+':last').find('td.noInvestigatorTitle').show();  
-    
+    $('table.investigatorSupp-'+fieldId+':last').find('.hiddenInputs').remove('');
     $('#articleSites-'+fieldId+'-investigators-'+subFieldId+'-firstName').val('');
     $('#articleSites-'+fieldId+'-investigators-'+subFieldId+'-lastName').val('');   
     $('#articleSites-'+fieldId+'-investigators-'+subFieldId+'-iPrimaryPhone').val('');
