@@ -65,7 +65,11 @@ class Article extends Submission {
         var $articleSites;
         
         var $removedArticleSites;
+
+        var $articleSecondarySponsors;
         
+        var $removedArticleSecondarySponsors;
+
 	/**
 	 * Constructor.
 	 */
@@ -83,6 +87,8 @@ class Article extends Submission {
 		$this->removedArticleDrugs = array();
                 $this->articleSites = array();
 		$this->removedArticleSites = array();
+                $this->articleSecondarySponsors = array();
+		$this->removedArticleSecondarySponsors = array();
         }
 
 	/**
@@ -1201,6 +1207,117 @@ class Article extends Submission {
 	function setArticleSites($articleSites) {
 		return $this->articleSites = $articleSites;
 	}
+
         
+        
+        /**
+	 * Get the article funding source of this submission.
+	 * @return object ArticleSponsor
+	 */
+	function &getArticleFunding() {
+		return $this->getData('articleFunding');
+	}
+        /**
+	 * Set article funding source of this submission.
+	 * @param $articleFunding object ArticleSponsor
+	 */
+	function setArticleFunding($articleFunding) {
+		return $this->setData('articleFunding', $articleFunding);
+	}
+        
+        
+        /**
+	 * Get the article primary sponsor of this submission.
+	 * @return object ArticleSponsor
+	 */
+	function &getArticlePrimarySponsor() {
+		return $this->getData('articlePrimarySponsor');
+	}
+        /**
+	 * Set article primary sponsor of this submission.
+	 * @param $articlePrimarySponsor object ArticleSponsor
+	 */
+	function setArticlePrimarySponsor($articlePrimarySponsor) {
+		return $this->setData('articlePrimarySponsor', $articlePrimarySponsor);
+	}
+
+        
+        /**
+	 * Add an article secondary sponsor.
+	 * @param $articleSponsor ArticleSponsor
+	 */
+	function addArticleSecondarySponsor($articleSponsor) {
+                $found = false;
+                $i = 0;
+                $articleSponsors = $this->articleSecondarySponsors;
+                foreach ($this->articleSecondarySponsors as $asKey => $asValue) {
+                    if ($articleSponsor->getId() != null && $articleSponsor->getId() == $asValue->getId()){
+                        $articleSponsors[$asKey] = $asValue;
+                        $found = true;
+                    }
+                    $i++;
+                }
+                if (!$found) {
+                    $articleSponsors[$i] = $articleSponsor;
+                }
+                $this->articleSecondarySponsors = $articleSponsors;
+	}
+        /**
+	 * Remove an article secondary sponsor.
+	 * @param $articleSponsorId ID of the article sponsor to remove
+	 * @return boolean article sponsor was removed
+	 */
+	function removeArticleSecondarySponsor($articleSponsorId) {
+                $found = false;
+                $i = 0;
+		if ($articleSponsorId != 0) {
+                    $articleSponsors = $this->articleSecondarySponsors;
+                    foreach ($this->articleSecondarySponsors as $articleSponsor) {
+                        if ($articleSponsor->getId() == $articleSponsorId) {
+                            array_push($this->removedArticleSecondarySponsors, $articleSponsorId);
+                            $found = true;
+                        }
+                        else {
+                            $articleSponsors[$i] = $articleSponsor;
+                            $i++;
+                        }       
+                    }
+                    $this->articleSecondarySponsors = $articleSponsors;
+		}
+		return $found;
+	}
+	/**
+	 * Get all article secondary sponsors for this submission.
+	 * @return array ArticleSponsor
+	 */
+	function &getArticleSecondarySponsors() {
+		return $this->articleSecondarySponsors;
+	}
+        /**
+	 * Get article sponsor by ID for this submission.
+	 * @return object ArticleSponsor
+	 */
+	function &getArticleSecondarySponsor($id) {
+                foreach ($this->articleSecondarySponsors as $articleSponsor) {
+                    if ($articleSponsor->getId() == $id) {
+                        return $articleSponsor;
+                    }
+                }
+		return null;
+	}
+        /**
+	 * Get the IDs of all article secondary sponsors removed from this submission.
+	 * @return array int
+	 */
+	function &getRemovedArticleSecondarySponsors() {
+		return $this->removedArticleSecondarySponsors;
+	}
+        /**
+	 * Set article secondary sponsors of this submission.
+	 * @param $articleSponsors array ArticleSponsor
+	 */
+	function setArticleSecondarySponsors($articleSponsors) {
+		return $this->articleSecondarySponsors = $articleSponsors;
+	}
 }
 ?>

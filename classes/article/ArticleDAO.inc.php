@@ -34,6 +34,9 @@ class ArticleDAO extends DAO {
 
         var $articleSiteDao;
 
+        var $articleSponsorDao;
+
+        
 	function _cacheMiss(&$cache, $id) {
 		$article =& $this->getArticle($id, null, false);
 		$cache->setCache($id, $article);
@@ -60,7 +63,7 @@ class ArticleDAO extends DAO {
                 $this->articleOutcomeDao =& DAORegistry::getDAO('ArticleOutcomeDAO'); 
 		$this->articleDrugInfoDao =& DAORegistry::getDAO('ArticleDrugInfoDAO');   
 		$this->articleSiteDao =& DAORegistry::getDAO('ArticleSiteDAO');   
-                
+		$this->articleSponsorDao =& DAORegistry::getDAO('ArticleSponsorDAO');                   
         }
 
 	/**
@@ -197,7 +200,13 @@ class ArticleDAO extends DAO {
                 $article->setArticleDrugs($this->articleDrugInfoDao->getArticleDrugInfosByArticleId($row['article_id']));
 
                 $article->setArticleSites($this->articleSiteDao->getArticleSitesByArticleId($row['article_id']));
+                
+                $article->setArticleFunding($this->articleSponsorDao->getArticleSponsorsByArticleId($row['article_id'], ARTICLE_SPONSOR_TYPE_FUNDING, true));
 
+                $article->setArticlePrimarySponsor($this->articleSponsorDao->getArticleSponsorsByArticleId($row['article_id'], ARTICLE_SPONSOR_TYPE_PRIMARY, true));
+                
+                $article->setArticleSecondarySponsors($this->articleSponsorDao->getArticleSponsorsByArticleId($row['article_id'], ARTICLE_SPONSOR_TYPE_SECONDARY));
+                
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
                 if ($publicFiles) {
@@ -408,7 +417,39 @@ class ArticleDAO extends DAO {
 		foreach ($removedArticleSites as $removedArticleSiteId) {
 			$this->articleSiteDao->deleteArticleSite($removedArticleSiteId);
 		}
+                
+                // update article funding source for this article
+		$fundingSource =& $article->getArticleFunding();
+		if ($fundingSource->getId() > 0) {
+			$this->articleSponsorDao->updateArticleSponsor($fundingSource);
+		} else {
+			$this->articleSponsorDao->insertArticleSponsor($fundingSource);
+		}
 
+                // update article primary sponsor for this article
+		$primarySponsor =& $article->getArticlePrimarySponsor();
+		if ($primarySponsor->getId() > 0) {
+			$this->articleSponsorDao->updateArticleSponsor($primarySponsor);
+		} else {
+			$this->articleSponsorDao->insertArticleSponsor($primarySponsor);
+		}
+                
+                // update article secondary sponsors for this article
+		$secondarySponsors =& $article->getArticleSecondarySponsors();
+		foreach ($secondarySponsors as $secondarySponsor) {
+			if ($secondarySponsor->getId() > 0) {
+				$this->articleSponsorDao->updateArticleSponsor($secondarySponsor);
+			} else {
+				$this->articleSponsorDao->insertArticleSponsor($secondarySponsor);
+			}
+                }
+                // Remove deleted article secondary sponsors
+		$removedArticleSecondarySponsors = $article->getRemovedArticleSecondarySponsors();
+		foreach ($removedArticleSecondarySponsors as $removedArticleSecondarySponsorId) {
+			$this->articleSponsorDao->deleteArticleSponsor($removedArticleSecondarySponsorId);
+		}
+
+                
 		$this->flushCache();
 	}
 
@@ -508,6 +549,9 @@ class ArticleDAO extends DAO {
 
                 //Delete article sites
                 $this->articleSiteDao->deleteArticleSitesByArticleId($articleId);
+
+                //Delete article sponsors
+                $this->articleSponsorDao->deleteArticleSponsorsByArticleId($articleId);
 
 		// Delete article citations.
 		$citationDao =& DAORegistry::getDAO('CitationDAO');
@@ -1042,6 +1086,12 @@ class ArticleDAO extends DAO {
 
                 $article->setArticleSites($this->articleSiteDao->getArticleSitesByArticleId($row['article_id']));
 
+                $article->setArticleFunding($this->articleSponsorDao->getArticleSponsorsByArticleId($row['article_id'], ARTICLE_SPONSOR_TYPE_FUNDING, true));
+
+                $article->setArticlePrimarySponsor($this->articleSponsorDao->getArticleSponsorsByArticleId($row['article_id'], ARTICLE_SPONSOR_TYPE_PRIMARY, true));
+                
+                $article->setArticleSecondarySponsors($this->articleSponsorDao->getArticleSponsorsByArticleId($row['article_id'], ARTICLE_SPONSOR_TYPE_SECONDARY));
+                
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
                 if($publicFiles) $article->setPublishedFinalReport($publicFiles[0]); // FIX ME: Only one file in folder 'public' -> alwas the final report: Pretty ugly

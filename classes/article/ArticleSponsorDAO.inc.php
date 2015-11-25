@@ -41,21 +41,28 @@ class ArticleSponsorDAO extends DAO {
 	 * @param $articleId int
 	 * @return array ArticleSponsor
 	 */
-	function &getArticleSponsorsByArticleId($articleId, $type = null) {
-                $articleSponsors = array();
+	function &getArticleSponsorsByArticleId($articleId, $type = null, $limit = false) {                
+                $endSql = '';
+                if($limit) $endSql = ' LIMIT 1';
                 
-                if ($type) $result =& $this->retrieve('SELECT * FROM article_sponsor WHERE article_id = '. $articleId . ' AND type = '. $type);
-                else $result =& $this->retrieve('SELECT * FROM article_sponsor WHERE article_id = '. $articleId);
+                if ($type) $result =& $this->retrieve('SELECT * FROM article_sponsor WHERE article_id = '. $articleId . ' AND type = '. $type . $endSql);
+                else $result =& $this->retrieve('SELECT * FROM article_sponsor WHERE article_id = '. $articleId . $endSql);
 
-		while (!$result->EOF) {
-                    	$row =& $result->getRowAssoc(false);
-			$articleSponsors[] =& $this->_returnArticleSponsorFromRow($row);
-			$result->moveNext();
-		}
-		$result->Close();
-		unset($result);
+                if(!$limit) {
+                    $articleSponsors = array();
+                    
+                    while (!$result->EOF) {
+                            $row =& $result->getRowAssoc(false);
+                            $articleSponsors[] =& $this->_returnArticleSponsorFromRow($row);
+                            $result->moveNext();
+                    }
+                    $result->Close();
+                    unset($result);
 
-		return $articleSponsors;
+                    return $articleSponsors;
+                } else {
+                    return $this->_returnArticleSponsorFromRow($result->GetRowAssoc(false));
+                }
 	}
 
 
