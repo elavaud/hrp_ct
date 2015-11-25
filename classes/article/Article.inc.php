@@ -66,6 +66,10 @@ class Article extends Submission {
         
         var $removedArticleSites;
 
+        var $articleFundingSources;
+        
+        var $removedArticleFundingSources;
+        
         var $articleSecondarySponsors;
         
         var $removedArticleSecondarySponsors;
@@ -87,6 +91,8 @@ class Article extends Submission {
 		$this->removedArticleDrugs = array();
                 $this->articleSites = array();
 		$this->removedArticleSites = array();
+                $this->articleFundingSources = array();
+		$this->removedArticleFundingSources = array();
                 $this->articleSecondarySponsors = array();
 		$this->removedArticleSecondarySponsors = array();
         }
@@ -1211,19 +1217,82 @@ class Article extends Submission {
         
         
         /**
-	 * Get the article funding source of this submission.
-	 * @return object ArticleSponsor
+	 * Add an article funding source.
+	 * @param $articleFundingSource ArticleSponsor
 	 */
-	function &getArticleFunding() {
-		return $this->getData('articleFunding');
+	function addArticleFundingSource($articleFundingSource) {
+                $found = false;
+                $i = 0;
+                $articleFundingSources = $this->articleFundingSources;
+                foreach ($this->articleFundingSources as $afsKey => $afsValue) {
+                    if ($articleFundingSource->getId() != null && $articleFundingSource->getId() == $afsValue->getId()){
+                        $articleFundingSources[$afsKey] = $afsValue;
+                        $found = true;
+                    }
+                    $i++;
+                }
+                if (!$found) {
+                    $articleFundingSources[$i] = $articleFundingSource;
+                }
+                $this->articleFundingSources = $articleFundingSources;
 	}
         /**
-	 * Set article funding source of this submission.
-	 * @param $articleFunding object ArticleSponsor
+	 * Remove an article funding source.
+	 * @param $articleFundingSourceId ID of the article funding source to remove
+	 * @return boolean article sponsor was removed
 	 */
-	function setArticleFunding($articleFunding) {
-		return $this->setData('articleFunding', $articleFunding);
+	function removeArticleFundingSource($articleFundingSourceId) {
+                $found = false;
+                $i = 0;
+		if ($articleFundingSourceId != 0) {
+                    $articleFundingSources = $this->articleFundingSources;
+                    foreach ($this->articleFundingSources as $articleFundingSource) {
+                        if ($articleFundingSource->getId() == $articleFundingSourceId) {
+                            array_push($this->removedArticleFundingSources, $articleFundingSourceId);
+                            $found = true;
+                        }
+                        else {
+                            $articleFundingSources[$i] = $articleFundingSource;
+                            $i++;
+                        }       
+                    }
+                    $this->articleFundingSources = $articleFundingSources;
+		}
+		return $found;
 	}
+	/**
+	 * Get all article funding sources for this submission.
+	 * @return array ArticleSponsor
+	 */
+	function &getArticleFundingSources() {
+		return $this->articleFundingSources;
+	}
+        /**
+	 * Get article funding source by ID for this submission.
+	 * @return object ArticleSponsor
+	 */
+	function &getArticleFundingSource($id) {
+                foreach ($this->articleFundingSources as $articleFundingSource) {
+                    if ($articleFundingSource->getId() == $id) {
+                        return $articleFundingSource;
+                    }
+                }
+		return null;
+	}
+        /**
+	 * Get the IDs of all article funding sources removed from this submission.
+	 * @return array int
+	 */
+	function &getRemovedArticleFundingSources() {
+		return $this->removedArticleFundingSources;
+	}
+        /**
+	 * Set article funding sources for this submission.
+	 * @param $articleFundingSources array ArticleSponsor
+	 */
+	function setArticleFundingSources($articleFundingSources) {
+		return $this->articleFundingSources = $articleFundingSources;
+	}        
         
         
         /**

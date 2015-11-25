@@ -201,7 +201,7 @@ class ArticleDAO extends DAO {
 
                 $article->setArticleSites($this->articleSiteDao->getArticleSitesByArticleId($row['article_id']));
                 
-                $article->setArticleFunding($this->articleSponsorDao->getArticleSponsorsByArticleId($row['article_id'], ARTICLE_SPONSOR_TYPE_FUNDING, true));
+                $article->setArticleFundingSources($this->articleSponsorDao->getArticleSponsorsByArticleId($row['article_id'], ARTICLE_SPONSOR_TYPE_FUNDING));
 
                 $article->setArticlePrimarySponsor($this->articleSponsorDao->getArticleSponsorsByArticleId($row['article_id'], ARTICLE_SPONSOR_TYPE_PRIMARY, true));
                 
@@ -418,12 +418,19 @@ class ArticleDAO extends DAO {
 			$this->articleSiteDao->deleteArticleSite($removedArticleSiteId);
 		}
                 
-                // update article funding source for this article
-		$fundingSource =& $article->getArticleFunding();
-		if ($fundingSource->getId() > 0) {
-			$this->articleSponsorDao->updateArticleSponsor($fundingSource);
-		} else {
-			$this->articleSponsorDao->insertArticleSponsor($fundingSource);
+                // update article funding sources for this article
+		$fundingSources =& $article->getArticleFundingSources();
+		foreach ($fundingSources as $fundingSource) {
+			if ($fundingSource->getId() > 0) {
+				$this->articleSponsorDao->updateArticleSponsor($fundingSource);
+			} else {
+				$this->articleSponsorDao->insertArticleSponsor($fundingSource);
+			}
+                }
+                // Remove deleted article funding sources
+		$removedFundingSources = $article->getRemovedArticleFundingSources();
+		foreach ($removedFundingSources as $removedFundingSourceId) {
+			$this->articleSponsorDao->deleteArticleSponsor($removedFundingSourceId);
 		}
 
                 // update article primary sponsor for this article
@@ -1086,7 +1093,7 @@ class ArticleDAO extends DAO {
 
                 $article->setArticleSites($this->articleSiteDao->getArticleSitesByArticleId($row['article_id']));
 
-                $article->setArticleFunding($this->articleSponsorDao->getArticleSponsorsByArticleId($row['article_id'], ARTICLE_SPONSOR_TYPE_FUNDING, true));
+                $article->setArticleFundingSources($this->articleSponsorDao->getArticleSponsorsByArticleId($row['article_id'], ARTICLE_SPONSOR_TYPE_FUNDING));
 
                 $article->setArticlePrimarySponsor($this->articleSponsorDao->getArticleSponsorsByArticleId($row['article_id'], ARTICLE_SPONSOR_TYPE_PRIMARY, true));
                 
