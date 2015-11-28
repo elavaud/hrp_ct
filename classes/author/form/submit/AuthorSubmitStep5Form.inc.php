@@ -21,8 +21,8 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
             parent::AuthorSubmitForm($article, 5, $journal);
                 
             $this->addCheck(new FormValidatorArray($this, 'fundingSources', 'required', 'author.submit.form.fundingSources.required', array('institutionId', 'name', 'acronym', 'type', 'location', 'locationCountry', 'locationInternational')));	
-            //$this->addCheck(new FormValidatorArray($this, 'primarySponsor', 'required', 'author.submit.form.primarySponsor.required'));	
-            //$this->addCheck(new FormValidatorArray($this, 'secondarySponsors', 'required', 'author.submit.form.secondarySponsors.required'));	
+            $this->addCheck(new FormValidatorArrayRadios($this, 'primarySponsor', 'required', 'author.submit.form.primarySponsor.required', array('location')));	
+            $this->addCheck(new FormValidatorArray($this, 'secondarySponsors', 'required', 'author.submit.form.secondarySponsors.required', array('ssInstitutionId', 'ssName', 'ssAcronym', 'ssType', 'ssLocation', 'ssLocationCountry', 'ssLocationInternational')));	
 		        
         }
 
