@@ -13,10 +13,10 @@ function addDrugInfo(){
         var fieldId = 1;
     }     
     drugHtml = drugHtml.replace('articleDrugs-X', 'articleDrugs-'+fieldId);
-    for (i = 0; i < 50; i++) { 
+    while (drugHtml.indexOf("articleDrugs-0") > -1) {     
         drugHtml = drugHtml.replace('articleDrugs-0', 'articleDrugs-'+fieldId);
     }
-    for (i = 0; i < 50; i++) { 
+    while (drugHtml.indexOf("articleDrugs[0") > -1) {     
         drugHtml = drugHtml.replace('articleDrugs[0', 'articleDrugs['+fieldId);
     }
     if ($(".drugSupp").length){
@@ -171,10 +171,10 @@ function addCountry(id) {
         var subFieldId = 1;
     }     
     countryHtml = countryHtml.replace('articleDrugs-'+fieldId+'-countryTr-X', 'articleDrugs-'+fieldId+'-countryTr-'+subFieldId);
-    for (i = 0; i < 10; i++) { 
+    while (countryHtml.indexOf('articleDrugs-'+fieldId+'-countries-0') > -1) {     
         countryHtml = countryHtml.replace('articleDrugs-'+fieldId+'-countries-0', 'articleDrugs-'+fieldId+'-countries-'+subFieldId);
     }
-    for (i = 0; i < 10; i++) { 
+    while (countryHtml.indexOf('articleDrugs['+fieldId+'][countries][0') > -1) {     
         countryHtml = countryHtml.replace('articleDrugs['+fieldId+'][countries][0', 'articleDrugs['+fieldId+'][countries]['+subFieldId);
     }
     if ($("tr.countrySupp-"+fieldId).length){
@@ -236,10 +236,10 @@ function addManufacturer(id) {
         var subFieldId = 1;
     }     
     manufacturerHtml = manufacturerHtml.replace('articleDrugs-'+fieldId+'-manufacturers-X', 'articleDrugs-'+fieldId+'-manufacturers-'+subFieldId);
-    for (i = 0; i < 10; i++) { 
+    while (manufacturerHtml.indexOf('articleDrugs-'+fieldId+'-manufacturers-0') > -1) {     
         manufacturerHtml = manufacturerHtml.replace('articleDrugs-'+fieldId+'-manufacturers-0', 'articleDrugs-'+fieldId+'-manufacturers-'+subFieldId);
     }
-    for (i = 0; i < 10; i++) { 
+    while (countryHtml.indexOf('articleDrugs['+fieldId+'][manufacturers][0') > -1) {     
         manufacturerHtml = manufacturerHtml.replace('articleDrugs['+fieldId+'][manufacturers][0', 'articleDrugs['+fieldId+'][manufacturers]['+subFieldId);
     }
     if ($("table.manufacturerSupp-"+fieldId).length){

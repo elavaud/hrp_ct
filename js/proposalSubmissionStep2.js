@@ -91,13 +91,13 @@ function addPurpose(){
     } else {
         var fieldId = 1;
     }
-    for (i = 0; i<20; i++){
+    while (purposeHtml.indexOf("purposes-0") > -1) {     
         purposeHtml = purposeHtml.replace('purposes-0', 'purposes-'+fieldId);
     }
-    for (i = 0; i<20; i++){
+    while (purposeHtml.indexOf("purposes[0") > -1) {     
         purposeHtml = purposeHtml.replace('purposes[0', 'purposes['+fieldId);
     }
-    for (i = 0; i < 8; i++) {
+    while (purposeHtml.indexOf('<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> ') > -1) {     
         purposeHtml = purposeHtml.replace('<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> ', '');           
     }
     if ($("#purposes .purposeSupp").length){        
@@ -288,10 +288,10 @@ function addPrimaryOutcome(){
             var selectNameStartRemoved = selectName.replace('primaryOutcomes-', '');
             var fieldId = parseInt(selectNameStartRemoved) + 1;
             outcomeHtml = outcomeHtml.replace('primaryOutcomes-X', 'primaryOutcomes-'+fieldId);
-            for (i = 0; i < 8; i++) { 
+            while (outcomeHtml.indexOf("primaryOutcomes-0") > -1) {     
                 outcomeHtml = outcomeHtml.replace('primaryOutcomes-0', 'primaryOutcomes-'+fieldId);
             }
-            for (i = 0; i < 4; i++) { 
+            while (outcomeHtml.indexOf("primaryOutcomes[0") > -1) {     
                 outcomeHtml = outcomeHtml.replace('primaryOutcomes[0', 'primaryOutcomes['+fieldId);
             }
             $('#primaryOutcomes table.primaryOutcomeSupp:last').after(outcomeHtml);
@@ -300,10 +300,10 @@ function addPrimaryOutcome(){
         } else {    
             var fieldId = 1;
             outcomeHtml = outcomeHtml.replace('primaryOutcomes-X', 'primaryOutcomes-1');
-            for (i = 0; i < 8; i++) { 
+            while (outcomeHtml.indexOf("primaryOutcomes-0") > -1) {     
                 outcomeHtml = outcomeHtml.replace('primaryOutcomes-0', 'primaryOutcomes-1');
             }
-            for (i = 0; i < 4; i++) { 
+            while (outcomeHtml.indexOf("primaryOutcomes[0") > -1) {     
                 outcomeHtml = outcomeHtml.replace('primaryOutcomes[0', 'primaryOutcomes[1');
             }
             $('#primaryOutcomes-0').after(outcomeHtml);
@@ -329,10 +329,10 @@ function addSecondaryOutcome(){
         var selectNameStartRemoved = selectName.replace('secondaryOutcomes-', '');
         var fieldId = parseInt(selectNameStartRemoved) + 1;
         outcomeHtml = outcomeHtml.replace('secondaryOutcomes-X', 'secondaryOutcomes-'+fieldId);
-        for (i = 0; i < 8; i++) { 
+        while (outcomeHtml.indexOf("secondaryOutcomes-0") > -1) {     
             outcomeHtml = outcomeHtml.replace('secondaryOutcomes-0', 'secondaryOutcomes-'+fieldId);
         }
-        for (i = 0; i < 3; i++) { 
+        while (outcomeHtml.indexOf("secondaryOutcomes[0") > -1) {     
             outcomeHtml = outcomeHtml.replace('secondaryOutcomes[0', 'secondaryOutcomes['+fieldId);
         }
         $('#secondaryOutcomes table.secondaryOutcomeSupp:last').after(outcomeHtml);
@@ -340,10 +340,10 @@ function addSecondaryOutcome(){
     } else {    
         var fieldId = 1;
         outcomeHtml = outcomeHtml.replace('secondaryOutcomes-X', 'secondaryOutcomes-1');
-        for (i = 0; i < 8; i++) { 
+        while (outcomeHtml.indexOf("secondaryOutcomes-0") > -1) {     
             outcomeHtml = outcomeHtml.replace('secondaryOutcomes-0', 'secondaryOutcomes-1');
         }
-        for (i = 0; i < 3; i++) { 
+        while (outcomeHtml.indexOf("secondaryOutcomes[0") > -1) {     
             outcomeHtml = outcomeHtml.replace('secondaryOutcomes[0', 'secondaryOutcomes[1');
         }
         $('#secondaryOutcomes-0').after(outcomeHtml);
@@ -390,16 +390,20 @@ function addIntCountry(){
         var selectNameStartRemoved = selectName.replace('articleDetails-intSampleSize-', '');
         var fieldId = parseInt(selectNameStartRemoved) + 1;
         intCountryHtml = intCountryHtml.replace('articleDetails-intSampleSize-X', 'articleDetails-intSampleSize-'+fieldId);
-        for (i = 0; i < 4; i++) { 
+        while (intCountryHtml.indexOf("articleDetails-intSampleSize-0") > -1) {     
             intCountryHtml = intCountryHtml.replace('articleDetails-intSampleSize-0', 'articleDetails-intSampleSize-'+fieldId);
+        }
+        while (intCountryHtml.indexOf("articleDetails[intSampleSize][0") > -1) {     
             intCountryHtml = intCountryHtml.replace('articleDetails[intSampleSize][0', 'articleDetails[intSampleSize]['+fieldId);
         }
         $('#intSampleSizeFields table.countryAndSizeSupp:last').after(intCountryHtml);
     } else {    
         var fieldId = 1;
         intCountryHtml = intCountryHtml.replace('articleDetails-intSampleSize-X', 'articleDetails-intSampleSize-1');
-        for (i = 0; i < 4; i++) { 
+        while (intCountryHtml.indexOf("articleDetails-intSampleSize-0") > -1) {     
             intCountryHtml = intCountryHtml.replace('articleDetails-intSampleSize-0', 'articleDetails-intSampleSize-1');
+        }
+        while (intCountryHtml.indexOf("articleDetails[intSampleSize][0") > -1) {     
             intCountryHtml = intCountryHtml.replace('articleDetails[intSampleSize][0', 'articleDetails[intSampleSize][1');
         }
         $('#articleDetails-intSampleSize-0').after(intCountryHtml);

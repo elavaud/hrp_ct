@@ -13,10 +13,11 @@ function addSite(){
         var fieldId = 1;
     }     
     siteHtml = siteHtml.replace('articleSites-X', 'articleSites-'+fieldId);
-    for (i = 0; i < 50; i++) { 
+    
+    while (siteHtml.indexOf("articleSites-0") > -1) {     
         siteHtml = siteHtml.replace('articleSites-0', 'articleSites-'+fieldId);
     }
-    for (i = 0; i < 50; i++) { 
+    while (siteHtml.indexOf("articleSites[0") > -1) {     
         siteHtml = siteHtml.replace('articleSites[0', 'articleSites['+fieldId);
     }
     if ($(".siteSupp").length){
@@ -145,10 +146,10 @@ function addInvestigator(id) {
         var subFieldId = 1;
     }     
     investigatorHtml = investigatorHtml.replace('articleSites-'+fieldId+'-investigators-X', 'articleSites-'+fieldId+'-investigators-'+subFieldId);
-    for (i = 0; i < 20; i++) { 
+    while (investigatorHtml.indexOf("articleSites-"+fieldId+"-investigators-0") > -1) {     
         investigatorHtml = investigatorHtml.replace('articleSites-'+fieldId+'-investigators-0', 'articleSites-'+fieldId+'-investigators-'+subFieldId);
     }
-    for (i = 0; i < 20; i++) { 
+    while (investigatorHtml.indexOf("articleSites["+fieldId+"][investigators][0") > -1) {     
         investigatorHtml = investigatorHtml.replace('articleSites['+fieldId+'][investigators][0', 'articleSites['+fieldId+'][investigators]['+subFieldId);
     }
     if ($("table.investigatorSupp-"+fieldId).length){
