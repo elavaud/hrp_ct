@@ -71,6 +71,10 @@ function showOrHideSourceInfo(id){
         if($('#fundingSources-'+fieldId+'-acronym').val() === "NA") {
             $('#fundingSources-'+fieldId+'-acronym').val("");
         }
+        $('#fundingSources-'+fieldId+'-typeField').show();
+        if($('#fundingSources-'+fieldId+'-type').find('option[value="NA"]').length > 0) {
+            $('#fundingSources-'+fieldId+'-type').find('option[value="NA"]').remove();
+        }
         $('#fundingSources-'+fieldId+'-locationField').show();
         if ($('#fundingSources-'+fieldId+'-locationRadioSupp').length) {
             $('#fundingSources-'+fieldId+'-locationRadioSupp').remove();
@@ -80,6 +84,11 @@ function showOrHideSourceInfo(id){
         $('#fundingSources-'+fieldId+'-name').val("NA");
         $('#fundingSources-'+fieldId+'-acronymField').hide();
         $('#fundingSources-'+fieldId+'-acronym').val("NA");
+        $('#fundingSources-'+fieldId+'-typeField').hide();        
+        if (!$('#fundingSources-'+fieldId+'-type').find('option[value="NA"]').length > 0){
+            $('#fundingSources-'+fieldId+'-type').append('<option value="NA"></option>');
+        }
+        $('#fundingSources-'+fieldId+'-type').val('NA');        
         $('#fundingSources-'+fieldId+'-locationField').hide();        
         if (!$('#fundingSources-'+fieldId+'-locationRadioSupp').length) {
             $('#fundingSources-'+fieldId+'-locationField').find('input:radio:first').parent().append($('<input type="radio" name="fundingSources['+fieldId+'][location]" id="fundingSources-'+fieldId+'-locationRadioSupp" value="NA">'));        
@@ -185,6 +194,10 @@ function showOrHidePSponsorInfo(){
         if($('#primarySponsor-acronym').val() === "NA") {
             $('#primarySponsor-acronym').val("");
         }
+        $('#primarySponsorTypeField').show();
+        if($('#primarySponsor-type').find('option[value="NA"]').length > 0) {
+            $('#primarySponsor-type').find('option[value="NA"]').remove();
+        }        
         $('#primarySponsorLocationField').show();
         if ($('#primarySponsor-locationRadioSupp').length) {
             $('#primarySponsor-locationRadioSupp').remove();
@@ -194,6 +207,11 @@ function showOrHidePSponsorInfo(){
         $('#primarySponsor-name').val("NA");
         $('#primarySponsorAcronymField').hide();
         $('#primarySponsor-acronym').val("NA");
+        $('#primarySponsorTypeField').hide();        
+        if (!$('#primarySponsor-type').find('option[value="NA"]').length > 0){
+            $('#primarySponsor-type').append('<option value="NA"></option>');
+        }
+        $('#primarySponsor-type').val('NA');        
         $('#primarySponsorLocationField').hide();        
         if (!$('#primarySponsor-locationRadioSupp').length) {
             $('#primarySponsorLocationField').find('input:radio:first').parent().append($('<input type="radio" name="primarySponsor[location]" id="primarySponsor-locationRadioSupp" value="NA">'));        
@@ -271,6 +289,10 @@ function showOrHideSSponsorInfo(id){
         if($('#secondarySponsors-'+fieldId+'-ssAcronym').val() === "NA") {
             $('#secondarySponsors-'+fieldId+'-ssAcronym').val("");
         }
+        $('#secondarySponsors-'+fieldId+'-typeField').show();
+        if($('#secondarySponsors-'+fieldId+'-type').find('option[value="NA"]').length > 0) {
+            $('#secondarySponsors-'+fieldId+'-type').find('option[value="NA"]').remove();
+        }        
         $('#secondarySponsors-'+fieldId+'-ssLocationField').show();
         if ($('#secondarySponsors-'+fieldId+'-ssLocationRadioSupp').length) {
             $('#secondarySponsors-'+fieldId+'-ssLocationRadioSupp').remove();
@@ -280,6 +302,11 @@ function showOrHideSSponsorInfo(id){
         $('#secondarySponsors-'+fieldId+'-ssName').val("NA");
         $('#secondarySponsors-'+fieldId+'-ssAcronymField').hide();
         $('#secondarySponsors-'+fieldId+'-ssAcronym').val("NA");
+        $('#secondarySponsors-'+fieldId+'-ssTypeField').hide();        
+        if (!$('#secondarySponsors-'+fieldId+'-ssType').find('option[value="NA"]').length > 0){
+            $('#secondarySponsors-'+fieldId+'-ssType').append('<option value="NA"></option>');
+        }
+        $('#secondarySponsors-'+fieldId+'-ssType').val('NA');                
         $('#secondarySponsors-'+fieldId+'-ssLocationField').hide();        
         if (!$('#secondarySponsors-'+fieldId+'-ssLocationRadioSupp').length) {
             $('#secondarySponsors-'+fieldId+'-ssLocationField').find('input:radio:first').parent().append($('<input type="radio" name="secondarySponsors['+fieldId+'][ssLocation]" id="secondarySponsors-'+fieldId+'-ssLocationRadioSupp" value="NA">'));        

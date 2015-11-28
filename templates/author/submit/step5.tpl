@@ -23,7 +23,7 @@
         {assign var="fundingSourcesNameB" value='fundingSources['|cat:$k|cat:'][name]'}
         {assign var="fundingSourcesNameD" value='fundingSources-'|cat:$k|cat:'-name'}     
         {assign var="fundingSourcesNameFieldD" value='fundingSources-'|cat:$k|cat:'-nameField'}     
-        {assign var="fundingSourcesAcronymB" value='fundingSource['|cat:$k|cat:'][acronym]'}
+        {assign var="fundingSourcesAcronymB" value='fundingSources['|cat:$k|cat:'][acronym]'}
         {assign var="fundingSourcesAcronymD" value='fundingSources-'|cat:$k|cat:'-acronym'}  
         {assign var="fundingSourcesAcronymFieldD" value='fundingSources-'|cat:$k|cat:'-acronymField'}     
         {assign var="fundingSourcesTypeB" value='fundingSources['|cat:$k|cat:'][type]'}
@@ -61,6 +61,16 @@
                 <td width="10%">{fieldLabel name=$fundingSourcesAcronymD required="true" key="proposal.articleSponsor.acronym"}</td>                        
                 <td width="70%" class="value"><input type="text" class="textField" name="{$fundingSourcesAcronymB|escape}" id="{$fundingSourcesAcronymD|escape}" value="{$fundingSources.$k.acronym|escape}" size="30" maxlength="255" /></td>                                           
             </tr>
+            <tr valign="top" id="{$fundingSourcesTypeFieldD|escape}">
+                <td width="20%">&nbsp;</td>                        
+                <td width="10%">{fieldLabel name=$fundingSourcesTypeD required="true" key="proposal.articleSponsor.type"}</td>                        
+                <td width="70%" class="value">
+                    <select name="{$fundingSourcesTypeB|escape}" id="{$fundingSourcesTypeD|escape}" class="selectMenu">
+                        <option value=""></option>
+                        {html_options options=$institutionTypesList selected=$fundingSources.$k.type}                                
+                    </select>
+                </td>                                           
+            </tr>            
             <tr valign="top" id="{$fundingSourcesLocationFieldD|escape}">
                 <td width="20%">&nbsp;</td>                        
                 <td width="10%">{fieldLabel name=$fundingSourcesLocationD required="true" key="proposal.articleSponsor.location"}</td>                        
@@ -105,58 +115,68 @@
     </table>
     <br/>
     <table width="100%">
-      {if $primarySponsor.id}<input type="hidden" class="hiddenInputs" name="primarySponsor[id]" value="{$primarySponsor.id|escape}" />{/if}
-      <tr valign="top">
-          <td width="20%"><a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {fieldLabel name="primarySponsor-institutionId" required="true" key="proposal.articleSponsor.primarySponsor"}</td>
-          <td width="80%" colspan="2" class="value">
-              <select name="primarySponsor[institutionId]" id="primarySponsor-institutionId" class="selectMenu">
-                  <option value=""></option>
-                  {html_options options=$institutionsList selected=$primarySponsor.institutionId}                                
-              </select>
-          </td>                                           
-      </tr>
-      <tr valign="top" id="primarySponsorNameField">
-          <td width="20%">&nbsp;</td>                        
-          <td width="10%">{fieldLabel name="primarySponsor-name" required="true" key="proposal.articleSponsor.name"}</td>                        
-          <td width="70%" class="value"><input type="text" class="textField" name="primarySponsor[name]" id="primarySponsor-name" value="{$primarySponsor.name|escape}" size="30" maxlength="255" /></td>                                           
-      </tr>
-      <tr valign="top" id="primarySponsorAcronymField">
-          <td width="20%">&nbsp;</td>                        
-          <td width="10%">{fieldLabel name="primarySponsor-acronym" required="true" key="proposal.articleSponsor.acronym"}</td>                        
-          <td width="70%" class="value"><input type="text" class="textField" name="primarySponsor[acronym]" id="primarySponsor-acronym" value="{$primarySponsor.acronym|escape}" size="30" maxlength="255" /></td>                                           
-      </tr>
-      <tr valign="top" id="primarySponsorLocationField">
-          <td width="20%">&nbsp;</td>                        
-          <td width="10%">{fieldLabel name="primarySponsor-location" required="true" key="proposal.articleSponsor.location"}</td>                        
-          <td width="70%" class="value">
-              {html_radios name="primarySponsor[location]" options=$internationalArray selected=$primarySponsor.location separator='&nbsp;&nbsp;&nbsp;&nbsp;'}
-          </td>                                           
-      </tr>
-      <tr valign="top" id="primarySponsorLocationCountryField">
-          <td width="20%">&nbsp;</td>                        
-          <td width="10%">{fieldLabel name="primarySponsor-locationCountry" required="true" key="proposal.articleSponsor.locationCountry"}</td>                        
-          <td width="70%" class="value">
-              <select name="primarySponsor[locationCountry]" id="primarySponsor-locationCountry" class="selectMenu">
-                  <option value=""></option>
-                  {html_options options=$geoAreasList selected=$primarySponsor.locationCountry}                                
-              </select>
-          </td>                                           
-      </tr>
-      <tr valign="top" id="primarySponsorLocationInternationalField">
-          <td width="20%">&nbsp;</td>                        
-          <td width="10%">{fieldLabel name="primarySponsor-locationInternational" required="true" key="proposal.articleSponsor.locationInternational"}</td>                        
-          <td width="70%" class="value">
-              <select name="primarySponsor[locationInternational]" id="primarySponsor-locationInternational" class="selectMenu">
-                  <option value=""></option>
-                  {html_options options=$coutryList selected=$primarySponsor.locationInternational}                                
-              </select>                
-          </td>                                           
-      </tr>
-      <tr valign="top" hidden class="showHideHelpField">
-          <td width="20%">&nbsp;</td>
-          <td width="80%" colspan="2" class="value"><i>[?] {translate key="proposal.articleSponsor.primarySponsor.instruct"}</i></td>
-      </tr>    
-      <tr><td colspan="3">&nbsp;</td></tr>
+        {if $primarySponsor.id}<input type="hidden" class="hiddenInputs" name="primarySponsor[id]" value="{$primarySponsor.id|escape}" />{/if}
+        <tr valign="top">
+            <td width="20%"><a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {fieldLabel name="primarySponsor-institutionId" required="true" key="proposal.articleSponsor.primarySponsor"}</td>
+            <td width="80%" colspan="2" class="value">
+                <select name="primarySponsor[institutionId]" id="primarySponsor-institutionId" class="selectMenu">
+                    <option value=""></option>
+                    {html_options options=$institutionsList selected=$primarySponsor.institutionId}                                
+                </select>
+            </td>                                           
+        </tr>
+        <tr valign="top" id="primarySponsorNameField">
+            <td width="20%">&nbsp;</td>                        
+            <td width="10%">{fieldLabel name="primarySponsor-name" required="true" key="proposal.articleSponsor.name"}</td>                        
+            <td width="70%" class="value"><input type="text" class="textField" name="primarySponsor[name]" id="primarySponsor-name" value="{$primarySponsor.name|escape}" size="30" maxlength="255" /></td>                                           
+        </tr>
+        <tr valign="top" id="primarySponsorAcronymField">
+            <td width="20%">&nbsp;</td>                        
+            <td width="10%">{fieldLabel name="primarySponsor-acronym" required="true" key="proposal.articleSponsor.acronym"}</td>                        
+            <td width="70%" class="value"><input type="text" class="textField" name="primarySponsor[acronym]" id="primarySponsor-acronym" value="{$primarySponsor.acronym|escape}" size="30" maxlength="255" /></td>                                           
+        </tr>
+        <tr valign="top" id="primarySponsorTypeField">
+            <td width="20%">&nbsp;</td>                        
+            <td width="10%">{fieldLabel name="primarySponsor-type" required="true" key="proposal.articleSponsor.type"}</td>                        
+            <td width="70%" class="value">
+                <select name="primarySponsor[type]" id="primarySponsor-type" class="selectMenu">
+                    <option value=""></option>
+                    {html_options options=$institutionTypesList selected=$primarySponsor.type}                                
+                </select>
+            </td>                                           
+        </tr>                  
+        <tr valign="top" id="primarySponsorLocationField">
+            <td width="20%">&nbsp;</td>                        
+            <td width="10%">{fieldLabel name="primarySponsor-location" required="true" key="proposal.articleSponsor.location"}</td>                        
+            <td width="70%" class="value">
+                {html_radios name="primarySponsor[location]" options=$internationalArray selected=$primarySponsor.location separator='&nbsp;&nbsp;&nbsp;&nbsp;'}
+            </td>                                           
+        </tr>
+        <tr valign="top" id="primarySponsorLocationCountryField">
+            <td width="20%">&nbsp;</td>                        
+            <td width="10%">{fieldLabel name="primarySponsor-locationCountry" required="true" key="proposal.articleSponsor.locationCountry"}</td>                        
+            <td width="70%" class="value">
+                <select name="primarySponsor[locationCountry]" id="primarySponsor-locationCountry" class="selectMenu">
+                    <option value=""></option>
+                    {html_options options=$geoAreasList selected=$primarySponsor.locationCountry}                                
+                </select>
+            </td>                                           
+        </tr>
+        <tr valign="top" id="primarySponsorLocationInternationalField">
+            <td width="20%">&nbsp;</td>                        
+            <td width="10%">{fieldLabel name="primarySponsor-locationInternational" required="true" key="proposal.articleSponsor.locationInternational"}</td>                        
+            <td width="70%" class="value">
+                <select name="primarySponsor[locationInternational]" id="primarySponsor-locationInternational" class="selectMenu">
+                    <option value=""></option>
+                    {html_options options=$coutryList selected=$primarySponsor.locationInternational}                                
+                </select>                
+            </td>                                           
+        </tr>
+        <tr valign="top" hidden class="showHideHelpField">
+            <td width="20%">&nbsp;</td>
+            <td width="80%" colspan="2" class="value"><i>[?] {translate key="proposal.articleSponsor.primarySponsor.instruct"}</i></td>
+        </tr>    
+        <tr><td colspan="3">&nbsp;</td></tr>
     </table>
     <br/>
     {foreach from=$secondarySponsors key=k item=secondarySponsor} 
@@ -204,6 +224,16 @@
                 <td width="10%">{fieldLabel name=$secondarySponsorsAcronymD required="true" key="proposal.articleSponsor.acronym"}</td>                        
                 <td width="70%" class="value"><input type="text" class="textField" name="{$secondarySponsorsAcronymB|escape}" id="{$secondarySponsorsAcronymD|escape}" value="{$secondarySponsors.$k.acronym|escape}" size="30" maxlength="255" /></td>                                           
             </tr>
+            <tr valign="top" id="{$secondarySponsorsTypeFieldD|escape}">
+                <td width="20%">&nbsp;</td>                        
+                <td width="10%">{fieldLabel name=$secondarySponsorsTypeD required="true" key="proposal.articleSponsor.type"}</td>                        
+                <td width="70%" class="value">
+                    <select name="{$secondarySponsorsTypeB|escape}" id="{$secondarySponsorsTypeD|escape}" class="selectMenu">
+                        <option value=""></option>
+                        {html_options options=$institutionTypesList selected=$secondarySponsors.$k.type}                                
+                    </select>
+                </td>                                           
+            </tr>                        
             <tr valign="top" id="{$secondarySponsorsLocationFieldD|escape}">
                 <td width="20%">&nbsp;</td>                        
                 <td width="10%">{fieldLabel name=$secondarySponsorsLocationD required="true" key="proposal.articleSponsor.location"}</td>                        

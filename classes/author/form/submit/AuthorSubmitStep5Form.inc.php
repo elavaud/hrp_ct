@@ -18,7 +18,11 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
 	 * Constructor.
 	 */
 	function AuthorSubmitStep5Form(&$article, &$journal) {
-		parent::AuthorSubmitForm($article, 5, $journal);
+            parent::AuthorSubmitForm($article, 5, $journal);
+                
+            $this->addCheck(new FormValidatorArray($this, 'fundingSources', 'required', 'author.submit.form.fundingSources.required', array('institutionId', 'name', 'acronym', 'type', 'location', 'locationCountry', 'locationInternational')));	
+            //$this->addCheck(new FormValidatorArray($this, 'primarySponsor', 'required', 'author.submit.form.primarySponsor.required'));	
+            //$this->addCheck(new FormValidatorArray($this, 'secondarySponsors', 'required', 'author.submit.form.secondarySponsors.required'));	
 		        
         }
 
@@ -107,11 +111,12 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
                 $institutionsListWithOther = $institutionsList + array('OTHER' => Locale::translate('common.other'));
                 
 		$templateMgr =& TemplateManager::getManager();
+                $templateMgr->assign('institutionTypesList', $institutionDao->getInstitutionTypes());
                 $templateMgr->assign('geoAreasList', $geoAreas);
                 $templateMgr->assign('coutryList', $countryDao->getCountries());
                 $templateMgr->assign('institutionsList', $institutionsListWithOther);
                 $templateMgr->assign('internationalArray', $institutionDao->getInstitutionInternationalArray());
-                
+                                
                 parent::display();
 	}
 
