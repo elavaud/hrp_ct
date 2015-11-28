@@ -730,6 +730,21 @@
     <message key="proposal.articleSite.investigator.iEmail">Email</message>   
     <message key="proposal.articleSite.investigators.instruct">Enter information related to the investigator(s) for this site. The first investigator entered will be the primary investigator.</message>   
 
+    <message key="proposal.articleSponsor.fundingSources">Founding source(s)</message>   
+    <message key="proposal.articleSponsor.fundingSources.instruct"><![CDATA[Major source(s) of monetary or material or infrastructure support for the trial (e.g. funding agency, foundation, company, hospital, university, etc.). This refers to the name of the organization(s) that provided funding for the study. Select as many as you want from the lsit. <br/><br/>If one of your source of funding is not present in the list, select "Other" at the end of the list and provide the information. These information will be used to automatically populate the database of institutions.]]></message>   
+    <message key="proposal.articleSponsor.fundingSources.add">Add another founding source</message>       
+    <message key="proposal.articleSponsor.name">Name</message>   
+    <message key="proposal.articleSponsor.acronym">Acronym</message>   
+    <message key="proposal.articleSponsor.type">Type</message>   
+    <message key="proposal.articleSponsor.location">Location</message>   
+    <message key="proposal.articleSponsor.locationCountry">Area</message>   
+    <message key="proposal.articleSponsor.locationInternational">Country</message>   
+    <message key="proposal.articleSponsor.primarySponsor">Primary Sponsor</message>   
+    <message key="proposal.articleSponsor.primarySponsor.instruct"><![CDATA[The individual, organization, group or other legal person taking on responsibility for securing the arrangements to initiate and/or manage a study, including arrangements to ensure that the design of the study meets appropriate standards and to ensure appropriate conduct and reporting. The primary sponsor is normally the main applicant or principle investigator for regulatory authorization or funding to begin the study. The primary sponsor is responsible for ensuring that the trial is properly registered. It may or may not be the main funder. <br/><br/>If your primary sponsor is not in this list, please select "Other" at the end of the list and provide its information. The information provided will be used to automatically populate the list of institutions. The form allows only one entry for primary sponsor. For additional sponsors, please refer to the secondary sponsor(s) section.]]></message>   
+    <message key="proposal.articleSponsor.secondarySponsors">Secondary Sponsor(s)</message>  
+    <message key="proposal.articleSponsor.secondarySponsors.add">Add another secondary sponsor</message>   
+    <message key="proposal.articleSponsor.secondarySponsors.instruct"><![CDATA[Additional individuals, organizations or other legal persons, if any, that have agreed with the primary sponsor to jointly take on responsibilities of sponsor-ship. A secondary sponsor may have agreed to form a group with the primary sponsor in whom the responsibilities of sponsorship are allocated among the members of the group and/or to act as the sponsor’s legal representative in relation to some or all of the trial sites. A secondary sponsor may take responsibility for the accuracy of trial registration information submitted.<br/><br/> If your primary sponsor is not in this list, please select "Other" at the end of the list and provide its information. The information provided will be used to automatically populate the list of institutions.Click “Add” to add more boxes if the study has multiple secondary sponsors.]]></message>   
+
         <message key="proposal.purpose.endpoint.saf">Safety</message>
         <message key="proposal.purpose.endpoint.eff">Efficacy</message>
         <message key="proposal.purpose.endpoint.safAndEff">Safety and Efficacy</message>

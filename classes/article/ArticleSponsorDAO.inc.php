@@ -147,6 +147,21 @@ class ArticleSponsorDAO extends DAO {
 		return $articleSponsor;
 	}
         
+        
+	/**
+	 * Check if an article primary sponsor object exists
+	 * @param $submissionId int
+	 * @return boolean
+	 */
+	function articlePrimarySponsorExists($submissionId) {
+		$result =& $this->retrieve('SELECT count(*) FROM article_sponsor WHERE type = ' . ARTICLE_SPONSOR_TYPE_PRIMARY . ' AND article_id = ?', (int) $submissionId);
+		$returner = $result->fields[0]?true:false;
+		$result->Close();
+		return $returner;
+	}
+        
+        
+        
 }
 
 ?>

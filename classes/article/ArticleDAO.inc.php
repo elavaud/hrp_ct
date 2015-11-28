@@ -433,13 +433,15 @@ class ArticleDAO extends DAO {
 			$this->articleSponsorDao->deleteArticleSponsor($removedFundingSourceId);
 		}
 
+
                 // update article primary sponsor for this article
 		$primarySponsor =& $article->getArticlePrimarySponsor();
-		if ($primarySponsor->getId() > 0) {
+		if ($this->articleSponsorDao->articlePrimarySponsorExists($article->getId())) {
 			$this->articleSponsorDao->updateArticleSponsor($primarySponsor);
-		} else {
+		} elseif ($primarySponsor->getArticleId() > 0) {
 			$this->articleSponsorDao->insertArticleSponsor($primarySponsor);
 		}
+                
                 
                 // update article secondary sponsors for this article
 		$secondarySponsors =& $article->getArticleSecondarySponsors();

@@ -26,14 +26,45 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
 	 * Initialize form data from current article.
 	 */
 	function initData() {
-		$sectionDao =& DAORegistry::getDAO('SectionDAO');
-		if (isset($this->article)) {
-			$article =& $this->article;
-                                                                        						
-			
+            if (isset($this->article)) {
+                $article =& $this->article;
 
-		}
-		return parent::initData();
+                $fundingSources = $article->getArticleFundingSources();
+                $fundingSourcesArray = array();
+                if ($fundingSources == null) {
+                    $fundingSourcesArray = array(0 => null);
+                } else foreach ($fundingSources as $fundingSource){
+                    array_push (
+                        $fundingSourcesArray,
+                        array(
+                            'id' => $fundingSource->getId(),
+                            'institutionId' => $fundingSource->getInstitutionId()
+                        )
+                    );
+                }
+                $primarySponsor = $article->getArticlePrimarySponsor();
+                $secondarySponsors = $article->getArticleSecondarySponsors();
+                $secondarySponsorsArray = array();
+                if ($secondarySponsors == null) {
+                    $secondarySponsorsArray = array(0 => null);
+                } else foreach ($secondarySponsors as $secondarySponsor){
+                    array_push (
+                        $secondarySponsorsArray,
+                        array(
+                            'id' => $secondarySponsor->getId(),
+                            'institutionId' => $secondarySponsor->getInstitutionId()
+                        )
+                    );
+                }
+                
+                $this->_data = array(
+                    'fundingSources' => $fundingSourcesArray,
+                    'primarySponsor' => $primarySponsor->getInstitutionId(),
+                    'secondarySponsors' => $secondarySponsorsArray
+                );
+
+            }
+            return parent::initData();
 	}
 
 	/**
@@ -42,19 +73,16 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
 	function readInputData() {
 		$this->readUserVars(
 			array(
-					)
+                            'fundingSources',
+                            'primarySponsor',
+                            'secondarySponsors'
+                        )
 		);
 
                 // Load the section. This is used in the step 5 form to
 		// determine whether or not to display indexing options.
 		$sectionDao =& DAORegistry::getDAO('SectionDAO');
 		$this->_data['section'] =& $sectionDao->getSection($this->article->getSectionId());
-
-		/*
-		if ($this->_data['section']->getAbstractsNotRequired() == 0) {
-			$this->addCheck(new FormValidatorLocale($this, 'abstract', 'required', 'author.submit.form.abstractRequired', $this->getRequiredLocale()));
-		}
-		*/
 	}
 
 	/**
@@ -68,13 +96,10 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
 	/**
 	 * Display the form.
 	 */
-	function display() {
-                $journal = Request::getJournal();
-                
+	function display() {                
 		$countryDao =& DAORegistry::getDAO('CountryDAO');
                 $extraFieldDAO =& DAORegistry::getDAO('ExtraFieldDAO');
 		$institutionDao =& DAORegistry::getDAO('InstitutionDAO');
-		$currencyDao =& DAORegistry::getDAO('CurrencyDAO');
                 
                 $geoAreas =& $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_GEO_AREA, EXTRA_FIELD_ACTIVE);
                 
@@ -82,7 +107,11 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
                 $institutionsListWithOther = $institutionsList + array('OTHER' => Locale::translate('common.other'));
                 
 		$templateMgr =& TemplateManager::getManager();
-                                
+                $templateMgr->assign('geoAreasList', $geoAreas);
+                $templateMgr->assign('coutryList', $countryDao->getCountries());
+                $templateMgr->assign('institutionsList', $institutionsListWithOther);
+                $templateMgr->assign('internationalArray', $institutionDao->getInstitutionInternationalArray());
+                
                 parent::display();
 	}
 

@@ -243,16 +243,6 @@
                     <td width="80%" class="value"><a class="addAnotherInvestigatorClick" id="{$articleSiteAddInvestigatorD|escape}" style="cursor: pointer;">{translate key="proposal.articleSite.investigator.add"}</a></td>
                 </tr>
             </table>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
         </div>
     {/foreach}
     

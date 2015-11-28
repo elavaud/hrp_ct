@@ -37,7 +37,6 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
 	 * Initialize form data from current article.
 	 */
 	function initData() {
-            $sectionDao =& DAORegistry::getDAO('SectionDAO');
             if (isset($this->article)) {
                 $article =& $this->article;
 
