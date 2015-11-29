@@ -24,7 +24,8 @@
 	<message key="author.submit.form.secondarySponsors.nameUsed">The name you provided for one of your secondary sponsor is already in used by another institution. Please verify if your secondary sponsor is not in the list.</message>        
 	<message key="author.submit.form.secondarySponsors.acronymUsed">The acronym you provided for one of your secondary sponsor is already in used by another institution. Please verify if your secondary sponsor is not in the list and if not choose another acronym.</message>        
 	<message key="author.submit.form.sponsors.differentNameAcronym">It seems that one of your funding source is the same as one of your sponsors and provided the information twice. However the names or acronyms do not match (same names but different acronyms or same acronyms but different names).</message>        
-
+	<message key="author.submit.form.fundingSources.nameOrAcronymAlreadyProvided">You provided the same name or the same acronym for multiple funding sources.</message>        
+	<message key="author.submit.form.secondarySponsors.nameOrAcronymAlreadyProvided">You provided the same name or the same acronym for multiple secondary sponsors.</message>        
         
 	<message key="author.submit.form.pdfRequired">The completion report should be uploaded in a PDF format. Please convert the report and submit it again.</message>        
 	<message key="author.submit.form.fileTooBig">The completion report should not exceed 20 Mb.</message>        

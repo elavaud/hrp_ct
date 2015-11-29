@@ -50,7 +50,40 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
                     }, array($_POST["primarySponsor"], $_POST["secondarySponsors"])
                 )); 
             }            
+            
+            // Check if same acronym or same name has been used in the funding sources
+            $this->addCheck(new FormValidatorCustom($this, 'fundingSources', 'required', 'author.submit.form.fundingSources.nameOrAcronymAlreadyProvided', 
+                function($fundingSources) {
+                    foreach ($fundingSources as $fundingSource) { 
+                        $found = 0;
+                        foreach ($fundingSources as $sFundingSource){
+                            if (($fundingSource['name']!= 'NA' && $fundingSource['name'] == $sFundingSource['name']) || ($fundingSource['acronym']!= 'NA' && $fundingSource['acronym'] == $sFundingSource['acronym'])) {
+                                $found++;
+                            }
+                        }
+                        if ($found > 1) {
+                            return false;
+                        }
+                    } return true;
+                })); 
+                
+            // Check if same acronym or same name has been used in the secondary sponsors
+            $this->addCheck(new FormValidatorCustom($this, 'secondarySponsors', 'required', 'author.submit.form.secondarySponsors.nameOrAcronymAlreadyProvided', 
+                function($secondarySponsors) {
+                    foreach ($secondarySponsors as $secondarySponsor) { 
+                        $found = 0;
+                        foreach ($secondarySponsors as $sSecondarySponsor){
+                            if (($secondarySponsor['ssName']!= 'NA' && $secondarySponsor['ssName'] == $sSecondarySponsor['ssName']) || ($secondarySponsor['ssAcronym']!= 'NA' && $secondarySponsor['ssAcronym'] == $sSecondarySponsor['ssAcronym'])) {
+                                $found++;
+                            }
+                        }
+                        if ($found > 1) {
+                            return false;
+                        }
+                    } return true;
+                }));                 
         }
+        
 
 	/**
 	 * Initialize form data from current article.
@@ -155,8 +188,9 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
 		$articleDao =& DAORegistry::getDAO('ArticleDAO');
 		$article =& $this->article;
                 
-		// Retrieve the previous citation list for comparison.
-		$previousRawCitationList = $article->getCitations();
+                $fundingSourcesData = $this->getData('fundingSources');
+                $primarySponsorData = $this->getData('primarySponsor');
+                $secondarySponsorsData = $this->getData('secondarySponsors');
               
                 //update step
                 if ($article->getSubmissionProgress() <= $this->step) {
@@ -169,12 +203,6 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
 		// Save the article
 		$articleDao->updateArticle($article);
 
-		// Update references list if it changed.
-		$citationDao =& DAORegistry::getDAO('CitationDAO');
-		$rawCitationList = $article->getCitations();
-		if ($previousRawCitationList != $rawCitationList) {
-			$citationDao->importCitations($request, ASSOC_TYPE_ARTICLE, $article->getId(), $rawCitationList);
-		}
 		return $this->articleId;
 	}
 }
