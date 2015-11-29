@@ -209,7 +209,7 @@
                 <td width="80%" colspan="2" class="value">
                     <select name="{$secondarySponsorsSelectB|escape}" id="{$secondarySponsorsSelectD|escape}" class="selectMenu">
                         <option value=""></option>
-                        {html_options options=$institutionsList selected=$secondarySponsors.$k.institutionId}                                
+                        {html_options options=$institutionsList selected=$secondarySponsors.$k.ssInstitutionId}                                
                     </select>
                     <a class="removeSecondarySponsor" style="{if $k == 0}display: none; {/if}cursor: pointer;">{translate key="common.remove"}</a>
                 </td>                                           

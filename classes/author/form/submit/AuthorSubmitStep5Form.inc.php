@@ -14,16 +14,42 @@ import('classes.form.validation.FormValidatorArrayRadios');
 
 class AuthorSubmitStep5Form extends AuthorSubmitForm {
 
+        var $institutionDao;
+    
 	/**
 	 * Constructor.
 	 */
 	function AuthorSubmitStep5Form(&$article, &$journal) {
             parent::AuthorSubmitForm($article, 5, $journal);
-                
+            $this->institutionDao = DAORegistry::getDAO("InstitutionDAO");
             $this->addCheck(new FormValidatorArray($this, 'fundingSources', 'required', 'author.submit.form.fundingSources.required', array('institutionId', 'name', 'acronym', 'type', 'location', 'locationCountry', 'locationInternational')));	
-            $this->addCheck(new FormValidatorArrayRadios($this, 'primarySponsor', 'required', 'author.submit.form.primarySponsor.required', array('location')));	
-            $this->addCheck(new FormValidatorArray($this, 'secondarySponsors', 'required', 'author.submit.form.secondarySponsors.required', array('ssInstitutionId', 'ssName', 'ssAcronym', 'ssType', 'ssLocation', 'ssLocationCountry', 'ssLocationInternational')));	
-		        
+            $this->addCheck(new FormValidatorCustom($this, 'fundingSources', 'required', 'author.submit.form.fundingSources.nameUsed', function($fundingSources) {foreach ($fundingSources as $fundingSource) { if($this->institutionDao->institutionExistsByName($fundingSource['name'])) {return false;}} return true;})); 
+            $this->addCheck(new FormValidatorCustom($this, 'fundingSources', 'required', 'author.submit.form.fundingSources.acronymUsed', function($fundingSources) {foreach ($fundingSources as $fundingSource) {if($this->institutionDao->institutionExistsByAcronym($fundingSource['acronym'])) {return false;}}return true;})); 
+            $this->addCheck(new FormValidatorArrayRadios($this, 'primarySponsor', 'required', 'author.submit.form.primarySponsor.required', array('location')));
+            $this->addCheck(new FormValidatorCustom($this, 'primarySponsor', 'required', 'author.submit.form.primarySponsor.nameUsed', function($primarySponsor) {if($this->institutionDao->institutionExistsByName($primarySponsor['name'])) {return false;} return true;})); 
+            $this->addCheck(new FormValidatorCustom($this, 'primarySponsor', 'required', 'author.submit.form.primarySponsor.acronymUsed', function($primarySponsor) {if($this->institutionDao->institutionExistsByAcronym($primarySponsor['acronym'])) {return false;}return true;}));             
+            $this->addCheck(new FormValidatorArray($this, 'secondarySponsors', 'required', 'author.submit.form.secondarySponsors.required', array('ssName', 'ssAcronym', 'ssType', 'ssLocation', 'ssLocationCountry', 'ssLocationInternational')));	
+            $this->addCheck(new FormValidatorCustom($this, 'secondarySponsors', 'required', 'author.submit.form.secondarySponsors.nameUsed', function($secondarySponsors) {foreach ($secondarySponsors as $secondarySponsor) { if($this->institutionDao->institutionExistsByName($secondarySponsor['ssName'])) {return false;}} return true;})); 
+            $this->addCheck(new FormValidatorCustom($this, 'secondarySponsors', 'required', 'author.submit.form.secondarySponsors.acronymUsed', function($secondarySponsors) {foreach ($secondarySponsors as $secondarySponsor) {if($this->institutionDao->institutionExistsByAcronym($secondarySponsor['ssAcronym'])) {return false;}}return true;})); 
+
+            // Check if same new institution has been entered twice or more in the fields but the user provided different acronyms for the same name or oppositely
+            if(isset($_POST['primarySponsor']) && isset($_POST['secondarySponsors'])) {      
+                $this->addCheck(new FormValidatorCustom($this, 'fundingSources', 'required', 'author.submit.form.sponsors.differentNameAcronym', 
+                    function($fundingSources, $primarySponsor, $secondarySponsors) {
+                        foreach ($fundingSources as $fundingSource) {
+                            if ($fundingSource['name'] == $primarySponsor['name'] && $fundingSource['name'] != 'NA' && $fundingSource['acronym'] != $primarySponsor['acronym']) return false;
+                            elseif ($fundingSource['acronym'] == $primarySponsor['acronym'] && $fundingSource['acronym'] != 'NA' && $fundingSource['name'] != $primarySponsor['name']) return false;
+                            foreach ($secondarySponsors as $secondarySponsor) {
+                                if ($fundingSource['name'] == $secondarySponsor['ssName'] && $fundingSource['name'] != 'NA' && $fundingSource['acronym'] != $secondarySponsor['ssAcronym']) return false;
+                                elseif ($fundingSource['acronym'] == $secondarySponsor['ssAcronym'] && $fundingSource['acronym'] != 'NA' && $fundingSource['name'] != $secondarySponsor['ssName']) return false;
+                                if ($secondarySponsor['ssName'] == $primarySponsor['name'] && $secondarySponsor['ssName'] != 'NA' && $secondarySponsor['ssAcronym'] != $primarySponsor['acronym']) return false;
+                                elseif ($secondarySponsor['ssAcronym'] == $primarySponsor['acronym'] && $secondarySponsor['ssAcronym'] != 'NA' && $secondarySponsor['ssName'] != $primarySponsor['name']) return false;
+                            }
+                        }
+                        return true;
+                    }, array($_POST["primarySponsor"], $_POST["secondarySponsors"])
+                )); 
+            }            
         }
 
 	/**
@@ -56,7 +82,7 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
                         $secondarySponsorsArray,
                         array(
                             'id' => $secondarySponsor->getId(),
-                            'institutionId' => $secondarySponsor->getInstitutionId()
+                            'ssInstitutionId' => $secondarySponsor->getInstitutionId()
                         )
                     );
                 }
