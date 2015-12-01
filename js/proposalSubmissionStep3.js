@@ -52,7 +52,9 @@ function addDrugInfo(){
     $('#articleDrugs-'+fieldId+'-importedQuantity').val('');
     $('#articleDrugs-'+fieldId).find('.addAnotherManufacturerClick').click(function(e) {var id = e.target.id;addManufacturer(id);}); 
     $('#articleDrugs-'+fieldId).find('.manufacturerSupp-0').remove();   
-    $('#articleDrugs-'+fieldId).find('.removeManufacturer').click(function(){$(this).closest('table').remove();});   
+    $('#articleDrugs-'+fieldId).find('.removeManufacturer').click(function(){$(this).closest('table').remove();});  
+    $('#articleDrugs-'+fieldId+'-manufacturers-0-name').val('');
+    $('#articleDrugs-'+fieldId+'-manufacturers-0-address').val('');    
     showOrHideOherAdministrationFields();
     showOrHideOherFormFields();
     showOrHideCountriesConditionsFields();
@@ -140,7 +142,7 @@ function showOrHideCountriesConditionsField(name){
         if (!$('#articleDrugs-'+fieldId+'-countries-0').find('option[value="NA"]').length) {
             $('#articleDrugs-'+fieldId+'-countries-0').append('<option value="NA"></option>');
         }
-        $('#articleDrugs-'+fieldId+'-countries-0').val('NA')
+        $('#articleDrugs-'+fieldId+'-countries-0').val('NA');
         $('#articleDrugs-'+fieldId+'-classIIIOrIV').find('.countrySupp-'+fieldId).remove();
         if (!$('#articleDrugs-'+fieldId+'-classIIIOrIV').find(':radio[value=NA]').length) {
             $('#articleDrugs-'+fieldId+'-classIIIOrIV').append('<input type="radio" style="display:none;" name="articleDrugs['+fieldId+'][conditionsOfUse]" value="NA">');
@@ -239,7 +241,7 @@ function addManufacturer(id) {
     while (manufacturerHtml.indexOf('articleDrugs-'+fieldId+'-manufacturers-0') > -1) {     
         manufacturerHtml = manufacturerHtml.replace('articleDrugs-'+fieldId+'-manufacturers-0', 'articleDrugs-'+fieldId+'-manufacturers-'+subFieldId);
     }
-    while (countryHtml.indexOf('articleDrugs['+fieldId+'][manufacturers][0') > -1) {     
+    while (manufacturerHtml.indexOf('articleDrugs['+fieldId+'][manufacturers][0') > -1) {     
         manufacturerHtml = manufacturerHtml.replace('articleDrugs['+fieldId+'][manufacturers][0', 'articleDrugs['+fieldId+'][manufacturers]['+subFieldId);
     }
     if ($("table.manufacturerSupp-"+fieldId).length){
