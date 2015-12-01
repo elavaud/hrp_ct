@@ -106,6 +106,10 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
                     );
                 }
                 $primarySponsor = $article->getArticlePrimarySponsor();
+                $primarySponsorArray = array();
+                if ($primarySponsor != null) {
+                    $primarySponsorArray = array('id' => $primarySponsor->getId(), 'institutionId' => $primarySponsor->getInstitutionId());
+                }
                 $secondarySponsors = $article->getArticleSecondarySponsors();
                 $secondarySponsorsArray = array();
                 if ($secondarySponsors == null) {
@@ -122,7 +126,7 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
                 
                 $this->_data = array(
                     'fundingSources' => $fundingSourcesArray,
-                    'primarySponsor' => $primarySponsor->getInstitutionId(),
+                    'primarySponsor' => $primarySponsorArray,
                     'secondarySponsors' => $secondarySponsorsArray
                 );
 
@@ -186,12 +190,126 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
 	 */
 	function execute(&$request) {
 		$articleDao =& DAORegistry::getDAO('ArticleDAO');
+		$institutionDao =& DAORegistry::getDAO('InstitutionDAO');
+                import ('classes.journal.Institution');
 		$article =& $this->article;
                 
                 $fundingSourcesData = $this->getData('fundingSources');
                 $primarySponsorData = $this->getData('primarySponsor');
                 $secondarySponsorsData = $this->getData('secondarySponsors');
-              
+                
+                $newInstitutions = array();
+                
+                foreach ($fundingSourcesData as $fundingSourceData) {
+                    if (isset($fundingSourceData['id'])) {
+                        $articleSource = $article->getArticleFundingSource($fundingSourceData['id']);
+                    } else {
+                        $articleSource = new ArticleSponsor();
+                    }
+                    $articleSource->setArticleId($article->getId());
+                    $articleSource->setType(ARTICLE_SPONSOR_TYPE_FUNDING);
+                    if ($fundingSourceData['institutionId'] == 'OTHER') {
+                        $institution = new Institution();
+                        $institution->setInstitutionName($fundingSourceData['name']);
+                        $institution->setInstitutionAcronym($fundingSourceData['acronym']);
+                        $institution->setInstitutionType($fundingSourceData['type']);
+                        $institution->setInstitutionInternational($fundingSourceData['location']);                    
+                        if($fundingSourceData['location'] == INSTITUTION_NATIONAL){
+                            $institution->setInstitutionLocation($fundingSourceData['locationCountry']);
+                        } elseif($fundingSourceData['location'] == INSTITUTION_INTERNATIONAL){
+                            $institution->setInstitutionLocation($fundingSourceData['locationInternational']);
+                        }
+                        $institutionId = $institutionDao->insertInstitution($institution);
+                        $articleSource->setInstitutionId($institutionId);
+                        $fundingSourceData['institutionId'] = $institutionId;
+                        array_push($newInstitutions, $fundingSourceData);
+                        unset($institution);
+                    } else {
+                        $articleSource->setInstitutionId($fundingSourceData['institutionId']);
+                    }
+                    $article->addArticleFundingSource($articleSource);
+                    unset($articleSource);
+                }
+                
+                if (isset($primarySponsorData['id'])) {
+                    $primarySponsor = $article->getArticlePrimarySponsor();
+                } else {
+                    $primarySponsor = new ArticleSponsor();
+                }
+                $primarySponsor->setArticleId($article->getId());
+                $primarySponsor->setType(ARTICLE_SPONSOR_TYPE_PRIMARY);
+                if ($primarySponsorData['institutionId'] == 'OTHER') {
+                    $found = false;
+                    foreach ($newInstitutions as $newInstitution) {
+                        if ($newInstitution['name'] == $primarySponsorData['name'] || $newInstitution['acronym'] == $primarySponsorData['acronym']){
+                            $found = $newInstitution['institutionId'];
+                        }
+                    }
+                    if(!$found) {
+                        $institution = new Institution();
+                        $institution->setInstitutionName($primarySponsorData['name']);
+                        $institution->setInstitutionAcronym($primarySponsorData['acronym']);
+                        $institution->setInstitutionType($primarySponsorData['type']);
+                        $institution->setInstitutionInternational($primarySponsorData['location']);                    
+                        if($primarySponsorData['location'] == INSTITUTION_NATIONAL){
+                            $institution->setInstitutionLocation($primarySponsorData['locationCountry']);
+                        } elseif($primarySponsorData['location'] == INSTITUTION_INTERNATIONAL){
+                            $institution->setInstitutionLocation($primarySponsorData['locationInternational']);
+                        }
+                        $institutionId = $institutionDao->insertInstitution($institution);
+                        $primarySponsor->setInstitutionId($institutionId);
+                        $primarySponsorData['institutionId'] = $institutionId;
+                        array_push($newInstitutions, $primarySponsorData);
+                        unset($institution);
+                    } else {
+                        $primarySponsor->setInstitutionId($found);
+                    }
+                } else {
+                    $primarySponsor->setInstitutionId($primarySponsorData['institutionId']);
+                }
+                $article->setArticlePrimarySponsor($primarySponsor);
+                
+                foreach ($secondarySponsorsData as $secondarySponsorData) {
+                    if (isset($secondarySponsorData['id'])) {
+                        $secondarySponsor = $article->getArticleSecondarySponsor($secondarySponsorData['id']);
+                    } else {
+                        $secondarySponsor = new ArticleSponsor();
+                    }
+                    $secondarySponsor->setArticleId($article->getId());
+                    $secondarySponsor->setType(ARTICLE_SPONSOR_TYPE_SECONDARY);                    
+                    if ($secondarySponsorData['ssInstitutionId'] == 'OTHER'){
+                        $found = false;
+                        foreach ($newInstitutions as $newInstitution) {
+                            if ($newInstitution['name'] == $secondarySponsorData['ssName'] || $newInstitution['acronym'] == $secondarySponsorData['ssAcronym']){
+                                $found = $newInstitution['institutionId'];
+                            }
+                        }
+                        if(!$found) {
+                            $institution = new Institution();
+                            $institution->setInstitutionName($secondarySponsorData['ssName']);
+                            $institution->setInstitutionAcronym($secondarySponsorData['ssAcronym']);
+                            $institution->setInstitutionType($secondarySponsorData['ssType']);
+                            $institution->setInstitutionInternational($secondarySponsorData['ssLocation']);                    
+                            if($secondarySponsorData['ssLocation'] == INSTITUTION_NATIONAL){
+                                $institution->setInstitutionLocation($secondarySponsorData['ssLocationCountry']);
+                            } elseif($secondarySponsorData['ssLocation'] == INSTITUTION_INTERNATIONAL){
+                                $institution->setInstitutionLocation($secondarySponsorData['ssLocationInternational']);
+                            }
+                            $institutionId = $institutionDao->insertInstitution($institution);
+                            $secondarySponsor->setInstitutionId($institutionId);
+                            $primarySponsorData['institutionId'] = $institutionId;
+                            array_push($newInstitutions, array ('institutionId' => $institutionId, 'name' => $secondarySponsorData['ssName'], 'acronym' => $secondarySponsorData['ssAcronym']));
+                            unset($institution);
+                        } else {
+                            $secondarySponsor->setInstitutionId($found);
+                        }                        
+                    } else {
+                        $secondarySponsor->setInstitutionId($secondarySponsorData['ssInstitutionId']);
+                    }
+                    $article->addArticleSecondarySponsor($secondarySponsor);
+                    unset($secondarySponsor);
+                }
+                
                 //update step
                 if ($article->getSubmissionProgress() <= $this->step) {
 			$article->stampStatusModified();
