@@ -74,6 +74,10 @@ class Article extends Submission {
         
         var $removedArticleSecondarySponsors;
 
+        var $articleCROs;
+        
+        var $removedArticleCROs;
+
 	/**
 	 * Constructor.
 	 */
@@ -95,6 +99,8 @@ class Article extends Submission {
 		$this->removedArticleFundingSources = array();
                 $this->articleSecondarySponsors = array();
 		$this->removedArticleSecondarySponsors = array();
+                $this->articleCROs = array();
+		$this->removedArticleCROs = array();                
         }
 
 	/**
@@ -1388,5 +1394,85 @@ class Article extends Submission {
 	function setArticleSecondarySponsors($articleSponsors) {
 		return $this->articleSecondarySponsors = $articleSponsors;
 	}
+        
+        
+        /**
+	 * Add an article CRO.
+	 * @param $articleCRO ArticleCRO
+	 */
+	function addArticleCRO($articleCRO) {
+                $found = false;
+                $i = 0;
+                $articleCROs = $this->articleCROs;
+                foreach ($this->articleCROs as $acroKey => $acroValue) {
+                    if ($articleCRO->getId() != null && $articleCRO->getId() == $acroValue->getId()){
+                        $articleCROs[$acroKey] = $acroValue;
+                        $found = true;
+                    }
+                    $i++;
+                }
+                if (!$found) {
+                    $articleCROs[$i] = $articleCRO;
+                }
+                $this->articleCROs = $articleCROs;
+	}
+        /**
+	 * Remove an article CRO.
+	 * @param $articleCROId ID of the article CRO to remove
+	 * @return boolean article CRO was removed
+	 */
+	function removeArticleCRO($articleCROId) {
+                $found = false;
+                $i = 0;
+		if ($articleCROId != 0) {
+                    $articleCROs = $this->articleCROs;
+                    foreach ($this->articleCROs as $articleCRO) {
+                        if ($articleCRO->getId() == $articleCROId) {
+                            array_push($this->removedArticleCROs, $articleCROId);
+                            $found = true;
+                        }
+                        else {
+                            $articleCROs[$i] = $articleCRO;
+                            $i++;
+                        }       
+                    }
+                    $this->articleCROs = $articleCROs;
+		}
+		return $found;
+	}
+	/**
+	 * Get all article CROs for this submission.
+	 * @return array ArticleCRO
+	 */
+	function &getArticleCROs() {
+		return $this->articleCROs;
+	}
+        /**
+	 * Get article CRO by ID for this submission.
+	 * @return object ArticleCRO
+	 */
+	function &getArticleCRO($id) {
+                foreach ($this->articleCROs as $articleCRO) {
+                    if ($articleCRO->getId() == $id) {
+                        return $articleCRO;
+                    }
+                }
+		return null;
+	}
+        /**
+	 * Get the IDs of all article CROs removed from this submission.
+	 * @return array int
+	 */
+	function &getRemovedArticleCROs() {
+		return $this->removedArticleCROs;
+	}
+        /**
+	 * Set article CROs of this submission.
+	 * @param $articleCROs array ArticleCRO
+	 */
+	function setArticleCROs($articleCROs) {
+		return $this->articleCROs = $articleCROs;
+	}
+        
 }
 ?>
