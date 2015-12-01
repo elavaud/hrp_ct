@@ -195,11 +195,31 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
 		$article =& $this->article;
                 
                 $fundingSourcesData = $this->getData('fundingSources');
+                $fundingSources = $article->getArticleFundingSources();
                 $primarySponsorData = $this->getData('primarySponsor');
                 $secondarySponsorsData = $this->getData('secondarySponsors');
+                $secondarySponsors = $article->getArticleSecondarySponsors();
                 
                 $newInstitutions = array();
                 
+                // Remove deleted funding sources
+                foreach ($fundingSources as $fundingSource) {
+                    $isPresent = false;
+                    foreach ($fundingSourcesData as $fundingSourceData) {
+                        if (!empty($fundingSourceData['id'])) {
+                            if ($fundingSource->getId() == $fundingSourceData['id']) {
+                                $isPresent = true;
+                            }
+                        }
+                    }
+                    if (!$isPresent) {
+                        $article->removeArticleFundingSource($fundingSource->getId());
+                    }
+                    unset($isPresent);                    
+                    unset($fundingSource);
+                }
+
+                // Update / Insert funding sources
                 foreach ($fundingSourcesData as $fundingSourceData) {
                     if (isset($fundingSourceData['id'])) {
                         $articleSource = $article->getArticleFundingSource($fundingSourceData['id']);
@@ -269,6 +289,24 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
                 }
                 $article->setArticlePrimarySponsor($primarySponsor);
                 
+                // Remove deleted secondary sponsors
+                foreach ($secondarySponsors as $secondarySponsor) {
+                    $isPresent = false;
+                    foreach ($secondarySponsorsData as $secondarySponsorData) {
+                        if (!empty($secondarySponsorData['id'])) {
+                            if ($secondarySponsor->getId() == $secondarySponsorData['id']) {
+                                $isPresent = true;
+                            }
+                        }
+                    }
+                    if (!$isPresent) {
+                        $article->removeArticleSecondarySponsor($secondarySponsor->getId());
+                    }
+                    unset($isPresent);                    
+                    unset($secondarySponsor);
+                }
+                
+                // Update / Insert secondary sponsors
                 foreach ($secondarySponsorsData as $secondarySponsorData) {
                     if (isset($secondarySponsorData['id'])) {
                         $secondarySponsor = $article->getArticleSecondarySponsor($secondarySponsorData['id']);

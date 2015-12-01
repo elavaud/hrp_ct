@@ -179,6 +179,26 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
 		$article =& $this->article;
                 
                 $articleDrugsData = $this->getData('articleDrugs');
+                $articleDrugs = $article->getArticleDrugs();
+                
+                // Remove deleted article drugs
+                foreach ($articleDrugs as $articleDrug) {
+                    $isPresent = false;
+                    foreach ($articleDrugsData as $articleDrugData) {
+                        if (!empty($articleDrugData['id'])) {
+                            if ($articleDrug->getId() == $articleDrugData['id']) {
+                                $isPresent = true;
+                            }
+                        }
+                    }
+                    if (!$isPresent) {
+                        $article->removeArticleDrug($articleDrug->getId());
+                    }
+                    unset($isPresent);                    
+                    unset($articleDrug);
+                }
+                
+                // Update article drugs
                 foreach ($articleDrugsData as $articleDrugData) {
                     if (isset($articleDrugData['id'])) {
                         $articleDrug = $article->getArticleDrug($articleDrugData['id']);
@@ -206,6 +226,25 @@ class AuthorSubmitStep3Form extends AuthorSubmitForm {
                     $articleDrug->setImportedQuantity($articleDrugData['importedQuantity']);
                     
                     $manufacturersData = $articleDrugData['manufacturers'];
+                    $manufacturers = $articleDrug->getManufacturers();
+                    
+                    // Remove deleted manufacturers
+                    foreach ($manufacturers as $manufacturer) {
+                        $isPresent = false;
+                        foreach ($manufacturersData as $manufacturerData) {
+                            if (!empty($manufacturerData['id'])) {
+                                if ($manufacturer->getId() == $manufacturerData['id']) {
+                                    $isPresent = true;
+                                }
+                            }
+                        }
+                        if (!$isPresent) {
+                            $articleDrug->removeManufacturer($manufacturer->getId());
+                        }
+                        unset($isPresent);                    
+                        unset($manufacturer);
+                    }
+                    // Update manufacturers
                     foreach ($manufacturersData as $manufacturerData) {                        
                         if (isset($manufacturerData['id'])) {
                             $manufacturer = $articleDrug->getManufacturer($manufacturerData['id']);

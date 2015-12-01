@@ -132,9 +132,28 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
 		$article =& $this->article;
                 
                 $articleSitesData = $this->getData('articleSites');
+                $articleSites = $article->getArticleSites();
 		import('classes.journal.TrialSite');
 		import('classes.article.ArticleSite');
 
+                // Remove deleted article sites
+                foreach ($articleSites as $articleSite) {
+                    $isPresent = false;
+                    foreach ($articleSitesData as $articleSiteData) {
+                        if (!empty($articleSiteData['id'])) {
+                            if ($articleSite->getId() == $articleSiteData['id']) {
+                                $isPresent = true;
+                            }
+                        }
+                    }
+                    if (!$isPresent) {
+                        $article->removeArticleSite($articleSite->getId());
+                    }
+                    unset($isPresent);                    
+                    unset($articleSite);
+                }
+                
+                // Update / Insters article sites
                 foreach ($articleSitesData as $articleSiteData) {
                     if (isset($articleSiteData['id'])) {
                         $articleSite = $article->getArticleSite($articleSiteData['id']);
@@ -164,6 +183,24 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
                     $articleSite->setSubjectsNumber($articleSiteData['subjectsNumber']);
                     
                     $investigatorsData = $articleSiteData['investigators'];
+                    $investigators = $articleSite->getInvestigators();
+                    // Remove deleted investigators
+                    foreach ($investigators as $investigator) {
+                        $isPresent = false;
+                        foreach ($investigatorsData as $investigatorData) {
+                            if (!empty($investigatorData['id'])) {
+                                if ($investigator->getId() == $investigatorData['id']) {
+                                    $isPresent = true;
+                                }
+                            }
+                        }
+                        if (!$isPresent) {
+                            $articleSite->removeInvestigator($investigator->getId());
+                        }
+                        unset($isPresent);                    
+                        unset($investigator);
+                    }
+                    // Update / Insert Investigators
                     $investigatorIterator = 1;
                     foreach ($investigatorsData as $investigatorData) {
                         if (isset($investigatorData['id'])){
