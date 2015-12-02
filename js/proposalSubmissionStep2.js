@@ -196,7 +196,9 @@ function addPurpose(){
 function showOrHideInterventionalFields() {
     $("input[name*=interventional]").each(function () {
         var name = $(this).attr('name');
-        var iterator = parseInt(name.slice(9,10));
+        var nameStartRemoved = name.replace('purposes[', '');
+        var nameStartAndEndRemoved = nameStartRemoved.replace('][interventional]', '');
+        var iterator = parseInt(nameStartAndEndRemoved);
         var value = $("input[name='"+name+"']:checked").val();
         var idTrType = "purposes-"+iterator+"-type";
         var idTrCTPhase = "purposes-"+iterator+"-ctPhase";
@@ -433,7 +435,9 @@ function showOrHideOherIntSampleSizeField(){
         }
         $( "#intSampleSizeFields table.countryAndSizeSupp" ).each(function() {
             var selectName = $(this).attr('id');
-            var fieldId = parseInt(selectName.slice(29,30));
+            var nameStartRemoved = selectName.replace('purposes[', '');
+            var nameStartAndEndRemoved = nameStartRemoved.replace('][interventional]', '');
+            var fieldId = parseInt(nameStartAndEndRemoved);
             $('#articleDetails-intSampleSize-'+fieldId).show();
             if ($('#articleDetails-intSampleSize-'+fieldId+'-country').find('option[value="NA"]').length > 0){
                 if($('#articleDetails-intSampleSize-'+fieldId+'-country').val() == "NA") {
