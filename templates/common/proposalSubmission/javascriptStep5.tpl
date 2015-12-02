@@ -13,6 +13,12 @@
 
         var INSTITUTION_NATIONAL = "{/literal}{$smarty.const.INSTITUTION_NATIONAL}{literal}";
         var INSTITUTION_INTERNATIONAL = "{/literal}{$smarty.const.INSTITUTION_INTERNATIONAL}{literal}";     
+        var CRO_NATIONAL = "{/literal}{$smarty.const.CRO_NATIONAL}{literal}";
+        var CRO_INTERNATIONAL = "{/literal}{$smarty.const.CRO_INTERNATIONAL}{literal}";         
+        var ARTICLE_DETAIL_NO = "{/literal}{$smarty.const.ARTICLE_DETAIL_NO}{literal}";
+        var ARTICLE_DETAIL_YES = "{/literal}{$smarty.const.ARTICLE_DETAIL_YES}{literal}"; 
+        
+        
 
         $("a.showHideHelpButton").each(function() {$(this).click(function(){
             if ($(this).parent().parent().nextAll('.showHideHelpField').first().is(':hidden')) {
@@ -84,13 +90,31 @@
         $("#addSecondarySponsorClick").click(addSecondarySponsor);
         $('.removeSecondarySponsor').each(function() {$(this).click(function(){$(this).closest('table').remove();});});           
 
+        $('input:radio[name*="[croLocation]"]').each(
+            function () {
+                $(this).click(
+                    function(e) {
+                        var name = e.target.name;
+                        showOrHideCROLocation(name);
+                    }
+                );
+            }
+        );
+
+        $('input:radio[name=croInvolved]').each(function () {$(this).click(showOrHideCROInfo);});
+
+        $("#addCROClick").click(addCRO);
+        $('.removeCRO').each(function() {$(this).click(function(){$(this).closest('table').remove();});});           
+
         $(document).ready(
             function() {
                 showOrHideSourceLocations();
                 showOrHideSourcesInfo();
                 showOrHidePSponsorInfo();
                 showOrHideSSponsorLocations();
-                showOrHideSSponsorsInfo();                
+                showOrHideSSponsorsInfo();
+                showOrHideCROInfo();
+                showOrHideCROsLocations();
             }
         );  
 

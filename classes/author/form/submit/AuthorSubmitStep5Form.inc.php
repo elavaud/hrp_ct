@@ -124,10 +124,47 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
                     );
                 }
                 
+                $articleDetails = $article->getArticleDetails();
+                $CROs = $article->getArticleCROs();
+                $CROsArray = array();
+                if ($CROs == null) {
+                    $CROsArray = array(0 => null);
+                } else foreach ($CROs as $CRO) {
+                    $international = $CRO->getInternational();
+                    if ($international == CRO_NATIONAL) {
+                        $locationCountry = $CRO->getLocation();
+                        $locationInternational = null;                                                    
+                    } elseif ($international == CRO_INTERNATIONAL) {
+                        $locationCountry = null;
+                        $locationInternational = $CRO->getLocation();                                                    
+                    } else {
+                        $locationCountry = null;
+                        $locationInternational = null;                                                    
+                    }
+                    aray_push (
+                        $CROsArray,
+                        array(
+                            'id' => $CRO->getId(),
+                            'croName' => $CRO->getName(),
+                            'croLocation' => $international,
+                            'croLocationCountry' => $locationCountry,
+                            'croLocationInternational' => $locationInternational,                            
+                            'city' => $CRO->getCity(),
+                            'address' => $CRO->getAddress(),
+                            'primaryPhone' => $CRO->getPrimaryPhone(),
+                            'secondaryPhone' => $CRO->getSecondaryPhone(),
+                            'fax' => $CRO->getFax(),
+                            'email' => $CRO->getEmail()
+                        )
+                    );
+                }
+                
                 $this->_data = array(
                     'fundingSources' => $fundingSourcesArray,
                     'primarySponsor' => $primarySponsorArray,
-                    'secondarySponsors' => $secondarySponsorsArray
+                    'secondarySponsors' => $secondarySponsorsArray,
+                    'croInvolved' => $articleDetails->getCROInvolved(),
+                    'CROs' => $CROsArray
                 );
 
             }
@@ -142,7 +179,9 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
 			array(
                             'fundingSources',
                             'primarySponsor',
-                            'secondarySponsors'
+                            'secondarySponsors',
+                            'croInvolved',
+                            'CROs'
                         )
 		);
 
@@ -167,6 +206,7 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
 		$countryDao =& DAORegistry::getDAO('CountryDAO');
                 $extraFieldDAO =& DAORegistry::getDAO('ExtraFieldDAO');
 		$institutionDao =& DAORegistry::getDAO('InstitutionDAO');
+		$articleDetailsDao =& DAORegistry::getDAO('ArticleDetailsDAO');
                 
                 $geoAreas =& $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_GEO_AREA, EXTRA_FIELD_ACTIVE);
                 
@@ -179,6 +219,7 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
                 $templateMgr->assign('coutryList', $countryDao->getCountries());
                 $templateMgr->assign('institutionsList', $institutionsListWithOther);
                 $templateMgr->assign('internationalArray', $institutionDao->getInstitutionInternationalArray());
+                $templateMgr->assign('yesNoMap', $articleDetailsDao->getYesNoMap());                
                                 
                 parent::display();
 	}

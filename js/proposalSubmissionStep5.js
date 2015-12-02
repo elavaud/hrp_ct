@@ -357,3 +357,205 @@ function addSecondarySponsor(){
     $('table.sSponsorSupp:last').find('input:radio[name*="[ssLocation]"]').each(function () {$(this).click(function(e) {var name = e.target.name;showOrHideSSponsorLocation(name);});});
     showOrHideSSponsorsInfo();
 }
+
+function showOrHideCROLocation(name){
+    var nameStartRemoved = name.replace('CROs[', '');
+    var nameStartAndEndRemoved = nameStartRemoved.replace('][croLocation]', '');
+    var fieldId = parseInt(nameStartAndEndRemoved);
+    var showLocationCountry = false;
+    var showLocationInternational = false;    
+    $('input:radio[name="'+name+'"]').each(
+        function () {
+            if ($(this).val() == CRO_NATIONAL) {
+                if ($(this).is(':checked')) {
+                    showLocationCountry = true;
+                }
+            } else if ($(this).val() == CRO_INTERNATIONAL) {
+                if ($(this).is(':checked')) {
+                    showLocationInternational = true;
+                }
+            }
+        }
+    );
+    if (showLocationCountry) {
+        $('#CROs-'+fieldId+'-croLocationCountryField').show();
+        if ($('#CROs-'+fieldId+'-croLocationCountry').find('option[value="NA"]').length) {
+            $('#CROs-'+fieldId+'-croLocationCountry').find('option[value="NA"]').remove();
+        }
+    } else {
+        $('#CROs-'+fieldId+'-croLocationCountryField').hide();   
+        if (!$('#CROs-'+fieldId+'-croLocationCountry').find('option[value="NA"]').length) {
+            $('#CROs-'+fieldId+'-croLocationCountry').append('<option value="NA"></option>');
+        }
+        $('#CROs-'+fieldId+'-croLocationCountry').val('NA')
+    }
+    if (showLocationInternational) {
+        $('#CROs-'+fieldId+'-croLocationInternationalField').show();
+        if ($('#CROs-'+fieldId+'-croLocationInternational').find('option[value="NA"]').length) {
+            $('#CROs-'+fieldId+'-croLocationInternational').find('option[value="NA"]').remove();
+        }
+    } else {
+        $('#CROs-'+fieldId+'-croLocationInternationalField').hide();   
+        if (!$('#CROs-'+fieldId+'-croLocationInternational').find('option[value="NA"]').length) {
+            $('#CROs-'+fieldId+'-croLocationInternational').append('<option value="NA"></option>');
+        }
+        $('#CROs-'+fieldId+'-croLocationInternational').val('NA')
+    }
+}
+
+function showOrHideCROsLocations(){
+    $('input:radio[name*="[croLocation]"]').each(
+        function () {
+            showOrHideCROLocation($(this).attr("name"));
+        }
+    );
+}
+
+function showOrHideCROInfo(){
+    var value = $("input[name=croInvolved]:checked").val();
+    if (value == ARTICLE_DETAIL_YES) {
+        $('#addCROField').show();   
+        $('#CROs-0').show();
+        $('#CROs-0-croNameField').show();
+        if($('#CROs-0-croName').val() === "NA") {
+            $('#CROs-0-croName').val("");
+        }
+        $('#CROs-0-croLocationField').show();
+        if ($('#CROs-0-croLocationRadioSupp').length) {
+            $('#CROs-0-croLocationRadioSupp').remove();
+        }
+        $('#CROs-0-cityField').show();
+        if($('#CROs-0-city').val() === "NA") {
+            $('#CROs-0-city').val("");
+        }
+        $('#CROs-0-addressField').show();
+        if($('#CROs-0-address').val() === "NA") {
+            $('#CROs-0-address').val("");
+        }
+        $('#CROs-0-primaryPhoneField').show();
+        if($('#CROs-0-primaryPhone').val() === "NA") {
+            $('#CROs-0-primaryPhone').val("");
+        }
+        $('#CROs-0-secondaryPhoneField').show();
+        if($('#CROs-0-secondaryPhone').val() === "NA") {
+            $('#CROs-0-secondaryPhone').val("");
+        }
+        $('#CROs-0-faxField').show();
+        if($('#CROs-0-fax').val() === "NA") {
+            $('#CROs-0-fax').val("");
+        }
+        $('#CROs-0-emailField').show();
+        if($('#CROs-0-email').val() === "NA") {
+            $('#CROs-0-email').val("");
+        }
+        $( "#table.CROSupp" ).each(function() {
+            var selectName = $(this).attr('id');
+            var fieldId = parseInt(selectName.replace('CROs-', ''));
+            $('#CROs-'+fieldId).show();
+            $('#CROs-'+fieldId+'-croNameField').show();
+            if($('#CROs-'+fieldId+'-croName').val() === "NA") {
+                $('#CROs-'+fieldId+'-croName').val("");
+            }
+            $('#CROs-'+fieldId+'-croLocationField').show();
+            if ($('#CROs-'+fieldId+'-croLocationRadioSupp').length) {
+                $('#CROs-'+fieldId+'-croLocationRadioSupp').remove();
+            }
+            $('#CROs-'+fieldId+'-cityField').show();
+            if($('#CROs-'+fieldId+'-city').val() === "NA") {
+                $('#CROs-'+fieldId+'-city').val("");
+            }
+            $('#CROs-'+fieldId+'-addressField').show();
+            if($('#CROs-'+fieldId+'-address').val() === "NA") {
+                $('#CROs-'+fieldId+'-address').val("");
+            }
+            $('#CROs-'+fieldId+'-primaryPhoneField').show();
+            if($('#CROs-'+fieldId+'-primaryPhone').val() === "NA") {
+                $('#CROs-'+fieldId+'-primaryPhone').val("");
+            }
+            $('#CROs-'+fieldId+'-secondaryPhoneField').show();
+            if($('#CROs-'+fieldId+'-secondaryPhone').val() === "NA") {
+                $('#CROs-'+fieldId+'-secondaryPhone').val("");
+            }
+            $('#CROs-'+fieldId+'-faxField').show();
+            if($('#CROs-'+fieldId+'-fax').val() === "NA") {
+                $('#CROs-'+fieldId+'-fax').val("");
+            }
+            $('#CROs-'+fieldId+'-emailField').show();
+            if($('#CROs-'+fieldId+'-email').val() === "NA") {
+                $('#CROs-'+fieldId+'-email').val("");
+            }
+        });                        
+    } else {
+        $( "#table.CROSupp" ).remove();
+        $('#addCROField').hide();   
+        $('#CROs-0').hide();
+        $('#CROs-0-croNameField').hide();
+        $('#CROs-0-croName').val("NA");
+        $('#CROs-0-croLocationField').hide();
+        if (!$('#CROs-0-croLocationRadioSupp').length) {
+            $('#CROs-0-croLocationField').find('input:radio:first').parent().append($('<input type="radio" name="CROs[0][croLocation]" id="CROs-0-croLocationRadioSupp" value="NA">'));        
+        }
+        $('#CROs-0-croLocationRadioSupp').attr('checked', 'checked');     
+        $('#CROs-0-cityField').hide();
+        $('#CROs-0-city').val("NA");
+        $('#CROs-0-addressField').hide();
+        $('#CROs-0-address').val("NA");
+        $('#CROs-0-primaryPhoneField').hide();
+        $('#CROs-0-primaryPhone').val("NA");
+        $('#CROs-0-secondaryPhoneField').hide();
+        $('#CROs-0-secondaryPhone').val("NA");
+        $('#CROs-0-faxField').hide();
+        $('#CROs-0-fax').val("NA");
+        $('#CROs-0-emailField').hide();
+        $('#CROs-0-email').val("NA");
+    }
+    showOrHideCROsLocations();
+}
+
+function addCRO(){
+    var croHtml = '<table width="100%" class="CROSupp" id="CROs-X">' + $('#CROs-0').html() + '</table>';
+    if ($(".CROSupp").length){
+        var selectName = $('table.CROSupp:last').attr('id');
+        var selectNameStartRemoved = selectName.replace('CROs-', '');
+        var fieldId = parseInt(selectNameStartRemoved) + 1;
+    } else {    
+        var fieldId = 1;
+    }     
+    croHtml = croHtml.replace('CROs-X', 'CROs-'+fieldId);
+    while (croHtml.indexOf("CROs-0") > -1) { 
+        croHtml = croHtml.replace('CROs-0', 'CROs-'+fieldId);
+    }
+    while (croHtml.indexOf("CROs[0") > -1) { 
+        croHtml = croHtml.replace('CROs[0', 'CROs['+fieldId);
+    }
+    if ($(".CROSupp").length){
+        $('table.CROSupp:last').after(croHtml);
+    } else {
+        $('#CROs-0').after(croHtml);
+    }
+    $('table.CROSupp:last').find('.hiddenInputs').remove('');
+    $('table.CROSupp:last').find('tr.showHideHelpField').remove('');
+    $('table.CROSupp:last').find('a.showHideHelpButton').remove('');  
+    $('#CROs-'+fieldId).find('.removeCRO').show();
+    $('#CROs-'+fieldId).find('.removeCRO').click(function(){$(this).closest('table').remove();});   
+    $('#CROs-'+fieldId+'-croNameField').show();
+    $('#CROs-'+fieldId+'-croName').val("");    
+    $('#CROs-'+fieldId+'-croLocationField').show();
+    if ($('#CROs-'+fieldId+'-croLocationRadioSupp').length) {
+        $('#CROs-'+fieldId+'-croLocationRadioSupp').remove();
+    }
+    $('table.CROSupp:last').find('input:radio[name*="[croLocation]"]').each(function () {$(this).click(function(e) {var name = e.target.name;showOrHideCROLocation(name);});});
+    $('#CROs-'+fieldId+'-cityField').show();
+    $('#CROs-'+fieldId+'-city').val("");
+    $('#CROs-'+fieldId+'-addressField').show();
+    $('#CROs-'+fieldId+'-address').val("");
+    $('#CROs-'+fieldId+'-primaryPhoneField').show();
+    $('#CROs-'+fieldId+'-primaryPhone').val("");
+    $('#CROs-'+fieldId+'-secondaryPhoneField').show();
+    $('#CROs-'+fieldId+'-secondaryPhone').val("");
+    $('#CROs-'+fieldId+'-faxField').show();
+    $('#CROs-'+fieldId+'-fax').val("");
+    $('#CROs-'+fieldId+'-emailField').show();
+    $('#CROs-'+fieldId+'-email').val("");
+    showOrHideCROsLocations()();
+}

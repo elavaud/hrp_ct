@@ -217,12 +217,12 @@
             <tr valign="top" id="{$secondarySponsorsNameFieldD|escape}">
                 <td width="20%">&nbsp;</td>                        
                 <td width="10%">{fieldLabel name=$secondarySponsorsNameD required="true" key="proposal.articleSponsor.name"}</td>                        
-                <td width="70%" class="value"><input type="text" class="textField" name="{$secondarySponsorsNameB|escape}" id="{$secondarySponsorsNameD|escape}" value="{$secondarySponsors.$k.name|escape}" size="30" maxlength="255" /></td>                                           
+                <td width="70%" class="value"><input type="text" class="textField" name="{$secondarySponsorsNameB|escape}" id="{$secondarySponsorsNameD|escape}" value="{$secondarySponsors.$k.ssName|escape}" size="30" maxlength="255" /></td>                                           
             </tr>
             <tr valign="top" id="{$secondarySponsorsAcronymFieldD|escape}">
                 <td width="20%">&nbsp;</td>                        
                 <td width="10%">{fieldLabel name=$secondarySponsorsAcronymD required="true" key="proposal.articleSponsor.acronym"}</td>                        
-                <td width="70%" class="value"><input type="text" class="textField" name="{$secondarySponsorsAcronymB|escape}" id="{$secondarySponsorsAcronymD|escape}" value="{$secondarySponsors.$k.acronym|escape}" size="30" maxlength="255" /></td>                                           
+                <td width="70%" class="value"><input type="text" class="textField" name="{$secondarySponsorsAcronymB|escape}" id="{$secondarySponsorsAcronymD|escape}" value="{$secondarySponsors.$k.ssAcronym|escape}" size="30" maxlength="255" /></td>                                           
             </tr>
             <tr valign="top" id="{$secondarySponsorsTypeFieldD|escape}">
                 <td width="20%">&nbsp;</td>                        
@@ -230,7 +230,7 @@
                 <td width="70%" class="value">
                     <select name="{$secondarySponsorsTypeB|escape}" id="{$secondarySponsorsTypeD|escape}" class="selectMenu">
                         <option value=""></option>
-                        {html_options options=$institutionTypesList selected=$secondarySponsors.$k.type}                                
+                        {html_options options=$institutionTypesList selected=$secondarySponsors.$k.ssType}                                
                     </select>
                 </td>                                           
             </tr>                        
@@ -238,7 +238,7 @@
                 <td width="20%">&nbsp;</td>                        
                 <td width="10%">{fieldLabel name=$secondarySponsorsLocationD required="true" key="proposal.articleSponsor.location"}</td>                        
                 <td width="70%" class="value">
-                    {html_radios name=$secondarySponsorsLocationB options=$internationalArray selected=$secondarySponsors.$k.location separator='&nbsp;&nbsp;&nbsp;&nbsp;'}
+                    {html_radios name=$secondarySponsorsLocationB options=$internationalArray selected=$secondarySponsors.$k.ssLocation separator='&nbsp;&nbsp;&nbsp;&nbsp;'}
                 </td>                                           
             </tr>
             <tr valign="top" id="{$secondarySponsorsLocationCountryFieldD|escape}">
@@ -247,7 +247,7 @@
                 <td width="70%" class="value">
                     <select name="{$secondarySponsorsLocationCountryB|escape}" id="{$secondarySponsorsLocationCountryD|escape}" class="selectMenu">
                         <option value=""></option>
-                        {html_options options=$geoAreasList selected=$secondarySponsors.$k.locationCountry}                                
+                        {html_options options=$geoAreasList selected=$secondarySponsors.$k.ssLocationCountry}                                
                     </select>
                 </td>                                           
             </tr>
@@ -257,7 +257,7 @@
                 <td width="70%" class="value">
                     <select name="{$secondarySponsorsLocationInternationalB|escape}" id="{$secondarySponsorsLocationInternationalD|escape}" class="selectMenu">
                         <option value=""></option>
-                        {html_options options=$coutryList selected=$secondarySponsors.$k.locationInternational}                                
+                        {html_options options=$coutryList selected=$secondarySponsors.$k.ssLocationInternational}                                
                     </select>                
                 </td>                                           
             </tr>
@@ -275,8 +275,126 @@
             <td width="20%">&nbsp;</td>
             <td width="80%" class="value"><a id="addSecondarySponsorClick" style="cursor: pointer;">{translate key="proposal.articleSponsor.secondarySponsors.add"}</a></td>
         </tr>
+        <tr><td colspan="2">&nbsp;</td></tr>
+        <tr valign="top">
+            <td width="20%"><a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {fieldLabel name="croInvolved" required="true" key="proposal.articleSponsor.croInvolved"}</td>
+            <td width="80%" class="value">
+                {html_radios name="croInvolved" options=$yesNoMap selected=$croInvolved separator='&nbsp;&nbsp;&nbsp;&nbsp;'}
+            </td>
+        </tr>
+        <tr valign="top" hidden class="showHideHelpField">
+            <td width="20%">&nbsp;</td>
+            <td width="80%" class="value"><i>[?] {translate key="proposal.articleSponsor.croInvolved.instruct"}</i></td>
+        </tr>    
     </table>
-    
+    {foreach from=$CROs key=k item=CRO} 
+        {assign var="CROTitleD" value='CROs-'|cat:$k}
+        {assign var="CRONameB" value='CROs['|cat:$k|cat:'][croName]'}
+        {assign var="CRONameD" value='CROs-'|cat:$k|cat:'-croName'}   
+        {assign var="CRONameFieldD" value='CROs-'|cat:$k|cat:'-croNameField'}           
+        {assign var="CROLocationB" value='CROs['|cat:$k|cat:'][croLocation]'}
+        {assign var="CROLocationD" value='CROs-'|cat:$k|cat:'-croLocation'}     
+        {assign var="CROLocationFieldD" value='CROs-'|cat:$k|cat:'-croLocationField'}     
+        {assign var="CROLocationCountryB" value='CROs['|cat:$k|cat:'][croLocationCountry]'}
+        {assign var="CROLocationCountryD" value='CROs-'|cat:$k|cat:'-croLocationCountry'}  
+        {assign var="CROLocationCountryFieldD" value='CROs-'|cat:$k|cat:'-croLocationCountryField'}     
+        {assign var="CROLocationInternationalB" value='CROs['|cat:$k|cat:'][croLocationInternational]'}
+        {assign var="CROLocationInternationalD" value='CROs-'|cat:$k|cat:'-croLocationInternational'}  
+        {assign var="CROLocationInternationalFieldD" value='CROs-'|cat:$k|cat:'-croLocationInternationalField'}        
+        {assign var="CROCityB" value='CROs['|cat:$k|cat:'][city]'}
+        {assign var="CROCityD" value='CROs-'|cat:$k|cat:'-city'}   
+        {assign var="CROCityFieldD" value='CROs-'|cat:$k|cat:'-cityField'}           
+        {assign var="CROAddressB" value='CROs['|cat:$k|cat:'][address]'}
+        {assign var="CROAddressD" value='CROs-'|cat:$k|cat:'-address'}   
+        {assign var="CROAddressFieldD" value='CROs-'|cat:$k|cat:'-addressField'}           
+        {assign var="CROPrimaryPhoneB" value='CROs['|cat:$k|cat:'][primaryPhone]'}
+        {assign var="CROPrimaryPhoneD" value='CROs-'|cat:$k|cat:'-primaryPhone'}   
+        {assign var="CROPrimaryPhoneFieldD" value='CROs-'|cat:$k|cat:'-primaryPhoneField'}           
+        {assign var="CROSecondaryPhoneB" value='CROs['|cat:$k|cat:'][secondaryPhone]'}
+        {assign var="CROSecondaryPhoneD" value='CROs-'|cat:$k|cat:'-secondaryPhone'}   
+        {assign var="CROSecondaryPhoneFieldD" value='CROs-'|cat:$k|cat:'-secondaryPhoneField'}           
+        {assign var="CROFaxB" value='CROs['|cat:$k|cat:'][fax]'}
+        {assign var="CROFaxD" value='CROs-'|cat:$k|cat:'-fax'}   
+        {assign var="CROFaxFieldD" value='CROs-'|cat:$k|cat:'-faxField'}           
+        {assign var="CROEmailB" value='CROs['|cat:$k|cat:'][email]'}
+        {assign var="CROEmailD" value='CROs-'|cat:$k|cat:'-email'}   
+        {assign var="CROEmailFieldD" value='CROs-'|cat:$k|cat:'-emailField'}           
+        <table width="100%" id="{$CROTitleD|escape}" {if $k > 0}class="CROSupp"{/if}>
+            {if $CROs.$k.id}<input type="hidden" class="hiddenInputs" name="CROs[{$k|escape}][id]" value="{$CROs.$k.id|escape}" />{/if}
+            <tr valign="top" id="{$CRONameFieldD|escape}">
+                <td width="20%">&nbsp;</td>                        
+                <td width="20%">{fieldLabel name=$CRONameD required="true" key="proposal.articleSponsor.cro.name"}</td>                        
+                <td width="60%" class="value">
+                    <input type="text" class="textField" name="{$CRONameB|escape}" id="{$CRONameD|escape}" value="{$CROs.$k.croName|escape}" size="30" maxlength="255" />
+                    <a class="removeCRO" style="{if $k == 0}display: none; {/if}cursor: pointer;">{translate key="common.remove"}</a>
+                </td>                                           
+            </tr>
+            <tr valign="top" id="{$CROLocationFieldD|escape}">
+                <td width="20%">&nbsp;</td>                        
+                <td width="20%">{fieldLabel name=$CROLocationD required="true" key="proposal.articleSponsor.cro.location"}</td>                        
+                <td width="60%" class="value">
+                    {html_radios name=$CROLocationB options=$internationalArray selected=$CROs.$k.croLocation separator='&nbsp;&nbsp;&nbsp;&nbsp;'}
+                </td>                                           
+            </tr>            
+            <tr valign="top" id="{$CROLocationCountryFieldD|escape}">
+                <td width="20%">&nbsp;</td>                        
+                <td width="20%">{fieldLabel name=$CROLocationCountryD required="true" key="proposal.articleSponsor.cro.locationCountry"}</td>                        
+                <td width="60%" class="value">
+                    <select name="{$CROLocationCountryB|escape}" id="{$CROLocationCountryD|escape}" class="selectMenu">
+                        <option value=""></option>
+                        {html_options options=$geoAreasList selected=$CROs.$k.croLocationCountry}                                
+                    </select>
+                </td>                                           
+            </tr>
+            <tr valign="top" id="{$CROLocationInternationalFieldD|escape}">
+                <td width="20%">&nbsp;</td>                        
+                <td width="20%">{fieldLabel name=$CROLocationInternationalD required="true" key="proposal.articleSponsor.locationInternational"}</td>                        
+                <td width="60%" class="value">
+                    <select name="{$CROLocationInternationalB|escape}" id="{$CROLocationInternationalD|escape}" class="selectMenu">
+                        <option value=""></option>
+                        {html_options options=$coutryList selected=$CROs.$k.croLocationInternational}                                
+                    </select>                
+                </td>                                           
+            </tr>
+            <tr valign="top" id="{$CROCityFieldD|escape}">
+                <td width="20%">&nbsp;</td>                        
+                <td width="20%">{fieldLabel name=$CROCityD required="true" key="proposal.articleSponsor.cro.city"}</td>                        
+                <td width="60%" class="value"><input type="text" class="textField" name="{$CROCityB|escape}" id="{$CROCityD|escape}" value="{$CROs.$k.city|escape}" size="30" maxlength="40" /></td>                                           
+            </tr>
+            <tr valign="top" id="{$CROAddressFieldD|escape}">
+                <td width="20%">&nbsp;</td>                        
+                <td width="20%">{fieldLabel name=$CROAddressD required="true" key="proposal.articleSponsor.cro.address"}</td>                        
+                <td width="60%" class="value"><input type="text" class="textField" name="{$CROAddressB|escape}" id="{$CROAddressD|escape}" value="{$CROs.$k.address|escape}" size="30" maxlength="255" /></td>                                           
+            </tr>
+            <tr valign="top" id="{$CROPrimaryPhoneFieldD|escape}">
+                <td width="20%">&nbsp;</td>                        
+                <td width="20%">{fieldLabel name=$CROPrimaryPhoneD required="true" key="proposal.articleSponsor.cro.primaryPhone"}</td>                        
+                <td width="60%" class="value"><input type="text" class="textField" name="{$CROPrimaryPhoneB|escape}" id="{$CROPrimaryPhoneD|escape}" value="{$CROs.$k.primaryPhone|escape}" size="30" maxlength="24" /></td>                                           
+            </tr>
+            <tr valign="top" id="{$CROSecondaryPhoneFieldD|escape}">
+                <td width="20%">&nbsp;</td>                        
+                <td width="20%">{fieldLabel name=$CROSecondaryPhoneD key="proposal.articleSponsor.cro.secondaryPhone"}</td>                        
+                <td width="60%" class="value"><input type="text" class="textField" name="{$CROSecondaryPhoneB|escape}" id="{$CROSecondaryPhoneD|escape}" value="{$CROs.$k.secondaryPhone|escape}" size="30" maxlength="24" /></td>                                           
+            </tr>
+            <tr valign="top" id="{$CROFaxFieldD|escape}">
+                <td width="20%">&nbsp;</td>                        
+                <td width="20%">{fieldLabel name=$CROFaxD key="proposal.articleSponsor.cro.fax"}</td>                        
+                <td width="60%" class="value"><input type="text" class="textField" name="{$CROFaxB|escape}" id="{$CROFaxD|escape}" value="{$CROs.$k.fax|escape}" size="30" maxlength="24" /></td>                                           
+            </tr>
+            <tr valign="top" id="{$CROEmailFieldD|escape}">
+                <td width="20%">&nbsp;</td>                        
+                <td width="20%">{fieldLabel name=$CROEmailD required="true" key="proposal.articleSponsor.cro.email"}</td>                        
+                <td width="60%" class="value"><input type="text" class="textField" name="{$CROEmailB|escape}" id="{$CROEmailD|escape}" value="{$CROs.$k.email|escape}" size="30" maxlength="90" /></td>                                           
+            </tr>
+            <tr><td colspan="3">&nbsp;</td></tr>
+        </table>
+    {/foreach}
+    <table width="100%" class="data">
+        <tr valign="top" id="addCROField">
+            <td width="20%">&nbsp;</td>
+            <td width="80%" class="value"><a id="addCROClick" style="cursor: pointer;">{translate key="proposal.articleSponsor.cro.add"}</a></td>
+        </tr>
+    </table>
     
     <p><input type="submit" value="{translate key="common.saveAndContinue"}" class="button defaultButton"/> <input type="button" value="{translate key="common.cancel"}" class="button" onclick="confirmAction('{url page="author"}', '{translate|escape:"jsparam" key="author.submit.cancelSubmission"}')" /></p>
 

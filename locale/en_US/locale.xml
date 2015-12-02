@@ -744,6 +744,19 @@
     <message key="proposal.articleSponsor.secondarySponsors">Secondary Sponsor(s)</message>  
     <message key="proposal.articleSponsor.secondarySponsors.add">Add another secondary sponsor</message>   
     <message key="proposal.articleSponsor.secondarySponsors.instruct"><![CDATA[Additional individuals, organizations or other legal persons, if any, that have agreed with the primary sponsor to jointly take on responsibilities of sponsor-ship. A secondary sponsor may have agreed to form a group with the primary sponsor in whom the responsibilities of sponsorship are allocated among the members of the group and/or to act as the sponsor’s legal representative in relation to some or all of the trial sites. A secondary sponsor may take responsibility for the accuracy of trial registration information submitted.<br/><br/> If your primary sponsor is not in this list, please select "Other" at the end of the list and provide its information. The information provided will be used to automatically populate the list of institutions.Click “Add” to add more boxes if the study has multiple secondary sponsors.]]></message>   
+    <message key="proposal.articleSponsor.croInvolved">Contract Research Organization(s)</message>  
+    <message key="proposal.articleSponsor.croInvolved.instruct">Is any part of clinical study be conducted by a Contract Research Organization/s (CRO/s)?</message>  
+    <message key="proposal.articleSponsor.cro.name">Name</message>  
+    <message key="proposal.articleSponsor.cro.location">Location</message>  
+    <message key="proposal.articleSponsor.cro.locationCountry">Area</message>  
+    <message key="proposal.articleSponsor.cro.locationInternational">Country</message>  
+    <message key="proposal.articleSponsor.cro.city">City</message>  
+    <message key="proposal.articleSponsor.cro.address">Address</message>  
+    <message key="proposal.articleSponsor.cro.primaryPhone">Primary phone number</message>  
+    <message key="proposal.articleSponsor.cro.secondaryPhone">Secondary phone number</message>  
+    <message key="proposal.articleSponsor.cro.fax">Fax</message>  
+    <message key="proposal.articleSponsor.cro.email">Email</message>      
+    <message key="proposal.articleSponsor.cro.add">Add another CRO</message>      
 
         <message key="proposal.purpose.endpoint.saf">Safety</message>
         <message key="proposal.purpose.endpoint.eff">Efficacy</message>

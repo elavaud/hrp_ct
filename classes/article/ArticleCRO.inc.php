@@ -74,7 +74,7 @@ class ArticleCRO extends DataObject {
 	 * Get if CRO is international full text.
 	 * @return string
 	 */
-	function getCROInternationalText() {
+	function getInternationalText() {
                 $international = $this->getInternational();
                 if ($international == CRO_NATIONAL) {
                     $journal =& Request::getJournal();
@@ -90,14 +90,14 @@ class ArticleCRO extends DataObject {
 	 * Get cro location.
 	 * @return string
 	 */
-	function getCROLocation() {
+	function getLocation() {
 		return $this->getData('location');
 	} 
         /**
 	 * Get CRO location full text.
 	 * @return string
 	 */
-	function getCROLocationText() {
+	function getLocationText() {
                 $international = $this->getInternational();
                 $location = $this->getCROLocation(); 
                 $returner = (string) '';
