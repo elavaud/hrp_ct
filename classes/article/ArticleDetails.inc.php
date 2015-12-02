@@ -41,14 +41,12 @@ define ('ARTICLE_DETAIL_RECRUIT_CLOSED_COMP', 10);  // Closed - follow-up comple
 
 
 class ArticleDetails extends DataObject {
-    
-        var $articleDetailsDAO;
-        
+            
 	/**
 	 * Constructor.
 	 */
 	function ArticleDetails() {
-                $this->articleDetailsDAO =& DAORegistry::getDAO('ArticleDetailsDAO');
+            parent::DataObject();
 	}
 
         
@@ -522,6 +520,22 @@ class ArticleDetails extends DataObject {
 		return $this->getData('adScheme');
 	}
         
+
+        /**
+	 * Set if the study involves CRO.
+	 * @param $CROInvolved int
+	 */
+	function setCROInvolved($CROInvolved) {
+		return $this->setData('CROInvolved', $CROInvolved);
+	}
+	/**
+	 * Get if the study involves CRO.
+	 * @return int
+	 */
+	function getCROInvolved() {
+		return $this->getData('CROInvolved');
+	}
+
         
         /**
 	 * Get a map for yes/no/not provided constant to locale key.

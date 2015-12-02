@@ -51,11 +51,11 @@ class ArticleDetailsDAO extends DAO{
 			'INSERT INTO article_details (
                                     article_id, protocol_version, therapeutic_area, healthcond_disease, min_age_num, min_age_unit, max_age_num,
                                     max_age_unit, sex, healthy, local_sample_size, multinational, international_sample_size, enrolment_start_date,
-                                    enrolment_end_date, recruitment_status, advertising_scheme)
+                                    enrolment_end_date, recruitment_status, advertising_scheme, cro)
 				VALUES(
                                     ?, ?, ?, ?, ?, ?, ?, 
                                     ?, ?, ?, ?, ?, ?, %s, 
-                                    %s, ?, ?)',
+                                    %s, ?, ?, ?)',
                         $this->dateToDB(strtotime($articleDetails->getStartDateForDB())), $this->dateToDB(strtotime($articleDetails->getEndDateForDB()))),
 			array(
 				(int) $articleDetails->getArticleId(),
@@ -72,7 +72,8 @@ class ArticleDetailsDAO extends DAO{
 				(int) $articleDetails->getMultinational(),
 				(string) $articleDetails->getIntSampleSize(),
 				(int) $articleDetails->getRecruitmentStatus(),
-				(int) $articleDetails->getAdvertisingScheme()                            
+				(int) $articleDetails->getAdvertisingScheme(),
+				(int) $articleDetails->getCROInvolved()                            
 			)
 		);
 		
@@ -103,7 +104,8 @@ class ArticleDetailsDAO extends DAO{
                                 enrolment_start_date = %s,
                                 enrolment_end_date = %s, 
                                 recruitment_status = ?, 
-                                advertising_scheme = ?
+                                advertising_scheme = ?,
+                                cro = ?
 			WHERE	article_id = ?',
                         $this->datetimeToDB(strtotime($articleDetails->getStartDateForDB())), 
                         $this->datetimeToDB(strtotime($articleDetails->getEndDateForDB()))),
@@ -122,6 +124,7 @@ class ArticleDetailsDAO extends DAO{
 				(string) $articleDetails->getIntSampleSize(),
 				(int) $articleDetails->getRecruitmentStatus(),
 				(int) $articleDetails->getAdvertisingScheme(),
+				(int) $articleDetails->getCROInvolved(),                            
 				(int) $articleDetails->getArticleId()                            
 			)
 		);
@@ -181,6 +184,7 @@ class ArticleDetailsDAO extends DAO{
 		if(isset($row['enrolment_end_date']))$articleDetails->setEndDate(date("d-M-Y", strtotime($this->dateFromDB($row['enrolment_end_date']))));                
 		$articleDetails->setRecruitmentStatus($row['recruitment_status']);
 		$articleDetails->setAdvertisingScheme($row['advertising_scheme']);
+		$articleDetails->setCROInvolved($row['cro']);
                         
 		HookRegistry::call('ArticleDetailsDAO::_returnArticleDetailsFromRow', array(&$articleDetails, &$row));
 
@@ -218,6 +222,79 @@ class ArticleDetailsDAO extends DAO{
             unset($result);
             return $articleDetails;
         }
+        
+        /**
+	 * Get a map for of units of age.
+	 * @return array
+	 */
+	function &getAgeUnitMap() {
+		static $ageUnitMap;
+		if (!isset($ageUnitMap)) {
+			$ageUnitMap = array(
+				ARTICLE_DETAIL_AGE_UNIT_HOURS => Locale::translate('common.time.hours'),
+				ARTICLE_DETAIL_AGE_UNIT_DAYS => Locale::translate('common.days'),
+				ARTICLE_DETAIL_AGE_UNIT_WEEKS => Locale::translate('common.weeks'),
+				ARTICLE_DETAIL_AGE_UNIT_MONTHS => Locale::translate('common.months'),
+				ARTICLE_DETAIL_AGE_UNIT_YEARS => Locale::translate('common.years')                            
+			);
+		}
+		return $ageUnitMap;
+	}
+        
+        /**
+	 * Get a map for male/female/not provided constant to locale key.
+	 * @return array
+	 */
+	function &getSexMap() {
+		static $sexMap;
+		if (!isset($sexMap)) {
+			$sexMap = array(
+				ARTICLE_DETAIL_MALES => Locale::translate('proposal.participants.males'),
+				ARTICLE_DETAIL_FEMALES => Locale::translate('proposal.participants.females'),
+				ARTICLE_DETAIL_BOTH_MALES_FEMALES => Locale::translate('proposal.participants.both')                            
+			);
+		}
+		return $sexMap;
+	}
+        
+        /**
+	 * Get a map for yes/no/not provided constant to locale key.
+	 * @return array
+	 */
+	function &getYesNoMap() {
+		static $yesNoMap;
+		if (!isset($yesNoMap)) {
+			$yesNoMap = array(
+				ARTICLE_DETAIL_NO => Locale::translate('common.no'),
+				ARTICLE_DETAIL_YES => Locale::translate('common.yes')
+			);
+		}
+		return $yesNoMap;
+	}
+        
+        /**
+	 * Get a map for recruitment status constants to locale key.
+	 * @return array
+	 */
+	function &getRecruitmentStatusMap() {
+		static $recruitmentStatusMap;
+		if (!isset($recruitmentStatusMap)) {
+			$recruitmentStatusMap = array(
+				ARTICLE_DETAIL_RECRUIT_RECRUITING => Locale::translate('proposal.recruit.recruiting'),
+				ARTICLE_DETAIL_RECRUIT_NOTYET => Locale::translate('proposal.recruit.notyet'),
+				ARTICLE_DETAIL_RECRUIT_ACTIVE => Locale::translate('proposal.recruit.active'),
+				ARTICLE_DETAIL_RECRUIT_COMPLETED => Locale::translate('proposal.recruit.completed'),
+				ARTICLE_DETAIL_RECRUIT_INVITATION => Locale::translate('proposal.recruit.invitation'),
+				ARTICLE_DETAIL_RECRUIT_SUSPENDED => Locale::translate('proposal.recruit.suspended'),
+				ARTICLE_DETAIL_RECRUIT_TERMINATED => Locale::translate('proposal.recruit.terminated'),
+				ARTICLE_DETAIL_RECRUIT_WITHDRAWN => Locale::translate('proposal.recruit.withdrawn'),
+				ARTICLE_DETAIL_RECRUIT_CLOSED_CONT => Locale::translate('proposal.recruit.closedCont'),
+				ARTICLE_DETAIL_RECRUIT_CLOSED_COMP => Locale::translate('proposal.recruit.closedComp')                            
+			);
+		}
+		return $recruitmentStatusMap;
+	}	
+        
         
         
         ////////////////////////////
@@ -291,80 +368,7 @@ class ArticleDetailsDAO extends DAO{
                 }
 		return $ICD10sText;
 	}
-        
-        
-        /**
-	 * Get a map for of units of age.
-	 * @return array
-	 */
-	function &getAgeUnitMap() {
-		static $ageUnitMap;
-		if (!isset($ageUnitMap)) {
-			$ageUnitMap = array(
-				ARTICLE_DETAIL_AGE_UNIT_HOURS => Locale::translate('common.time.hours'),
-				ARTICLE_DETAIL_AGE_UNIT_DAYS => Locale::translate('common.days'),
-				ARTICLE_DETAIL_AGE_UNIT_WEEKS => Locale::translate('common.weeks'),
-				ARTICLE_DETAIL_AGE_UNIT_MONTHS => Locale::translate('common.months'),
-				ARTICLE_DETAIL_AGE_UNIT_YEARS => Locale::translate('common.years')                            
-			);
-		}
-		return $ageUnitMap;
-	}
-        
-        /**
-	 * Get a map for male/female/not provided constant to locale key.
-	 * @return array
-	 */
-	function &getSexMap() {
-		static $sexMap;
-		if (!isset($sexMap)) {
-			$sexMap = array(
-				ARTICLE_DETAIL_MALES => Locale::translate('proposal.participants.males'),
-				ARTICLE_DETAIL_FEMALES => Locale::translate('proposal.participants.females'),
-				ARTICLE_DETAIL_BOTH_MALES_FEMALES => Locale::translate('proposal.participants.both')                            
-			);
-		}
-		return $sexMap;
-	}
-        
-        /**
-	 * Get a map for yes/no/not provided constant to locale key.
-	 * @return array
-	 */
-	function &getYesNoMap() {
-		static $yesNoMap;
-		if (!isset($yesNoMap)) {
-			$yesNoMap = array(
-				ARTICLE_DETAIL_NO => Locale::translate('common.no'),
-				ARTICLE_DETAIL_YES => Locale::translate('common.yes')
-			);
-		}
-		return $yesNoMap;
-	}
-        
-        /**
-	 * Get a map for recruitment status constants to locale key.
-	 * @return array
-	 */
-	function &getRecruitmentStatusMap() {
-		static $recruitmentStatusMap;
-		if (!isset($recruitmentStatusMap)) {
-			$recruitmentStatusMap = array(
-				ARTICLE_DETAIL_RECRUIT_RECRUITING => Locale::translate('proposal.recruit.recruiting'),
-				ARTICLE_DETAIL_RECRUIT_NOTYET => Locale::translate('proposal.recruit.notyet'),
-				ARTICLE_DETAIL_RECRUIT_ACTIVE => Locale::translate('proposal.recruit.active'),
-				ARTICLE_DETAIL_RECRUIT_COMPLETED => Locale::translate('proposal.recruit.completed'),
-				ARTICLE_DETAIL_RECRUIT_INVITATION => Locale::translate('proposal.recruit.invitation'),
-				ARTICLE_DETAIL_RECRUIT_SUSPENDED => Locale::translate('proposal.recruit.suspended'),
-				ARTICLE_DETAIL_RECRUIT_TERMINATED => Locale::translate('proposal.recruit.terminated'),
-				ARTICLE_DETAIL_RECRUIT_WITHDRAWN => Locale::translate('proposal.recruit.withdrawn'),
-				ARTICLE_DETAIL_RECRUIT_CLOSED_CONT => Locale::translate('proposal.recruit.closedCont'),
-				ARTICLE_DETAIL_RECRUIT_CLOSED_COMP => Locale::translate('proposal.recruit.closedComp')                            
-			);
-		}
-		return $recruitmentStatusMap;
-	}	
-
+       
 }
 
 ?>
