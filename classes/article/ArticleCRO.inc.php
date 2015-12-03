@@ -99,7 +99,7 @@ class ArticleCRO extends DataObject {
 	 */
 	function getLocationText() {
                 $international = $this->getInternational();
-                $location = $this->getCROLocation(); 
+                $location = $this->getLocation(); 
                 $returner = (string) '';
                 if ($international == CRO_NATIONAL) {
                     $extraFieldDAO =& DAORegistry::getDAO('ExtraFieldDAO');
@@ -116,7 +116,7 @@ class ArticleCRO extends DataObject {
 	 * Set CRO location.
 	 * @param $location string
 	 */
-	function setCROLocation($location) {
+	function setLocation($location) {
 		return $this->setData('location', $location);
 	}
         

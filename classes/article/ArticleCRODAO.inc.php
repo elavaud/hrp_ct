@@ -72,7 +72,7 @@ class ArticleCRODAO extends DAO {
 				(int) $articleCRO->getArticleId(),
 				(string) $articleCRO->getName(),
 				(int) $articleCRO->getInternational(),
-                                (string) $articleCRO->getCROLocation(),
+                                (string) $articleCRO->getLocation(),
                                 (string) $articleCRO->getCity(),
                                 (string) $articleCRO->getAddress(),
 				(string) $articleCRO->getPrimaryPhone(),
@@ -110,7 +110,7 @@ class ArticleCRODAO extends DAO {
 				(int) $articleCRO->getArticleId(),
 				(string) $articleCRO->getName(),
 				(int) $articleCRO->getInternational(),
-                                (string) $articleCRO->getCROLocation(),
+                                (string) $articleCRO->getLocation(),
                                 (string) $articleCRO->getCity(),
                                 (string) $articleCRO->getAddress(),
 				(string) $articleCRO->getPrimaryPhone(),
@@ -158,7 +158,7 @@ class ArticleCRODAO extends DAO {
 		$articleCRO->setArticleId($row['article_id']);
                 $articleCRO->setName($row['name']);
                 $articleCRO->setInternational($row['international']);
-                $articleCRO->setCROLocation($row['region_country']);
+                $articleCRO->setLocation($row['region_country']);
                 $articleCRO->setCity($row['city']);
                 $articleCRO->setAddress($row['address']);
                 $articleCRO->setPrimaryPhone($row['primary_phone']);

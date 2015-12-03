@@ -147,7 +147,7 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
                         $locationCountry = null;
                         $locationInternational = null;                                                    
                     }
-                    aray_push (
+                    array_push (
                         $CROsArray,
                         array(
                             'id' => $CRO->getId(),
@@ -237,6 +237,7 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
 	 */
 	function execute(&$request) {
 		$articleDao =& DAORegistry::getDAO('ArticleDAO');
+		$articleDetailsDao =& DAORegistry::getDAO('ArticleDetailsDAO');
 		$institutionDao =& DAORegistry::getDAO('InstitutionDAO');
                 import ('classes.journal.Institution');
 		$article =& $this->article;
@@ -246,6 +247,9 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
                 $primarySponsorData = $this->getData('primarySponsor');
                 $secondarySponsorsData = $this->getData('secondarySponsors');
                 $secondarySponsors = $article->getArticleSecondarySponsors();
+                $details = $article->getArticleDetails();
+                $CROsData = $this->getData('CROs');
+                $CROs = $article->getArticleCROs();
                 
                 $newInstitutions = array();
                 
@@ -395,6 +399,53 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
                     unset($secondarySponsor);
                 }
                 
+                $details->setCROInvolved($this->getData('croInvolved'));
+                $articleDetailsDao->updateArticleDetails($details);
+                
+                // Remove deleted CROs
+                foreach ($CROs as $CRO) {
+                    $isPresent = false;
+                    foreach ($CROsData as $CROData) {
+                        if (!empty($CROData['id'])) {
+                            if ($CRO->getId() == $CROData['id']) {
+                                $isPresent = true;
+                            }
+                        }
+                    }
+                    if (!$isPresent) {
+                        $article->removeArticleCRO($CRO->getId());
+                    }
+                    unset($isPresent);                    
+                    unset($CRO);
+                }
+
+                // Update / Insert CROs
+                if ($details->getCROInvolved() == ARTICLE_DETAIL_YES) {
+                    foreach ($CROsData as $CROData) {
+                        if (isset($CROData['id'])) {
+                            $CRO = $article->getArticleCRO($CROData['id']);
+                        } else {
+                            $CRO = new ArticleCRO();
+                        }
+                        $CRO->setArticleId($article->getId());
+                        $CRO->setName($CROData['croName']);                    
+                        $CRO->setInternational($CROData['croLocation']);
+                        if($CROData['croLocation'] == CRO_NATIONAL){
+                            $CRO->setLocation($CROData['croLocationCountry']);
+                        } elseif($CROData['croLocation'] == CRO_INTERNATIONAL){
+                            $CRO->setLocation($CROData['croLocationInternational']);
+                        }
+                        $CRO->setCity($CROData['city']);
+                        $CRO->setAddress($CROData['address']);
+                        $CRO->setPrimaryPhone($CROData['primaryPhone']);
+                        $CRO->setSecondaryPhone($CROData['secondaryPhone']);
+                        $CRO->setFax($CROData['fax']);
+                        $CRO->setEmail($CROData['email']);
+                        $article->addArticleCRO($CRO);
+                        unset($CRO);
+                    }
+                }
+                        
                 //update step
                 if ($article->getSubmissionProgress() <= $this->step) {
 			$article->stampStatusModified();
