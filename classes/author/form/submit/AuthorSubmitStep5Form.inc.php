@@ -81,7 +81,13 @@ class AuthorSubmitStep5Form extends AuthorSubmitForm {
                             return false;
                         }
                     } return true;
-                }));                 
+                }));          
+                
+                
+            $this->addCheck(new FormValidator($this, 'croInvolved', 'required', 'author.submit.form.croInvolved.required'));	
+                
+            $this->addCheck(new FormValidatorArray($this, 'CROs', 'required', 'author.submit.form.CROs.required', array('croName', 'croLocation', 'croLocationCountry', 'croLocationInternational', 'city', 'address', 'primaryPhone', 'email')));	
+                
         }
         
 

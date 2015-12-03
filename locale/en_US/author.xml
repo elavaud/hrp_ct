@@ -26,7 +26,11 @@
 	<message key="author.submit.form.sponsors.differentNameAcronym">It seems that one of your funding source is the same as one of your sponsors and provided the information twice. However the names or acronyms do not match (same names but different acronyms or same acronyms but different names).</message>        
 	<message key="author.submit.form.fundingSources.nameOrAcronymAlreadyProvided">You provided the same name or the same acronym for multiple funding sources.</message>        
 	<message key="author.submit.form.secondarySponsors.nameOrAcronymAlreadyProvided">You provided the same name or the same acronym for multiple secondary sponsors.</message>        
+	<message key="author.submit.form.croInvolved.required">Indicate if any part of the study will be conducted by a Contract Research Organization/s (CRO/s).</message>        
+	<message key="author.submit.form.CROs.required">For each contract research organization involved in your study, provide its name, location, city, address, primary phone number and email.</message>        
         
+                
+                                
 	<message key="author.submit.form.pdfRequired">The completion report should be uploaded in a PDF format. Please convert the report and submit it again.</message>        
 	<message key="author.submit.form.fileTooBig">The completion report should not exceed 20 Mb.</message>        
         
