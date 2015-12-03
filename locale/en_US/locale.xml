@@ -758,6 +758,19 @@
     <message key="proposal.articleSponsor.cro.email">Email</message>      
     <message key="proposal.articleSponsor.cro.add">Add another CRO</message>      
 
+    <message key="proposal.articleContact.pq">Public queries</message>      
+    <message key="proposal.articleContact.pq.instruct"><![CDATA[Name, address, telephone, mobile, fax numbers and email address of the contact person who will respond to general queries, including information about current recruitment status. Only professional contact details should be provided.<br/><br/>Telephone and fax numbers should be entered in the format +Country code, Area Code, Number.<br/>Example: +63 44 7911111<br/>Mobile numbers should be entered in this format +Country code followed by 10-digit mobile number.<br/>Example: +63 9011231231<br/>]]></message>      
+    <message key="proposal.articleContact.sq">Scientific queries</message>      
+    <message key="proposal.articleContact.sq.instruct"><![CDATA[Name, affiliation, address, telephone, mobile, fax numbers, email address of the contact person for scientific queries about the trial (e.g. principal investigator, medical director for the study). For a multi-center study, enter the contact information for the lead Principal investigator or overall medical director. Only professional contact details should be provided.<br/><br/>Telephone and fax numbers should be entered in the format +Country code, Area Code, Number.<br/>Example: +63 44 7911111<br/>Mobile numbers should be entered in this format +Country code followed by 10-digit mobile number.<br/>Example: +63 9011231231<br/>]]></message>      
+    <message key="proposal.articleContact.name">Name</message>      
+    <message key="proposal.articleContact.affiliation">Affiliation</message>      
+    <message key="proposal.articleContact.address">Address</message>      
+    <message key="proposal.articleContact.country">Country</message>      
+    <message key="proposal.articleContact.phone">Phone number</message>      
+    <message key="proposal.articleContact.fax">Fax number</message>      
+    <message key="proposal.articleContact.email">Email</message>      
+
+
         <message key="proposal.purpose.endpoint.saf">Safety</message>
         <message key="proposal.purpose.endpoint.eff">Efficacy</message>
         <message key="proposal.purpose.endpoint.safAndEff">Safety and Efficacy</message>

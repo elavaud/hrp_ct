@@ -29,6 +29,18 @@
 	<message key="author.submit.form.croInvolved.required">Indicate if any part of the study will be conducted by a Contract Research Organization/s (CRO/s).</message>        
 	<message key="author.submit.form.CROs.required">For each contract research organization involved in your study, provide its name, location, city, address, primary phone number and email.</message>        
         
+	<message key="author.submit.form.pqName.required">Provide the name of the person to contact for public queries.</message>        
+	<message key="author.submit.form.pqAffiliation.required">Provide the affiliation of the person to contact for public queries.</message>        
+	<message key="author.submit.form.pqAddress.required">Provide the address of the person to contact for public queries.</message>        
+	<message key="author.submit.form.pqCountry.required">Provide the country of the person to contact for public queries.</message>        
+	<message key="author.submit.form.pqPhone.required">Provide the phone number of the person to contact for public queries.</message>        
+	<message key="author.submit.form.pqEmail.required">Provide the email of the person to contact for public queries.</message>        
+	<message key="author.submit.form.sqName.required">Provide the name of the person to contact for scientific queries.</message>        
+	<message key="author.submit.form.sqAffiliation.required">Provide the affiliation of the person to contact for scientific queries.</message>        
+	<message key="author.submit.form.sqAddress.required">Provide the address of the person to contact for scientific queries.</message>        
+	<message key="author.submit.form.sqCountry.required">Provide the country of the person to contact for scientific queries.</message>        
+	<message key="author.submit.form.sqPhone.required">Provide the phone number of the person to contact for scientific queries.</message>        
+	<message key="author.submit.form.sqEmail.required">Provide the email of the person to contact for scientific queries.</message>        
                 
                                 
 	<message key="author.submit.form.pdfRequired">The completion report should be uploaded in a PDF format. Please convert the report and submit it again.</message>        
