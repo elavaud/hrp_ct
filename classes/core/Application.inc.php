@@ -81,6 +81,7 @@ class Application extends PKPApplication {
 			'ArticleEmailLogDAO' => 'classes.article.log.ArticleEmailLogDAO',
 			'ArticleEventLogDAO' => 'classes.article.log.ArticleEventLogDAO',
 			'ArticleCommentDAO' => 'classes.article.ArticleCommentDAO',
+			'ArticleContactDAO' => 'classes.article.ArticleContactDAO',
 			'ArticleCRODAO' => 'classes.article.ArticleCRODAO',
 			'ArticleDAO' => 'classes.article.ArticleDAO',
 			'ArticleDetailsDAO' => 'classes.article.ArticleDetailsDAO',

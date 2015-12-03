@@ -38,6 +38,8 @@ class ArticleDAO extends DAO {
 
         var $articleCRODao;
         
+	var $articleContactDao;
+        
 	function _cacheMiss(&$cache, $id) {
 		$article =& $this->getArticle($id, null, false);
 		$cache->setCache($id, $article);
@@ -65,7 +67,8 @@ class ArticleDAO extends DAO {
 		$this->articleDrugInfoDao =& DAORegistry::getDAO('ArticleDrugInfoDAO');   
 		$this->articleSiteDao =& DAORegistry::getDAO('ArticleSiteDAO');   
 		$this->articleSponsorDao =& DAORegistry::getDAO('ArticleSponsorDAO');  
-		$this->articleCRODao =& DAORegistry::getDAO('ArticleCRODAO');                  
+		$this->articleCRODao =& DAORegistry::getDAO('ArticleCRODAO');     
+                $this->articleContactDao =& DAORegistry::getDAO('ArticleContactDAO');   
         }
 
 	/**
@@ -210,6 +213,8 @@ class ArticleDAO extends DAO {
                 $article->setArticleSecondarySponsors($this->articleSponsorDao->getArticleSponsorsByArticleId($row['article_id'], ARTICLE_SPONSOR_TYPE_SECONDARY));
                 
                 $article->setArticleCROs($this->articleCRODao->getArticleCROsByArticleId($row['article_id']));
+                
+		$article->setArticleContact($this->articleContactDao->getArticleContactByArticleId($row['article_id']));
                 
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
@@ -479,6 +484,15 @@ class ArticleDAO extends DAO {
 		}
                 
                 
+                // update articleContact for this article
+		$articleContact =& $article->getArticleContact();
+		if ($this->articleContactDao->articleContactExists($article->getId())) {
+			$this->articleContactDao->updateArticleContact($articleContact);
+		} elseif ($articleContact->getArticleId() > 0) {
+			$this->articleContactDao->insertArticleContact($articleContact);
+		}
+                
+                
 		$this->flushCache();
 	}
 
@@ -585,6 +599,9 @@ class ArticleDAO extends DAO {
                 //Delete article CROs
                 $this->articleCRODao->deleteArticleCROsByArticleId($articleId);
 
+                //Delete article contact
+                $this->articleContactDao->deleteArticleContact($articleId);
+                
 		// Delete article citations.
 		$citationDao =& DAORegistry::getDAO('CitationDAO');
 		$citationDao->deleteObjectsByAssocId(ASSOC_TYPE_ARTICLE, $articleId);
@@ -1108,7 +1125,7 @@ class ArticleDAO extends DAO {
 
                 $article->setArticleSecIds($this->articleSecIdDao->getArticleSecIdsByArticleId($row['article_id']));
 
-                $article->setArticleDetails($this->articleDetailsDao->getArticlelDetailsByArticleId($row['article_id']));
+                $article->setArticleDetails($this->articleDetailsDao->getArticleDetailsByArticleId($row['article_id']));
 
                 $article->setArticlePurposes($this->articlePurposeDao->getArticlePurposesByArticleId($row['article_id']));
 
@@ -1126,6 +1143,8 @@ class ArticleDAO extends DAO {
 
                 $article->setArticleCROs($this->articleCRODao->getArticleCROsByArticleId($row['article_id']));
 
+                $article->setArticleContact($this->articleContactDao->getArticleContactByArticleId($row['article_id']));
+                
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
                 if($publicFiles) $article->setPublishedFinalReport($publicFiles[0]); // FIX ME: Only one file in folder 'public' -> alwas the final report: Pretty ugly

@@ -78,6 +78,8 @@ class Article extends Submission {
         
         var $removedArticleCROs;
 
+        var $articleContact;
+        
 	/**
 	 * Constructor.
 	 */
@@ -1472,6 +1474,22 @@ class Article extends Submission {
 	 */
 	function setArticleCROs($articleCROs) {
 		return $this->articleCROs = $articleCROs;
+	}
+        
+        
+        /**
+	 * Get the article contact of this submission.
+	 * @return object ArticleContact
+	 */
+	function &getArticleContact() {
+		return $this->articleContact;
+	}
+        /**
+	 * Set article details of this submission.
+	 * @param $articleContact object ArticleContact
+	 */
+	function setArticleContact($articleContact) {
+		return $this->articleContact = $articleContact;
 	}
         
 }
