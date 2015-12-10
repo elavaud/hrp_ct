@@ -118,6 +118,54 @@ class SuppFileDAO extends DAO {
 		return $suppFiles;
 	}
 
+        /**
+	 * Retrieve all supplementary files for an article.
+	 * @param $articleId int
+	 * @return array SuppFiles
+	 */
+	function &getSuppFilesByArticleAndType($articleId, $type) {
+		$suppFiles = array();
+
+		$result =& $this->retrieve(
+			'SELECT s.*, a.file_name, a.original_file_name, a.file_type, a.file_size, a.date_uploaded, a.date_modified FROM article_supplementary_files s LEFT JOIN article_files a ON (s.file_id = a.file_id) WHERE s.article_id = ? AND s.type = ? ORDER BY s.seq',
+			array($articleId, $type)
+		);
+
+		while (!$result->EOF) {
+			$suppFiles[] =& $this->_returnSuppFileFromRow($result->GetRowAssoc(false));
+			$result->moveNext();
+		}
+
+		$result->Close();
+		unset($result);
+
+		return $suppFiles;
+	}
+        
+        /**
+	 * Retrieve all supplementary files for an article.
+	 * @param $articleId int
+	 * @return array SuppFiles
+	 */
+	function &getSuppFilesByArticleTypeAndAssocId($articleId, $type, $suppAssocId) {
+		$suppFiles = array();
+
+		$result =& $this->retrieve(
+			'SELECT s.*, a.file_name, a.original_file_name, a.file_type, a.file_size, a.date_uploaded, a.date_modified FROM article_supplementary_files s LEFT JOIN article_files a ON (s.file_id = a.file_id) WHERE s.article_id = ? AND s.type = ? AND s.assoc_id =? ORDER BY s.seq',
+			array($articleId, $type, $suppAssocId)
+		);
+
+		while (!$result->EOF) {
+			$suppFiles[] =& $this->_returnSuppFileFromRow($result->GetRowAssoc(false));
+			$result->moveNext();
+		}
+
+		$result->Close();
+		unset($result);
+
+		return $suppFiles;
+	}
+
 	/**
 	 * Get the list of fields for which data is localized.
 	 * @return array
@@ -153,6 +201,7 @@ class SuppFileDAO extends DAO {
 		$suppFile->setShowReviewers($row['show_reviewers']);
 		$suppFile->setDateSubmitted($this->datetimeFromDB($row['date_submitted']));
 		$suppFile->setSequence($row['seq']);
+		$suppFile->setSuppAssocId($row['assoc_id']);
 
 		//ArticleFile set methods
 		$suppFile->setFileName($row['file_name']);
@@ -182,9 +231,9 @@ class SuppFileDAO extends DAO {
 		}
 		$this->update(
 			sprintf('INSERT INTO article_supplementary_files
-				(public_supp_file_id, file_id, article_id, type, date_created, language, show_reviewers, date_submitted, seq)
+				(public_supp_file_id, file_id, article_id, type, date_created, language, show_reviewers, date_submitted, seq, assoc_id)
 				VALUES
-				(?, ?, ?, ?, %s, ?, ?, %s, ?)',
+				(?, ?, ?, ?, %s, ?, ?, %s, ?, ?)',
 				$this->dateToDB($suppFile->getDateCreated()), $this->datetimeToDB($suppFile->getDateSubmitted())),
 			array(
 				$suppFile->getPublicSuppFileId(),
@@ -193,7 +242,8 @@ class SuppFileDAO extends DAO {
 				$suppFile->getType(),
 				$suppFile->getLanguage(),
 				$suppFile->getShowReviewers(),
-				$suppFile->getSequence()
+				$suppFile->getSequence(),
+				$suppFile->getSuppAssocId()
 			)
 		);
 		$suppFile->setId($this->getInsertSuppFileId());
@@ -215,7 +265,8 @@ class SuppFileDAO extends DAO {
 					date_created = %s,
 					language = ?,
 					show_reviewers = ?,
-					seq = ?
+					seq = ?,
+                                        assoc_id =?
 				WHERE supp_id = ?',
 				$this->dateToDB($suppFile->getDateCreated())),
 			array(
@@ -225,6 +276,7 @@ class SuppFileDAO extends DAO {
 				$suppFile->getLanguage(),
 				$suppFile->getShowReviewers(),
 				$suppFile->getSequence(),
+				$suppFile->getSuppAssocId(),
 				$suppFile->getId()
 			)
 		);
@@ -446,6 +498,34 @@ class SuppFileDAO extends DAO {
 
 		return $returner;
 	}
+        
+        /**
+	 * Get a map of types.
+	 * @return array
+	 */
+	function &getTypeMap() {
+		static $typeMap;
+		if (!isset($typeMap)) {
+                    $typeMap = array(
+                        SUPP_FILE_APPROVAL => Locale::translate('article.suppFile.approvalLetter'),
+                        SUPP_FILE_ENDORSMENT => Locale::translate('article.suppFile.endorsmentLetter'),
+                        SUPP_FILE_CONSENT => Locale::translate('article.suppFile.informedConsent'),
+                        SUPP_FILE_ADVERTISEMENT => Locale::translate('article.suppFile.advertisements'),
+                        SUPP_FILE_PUBLICATIONS => Locale::translate('article.suppFile.relatedPublications'),
+                        SUPP_FILE_BROCHURE => Locale::translate('article.suppFile.brochure'),
+                        SUPP_FILE_IMPD => Locale::translate('article.suppFile.impd'),
+                        SUPP_FILE_SMPC => Locale::translate('article.suppFile.smpc'),
+                        SUPP_FILE_LABELS => Locale::translate('article.suppFile.labels'),
+                        SUPP_FILE_GMP => Locale::translate('article.suppFile.gmp'),
+                        SUPP_FILE_DELEGATION => Locale::translate('article.suppFile.delegation'),
+                        SUPP_FILE_CV => Locale::translate('article.suppFile.CV'),
+                        SUPP_FILE_POLICY => Locale::translate('article.suppFile.policy')
+                    );
+		}
+		return $typeMap;
+	}
+        
+        
 }
 
 ?>

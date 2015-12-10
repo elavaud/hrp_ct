@@ -15,6 +15,19 @@
 
 // $Id$
 
+define('SUPP_FILE_APPROVAL', 1);       // Approval letter from accredited committee
+define('SUPP_FILE_ENDORSMENT', 2);     // Endorsment letter
+define('SUPP_FILE_CONSENT', 3);        // Informed consent form
+define('SUPP_FILE_ADVERTISEMENT', 4);  // Subject recruitment advertisements
+define('SUPP_FILE_PUBLICATIONS', 5);   // Related publications
+define('SUPP_FILE_BROCHURE', 6);       // Investigator's brochure
+define('SUPP_FILE_IMPD', 7);           // Investigational medicinal product dossier
+define('SUPP_FILE_SMPC', 8);           // Approved Summary of Product Characteristics
+define('SUPP_FILE_LABELS', 9);         // Labels
+define('SUPP_FILE_GMP', 10);           // GMP Certificate(s) of manufacturer
+define('SUPP_FILE_DELEGATION', 11);    // Letter of delegation from Sponsor
+define('SUPP_FILE_CV', 12);            // CV of principal investigator
+define('SUPP_FILE_POLICY', 13);        // Insurance policy
 
 import('classes.article.ArticleFile');
 
@@ -164,7 +177,7 @@ class SuppFile extends ArticleFile {
 
 	/**
 	 * Get type (method/approach).
-	 * @return string
+	 * @return int
 	 */
 	function getType() {
 		return $this->getData('type');
@@ -172,10 +185,44 @@ class SuppFile extends ArticleFile {
 
 	/**
 	 * Set type (method/approach).
-	 * @param $type string
+	 * @param $type int
 	 */
 	function setType($type) {
 		return $this->setData('type', $type);
+	}
+        
+        /**
+	 * Get a map of types.
+	 * @return array
+	 */
+	function &getTypeMap() {
+		static $typeMap;
+		if (!isset($typeMap)) {
+                    $typeMap = array(
+                        SUPP_FILE_APPROVAL => 'article.suppFile.approvalLetter',
+                        SUPP_FILE_ENDORSMENT => 'article.suppFile.endorsmentLetter',
+                        SUPP_FILE_CONSENT => 'article.suppFile.informedConsent',
+                        SUPP_FILE_ADVERTISEMENT => 'article.suppFile.advertisements',
+                        SUPP_FILE_PUBLICATIONS => 'article.suppFile.relatedPublications',
+                        SUPP_FILE_BROCHURE => 'article.suppFile.brochure',
+                        SUPP_FILE_IMPD => 'article.suppFile.impd',
+                        SUPP_FILE_SMPC => 'article.suppFile.smpc',
+                        SUPP_FILE_LABELS => 'article.suppFile.labels',
+                        SUPP_FILE_GMP => 'article.suppFile.gmp',
+                        SUPP_FILE_DELEGATION => 'article.suppFile.delegation',
+                        SUPP_FILE_CV => 'article.suppFile.CV',
+                        SUPP_FILE_POLICY => 'article.suppFile.policy'
+                    );
+		}
+		return $typeMap;
+	}
+        
+	/**
+	 * Get a locale key for the type
+	 */
+	function getTypeKey() {
+                $typeMap = $this->getTypeMap();
+		return $typeMap[$this->getType()];
 	}
 
 	/**
@@ -406,6 +453,23 @@ class SuppFile extends ArticleFile {
 			if (!empty($publicSuppFileId)) return $publicSuppFileId;
 		}
 		return $this->getId();
+	}
+        
+        
+	/**
+	 * Get supp file association id.
+	 * @return int
+	 */
+	function getSuppAssocId() {
+		return $this->getData('suppAssocId');
+	}
+
+	/**
+	 * Set supp file association id.
+	 * @param $suppAssocId int
+	 */
+	function setSuppAssocId($suppAssocId) {
+		return $this->setData('suppAssocId', $suppAssocId);
 	}
 }
 

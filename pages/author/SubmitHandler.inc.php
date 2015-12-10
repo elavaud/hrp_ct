@@ -164,11 +164,11 @@ class SubmitHandler extends AuthorHandler {
 					}
 					break;
 				case 8:
-                                        if ($request->getUserVar('submitUploadSuppFile')) {  //AIM, 12.12.2011
+                                        if ($request->getUserVar('submitUploadSuppFile')) {
                                             if($request->getUserVar('fileType'))
                                                 SubmitHandler::submitUploadSuppFile(array(), $request);
                                             else
-                                                Request::redirect(null, null, 'submit', '4', array('articleId' => $articleId));
+                                                Request::redirect(null, null, 'submit', '8', array('articleId' => $articleId));
                                         }
                                         break;
 			}
@@ -225,13 +225,11 @@ class SubmitHandler extends AuthorHandler {
 	 */
 	function submitUploadSuppFile($args, $request) {
 		$articleId = $request->getUserVar('articleId');
-                // Start Edit Raf Tan 04/30/2011
-                $fileTypes = $request->getUserVar('fileType');
-                $otherFileType = trim($request->getUserVar('otherFileType'));
-                // End Edit Raf Tan 04/30/2011
+                $fileType = $request->getUserVar('fileType');
+                $articleSite = $request->getUserVar('articleSite');
 		$journal =& $request->getJournal();
 
-		$this->validate($articleId, 4);
+		$this->validate($articleId, 8);
 		$article =& $this->article;
 		$this->setupTemplate(true);
 
@@ -239,25 +237,8 @@ class SubmitHandler extends AuthorHandler {
 		$submitForm = new AuthorSubmitSuppFileForm($article, $journal);
 		$submitForm->setData('title', array($article->getLocale() => Locale::translate('common.untitled')));
 		$suppFileId = $submitForm->execute();
-
-                // Start Edit Raf Tan 04/30/2011
-                //Request::redirect(null, null, 'submitSuppFile', $suppFileId, array('articleId' => $articleId));
-
-                // Bypass displaying the supplementay submission form (pass articleId and proposalType)
-                $suppFileType = $fileTypes[0];
-                if($suppFileType == Locale::translate('common.other') && $otherFileType != "") $suppFileType = $otherFileType;
-                $count = 1;
-                foreach ($fileTypes as $type) {
-                    if($count > 1) {
-                        if($type == Locale::translate('common.other') && $otherFileType != "")
-                            $type = $otherFileType;
-
-                        $suppFileType = $suppFileType . ', ' . $type;
-                    }
-                    $count++;
-                }
                 
-                Request::redirect(null, null, 'saveSubmitSuppFile', $suppFileId, array('articleId' => $articleId, 'type' => $suppFileType));
+                Request::redirect(null, null, 'saveSubmitSuppFile', $suppFileId, array('articleId' => $articleId, 'type' => $fileType, 'articleSite' => $articleSite));
                 // End Edit Raf Tan 04/30/2011
 	}
 
@@ -270,7 +251,7 @@ class SubmitHandler extends AuthorHandler {
 		$suppFileId = isset($args[0]) ? (int) $args[0] : 0;
 		$journal =& $request->getJournal();
 
-		$this->validate($articleId, 4);
+		$this->validate($articleId, 8);
 		$article =& $this->article;
 		$this->setupTemplate(true);
 
@@ -290,44 +271,30 @@ class SubmitHandler extends AuthorHandler {
 	 * @param $args array optional, if set the first parameter is the supplementary file to update
 	 */
 	function saveSubmitSuppFile($args, $request) {
+		$suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
+            
 		$articleId = $request->getUserVar('articleId');
-                // Start Edit Raf Tan 04/30/2011
                 $type = $request->getUserVar('type');
-                // End Edit Raf Tan 04/30/2011
+                $articleSite = $request->getUserVar('articleSite');
+                
 		$suppFileId = isset($args[0]) ? (int) $args[0] : 0;
 		$journal =& $request->getJournal();
 
-		$this->validate($articleId, 4);
+		$this->validate($articleId, 8);
 		$article =& $this->article;
 		$this->setupTemplate(true);
 
 		import('classes.author.form.submit.AuthorSubmitSuppFileForm');
 		$submitForm = new AuthorSubmitSuppFileForm($article, $journal, $suppFileId);
-                /**
-                 * Start Edit Raf Tan 04/30/2011
-		$submitForm->readInputData();
-
-		if ($submitForm->validate()) {
-			$submitForm->execute();
-			Request::redirect(null, null, 'submit', '4', array('articleId' => $articleId));
-		} else {
-			$submitForm->display();
-		}
-                 *
-                 */
-
-                //$submitForm->readInputData();
-
-               // $suppFileDao = DAORegistry::getDAO('SuppFileDAO');
-               // $suppFileCount = count($suppFileDao->getSuppFilesByArticle($articleId));
-                //$submitForm->setData('title', array($article->getLocale() => ('SuppFile'.$suppFileCount)));
-                $submitForm->setData('title', array($article->getLocale() => ($type)));
+                
+                $typeMap = $suppFileDao->getTypeMap();
+                $submitForm->setData('title', array($article->getLocale() => ($typeMap[$type])));
 
                 $submitForm->setData('type', $type);
+                $submitForm->setData('articleSite', $articleSite);
+                
                 $submitForm->execute();
-                Request::redirect(null, null, 'submit', '4', array('articleId' => $articleId));
-
-                // End Edit Raf Tan 04/30/2011
+                Request::redirect(null, null, 'submit', '8', array('articleId' => $articleId));
 	}
 
 	/**
@@ -340,7 +307,7 @@ class SubmitHandler extends AuthorHandler {
 		$articleId = Request::getUserVar('articleId');
 		$suppFileId = isset($args[0]) ? (int) $args[0] : 0;
 
-		$this->validate($articleId, 4);
+		$this->validate($articleId, 8);
 		$article =& $this->article;
 		$this->setupTemplate(true);
 
@@ -353,7 +320,7 @@ class SubmitHandler extends AuthorHandler {
 			$articleFileManager->deleteFile($suppFile->getFileId());
 		}
 
-		Request::redirect(null, null, 'submit', '4', array('articleId' => $articleId));
+		Request::redirect(null, null, 'submit', '8', array('articleId' => $articleId));
 	}
 
 	function expediteSubmission() {

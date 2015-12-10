@@ -356,7 +356,7 @@
 	<message key="submission.page.citations">{$id} Citations</message>
 	<message key="submission.peerReview">Peer&amp;nbsp;Review</message>
     <message key="submission.previousProposalFile">Previous proposal file(s)</message>
-    <message key="submission.previousProposalFileInstruct">In case of a re-submission, here are the main proposal files previously submitted. Plese click on their title to download them.</message>
+    <message key="submission.previousProposalFileInstruct">In case of a re-submission, here are the study protocol files previously submitted. Plese click on their title to download them.</message>
     <message key="submission.proposalDetails">Proposal Details</message>
 	<message key="submission.protocolAmendment">Protocol Amendment</message>
 	<message key="submission.recommendation">Recommendation</message>
@@ -403,7 +403,7 @@
 	<message key="submissions.submitted">Submitted</message>
 	<message key="submission.start">Start</message>
 	<message key="submission.submissionHistory">Submission History</message>
-	<message key="submission.submissionManuscript">Main proposal file</message>
+	<message key="submission.submissionManuscript">Study protocol file</message>
 	<message key="submission.submissionReview">Submission Review</message>
 	<message key="submission.submitter">Submitter</message>
     <message key="submission.submitterInstruct">The user who submitted the proposal through this health research portal. It could not be the same person as the investigator of the research.</message>

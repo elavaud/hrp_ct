@@ -30,7 +30,7 @@
 import('lib.pkp.classes.file.FileManager');
 
 /* File type suffixes */
-define('ARTICLE_FILE_SUBMISSION',	'MainProposal');
+define('ARTICLE_FILE_SUBMISSION',	'MainProtocol');
 define('ARTICLE_FILE_REVIEW',		'ReviewFile');
 define('ARTICLE_FILE_DECISION',		'Decision');
 define('ARTICLE_FILE_COPYEDIT',		'CopyEdit');

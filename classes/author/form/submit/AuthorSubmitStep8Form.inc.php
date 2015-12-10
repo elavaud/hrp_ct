@@ -29,29 +29,79 @@ class AuthorSubmitStep8Form extends AuthorSubmitForm {
 	 * Display the form.
 	 */
 	function display() {
-		$templateMgr =& TemplateManager::getManager();
-                $typeOptions = array(
-                    "author.submit.suppFile.summary" => "author.submit.suppFile.summary",
-                    "author.submit.suppFile.grantRequest" => "author.submit.suppFile.grantRequest",                    
-                    "author.submit.suppFile.informedConsent" => "author.submit.suppFile.informedConsent",
-                    "author.submit.suppFile.minutes" => "author.submit.suppFile.minutes",
-                    "author.submit.suppFile.proofOfPayment" => "author.submit.suppFile.proofOfPayment",
-                    "author.submit.suppFile.funding" => "author.submit.suppFile.funding",
-                    "author.submit.suppFile.cv" => "author.submit.suppFile.cv",
-                    "author.submit.suppFile.questionnaire" => "author.submit.suppFile.questionnaire",
-                    "author.submit.suppFile.proofOfRegistration" => "author.submit.suppFile.proofOfRegistration",
-                    "author.submit.suppFile.otherErcDecision" => "author.submit.suppFile.otherErcDecision",
-                    "author.submit.suppFile.amendment" => "author.submit.suppFile.amendment",
-                    "common.other" => "common.other"
-		);
-
-		$templateMgr->assign('typeOptions', $typeOptions);
-
-		// Get supplementary files for this article
+            
+		$article =& $this->article;
+                $sites = $article->getArticleSites();
+                $details = $article->getArticleDetails();
+                
 		$suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
-		$templateMgr->assign_by_ref('suppFiles', $suppFileDao->getSuppFilesByArticle($this->articleId));
+		$trialSiteDao =& DAORegistry::getDAO('TrialSiteDAO');                
+                
+                $goToNextStep = true;
+                
+                $impds = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_IMPD);
+                $approvalLetters = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_APPROVAL);
+                $informedConsents = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_CONSENT);
+                $labelss = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_LABELS);
+                $gmps = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_GMP);
+                $policies = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_POLICY);
+                $brochures = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_BROCHURE);
+                $relatedPublications = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_PUBLICATIONS);
+                if (empty($impds) 
+                        || empty($approvalLetters) 
+                        || empty($informedConsents) 
+                        || empty($labelss) 
+                        || empty($gmps) 
+                        || empty($brochures) 
+                        || empty($policies)) {
+                    $goToNextStep = false;
+                }
+                $sitesList = array();
+                $sitesArray = array();
+                foreach ($sites as $site) {
+                    $trialSite = $trialSiteDao->getTrialSiteById($site->getSiteId());
+                    $endorsmentLetters = $suppFileDao->getSuppFilesByArticleTypeAndAssocId($this->articleId, SUPP_FILE_ENDORSMENT, $site->getId());
+                    $CVs = $suppFileDao->getSuppFilesByArticleTypeAndAssocId($this->articleId, SUPP_FILE_CV, $site->getId());
+                    if (empty($endorsmentLetters) || empty($CVs)) {
+                        $goToNextStep = false;
+                    }
+                    $sitesList[$site->getId()] = $trialSite->getName();
+                    $siteArray = array('name' => $trialSite->getName(), 'endorsmentLetters' => $endorsmentLetters, 'CVs' => $CVs);
+                    array_push($sitesArray, $siteArray);
+                }           
+                $showAdvertisements = false;
+                if ($details->getAdvertisingScheme() == ARTICLE_DETAIL_YES) {
+                    $showAdvertisements = true;
+                    $advertisements = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_ADVERTISEMENT);
+                    if (empty($advertisements)) {$goToNextStep = false;}
+                }
+                $showDelegation = false;
+                if ($details->getCROInvolved() == ARTICLE_DETAIL_YES) {
+                    $showDelegation = true;
+                    $delegations = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_DELEGATION);
+                    if (empty($delegations)) {$goToNextStep = false;}
+                }
 
-		parent::display();
+                
+		$templateMgr =& TemplateManager::getManager();
+		$templateMgr->assign('typeOptions', $suppFileDao->getTypeMap());
+		$templateMgr->assign_by_ref('impds', $impds);
+		$templateMgr->assign_by_ref('approvalLetters', $approvalLetters);
+		$templateMgr->assign_by_ref('informedConsents', $informedConsents);
+		$templateMgr->assign_by_ref('labelss', $labelss);
+		$templateMgr->assign_by_ref('gmps', $gmps);
+		$templateMgr->assign_by_ref('policies', $policies);
+		$templateMgr->assign_by_ref('brochures', $brochures);
+		$templateMgr->assign('sitesArray', $sitesArray);
+		$templateMgr->assign('sitesList', $sitesList);
+		$templateMgr->assign('showAdvertisements', $showAdvertisements);
+		$templateMgr->assign_by_ref('advertisements', $advertisements);
+		$templateMgr->assign('showDelegation', $showDelegation);
+		$templateMgr->assign_by_ref('delegations', $delegations);     
+		$templateMgr->assign_by_ref('relatedPublications', $relatedPublications);     
+		$templateMgr->assign('goToNextStep', $goToNextStep);
+                
+                parent::display();
 	}
 
 	/**

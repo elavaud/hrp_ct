@@ -60,7 +60,6 @@ class AuthorSubmitSuppFileForm extends Form {
 		}
 
 		// Validation checks for this form
-                // Comment out, AIM, June 1, 2011
 		//$this->addCheck(new FormValidatorLocale($this, 'title', 'required', 'author.submit.suppFile.form.titleRequired', $this->getRequiredLocale()));
 		//$this->addCheck(new FormValidatorPost($this));
 	}
@@ -81,7 +80,7 @@ class AuthorSubmitSuppFileForm extends Form {
 		$templateMgr =& TemplateManager::getManager();
 		$templateMgr->assign('articleId', $this->articleId);
 		$templateMgr->assign('suppFileId', $this->suppFileId);
-		$templateMgr->assign('submitStep', 4);
+		$templateMgr->assign('submitStep', 8);
 
 		$typeOptionsOutput = array(
 			'author.submit.suppFile.researchInstrument',
@@ -149,7 +148,7 @@ class AuthorSubmitSuppFileForm extends Form {
 				'creator',
 				'subject',
 				'type',
-				'typeOther',
+				'articleSite',
 				'description',
 				'publisher',
 				'sponsor',
@@ -212,17 +211,10 @@ class AuthorSubmitSuppFileForm extends Form {
 	 */
 	function setSuppFileData(&$suppFile) {
 		$suppFile->setTitle($this->getData('title'), null); // Null
-		//$suppFile->setCreator($this->getData('creator'), null); // Null
-		//$suppFile->setSubject($this->getData('subject'), null); // Null
 		$suppFile->setType($this->getData('type'));
-		//$suppFile->setTypeOther($this->getData('typeOther'), null); // Null
-		//$suppFile->setDescription($this->getData('description'), null); // Null
-		//$suppFile->setPublisher($this->getData('publisher'), null); // Null
-		//$suppFile->setSponsor($this->getData('sponsor'), null); // Null
-		//$suppFile->setDateCreated($this->getData('dateCreated') == '' ? Core::getCurrentDate() : $this->getData('dateCreated'));
-		//$suppFile->setSource($this->getData('source'), null); // Null
-		//$suppFile->setLanguage($this->getData('language'));
-		//$suppFile->setShowReviewers($this->getData('showReviewers'));
+                if ($this->getData('type') == SUPP_FILE_ENDORSMENT || $this->getData('type') == SUPP_FILE_CV) {
+                    $suppFile->setSuppAssocId($this->getData('articleSite'));
+                }
                 $suppFile->setShowReviewers(1);
 	}
 }

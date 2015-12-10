@@ -307,6 +307,21 @@
 	<message key="article.file">File</message>
         <message key="article.files">Files</message>
 	<message key="article.suppFile">Supplementary File</message>
+	<message key="article.suppFile.missing">File missing</message>
+	<message key="article.suppFile.optional">Optional</message>        
+        <message key="article.suppFile.approvalLetter">Approval Letter</message>
+        <message key="article.suppFile.endorsmentLetter">Endorsment letter</message>
+        <message key="article.suppFile.informedConsent">Informed Consent</message>
+        <message key="article.suppFile.advertisements">Subject Recruitment Advertisements</message>
+        <message key="article.suppFile.relatedPublications">Trial related presentations/ publications list</message>
+        <message key="article.suppFile.brochure">Investigator’s brochure</message>
+        <message key="article.suppFile.impd">Investigational medicinal product dossier (IMPD)</message>
+        <message key="article.suppFile.smpc">Approved Summary of Product Characteristics</message>
+        <message key="article.suppFile.labels">Label(s)</message>
+	<message key="article.suppFile.gmp">GMP Certificate(s) of manufacturer</message>
+	<message key="article.suppFile.delegation">Letter of delegation from Sponsor</message>
+        <message key="article.suppFile.CV">CV of principal investigator.</message>
+        <message key="article.suppFile.policy">Insurance policy in the event of injury or death.</message>
 	<message key="article.suppFiles">Supplementary File(s)</message>
 	<message key="article.suppFilesAbbrev">Supp. Files</message>
         <message key="article.suppFilesAbbrevInstruct">Supplementary files submitted by the Investigator. Please click on a title (blue link) for downloading the concerned proposal.</message>
@@ -1492,14 +1507,14 @@ Active is how many reviews are currently being considered or underway.]]></messa
 	
 	<!-- Article Submission Step 3 -->
 	<message key="author.submit.uploadInstructions"><![CDATA[
-<p>To upload a proposal for review, complete the following steps.</p>
+<p>To upload your study protocol for review, complete the following steps.</p>
 <ol>
 <li>On this page, click Browse (or Choose File) which opens a Choose File window for locating the file on the hard drive of your computer.</li>
 <li>Locate the file you wish to submit and highlight it.</li>
 <li>Click Open on the Choose File window, which places the name of the file on this page.</li>
 <li>Click Upload on this page, which uploads the file from the computer to the web site and renames it following the Health Research Portal naming conventions.</li>
-<li>Once the proposal is uploaded, click Save and Continue at the bottom of this page.</li>
-</ol>]]></message>
+<li>Once the protocol is uploaded, click Save and Continue at the bottom of this page.</li>
+</ol> The study should comply with ICH Good Clinical Practice Guideline. The version submitted should include all currently authorized amendments and description of the end of the trial. It may include a sub-study to be conducted at all trial sites or only at specific sites.]]></message>
 
 	<!-- Article Submission Step 4 -->
 	

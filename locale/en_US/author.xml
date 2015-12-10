@@ -73,7 +73,7 @@
 	<message key="author.submit.step4">Step 4. Proposed Clinical Trial Site(s)</message>
 	<message key="author.submit.step5">Step 5. Sponsor's Information</message>
 	<message key="author.submit.step6">Step 6. Contact Details</message>
-        <message key="author.submit.step7">Step 7. Uploading the Main Proposal File</message>
+        <message key="author.submit.step7">Step 7. Uploading the Study Protocol File</message>
 	<message key="author.submit.step8">Step 8. Uploading Supplementary Files</message>
 	<message key="author.submit.step8a">Step 8a. Add a Supplementary File</message>
 	<message key="author.submit.step9">Step 9. Confirming the Submission</message>
@@ -83,7 +83,7 @@
 	<message key="author.submit.ctSite">4. Site(s)</message>
 	<message key="author.submit.sponsor">5. Sponsor</message>
 	<message key="author.submit.contacts">6. Contacts</message>
-	<message key="author.submit.upload">7. Main Proposal</message>
+	<message key="author.submit.upload">7. Protocol</message>
 	<message key="author.submit.supplementaryFiles">8. Supp Files</message>
 	<message key="author.submit.confirmation">9. Confirmation</message>
 	<message key="author.submit.cancelSubmission">You can complete this submission at a later date by selecting Active Proposals from the Investigator home page.</message>
@@ -287,14 +287,14 @@
         <message key="author.submit.submitOtherOutputs">Upload Other Supplementary Research Output</message>
         <message key="author.submit.submitOtherOutputs.short">Other Research Output</message>
         <message key="author.submit.submitOtherOutputsInstruct">Journal publications, news, items or any others publications related to research.</message>
-	    <message key="author.submit.uploadSubmissionFile">Upload file</message>
+        <message key="author.submit.uploadSubmissionFile">Upload file</message>
         <message key="author.submit.uploadRawData">Upload Raw Data</message>
         <message key="author.submit.uploadRawData.short">Raw Data</message>
         <message key="author.submit.uploadRawDataInstruct">The final data set use for final analysis (Excel, SAS, SPSS or Stata).</message>
 	<message key="author.submit.replaceSubmissionFile">Replace submission file</message>
-	<message key="author.submit.noSubmissionFile">No file uploaded. You need to upload your main proposal for going to step 4</message>
+	<message key="author.submit.noSubmissionFile">No file uploaded. You need to upload your main proposal for going to step 8</message>
 	<message key="author.submit.noSubmissionConfirm">Are you sure you wish to continue without uploading a file?</message>
-	<message key="author.submit.supplementaryFilesInstructions">This optional step allows Supplementary Files to be added to a submission. The files, which can be in any format, might include (a) research instruments, (b) data sets, which comply with the terms of the study's research ethics review, (c) sources that otherwise would be unavailable to reviewers, (d) figures and tables that cannot be integrated into the text itself, or other materials that add to the contribution of the work.</message>
+	<message key="author.submit.supplementaryFilesInstructions">This step allows Supplementary Files to be added to a submission. The files, which can be in any format, might include (a) research instruments, (b) data sets, which comply with the terms of the study's research ethics review, (c) sources that otherwise would be unavailable to reviewers, (d) figures and tables that cannot be integrated into the text itself, or other materials that add to the contribution of the work.</message>
 	<message key="author.submit.supplementaryFiles.saveToUpload">Click Save to upload file.</message>
 	<message key="author.submit.forgottenSubmitSuppFile">Are you sure you wish to continue without uploading the supplementary file you have chosen?</message>
 	<message key="author.submit.noSupplementaryFiles">No supplementary files have been added to this submission.</message>
@@ -306,40 +306,40 @@
 	<message key="author.submit.supplementaryFileData">Supplementary File Metadata</message>
 	<message key="author.submit.supplementaryFileDataDescription">To index this supplementary material, provide the following metadata for the uploaded supplementary file.</message>
 	<message key="author.submit.supplementaryFileUpload">Supplementary File</message>
-    <message key="author.submit.suppFileInstruct">Select file type(s)<![CDATA[<br />]]>(Hold down the CTRL [or CMD on mac] button to select multiple options.)</message>
-    <message key="author.submit.suppFileSpecify">Specify "Other" file type</message>
-    <message key="author.submit.suppFileUploadInstruct">Select file to upload</message>
+        <message key="author.submit.suppFileInstruct">Select file type</message>
+        <message key="author.submit.suppFileSpecify">Specify "Other" file type</message>
+        <message key="author.submit.suppFileUploadInstruct">Select file to upload</message>
 	<message key="author.submit.suppFile.createrOrOwner">Creator (or owner) of file</message>
-	<message key="author.submit.suppFile.researchInstrument">Research Instrument</message>
-	<message key="author.submit.suppFile.researchMaterials">Research Materials</message>
-	<message key="author.submit.suppFile.researchResults">Research Results</message>
-	<message key="author.submit.suppFile.transcripts">Transcripts</message>
-	<message key="author.submit.suppFile.dataAnalysis">Data Analysis</message>
-	<message key="author.submit.suppFile.dataSet">Data Set</message>
-	<message key="author.submit.suppFile.sourceText">Source Text</message>
 	
-        <!--Start Edited Raf Tan 04/30/2011-->
-        <message key="author.submit.suppFile.summary">Summary</message>
-        <message key="author.submit.suppFile.proposal">Proposal</message>
+        <message key="author.submit.suppFile.approvalLetter">Approval Letter</message>
+        <message key="author.submit.suppFile.approvalLetter.instruct"><![CDATA[ Proof of clinical trial protocol approval from a level-3 accredited (by Philippine Research Ethics Review Board (PHREB) Research ethics review committee. The list of level-3 research ethics review committees is available at PHREB website at <a href="http://www.ethics.healthresearch.ph/index.php/accredited-ercs"></a>. Please note FDA does NOT require an ethics approval letter from each clinical trial site. However, each institution may opt to have an internal review before issuing the endorsement letter.]]></message>
+        <message key="author.submit.suppFile.endorsmentLetter">Endorsment letter</message>
+        <message key="author.submit.suppFile.endorsmentLetter.instruct">An institutional endorsement letter from each clinical trial site is required. The endorsement letter should state the agreement from the authorized representative of the clinical trial (e.g. hospital director) for the conduct of clinical trial(s), but also their ability and willingness to monitor the implementation of clinical trial and protection of research subjects.</message>        
         <message key="author.submit.suppFile.informedConsent">Informed Consent</message>
-        <message key="author.submit.suppFile.funding">Detailed budget</message>
-        <message key="author.submit.suppFile.localEthicalApproval">Local Ethical Approval</message>
-        <message key="author.submit.suppFile.questionnaire">Questionnaires</message>
-        <message key="author.submit.suppFile.minutes">Minutes</message>
-        <!-- <message key="author.submit.suppFile.local">Local</message> removed SPF 9 Dec 2011-->
-        <message key="author.submit.suppFile.ethicalClearance">Local Ethical Clearance</message>
-        <message key="author.submit.suppFile.proofOfRegistration">Proof of Registration</message>
-        <message key="author.submit.suppFile.proofOfPayment">Proof of Payment</message>
-        <message key="author.submit.suppFile.otherErcDecision">Other Committee Decision</message>
-        <message key="author.submit.suppFile.review">Review</message>
-        <!--End Edited Raf Tan 04/30/2011-->
-
-	<message key="author.submit.suppFile.briefDescription">Brief description</message>
-	<message key="author.submit.suppFile.contributorOrSponsor">Contributor or sponsoring agency</message>
-	<message key="author.submit.suppFile.availableToPeers">Present file to reviewers (without metadata), as it will not compromise blind review.</message>
-	<message key="author.submit.suppFile.publisherDescription">Use only with formally published materials.</message>
-	<message key="author.submit.suppFile.dateDescription">Date when data was collected or instrument created.</message>
-	<message key="author.submit.suppFile.sourceDescription">Name of study or other point of origin.</message>
+        <message key="author.submit.suppFile.informedConsent.instruct">The contents of the Informed Consent Form must conform to the highest ethical standards, and should be as approved by level 3 accredited research ethics review committee.</message>        
+        <message key="author.submit.suppFile.advertisements">Subject Recruitment Advertisements</message>
+        <message key="author.submit.suppFile.advertisements.instruct">Advertising that is intended to be seen or heard by prospective subjects to solicit their participation in a study (e.g. newspaper, radio, TV, bulletin boards, posters, and flyers that are intended for prospective subjects).</message>
+        <message key="author.submit.suppFile.relatedPublications">Trial related presentations/ publications list</message>
+        <message key="author.submit.suppFile.relatedPublications.instruct">If the study has a list of presentations/publications, upload these details in the section. Otherwise, leave it blank.</message>        
+        <message key="author.submit.suppFile.brochure">Investigator’s brochure</message>
+        <message key="author.submit.suppFile.brochure.instruct">The Investigator’s Brochure (IB) should comply with ICH Good Clinical Practice Guideline. It should reflect all available information and evidence that supports the relevance/rationale for the proposed clinical trial and the safe use of the investigational drug product (IDP) in the trial.</message>
+        <message key="author.submit.suppFile.impd">Investigational medicinal product dossier (IMPD)</message>
+        <message key="author.submit.suppFile.impd.instruct">An IMPD should include summaries of information related to the manufacture and control of the IDP, data from non-clinical studies, early clinical trial and human experience data, and overall risk and benefit assessment.</message>
+        <message key="author.submit.suppFile.smpc">Approved Summary of Product Characteristics</message>
+        <message key="author.submit.suppFile.smpc.instruct">The approved Summary of Product Characteristics (SmPC) is used according to the terms of the marketing authorization.</message>
+        <message key="author.submit.suppFile.labels">Label(s)</message>
+        <message key="author.submit.suppFile.labels.instruct">The label consists of legibly written, printed, or graphic matter on the immediate container of the IDP.</message>
+	<message key="author.submit.suppFile.gmp">GMP Certificate(s) of manufacturer</message>
+	<message key="author.submit.suppFile.gmp.instruct">GMP certificate(s) issued by the regulatory authority in the country of the manufacturer(s) and should state that the facilities and operations of the manufacturer(s) conform to GMP as recommended by WHO or other equivalent standards.</message>
+	<message key="author.submit.suppFile.delegation">Letter of delegation from Sponsor</message>
+	<message key="author.submit.suppFile.delegation.instruct">The letter of delegation from sponsor allowing the applicant to conduct the trial is a statement containing the name and address of the CRO, identification of the clinical study, and the obligations delegated</message>
+        <message key="author.submit.suppFile.CV">CV of principal investigator</message>
+	<message key="author.submit.suppFile.CV.instruct">Signed and authenticated CV of all principal investigators at all the clinical trial sites in FDA-required format. Persons engaged in health research involving human participants should be scientifically qualified. The investigator must have the ability and skills to conduct the proposed study and the knowledge of the literature on the subject of interest.</message>
+        <message key="author.submit.suppFile.policy">Insurance policy in the event of injury or death</message>
+        <message key="author.submit.suppFile.policy.instruct">The amount of compensation paid shall be appropriate to the nature, severity and persistence of the injury.</message>        
+        <message key="author.submit.suppFile.typeRequired">Please select the type of your file in the drop-down menu.</message>
+        <message key="author.submit.suppFile.siteRequired">Please select the concerned trial site for your file in the drop-down menu.</message>
+        
 	<message key="author.submit.suppFile.specifyOtherType">Specify other</message>
 	<message key="author.submit.suppFile.noFile">No file uploaded.</message>
 	<message key="author.submit.suppFile.form.titleRequired">Please enter the title of this supplementary file.</message>
