@@ -354,7 +354,7 @@ function addSecondaryOutcome(){
     $('#secondaryOutcomes-'+fieldId+'-en_US-name').val('');
     $('#secondaryOutcomes-'+fieldId+'-en_US-measurement').val('');
     $('#secondaryOutcomes-'+fieldId+'-en_US-timepoint').val('');
-
+    $('#secondaryOutcomes-'+fieldId).find('.hiddenInputs').remove('');
     $('#secondaryOutcomes-'+fieldId).find('.removeSecondaryOutcome').show();
     $('#secondaryOutcomes-'+fieldId).find('.removeSecondaryOutcome').click(function(){$(this).closest('table').remove();});
     $('#secondaryOutcomes-'+fieldId).find('.secondaryOutcomeTitle').hide();
