@@ -391,7 +391,7 @@ class ArticlePurpose extends DataObject {
 	function getEndpointKey() {
                 $endpoint = $this->getEndpoint();
 		$endpointMap =& $this->getEndpointMap();
-		return $endpointMap[$$endpoint];
+		return $endpointMap[$endpoint];
 	}
 }
 ?>

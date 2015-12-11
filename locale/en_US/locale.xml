@@ -364,7 +364,7 @@
     <message key="proposal.scientificTitle.instruct">This is the scientific name of the study provided by the principal investigator or sponsor. The title should contain information on participants, the intervention, the condition being studied, and the outcome.</message>
     <message key="proposal.publicTitle">Public title</message>
     <message key="proposal.publicTitle.instruct">Title of the study is intended for the lay public and should be in easily understood language.</message>
-    <message key="proposal.articleSecId">Secondary ID</message>
+    <message key="proposal.articleSecId">Secondary ID(s)</message>
     <message key="proposal.articleSecId.type">Type</message>
     <message key="proposal.articleSecId.id">ID</message>
     <message key="proposal.articleSecId.instruct">
@@ -390,7 +390,7 @@
     <message key="proposal.icd10.exact">Exact code</message>
     <message key="proposal.addAnotherICD10">Add another health condition</message>
         
-    <message key="proposal.purposes">Type and purpose of study</message>
+    <message key="proposal.purposes">Type(s) and purpose(s) of study</message>
     <message key="proposal.purposes.instruct">
         <![CDATA[
             Choose the most appropriate.

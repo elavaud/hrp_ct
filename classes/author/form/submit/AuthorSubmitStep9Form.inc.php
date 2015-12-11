@@ -42,9 +42,15 @@ class AuthorSubmitStep9Form extends AuthorSubmitForm {
 	function display() {
 		$journal =& Request::getJournal();
 		$templateMgr =& TemplateManager::getManager();
-
-                // Get article file for this article
+                
+		$countryDao =& DAORegistry::getDAO('CountryDAO');
 		$articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
+		$sectionDao =& DAORegistry::getDAO('SectionDAO');
+		$suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
+                
+                $details = $this->article->getArticleDetails();
+        
+                // Get article file for this article
 		$articleFiles =& $articleFileDao->getArticleFilesByArticle($this->articleId);			
 		
 		$previousFiles =& $articleFileDao->getPreviousFilesByArticleId($this->articleId);
@@ -55,8 +61,13 @@ class AuthorSubmitStep9Form extends AuthorSubmitForm {
 				}
 			}
 		}
-		
-		$sectionDao =& DAORegistry::getDAO('SectionDAO');
+                $showAdvertisements = false;
+                $advertisements = array();
+                if ($details->getAdvertisingScheme() == ARTICLE_DETAIL_YES) {
+                    $showAdvertisements = true;
+                    $advertisements = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_ADVERTISEMENT);
+                }
+
                 $section = $sectionDao->getSection($this->article->getSectionId());
 		$templateMgr->assign_by_ref('section', $section);
 		
@@ -64,7 +75,19 @@ class AuthorSubmitStep9Form extends AuthorSubmitForm {
 		$templateMgr->assign_by_ref('journal', Request::getJournal());
 
                 $templateMgr->assign_by_ref('article', $this->article);
-                                
+                $templateMgr->assign_by_ref('articleDetails', $details);
+                $templateMgr->assign_by_ref('articleTexts', $this->article->getArticleTexts());
+                $templateMgr->assign_by_ref('articleSecIds', $this->article->getArticleSecIds());
+                $templateMgr->assign_by_ref('articlePurposes', $this->article->getArticlePurposes());
+                $templateMgr->assign('articleTextLocales', $journal->getSupportedLocaleNames());
+                $templateMgr->assign_by_ref('articlePrimaryOutcomes', $this->article->getArticleOutcomesByType(ARTICLE_OUTCOME_PRIMARY));
+                $templateMgr->assign_by_ref('articleSecondaryOutcomes', $this->article->getArticleOutcomesByType(ARTICLE_OUTCOME_SECONDARY));
+                $templateMgr->assign('coveringArea', $journal->getLocalizedSetting('location'));
+                $templateMgr->assign('coutryList', $countryDao->getCountries());
+		$templateMgr->assign('showAdvertisements', $showAdvertisements);
+		$templateMgr->assign_by_ref('advertisements', $advertisements);
+                
+                
 		// Set up required Payment Related Information
 		import('classes.payment.ojs.OJSPaymentManager');
 		$paymentManager =& OJSPaymentManager::getManager();

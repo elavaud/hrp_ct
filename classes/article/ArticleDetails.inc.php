@@ -119,7 +119,7 @@ class ArticleDetails extends DataObject {
 	function getRightTherapeuticAreaDisplay() {
                 $therapeuticArea = $this->getData('therapeuticArea');
                 if (preg_match('/OTHER/', $therapeuticArea)) {
-                    $string = substr($therapeuticArea, 0, 6);
+                    $string = substr($therapeuticArea, 6);
                     return substr($string, 0, -1);
                 } else {
                     $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
@@ -162,7 +162,7 @@ class ArticleDetails extends DataObject {
 		return $this->getData('healthCondDisease');
 	}
         /**
-	 * Get geographical areas of the research in an array.
+	 * Get health conditions of the research in an array.
 	 * @return array
 	 */
 	function getHealthCondDiseaseArray() {
@@ -174,6 +174,24 @@ class ArticleDetails extends DataObject {
                     foreach ($healthCondsArray as $key => $item) {
                         $subArray = explode("=", $item);
                         $healthCondsArray[$key] = array('code' => $subArray[0], 'exactCode' => $subArray[1]);
+                    }
+                    return $healthCondsArray;
+                }
+        }
+        /**
+	 * Get health conditions of the research in an array, ready to be displayed.
+	 * @return array
+	 */
+	function getHealthCondDiseaseArrayToDisplay() {
+                $articleDetailsDao =& DAORegistry::getDAO('ArticleDetailsDAO');
+                $healthConds = $this->getHealthCondDisease();
+                if($healthConds == '' || $healthConds == null) {
+                    return null;
+                } else {   
+                    $healthCondsArray = explode("+", $healthConds);
+                    foreach ($healthCondsArray as $key => $item) {
+                        $subArray = explode("=", $item);
+                        $healthCondsArray[$key] = array('code' => $articleDetailsDao->getICD10($subArray[0]), 'exactCode' => $subArray[1]);
                     }
                     return $healthCondsArray;
                 }
@@ -303,12 +321,11 @@ class ArticleDetails extends DataObject {
 		return $sexMap;
 	}	
 	/**
-	 * Get a locale key for yes/no/not provided
-	 * @param $value
+	 * Get a locale key for sex
 	 */
-	function getSexKey($value) {
+	function getSexKey() {
 		$sexMap =& $this->getSexMap();
-		return $sexMap[$value];
+		return $sexMap[$this->getSex()];
 	}
         
         
@@ -499,9 +516,9 @@ class ArticleDetails extends DataObject {
 	 * Get a locale key for a recruitment status provided
 	 * @param $value
 	 */
-	function getRecruitmentStatusKey($value) {
+	function getRecruitmentStatusKey() {
 		$recruitmentStatusMap =& $this->getRecruitmentStatusMap();
-		return $recruitmentStatusMap[$value];
+		return $recruitmentStatusMap[$this->getRecruitmentStatus()];
 	}
 
         

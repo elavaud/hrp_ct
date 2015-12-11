@@ -347,7 +347,7 @@
 	<message key="author.submit.suppFile.form.descriptionRequired">Please enter a description.</message>
 	<message key="author.suppFile.suppFilePublicIdentificationExists">Public supplemental file identification already exists.</message>
 	<message key="author.suppFile.publicSuppFileIdentifier">Public supplemental file identifier</message>
-	<message key="author.submit.confirmationDescription">To submit your proposal to {$journalTitle} click Finish Submission. The investigator will receive an acknowledgement by email and will be able to view the submission's progress through the review process by logging into this web site. </message>
+	<message key="author.submit.confirmationDescription">To submit your proposal to the {$journalTitle} click Finish Submission. The submitter will receive an acknowledgement by email and will be able to view the submission's progress through the review process by logging into this web site. </message>
 	<message key="author.submit.noFiles">No files have been attached to this submission.</message>
 	<message key="author.submit.filesSummary">File Summary</message>
 	<message key="author.submit.finishSubmission">Finish Submission</message>
