@@ -30,7 +30,23 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
             $this->addCheck(new FormValidatorArray($this, 'articleSites', 'required', 'author.submit.form.primaryPhone.required', array('primaryPhone')));	
             $this->addCheck(new FormValidatorArray($this, 'articleSites', 'required', 'author.submit.form.email.required', array('email')));	
             $this->addCheck(new FormValidatorArray($this, 'articleSites', 'required', 'author.submit.form.subjectsNumber.required', array('subjectsNumber')));
-            $this->addCheck(new FormValidatorArray($this, 'articleSites', 'required', 'author.submit.form.investigators.required', array('investigators')));
+            $this->addCheck(new FormValidatorCustom($this, 'articleSites', 'required', 'author.submit.form.investigators.required', 
+                function($articleSites) {
+                    foreach ($articleSites as $articleSite) {
+                        $investigators = $articleSite['investigators'];
+                        foreach ($investigators as $investigator) {
+                            if($investigator['firstName'] == ''
+                                    || $investigator['lastName'] == ''
+                                    || $investigator['iPrimaryPhone'] == ''
+                                    || $investigator['iEmail'] == '') {
+                                return false;
+                            }
+                        }
+                    }
+                    return true;
+                }
+            )); 
+
         }
 
 	/**
