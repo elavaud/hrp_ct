@@ -16,6 +16,8 @@
         
         var SUPP_FILE_ENDORSMENT = "{/literal}{$smarty.const.SUPP_FILE_ENDORSMENT}{literal}";
         var SUPP_FILE_CV = "{/literal}{$smarty.const.SUPP_FILE_CV}{literal}";
+        var SUPP_FILE_BROCHURE = "{/literal}{$smarty.const.SUPP_FILE_BROCHURE}{literal}";
+        var SUPP_FILE_SMPC = "{/literal}{$smarty.const.SUPP_FILE_SMPC}{literal}";
         
         function checkSize(){
             var fileToUpload = document.getElementById('uploadSuppFile');
@@ -33,12 +35,62 @@
                 if($('#articleSite').find('option[value="NA"]').length > 0) {
                     $('#articleSite').find('option[value="NA"]').remove();
                 }
+                $('#articleDrugForIBField').hide();
+                if (!$('#articleDrugForIB').find('option[value="NA"]').length > 0){
+                    $('#articleDrugForIB').append('<option value="NA"></option>');
+                }
+                $('#articleDrugForIB').val('NA');
+                $('#articleDrugForSmPCField').hide();
+                if (!$('#articleDrugForSmPC').find('option[value="NA"]').length > 0){
+                    $('#articleDrugForSmPC').append('<option value="NA"></option>');
+                }
+                $('#articleDrugForSmPC').val('NA');
+            } else if($('#fileType').val() == SUPP_FILE_BROCHURE ) {
+                $('#articleDrugForIBField').show();
+                if($('#articleDrugForIB').find('option[value="NA"]').length > 0) {
+                    $('#articleDrugForIB').find('option[value="NA"]').remove();
+                }
+                $('#articleSiteField').hide();
+                if (!$('#articleSite').find('option[value="NA"]').length > 0){
+                    $('#articleSite').append('<option value="NA"></option>');
+                }
+                $('#articleSite').val('NA');
+                $('#articleDrugForSmPCField').hide();
+                if (!$('#articleDrugForSmPC').find('option[value="NA"]').length > 0){
+                    $('#articleDrugForSmPC').append('<option value="NA"></option>');
+                }
+                $('#articleDrugForSmPC').val('NA');                
+            } else if($('#fileType').val() == SUPP_FILE_SMPC) {
+                $('#articleDrugForSmPCField').show();
+                if($('#articleDrugForSmPC').find('option[value="NA"]').length > 0) {
+                    $('#articleDrugForSmPC').find('option[value="NA"]').remove();
+                }
+                $('#articleSiteField').hide();
+                if (!$('#articleSite').find('option[value="NA"]').length > 0){
+                    $('#articleSite').append('<option value="NA"></option>');
+                }
+                $('#articleSite').val('NA');
+                $('#articleDrugForIBField').hide();
+                if (!$('#articleDrugForIB').find('option[value="NA"]').length > 0){
+                    $('#articleDrugForIB').append('<option value="NA"></option>');
+                }
+                $('#articleDrugForIB').val('NA');
             } else {
                 $('#articleSiteField').hide();
                 if (!$('#articleSite').find('option[value="NA"]').length > 0){
                     $('#articleSite').append('<option value="NA"></option>');
                 }
                 $('#articleSite').val('NA');
+                $('#articleDrugForSmPCField').hide();
+                if (!$('#articleDrugForSmPC').find('option[value="NA"]').length > 0){
+                    $('#articleDrugForSmPC').append('<option value="NA"></option>');
+                }
+                $('#articleDrugForSmPC').val('NA');                
+                $('#articleDrugForIBField').hide();
+                if (!$('#articleDrugForIB').find('option[value="NA"]').length > 0){
+                    $('#articleDrugForIB').append('<option value="NA"></option>');
+                }
+                $('#articleDrugForIB').val('NA');
             }        
         }
         
@@ -50,6 +102,12 @@
             } else if($('#articleSite').val() == "") {
                 alert('{/literal}{translate key="author.submit.suppFile.siteRequired"}{literal}');
                 return false;                
+            } else if($('#articleDrugForIB').val() == "") {
+                alert('{/literal}{translate key="author.submit.suppFile.drugRequired"}{literal}');
+                return false;                                
+            } else if($('#articleDrugForSmPC').val() == "") {
+                alert('{/literal}{translate key="author.submit.suppFile.drugRequired"}{literal}');
+                return false;                                
             }
         }
         
@@ -247,33 +305,6 @@
         <td colspan="2">&nbsp;</td>
         <td colspan="3"><i>[?] {translate key="author.submit.suppFile.policy.instruct"}</i></td>
     </tr>
-    <tr>
-        <td colspan="5" class="separator">&nbsp;</td>
-    </tr>        
-    <tr valign="top">
-        <td colspan="2"><a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {translate key="author.submit.suppFile.brochure"}</td>
-        {if empty($brochures)}
-            <td colspan="3" align="center"><font color="red">{translate key="article.suppFile.missing"}</font></td>
-        {else}
-            <td colspan="3" align="left">
-                <table valign="top" width="100%">
-                    {foreach from=$brochures item=brochure}
-                        <tr valign="top">
-                            <td width="50%">{$brochure->getOriginalFileName()|escape}</td>
-                            <td width="25%">&nbsp;{$brochure->getDateSubmitted()|date_format:$dateFormatTrunc}</td>
-                            <td width="25%" align="right">
-                                <a href="{url op="deleteSubmitSuppFile" path=$brochure->getSuppFileId() articleId=$articleId}" onclick="return confirm('{translate|escape:"jsparam" key="author.submit.confirmDeleteSuppFile"}')" class="action">{translate key="common.delete"}</a>
-                            </td>
-                        </tr>
-                    {/foreach}
-                </table>
-            </td>
-        {/if}
-    </tr>
-    <tr valign="top" hidden class="showHideHelpField">
-        <td colspan="2">&nbsp;</td>
-        <td colspan="3"><i>[?] {translate key="author.submit.suppFile.brochure.instruct"}</i></td>
-    </tr>    
     {if $showAdvertisements}
         <tr>
             <td colspan="5" class="separator">&nbsp;</td>
@@ -332,6 +363,56 @@
             <td colspan="3"><i>[?] {translate key="author.submit.suppFile.delegation.instruct"}</i></td>
         </tr>        
     {/if}
+    {foreach from=$drugsArray item=drugArray}
+        <tr>
+            <td colspan="5" class="separator">&nbsp;</td>
+        </tr>                
+        <tr valign="top">
+            {if $drugArray.ib}
+                <td colspan="2"><a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {translate key="author.submit.suppFile.brochure"}: {$drugArray.name|escape} </td>
+                {if empty($drugArray.ibs)}
+                    <td colspan="3" align="center"><font color="red">{translate key="article.suppFile.missing"}</font></td>
+                {else}
+                    <td colspan="3">
+                        <table valign="top" width="100%">
+                            {foreach from=$drugArray.ibs item=ib}
+                                <tr valign="top">
+                                    <td width="50%">{$ib->getOriginalFileName()|escape}</td>
+                                    <td width="25%">&nbsp;{$ib->getDateSubmitted()|date_format:$dateFormatTrunc}</td>
+                                    <td width="25%" align="right">
+                                        <a href="{url op="deleteSubmitSuppFile" path=$ib->getSuppFileId() articleId=$articleId}" onclick="return confirm('{translate|escape:"jsparam" key="author.submit.confirmDeleteSuppFile"}')" class="action">{translate key="common.delete"}</a>
+                                    </td>
+                                </tr>
+                            {/foreach}
+                        </table>
+                    </td>                
+                {/if}
+            {else}
+                <td colspan="2"><a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {translate key="author.submit.suppFile.smpc"}: {$drugArray.name|escape} </td>
+                {if empty($drugArray.smpcs)}
+                    <td colspan="3" align="center"><font color="red">{translate key="article.suppFile.missing"}</font></td>
+                {else}
+                    <td colspan="3">
+                        <table valign="top" width="100%">
+                            {foreach from=$drugArray.smpcs item=smpc}
+                                <tr valign="top">
+                                    <td width="50%">{$smpc->getOriginalFileName()|escape}</td>
+                                    <td width="25%">&nbsp;{$smpc->getDateSubmitted()|date_format:$dateFormatTrunc}</td>
+                                    <td width="25%" align="right">
+                                        <a href="{url op="deleteSubmitSuppFile" path=$smpc->getSuppFileId() articleId=$articleId}" onclick="return confirm('{translate|escape:"jsparam" key="author.submit.confirmDeleteSuppFile"}')" class="action">{translate key="common.delete"}</a>
+                                    </td>
+                                </tr>
+                            {/foreach}
+                        </table>
+                    </td>                
+                {/if}
+            {/if}
+        </tr>
+        <tr valign="top" hidden class="showHideHelpField">
+            <td colspan="2">&nbsp;</td>
+            <td colspan="3"><i>[?] {if $drugArray.ib}{translate key="author.submit.suppFile.brochure.instruct"}{else}{translate key="author.submit.suppFile.smpc.instruct"}{/if}</i></td>
+        </tr>
+    {/foreach}
     <tr>
         <td colspan="5" class="separator">&nbsp;</td>
     </tr>        
@@ -440,6 +521,24 @@
             </select>
         </td>
     </tr>
+    <tr id="articleDrugForIBField">
+	<td width="20%" class="label">{fieldLabel name="articleDrugForIB" required="true" key="proposal.drugInfo"}</td>
+	<td width="80%" class="value">
+            <select name="articleDrugForIB" id="articleDrugForIB" class="selectMenu">
+                <option value=""></option>
+                {html_options options=$drugsListForIB selected=$articleDrugForIB}
+            </select>
+        </td>
+    </tr>  
+    <tr id="articleDrugForSmPCField">
+	<td width="20%" class="label">{fieldLabel name="articleDrugForSmPC" required="true" key="proposal.drugInfo"}</td>
+	<td width="80%" class="value">
+            <select name="articleDrugForSmPC" id="articleDrugForSmPC" class="selectMenu">
+                <option value=""></option>
+                {html_options options=$drugsListForSMPC selected=$articleDrugForSmPC}
+            </select>
+        </td>
+    </tr>    
     <tr id="articleSiteField">
 	<td width="20%" class="label">{fieldLabel name="articleSite" required="true" key="proposal.articleSite"}</td>
 	<td width="80%" class="value">

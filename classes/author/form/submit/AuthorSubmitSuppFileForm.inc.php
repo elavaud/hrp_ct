@@ -149,6 +149,8 @@ class AuthorSubmitSuppFileForm extends Form {
 				'subject',
 				'type',
 				'articleSite',
+				'articleDrugForIB',
+				'articleDrugForSmPC',
 				'description',
 				'publisher',
 				'sponsor',
@@ -214,6 +216,10 @@ class AuthorSubmitSuppFileForm extends Form {
 		$suppFile->setType($this->getData('type'));
                 if ($this->getData('type') == SUPP_FILE_ENDORSMENT || $this->getData('type') == SUPP_FILE_CV) {
                     $suppFile->setSuppAssocId($this->getData('articleSite'));
+                } elseif ($this->getData('type') == SUPP_FILE_BROCHURE) {
+                    $suppFile->setSuppAssocId($this->getData('articleDrugForIB'));                    
+                } elseif ($this->getData('type') == SUPP_FILE_SMPC) {
+                    $suppFile->setSuppAssocId($this->getData('articleDrugForSmPC'));
                 }
                 $suppFile->setShowReviewers(1);
 	}

@@ -339,6 +339,7 @@
         <message key="author.submit.suppFile.policy.instruct">The amount of compensation paid shall be appropriate to the nature, severity and persistence of the injury.</message>        
         <message key="author.submit.suppFile.typeRequired">Please select the type of your file in the drop-down menu.</message>
         <message key="author.submit.suppFile.siteRequired">Please select the concerned trial site for your file in the drop-down menu.</message>
+        <message key="author.submit.suppFile.drugRequired">Please select the concerned drug product for your file in the drop-down menu.</message>
         
 	<message key="author.submit.suppFile.specifyOtherType">Specify other</message>
 	<message key="author.submit.suppFile.noFile">No file uploaded.</message>

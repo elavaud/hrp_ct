@@ -227,6 +227,8 @@ class SubmitHandler extends AuthorHandler {
 		$articleId = $request->getUserVar('articleId');
                 $fileType = $request->getUserVar('fileType');
                 $articleSite = $request->getUserVar('articleSite');
+                $articleDrugForIB = $request->getUserVar('articleDrugForIB');
+                $articleDrugForSmPC = $request->getUserVar('articleDrugForSmPC');
 		$journal =& $request->getJournal();
 
 		$this->validate($articleId, 8);
@@ -238,7 +240,7 @@ class SubmitHandler extends AuthorHandler {
 		$submitForm->setData('title', array($article->getLocale() => Locale::translate('common.untitled')));
 		$suppFileId = $submitForm->execute();
                 
-                Request::redirect(null, null, 'saveSubmitSuppFile', $suppFileId, array('articleId' => $articleId, 'type' => $fileType, 'articleSite' => $articleSite));
+                Request::redirect(null, null, 'saveSubmitSuppFile', $suppFileId, array('articleId' => $articleId, 'type' => $fileType, 'articleSite' => $articleSite, 'articleDrugForIB' => $articleDrugForIB, 'articleDrugForSmPC' => $articleDrugForSmPC));
                 // End Edit Raf Tan 04/30/2011
 	}
 
@@ -276,6 +278,8 @@ class SubmitHandler extends AuthorHandler {
 		$articleId = $request->getUserVar('articleId');
                 $type = $request->getUserVar('type');
                 $articleSite = $request->getUserVar('articleSite');
+                $articleDrugForIB = $request->getUserVar('articleDrugForIB');
+                $articleDrugForSmPC = $request->getUserVar('articleDrugForSmPC');
                 
 		$suppFileId = isset($args[0]) ? (int) $args[0] : 0;
 		$journal =& $request->getJournal();
@@ -292,6 +296,8 @@ class SubmitHandler extends AuthorHandler {
 
                 $submitForm->setData('type', $type);
                 $submitForm->setData('articleSite', $articleSite);
+                $submitForm->setData('articleDrugForIB', $articleDrugForIB);
+                $submitForm->setData('articleDrugForSmPC', $articleDrugForSmPC);
                 
                 $submitForm->execute();
                 Request::redirect(null, null, 'submit', '8', array('articleId' => $articleId));

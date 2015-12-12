@@ -33,6 +33,7 @@ class AuthorSubmitStep8Form extends AuthorSubmitForm {
 		$article =& $this->article;
                 $sites = $article->getArticleSites();
                 $details = $article->getArticleDetails();
+                $drugs = $article->getArticleDrugs();
                 
 		$suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
 		$trialSiteDao =& DAORegistry::getDAO('TrialSiteDAO');                
@@ -45,14 +46,12 @@ class AuthorSubmitStep8Form extends AuthorSubmitForm {
                 $labelss = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_LABELS);
                 $gmps = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_GMP);
                 $policies = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_POLICY);
-                $brochures = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_BROCHURE);
                 $relatedPublications = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_PUBLICATIONS);
                 if (empty($impds) 
                         || empty($approvalLetters) 
                         || empty($informedConsents) 
                         || empty($labelss) 
                         || empty($gmps) 
-                        || empty($brochures) 
                         || empty($policies)) {
                     $goToNextStep = false;
                 }
@@ -68,7 +67,34 @@ class AuthorSubmitStep8Form extends AuthorSubmitForm {
                     $sitesList[$site->getId()] = $trialSite->getName();
                     $siteArray = array('name' => $trialSite->getName(), 'endorsmentLetters' => $endorsmentLetters, 'CVs' => $CVs);
                     array_push($sitesArray, $siteArray);
-                }           
+                }
+                $drugsListForIB = array();
+                $drugsListForSMPC = array();                
+                $drugsArray = array();
+                foreach ($drugs as $drug) {
+                    $IB = false;
+                    $classes = $drug->getClassesArray();
+                    foreach ($classes as $class) {
+                        if ($class == ARTICLE_DRUG_INFO_CLASS_IV) {
+                            $SmPCs = $suppFileDao->getSuppFilesByArticleTypeAndAssocId($this->articleId, SUPP_FILE_SMPC, $drug->getId());
+                            array_push($drugsArray, array('name' => $drug->getName(), 'ib' => false, 'smpcs' => $SmPCs));
+                            $drugsListForSMPC[$drug->getId()] = $drug->getName();
+                            if (empty($SmPCs)) {
+                                $goToNextStep = false;
+                            }
+                        } else {
+                            if(!$IB){
+                                $IBs = $suppFileDao->getSuppFilesByArticleTypeAndAssocId($this->articleId, SUPP_FILE_BROCHURE, $drug->getId());
+                                array_push($drugsArray, array('name' => $drug->getName(), 'ib' => true, 'ibs' => $IBs));
+                                $drugsListForIB[$drug->getId()] = $drug->getName();
+                                if (empty($IBs)) {
+                                    $goToNextStep = false;
+                                }   
+                            }
+                            $IB = true;
+                        }
+                    }
+                }
                 $showAdvertisements = false;
                 if ($details->getAdvertisingScheme() == ARTICLE_DETAIL_YES) {
                     $showAdvertisements = true;
@@ -91,9 +117,11 @@ class AuthorSubmitStep8Form extends AuthorSubmitForm {
 		$templateMgr->assign_by_ref('labelss', $labelss);
 		$templateMgr->assign_by_ref('gmps', $gmps);
 		$templateMgr->assign_by_ref('policies', $policies);
-		$templateMgr->assign_by_ref('brochures', $brochures);
 		$templateMgr->assign('sitesArray', $sitesArray);
 		$templateMgr->assign('sitesList', $sitesList);
+		$templateMgr->assign('drugsArray', $drugsArray);
+		$templateMgr->assign('drugsListForIB', $drugsListForIB);
+		$templateMgr->assign('drugsListForSMPC', $drugsListForSMPC);                
 		$templateMgr->assign('showAdvertisements', $showAdvertisements);
 		$templateMgr->assign_by_ref('advertisements', $advertisements);
 		$templateMgr->assign('showDelegation', $showDelegation);
