@@ -43,6 +43,7 @@ function addSite(){
     $('div.siteSupp:last').find('table.investigatorSupp-0').remove('');
     $('div.siteSupp:last').find('input[id*=-firstName]').val('');    
     $('div.siteSupp:last').find('input[id*=-lastName]').val('');    
+    $('div.siteSupp:last').find('input[id*=-expertise]').val('');    
     $('div.siteSupp:last').find('input[id*=-iPrimaryPhone]').val('');    
     $('div.siteSupp:last').find('input[id*=-iSecondaryPhone]').val('');    
     $('div.siteSupp:last').find('input[id*=-iFax]').val('');    
@@ -162,6 +163,7 @@ function addInvestigator(id) {
     $('table.investigatorSupp-'+fieldId+':last').find('.hiddenInputs').remove('');
     $('#articleSites-'+fieldId+'-investigators-'+subFieldId+'-firstName').val('');
     $('#articleSites-'+fieldId+'-investigators-'+subFieldId+'-lastName').val('');   
+    $('#articleSites-'+fieldId+'-investigators-'+subFieldId+'-expertise').val('');   
     $('#articleSites-'+fieldId+'-investigators-'+subFieldId+'-iPrimaryPhone').val('');
     $('#articleSites-'+fieldId+'-investigators-'+subFieldId+'-iSecondaryPhone').val('');   
     $('#articleSites-'+fieldId+'-investigators-'+subFieldId+'-iFax').val('');
@@ -169,4 +171,6 @@ function addInvestigator(id) {
     $('table.investigatorSupp-'+fieldId+':last').find('a.removeInvestigator').show();
     $('table.investigatorSupp-'+fieldId+':last').find('a.removeInvestigator').click(function(){$(this).closest('table').remove();});   
 }
+
+
 

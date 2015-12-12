@@ -38,6 +38,7 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
                             if($investigator['firstName'] == ''
                                     || $investigator['lastName'] == ''
                                     || $investigator['iPrimaryPhone'] == ''
+                                    || $investigator['expertise'] == ''
                                     || $investigator['iEmail'] == '') {
                                 return false;
                             }
@@ -70,6 +71,7 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
                                 'id' => $investigator->getId(),
                                 'firstName' => $investigator->getFirstName(),
                                 'lastName' => $investigator->getLastName(),
+                                'expertise' => $investigator->getExpertise(),                                
                                 'iPrimaryPhone' => $investigator->getPrimaryPhoneNumber(),
                                 'iSecondaryPhone' => $investigator->getSecondaryPhoneNumber(),
                                 'iFax' => $investigator->getFaxNumber(),
@@ -134,6 +136,8 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
 		$templateMgr =& TemplateManager::getManager();
                 $templateMgr->assign('sitesList', $sitesListWithOther);
                 $templateMgr->assign('geoAreas', $geoAreas);
+                $templateMgr->assign('expertisesList', $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_THERAPEUTIC_AREA, EXTRA_FIELD_ACTIVE));
+                
                 
                 parent::display();
 	}
@@ -233,6 +237,7 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
                         $investigator->setSequence($investigatorIterator);
                         $investigator->setFirstName($investigatorData['firstName']);
                         $investigator->setLastName($investigatorData['lastName']);
+                        $investigator->setExpertise($investigatorData['expertise']);
                         $investigator->setPrimaryPhoneNumber($investigatorData['iPrimaryPhone']);
                         $investigator->setSecondaryPhoneNumber($investigatorData['iSecondaryPhone']);
                         $investigator->setFaxNumber($investigatorData['iFax']);

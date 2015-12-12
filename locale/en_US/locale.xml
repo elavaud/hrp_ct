@@ -738,7 +738,8 @@
     <message key="proposal.articleSite.investigators">Investigator(s)</message>   
     <message key="proposal.articleSite.investigator.add">Add a co-investigator</message>   
     <message key="proposal.articleSite.investigator.firstName">First name</message>   
-    <message key="proposal.articleSite.investigator.lastName">Last name</message>   
+    <message key="proposal.articleSite.investigator.lastName">Last name</message> 
+    <message key="proposal.articleSite.investigator.expertise">Area  of expertise</message>   
     <message key="proposal.articleSite.investigator.iPrimaryPhone">Primary phone</message>   
     <message key="proposal.articleSite.investigator.iSecondaryPhone">Secondary phone</message>   
     <message key="proposal.articleSite.investigator.iFax">Fax</message>   

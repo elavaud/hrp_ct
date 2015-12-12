@@ -182,6 +182,8 @@
                 {assign var="articleSiteInvestigatorFirstNameD" value='articleSites-'|cat:$i|cat:'-investigators-'|cat:$k|cat:'-firstName'}     
                 {assign var="articleSiteInvestigatorLastNameB" value='articleSites['|cat:$i|cat:'][investigators]['|cat:$k|cat:'][lastName]'}
                 {assign var="articleSiteInvestigatorLastNameD" value='articleSites-'|cat:$i|cat:'-investigators-'|cat:$k|cat:'-lastName'}     
+                {assign var="articleSiteInvestigatorExpertiseB" value='articleSites['|cat:$i|cat:'][investigators]['|cat:$k|cat:'][expertise]'}
+                {assign var="articleSiteInvestigatorExpertiseD" value='articleSites-'|cat:$i|cat:'-investigators-'|cat:$k|cat:'-expertise'}                     
                 {assign var="articleSiteInvestigatorPrimaryPhoneB" value='articleSites['|cat:$i|cat:'][investigators]['|cat:$k|cat:'][iPrimaryPhone]'}
                 {assign var="articleSiteInvestigatorPrimaryPhoneD" value='articleSites-'|cat:$i|cat:'-investigators-'|cat:$k|cat:'-iPrimaryPhone'}                     
                 {assign var="articleSiteInvestigatorSecondaryPhoneB" value='articleSites['|cat:$i|cat:'][investigators]['|cat:$k|cat:'][iSecondaryPhone]'}
@@ -206,6 +208,16 @@
                         <td width="20%">&nbsp;</td>                        
                         <td width="10%">{fieldLabel name=$articleSiteInvestigatorLastNameD required="true" key="proposal.articleSite.investigator.lastName"}</td>                        
                         <td width="70%" class="value"><input type="text" class="textField" name="{$articleSiteInvestigatorLastNameB|escape}" id="{$articleSiteInvestigatorLastNameD|escape}" value="{$articleSites.$i.investigators.$k.lastName|escape}" size="30" maxlength="255" /></td>                                           
+                    </tr>
+                    <tr valign="top">
+                        <td width="20%">&nbsp;</td>                        
+                        <td width="10%">{fieldLabel name=$articleSiteInvestigatorExpertiseD required="true" key="proposal.articleSite.investigator.expertise"}</td>                        
+                        <td width="70%" class="value">
+                            <select name="{$articleSiteInvestigatorExpertiseB|escape}" id="{$articleSiteInvestigatorExpertiseD|escape}" class="selectMenu">
+                                <option value=""></option>
+                                {html_options options=$expertisesList selected=$articleSites.$i.investigators.$k.expertise}                                
+                            </select>
+                        </td>                                           
                     </tr>
                     <tr valign="top">
                         <td width="20%">&nbsp;</td>                        
