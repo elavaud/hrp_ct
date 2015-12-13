@@ -652,6 +652,21 @@ class ArticleDrugInfo extends DataObject {
 	}
         
         
-        
+        /**
+	 * Get all the Investigator's Brochure files for this drug.
+	 * @return array int
+	 */
+	function &getIBs() {
+            $suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
+            return $suppFileDao->getSuppFilesByArticleTypeAndAssocId($this->getArticleId(), SUPP_FILE_BROCHURE, $this->getId());
+	}
+        /**
+	 * Get all the SmPC files for this drug.
+	 * @return array int
+	 */
+	function &getSmPCs() {
+            $suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
+            return $suppFileDao->getSuppFilesByArticleTypeAndAssocId($this->getArticleId(), SUPP_FILE_SMPC, $this->getId());
+	}
 }
 ?>

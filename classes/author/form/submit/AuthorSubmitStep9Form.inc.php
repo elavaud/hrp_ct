@@ -47,6 +47,7 @@ class AuthorSubmitStep9Form extends AuthorSubmitForm {
 		$articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
 		$sectionDao =& DAORegistry::getDAO('SectionDAO');
 		$suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
+		$articleDrugInfoDao =& DAORegistry::getDAO('ArticleDrugInfoDAO');
                 
                 $details = $this->article->getArticleDetails();
         
@@ -86,7 +87,9 @@ class AuthorSubmitStep9Form extends AuthorSubmitForm {
                 $templateMgr->assign('coutryList', $countryDao->getCountries());
 		$templateMgr->assign('showAdvertisements', $showAdvertisements);
 		$templateMgr->assign_by_ref('advertisements', $advertisements);
-                
+                $templateMgr->assign_by_ref('articleDrugs', $this->article->getArticleDrugs());
+                $templateMgr->assign('pharmaClasses', $articleDrugInfoDao->getPharmaClasses());
+                $templateMgr->assign('drugStudyClasses', $articleDrugInfoDao->getClassMap());
                 
 		// Set up required Payment Related Information
 		import('classes.payment.ojs.OJSPaymentManager');
