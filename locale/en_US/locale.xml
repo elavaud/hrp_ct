@@ -320,8 +320,8 @@
         <message key="article.suppFile.labels">Label(s)</message>
 	<message key="article.suppFile.gmp">GMP Certificate(s) of manufacturer</message>
 	<message key="article.suppFile.delegation">Letter of delegation from Sponsor</message>
-        <message key="article.suppFile.CV">CV of principal investigator.</message>
-        <message key="article.suppFile.policy">Insurance policy in the event of injury or death.</message>
+        <message key="article.suppFile.CV">CV of principal investigator</message>
+        <message key="article.suppFile.policy">Insurance policy in the event of injury or death</message>
 	<message key="article.suppFiles">Supplementary File(s)</message>
 	<message key="article.suppFilesAbbrev">Supp. Files</message>
         <message key="article.suppFilesAbbrevInstruct">Supplementary files submitted by the Investigator. Please click on a title (blue link) for downloading the concerned proposal.</message>
@@ -715,7 +715,7 @@
     <message key="proposal.articleSite">Clinical trial site</message>   
     <message key="proposal.articleSite.add">Add trial site</message>       
     <message key="proposal.articleSite.remove">Remove trial site</message>   
-    <message key="proposal.articleSite.site">Select site location</message>   
+    <message key="proposal.articleSite.site">Site location</message>   
     <message key="proposal.articleSite.site.instruct">Select the site location. If your site location is not listed, please select "Other" at the bottom of the list and provide the information about the location.</message>   
     <message key="proposal.articleSite.siteRegion">Area</message>   
     <message key="proposal.articleSite.siteName">Full name</message>   

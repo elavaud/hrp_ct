@@ -48,6 +48,8 @@ class AuthorSubmitStep9Form extends AuthorSubmitForm {
 		$sectionDao =& DAORegistry::getDAO('SectionDAO');
 		$suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
 		$articleDrugInfoDao =& DAORegistry::getDAO('ArticleDrugInfoDAO');
+		$currencyDao =& DAORegistry::getDAO('CurrencyDAO');
+                $extraFieldDAO =& DAORegistry::getDAO('ExtraFieldDAO');
                 
                 $details = $this->article->getArticleDetails();
         
@@ -90,6 +92,8 @@ class AuthorSubmitStep9Form extends AuthorSubmitForm {
                 $templateMgr->assign_by_ref('articleDrugs', $this->article->getArticleDrugs());
                 $templateMgr->assign('pharmaClasses', $articleDrugInfoDao->getPharmaClasses());
                 $templateMgr->assign('drugStudyClasses', $articleDrugInfoDao->getClassMap());
+                $templateMgr->assign_by_ref('articleSites', $this->article->getArticleSites());
+                $templateMgr->assign('expertisesList', $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_THERAPEUTIC_AREA, EXTRA_FIELD_ACTIVE));
                 
 		// Set up required Payment Related Information
 		import('classes.payment.ojs.OJSPaymentManager');
@@ -113,7 +117,6 @@ class AuthorSubmitStep9Form extends AuthorSubmitForm {
                 
                 $templateMgr->assign_by_ref('abstractLocales', $journal->getSupportedLocaleNames());
                 
-		$currencyDao =& DAORegistry::getDAO('CurrencyDAO');
                 $sourceCurrencyId = $journal->getSetting('sourceCurrency');
                 $templateMgr->assign('sourceCurrency', $currencyDao->getCurrencyByAlphaCode($sourceCurrencyId));
                 

@@ -232,6 +232,34 @@ class ArticleSite extends DataObject {
 	function setInvestigators($investigators) {
 		return $this->investigators = $investigators;
 	}
+
         
+        /**
+	 * Get the trial site object for this article site.
+	 * @return object TrialSite
+	 */
+	function &getTrialSiteObject() {
+		$trialSiteDao =& DAORegistry::getDAO('TrialSiteDAO');
+		return $trialSiteDao->getTrialSiteById($this->getSiteId());
+	}
+
+        /**
+	 * Get all the CVs of the principal investigator.
+	 * @return array object SuppFile
+	 */
+	function &getCVs() {
+            $suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
+            return $suppFileDao->getSuppFilesByArticleTypeAndAssocId($this->getArticleId(), SUPP_FILE_CV, $this->getId());
+	}
+
+        /**
+	 * Get all the endorsment letters for this particular site.
+	 * @return array object SuppFile
+	 */
+	function &getEndorsments() {
+            $suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
+            return $suppFileDao->getSuppFilesByArticleTypeAndAssocId($this->getArticleId(), SUPP_FILE_ENDORSMENT, $this->getId());
+	}
+
 }
 ?>

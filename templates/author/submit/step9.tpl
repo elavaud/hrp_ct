@@ -47,6 +47,12 @@
     <br />
     {include file="submission/metadata/articleDrugs.tpl"}
 
+    <div class="separator"></div>
+    
+    <h4>{translate key="author.submit.step4"}&nbsp;&nbsp;&nbsp;<a href="{url op="submit" path="4" articleId=$article->getId()}"><i>{translate key="common.modify"}</i></a></h4>
+    <br />
+    {include file="submission/metadata/articleSites.tpl"}
+
     <br />
     <br />
     

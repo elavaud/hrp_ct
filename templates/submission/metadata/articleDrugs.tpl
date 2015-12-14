@@ -126,12 +126,12 @@
                 <td width="80%" class="value"><ul><li>
                     <table class="data" width="100%">
                         <tr valign="top">
-                            <td width="30%" class="label">{translate key="proposal.drugInfo.manufacturer.name"}</td>
-                            <td width="70%" class="value">{$manufacturer->getName()|escape}</td>                            
+                            <td width="20%" class="label">{translate key="proposal.drugInfo.manufacturer.name"}</td>
+                            <td width="80%" class="value">{$manufacturer->getName()|escape}</td>                            
                         </tr>
                         <tr valign="top">
-                            <td width="30%" class="label">{translate key="proposal.drugInfo.manufacturer.address"}</td>
-                            <td width="70%" class="value">{$manufacturer->getAddress()|escape}</td>                            
+                            <td width="20%" class="label">{translate key="proposal.drugInfo.manufacturer.address"}</td>
+                            <td width="80%" class="value">{$manufacturer->getAddress()|escape}</td>                            
                         </tr>
                     </table>
                 </li></ul></td>
