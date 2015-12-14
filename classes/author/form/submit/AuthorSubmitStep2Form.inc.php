@@ -369,8 +369,12 @@ class AuthorSubmitStep2Form extends AuthorSubmitForm {
                 ///////////////////////////////////////////
                 
                 $articlelDetailsData = $this->getData('articleDetails');
-                $articleDetails = new ArticleDetails();
-
+                if ($article->getArticleDetails()) {
+                    $articleDetails = $article->getArticleDetails();
+                } else {
+                    $articleDetails = new ArticleDetails();
+                }
+                
 		$articleDetails->setArticleId($article->getId());
 		$articleDetails->setProtocolVersion($articlelDetailsData['protocolVersion']);
 		$articleDetails->setTherapeuticArea($articlelDetailsData['therapeuticArea'], $articlelDetailsData['otherTherapeuticArea']);
@@ -388,7 +392,6 @@ class AuthorSubmitStep2Form extends AuthorSubmitForm {
 		$articleDetails->setEndDate($articlelDetailsData['endDate']);
 		$articleDetails->setRecruitmentStatus($articlelDetailsData['recruitStatus']);
 		$articleDetails->setAdvertisingScheme($articlelDetailsData['adScheme']);
-
                 
                 $article->setArticleDetails($articleDetails);
 
