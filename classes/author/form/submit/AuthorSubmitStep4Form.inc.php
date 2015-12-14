@@ -252,7 +252,9 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
                 if ($article->getSubmissionProgress() <= $this->step) {
 			$article->stampStatusModified();
 			$article->setSubmissionProgress($this->step + 1);
-		}                
+		} elseif ($article->getSubmissionProgress() == 9) {
+                        $article->setSubmissionProgress(8);                            
+                }                
 
 		parent::execute();
 

@@ -140,7 +140,9 @@ class AuthorSubmitStep1Form extends AuthorSubmitForm {
 			if ($this->article->getSubmissionProgress() <= $this->step) {
 				$this->article->stampStatusModified();
 				$this->article->setSubmissionProgress($this->step + 1);
-			}
+                        } elseif ($this->article->getSubmissionProgress() == 9) {
+				$this->article->setSubmissionProgress(8);                            
+                        }
                         $lastSectionDecision = $this->article->getLastSectionDecision();
                         $lastSectionDecision->setSectionId($this->getData('sectionId'));
 			$authorSubmissionDao->updateAuthorSubmission($this->article);
