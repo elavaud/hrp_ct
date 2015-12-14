@@ -4,6 +4,21 @@
  * Subtemplate defining the submission metadata table for article details. Non-form implementation.
  *}
 
+{literal}
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $("a.showHideDetailsButton").each(function() {$(this).click(function(){
+                if ($(this).parent().parent().parent().parent().nextAll('.showHideHelpDetailsField').first().is(':hidden')) {
+                    $(this).parent().parent().parent().parent().nextAll('.showHideHelpDetailsField').first().show();
+                } else {
+                    $(this).parent().parent().parent().parent().nextAll('.showHideHelpDetailsField').first().hide();
+                } 
+            });});        
+        });
+    </script>
+{/literal}
+
  <table class="data" width="100%">
     <tr valign="top">
         <td width="20%" class="label">{translate key="proposal.scientificTitle"}</td>
@@ -147,81 +162,87 @@
     </tr>
     {assign var="countPOutcomes" value=1}
     {foreach from=$articlePrimaryOutcomes item=articleOutcomeLocales}
-        {if $countPOutcomes == 1}
-            <tr valign="top">
-                <td width="20%" class="label">{translate key="proposal.primaryOutcomes"}</td>
-        {else}
-            <tr valign="top">
-                <td width="20%" class="label">&nbsp;</td>
-        {/if}
-            <td width="80%" class="label"><ul><li>
-                <table width="100%" class="data">
-                    <tr valign="top">
-                        <td width="20%" class="label">{translate key="proposal.primaryOutcome.name"}</td>
-                        <td width="80%" class="value">
+        <tr valign="top">
+            <td width="20%" class="label">{if $countPOutcomes == 1}{translate key="proposal.primaryOutcomes"}{else}&nbsp;{/if}</td>
+            <td width="80%" class="value">
+                <ul>
+                    <li>
+                        <a class="showHideDetailsButton" style="cursor:pointer;">
                             {foreach from=$articleOutcomeLocales item=articleOutcome  key=localeKey}
                                 {$articleOutcome->getName()|escape}&nbsp;<i>({$articleTextLocales.$localeKey|escape})<i><br/>
-                            {/foreach}
-                        </td>                        
-                    </tr>
+                            {/foreach}                            
+                        </a>
+                    </li>
+                </ul>
+            </td>
+        </tr>            
+        <tr valign="top" hidden class="showHideHelpDetailsField">
+            <td width="20%" class="label">&nbsp;</td>
+            <td width="20%" class="value">
+                <table width="100%" class="data">
                     <tr valign="top">
+                        <td width="10%" class="label">&nbsp;</td>
                         <td width="20%" class="label">{translate key="proposal.primaryOutcome.measurement"}</td>
-                        <td width="80%" class="value">
+                        <td width="70%" class="value">
                             {foreach from=$articleOutcomeLocales item=articleOutcome  key=localeKey}
                                 {$articleOutcome->getMeasurement()|escape}&nbsp;<i>({$articleTextLocales.$localeKey|escape})<i><br/>
                             {/foreach}
                         </td>                        
                     </tr>
                     <tr valign="top">
+                        <td width="10%" class="label">&nbsp;</td>
                         <td width="20%" class="label">{translate key="proposal.primaryOutcome.timepoint"}</td>
-                        <td width="80%" class="value">
+                        <td width="70%" class="value">
                             {foreach from=$articleOutcomeLocales item=articleOutcome  key=localeKey}
                                 {$articleOutcome->getTimepoint()|escape}&nbsp;<i>({$articleTextLocales.$localeKey|escape})<i><br/>
                             {/foreach}
                         </td>                        
                     </tr>                    
                 </table>
-            </li></ul></td>
+            </td>
         </tr>
         {assign var="countPOutcomes" value=$countPOutcomes+1}
     {/foreach}
     {assign var="countSOutcomes" value=1}
     {foreach from=$articleSecondaryOutcomes item=articleOutcomeLocales}
-        {if $countSOutcomes == 1}
-            <tr valign="top">
-                <td width="20%" class="label">{translate key="proposal.secondaryOutcomes"}</td>
-        {else}
-            <tr valign="top">
-                <td width="20%" class="label">&nbsp;</td>
-        {/if}
-            <td width="80%" class="label"><ul><li>
-                <table width="100%" class="data">
-                    <tr valign="top">
-                        <td width="20%" class="label">{translate key="proposal.primaryOutcome.name"}</td>
-                        <td width="80%" class="value">
+        <tr valign="top">
+            <td width="20%" class="label">{if $countSOutcomes == 1}{translate key="proposal.secondaryOutcomes"}{else}&nbsp;{/if}</td>
+            <td width="80%" class="label">
+                <ul>
+                    <li>
+                        <a class="showHideDetailsButton" style="cursor:pointer;">
                             {foreach from=$articleOutcomeLocales item=articleOutcome  key=localeKey}
                                 {$articleOutcome->getName()|escape}&nbsp;<i>({$articleTextLocales.$localeKey|escape})<i><br/>
-                            {/foreach}
-                        </td>                        
-                    </tr>
+                            {/foreach}                            
+                        </a>
+                    </li>
+                </ul>
+            </td>
+        </tr>   
+        <tr valign="top" hidden class="showHideHelpDetailsField">
+            <td width="20%" class="label">&nbsp;</td>
+            <td width="20%" class="value">
+                <table width="100%" class="data">
                     <tr valign="top">
+                        <td width="10%" class="label">&nbsp;</td>
                         <td width="20%" class="label">{translate key="proposal.primaryOutcome.measurement"}</td>
-                        <td width="80%" class="value">
+                        <td width="70%" class="value">
                             {foreach from=$articleOutcomeLocales item=articleOutcome  key=localeKey}
                                 {$articleOutcome->getMeasurement()|escape}&nbsp;<i>({$articleTextLocales.$localeKey|escape})<i><br/>
                             {/foreach}
                         </td>                        
                     </tr>
                     <tr valign="top">
+                        <td width="10%" class="label">&nbsp;</td>
                         <td width="20%" class="label">{translate key="proposal.primaryOutcome.timepoint"}</td>
-                        <td width="80%" class="value">
+                        <td width="70%" class="value">
                             {foreach from=$articleOutcomeLocales item=articleOutcome  key=localeKey}
                                 {$articleOutcome->getTimepoint()|escape}&nbsp;<i>({$articleTextLocales.$localeKey|escape})<i><br/>
                             {/foreach}
                         </td>                        
                     </tr>                    
                 </table>
-            </li></ul></td>
+            </td>
         </tr>
         {assign var="countSOutcomes" value=$countSOutcomes+1}
     {/foreach}

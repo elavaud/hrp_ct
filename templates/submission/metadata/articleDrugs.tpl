@@ -4,6 +4,22 @@
  * Subtemplate defining the submission metadata table for article drugs. Non-form implementation.
  *}
 
+ 
+{literal}
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $("a.showHideDrugInfoButton").each(function() {$(this).click(function(){
+                if ($(this).parent().parent().parent().parent().nextAll('.showHideHelpDrugInfoField').first().is(':hidden')) {
+                    $(this).parent().parent().parent().parent().nextAll('.showHideHelpDrugInfoField').first().show();
+                } else {
+                    $(this).parent().parent().parent().parent().nextAll('.showHideHelpDrugInfoField').first().hide();
+                } 
+            });});        
+        });
+    </script>
+{/literal}
+
 {foreach from=$articleDrugs item=articleDrug}
     <h5>{$articleDrug->getName()}</h5>
     <table class="data" width="100%">
@@ -123,18 +139,19 @@
         {foreach from=$articleDrug->getManufacturers() item=manufacturer}
             <tr valign="top">
                 <td width="20%" class="label">{if $countManufacturers == 1}{translate key="proposal.drugInfo.manufacturers"}{else}&nbsp;{/if}</td>
-                <td width="80%" class="value"><ul><li>
+                <td width="80%" class="value"><ul><li><a class="showHideDrugInfoButton" style="cursor:pointer;">{$manufacturer->getName()|escape}</a></li></ul></td>
+            </tr>
+            <tr valign="top" hidden class="showHideHelpDrugInfoField">
+                <td width="20%" class="label">&nbsp;</td>
+                <td width="80%" class="value">
                     <table class="data" width="100%">
                         <tr valign="top">
-                            <td width="20%" class="label">{translate key="proposal.drugInfo.manufacturer.name"}</td>
-                            <td width="80%" class="value">{$manufacturer->getName()|escape}</td>                            
-                        </tr>
-                        <tr valign="top">
+                            <td width="10%" class="label">&nbsp;</td>
                             <td width="20%" class="label">{translate key="proposal.drugInfo.manufacturer.address"}</td>
-                            <td width="80%" class="value">{$manufacturer->getAddress()|escape}</td>                            
+                            <td width="70%" class="value">{$manufacturer->getAddress()|escape}</td>                            
                         </tr>
                     </table>
-                </li></ul></td>
+                </td>
             </tr> 
             {assign var="countManufacturers" value=$countManufacturers+1}
         {/foreach}
