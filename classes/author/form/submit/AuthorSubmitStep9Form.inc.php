@@ -94,6 +94,12 @@ class AuthorSubmitStep9Form extends AuthorSubmitForm {
                 $templateMgr->assign('drugStudyClasses', $articleDrugInfoDao->getClassMap());
                 $templateMgr->assign_by_ref('articleSites', $this->article->getArticleSites());
                 $templateMgr->assign('expertisesList', $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_THERAPEUTIC_AREA, EXTRA_FIELD_ACTIVE));
+                $templateMgr->assign_by_ref('fundingSources', $this->article->getArticleFundingSources());
+                $templateMgr->assign_by_ref('pSponsor', $this->article->getArticlePrimarySponsor());
+                $templateMgr->assign_by_ref('sSponsors', $this->article->getArticleSecondarySponsors());
+                $templateMgr->assign_by_ref('CROs', $this->article->getArticleCROs());
+                
+                
                 
 		// Set up required Payment Related Information
 		import('classes.payment.ojs.OJSPaymentManager');

@@ -75,5 +75,14 @@ class ArticleSponsor extends DataObject {
 	function setInstitutionId($institutionId) {
 		return $this->setData('institutionId', $institutionId);
 	}
+        
+        /**
+	 * Get the institution object.
+	 * @return object Institution
+	 */
+	function getInstitutionObject() {
+                $institutionDao =& DAORegistry::getDAO('InstitutionDAO');
+		return $institutionDao->getInstitutionById($this->getInstitutionId());
+	}
 }
 ?>

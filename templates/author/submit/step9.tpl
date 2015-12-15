@@ -53,6 +53,11 @@
     <br />
     {include file="submission/metadata/articleSites.tpl"}
 
+    <div class="separator"></div>
+    
+    <h4>{translate key="author.submit.step5"}&nbsp;&nbsp;&nbsp;<a href="{url op="submit" path="5" articleId=$article->getId()}"><i>{translate key="common.modify"}</i></a></h4>
+    <br />
+    {include file="submission/metadata/articleSponsors.tpl"}
     <br />
     <br />
     
