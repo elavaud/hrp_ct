@@ -141,7 +141,7 @@ class ArticleDAO extends DAO {
 
 		$returner = null;
 		if ($result->RecordCount() != 0) {
-			$returner =& $this->_returnArticleFromRow($result->GetRowAssoc(false));
+			$returner =& $this->_returnArticleFromRow($result->GetRowAssoc(false), true);
 		}
 
 		$result->Close();
@@ -155,9 +155,9 @@ class ArticleDAO extends DAO {
 	 * @param $row array
 	 * @return Article
 	 */
-	function &_returnArticleFromRow(&$row) {
+	function &_returnArticleFromRow(&$row, $single = false) {
 		$article = new Article();
-		$this->_articleFromRow($article, $row);
+		$this->_articleFromRow($article, $row, $single);
 		return $article;
 	}
 
@@ -165,8 +165,9 @@ class ArticleDAO extends DAO {
 	 * Internal function to fill in the passed article object from the row.
 	 * @param $article Article output article
 	 * @param $row array input row
+	 * @param $single bool true if a single article to return (do not overuse database queries)
 	 */
-	function _articleFromRow(&$article, &$row) {
+	function _articleFromRow(&$article, &$row, $single = false) {
 		
 		if (isset($row['article_id'])) $article->setId($row['article_id']);
 		if (isset($row['public_id'])) $article->setProposalId($row['public_id']);
@@ -191,30 +192,10 @@ class ArticleDAO extends DAO {
 		if (isset($row['fast_tracked'])) $article->setFastTracked($row['fast_tracked']);
 		if (isset($row['hide_author'])) $article->setHideAuthor($row['hide_author']);
 		if (isset($row['comments_status'])) $article->setCommentsStatus($row['comments_status']);
-		
-		$article->setArticleTexts($this->articleTextDao->getArticleTextsByArticleId($row['article_id']));
-
-                $article->setArticleSecIds($this->articleSecIdDao->getArticleSecIdsByArticleId($row['article_id']));
-
-		$article->setArticleDetails($this->articleDetailsDao->getArticleDetailsByArticleId($row['article_id']));
-
-                $article->setArticlePurposes($this->articlePurposeDao->getArticlePurposesByArticleId($row['article_id']));
-
-                $article->setArticleOutcomes($this->articleOutcomeDao->getArticleOutcomesByArticleId($row['article_id']));
-
-                $article->setArticleDrugs($this->articleDrugInfoDao->getArticleDrugInfosByArticleId($row['article_id']));
-
-                $article->setArticleSites($this->articleSiteDao->getArticleSitesByArticleId($row['article_id']));
                 
-                $article->setArticleFundingSources($this->articleSponsorDao->getArticleSponsorsByArticleId($row['article_id'], ARTICLE_SPONSOR_TYPE_FUNDING));
-
-                $article->setArticlePrimarySponsor($this->articleSponsorDao->getArticleSponsorsByArticleId($row['article_id'], ARTICLE_SPONSOR_TYPE_PRIMARY, true));
-                
-                $article->setArticleSecondarySponsors($this->articleSponsorDao->getArticleSponsorsByArticleId($row['article_id'], ARTICLE_SPONSOR_TYPE_SECONDARY));
-                
-                $article->setArticleCROs($this->articleCRODao->getArticleCROsByArticleId($row['article_id']));
-                
-		$article->setArticleContact($this->articleContactDao->getArticleContactByArticleId($row['article_id']));
+                if ($single) {
+                    $article = $this->_returnSingleArticleFromRow($article);
+                }
                 
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
@@ -226,10 +207,45 @@ class ArticleDAO extends DAO {
 
 		$this->getDataObjectSettings('article_settings', 'article_id', $row['article_id'], $article);
 		
-		HookRegistry::call('ArticleDAO::_returnArticleFromRow', array(&$article, &$row));
+		HookRegistry::call('ArticleDAO::_returnArticleFromRow', array(&$article, &$row, $single));
 
 	}
+        
+	/**
+	 * Internal function to complete the filling of a passed article object from a row (in case of a single article).
+	 * @param $article Article output article
+	 */
+        function _returnSingleArticleFromRow($article){
+            $articleId = $article->getId();
+            if ($articleId){
+		$article->setArticleTexts($this->articleTextDao->getArticleTextsByArticleId($articleId));
 
+                $article->setArticleSecIds($this->articleSecIdDao->getArticleSecIdsByArticleId($articleId));
+
+		$article->setArticleDetails($this->articleDetailsDao->getArticleDetailsByArticleId($articleId));
+
+                $article->setArticlePurposes($this->articlePurposeDao->getArticlePurposesByArticleId($articleId));
+
+                $article->setArticleOutcomes($this->articleOutcomeDao->getArticleOutcomesByArticleId($articleId));
+
+                $article->setArticleDrugs($this->articleDrugInfoDao->getArticleDrugInfosByArticleId($articleId));
+
+                $article->setArticleSites($this->articleSiteDao->getArticleSitesByArticleId($articleId));
+                
+                $article->setArticleFundingSources($this->articleSponsorDao->getArticleSponsorsByArticleId($articleId, ARTICLE_SPONSOR_TYPE_FUNDING));
+
+                $article->setArticlePrimarySponsor($this->articleSponsorDao->getArticleSponsorsByArticleId($articleId, ARTICLE_SPONSOR_TYPE_PRIMARY, true));
+                
+                $article->setArticleSecondarySponsors($this->articleSponsorDao->getArticleSponsorsByArticleId($articleId, ARTICLE_SPONSOR_TYPE_SECONDARY));
+                
+                $article->setArticleCROs($this->articleCRODao->getArticleCROsByArticleId($articleId));
+                
+		$article->setArticleContact($this->articleContactDao->getArticleContactByArticleId($articleId));                
+            }
+            return $article;
+        }
+        
+        
 	/**
 	 * Insert a new Article.
 	 * @param $article Article

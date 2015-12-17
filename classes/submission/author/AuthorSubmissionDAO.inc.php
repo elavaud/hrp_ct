@@ -74,7 +74,7 @@ class AuthorSubmissionDAO extends DAO {
 
 		$returner = null;
 		if ($result->RecordCount() != 0) {
-			$returner =& $this->_returnAuthorSubmissionFromRow($result->GetRowAssoc(false));
+			$returner =& $this->_returnAuthorSubmissionFromRow($result->GetRowAssoc(false), true);
 		}
 
 		$result->Close();
@@ -86,13 +86,14 @@ class AuthorSubmissionDAO extends DAO {
 	/**
 	 * Internal function to return a AuthorSubmission object from a row.
 	 * @param $row array
+	 * @param $single bool
 	 * @return AuthorSubmission
 	 */
-	function &_returnAuthorSubmissionFromRow(&$row) {
+	function &_returnAuthorSubmissionFromRow(&$row, $single = false) {
 		$authorSubmission = new AuthorSubmission();
 
 		// Article attributes
-		$this->articleDao->_articleFromRow($authorSubmission, $row);
+		$this->articleDao->_articleFromRow($authorSubmission, $row, $single);
 		
 		// Editor Decisions
 		$authorSubmission->setDecisions($this->sectionDecisionDao->getSectionDecisionsByArticleId($row['article_id']));
@@ -112,7 +113,7 @@ class AuthorSubmissionDAO extends DAO {
 
                 $authorSubmission->setGalleys($this->galleyDao->getGalleysByArticle($row['article_id']));
 
-		HookRegistry::call('AuthorSubmissionDAO::_returnAuthorSubmissionFromRow', array(&$authorSubmission, &$row));
+		HookRegistry::call('AuthorSubmissionDAO::_returnAuthorSubmissionFromRow', array(&$authorSubmission, &$row, $single));
 
 		return $authorSubmission;
 	}

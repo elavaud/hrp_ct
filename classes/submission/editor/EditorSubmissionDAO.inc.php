@@ -76,7 +76,7 @@ class EditorSubmissionDAO extends DAO {
 
 		$returner = null;
 		if ($result->RecordCount() != 0) {
-			$returner =& $this->_returnEditorSubmissionFromRow($result->GetRowAssoc(false));
+			$returner =& $this->_returnEditorSubmissionFromRow($result->GetRowAssoc(false), true);
 		}
 
 		$result->Close();
@@ -88,17 +88,18 @@ class EditorSubmissionDAO extends DAO {
 	/**
 	 * Internal function to return an EditorSubmission object from a row.
 	 * @param $row array
+	 * @param $single bool
 	 * @return EditorSubmission
 	 */
-	function &_returnEditorSubmissionFromRow(&$row) {
+	function &_returnEditorSubmissionFromRow(&$row, $single = false) {
 		$editorSubmission = new EditorSubmission();
 
 		// Article attributes
-		$this->articleDao->_articleFromRow($editorSubmission, $row);
+		$this->articleDao->_articleFromRow($editorSubmission, $row, $single);
 
 		$editorSubmission->setDecisions($this->sectionDecisionDao->getSectionDecisionsByArticleId($row['article_id']));
 
-		HookRegistry::call('EditorSubmissionDAO::_returnEditorSubmissionFromRow', array(&$editorSubmission, &$row));
+		HookRegistry::call('EditorSubmissionDAO::_returnEditorSubmissionFromRow', array(&$editorSubmission, &$row, $single));
 
 		return $editorSubmission;
 	}

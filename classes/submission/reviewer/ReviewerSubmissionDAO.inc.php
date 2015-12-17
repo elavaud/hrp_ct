@@ -83,7 +83,7 @@ class ReviewerSubmissionDAO extends DAO {
 
 		$returner = null;
 		if ($result->RecordCount() != 0) {
-			$returner =& $this->_returnReviewerSubmissionFromRow($result->GetRowAssoc(false));
+			$returner =& $this->_returnReviewerSubmissionFromRow($result->GetRowAssoc(false), true, true);
 		}
 
 		$result->Close();
@@ -133,7 +133,7 @@ class ReviewerSubmissionDAO extends DAO {
 
 		$returner = null;
 		if ($result->RecordCount() != 0) {
-			$returner =& $this->_returnReviewerSubmissionFromRow($result->GetRowAssoc(false));
+			$returner =& $this->_returnReviewerSubmissionFromRow($result->GetRowAssoc(false), true, true);
 		}
 
 		$result->Close();
@@ -178,7 +178,7 @@ class ReviewerSubmissionDAO extends DAO {
 
 		$returner = null;
 		if ($result->RecordCount() != 0) {
-			$returner =& $this->_returnReviewerSubmissionFromRow($result->GetRowAssoc(false), false);
+			$returner =& $this->_returnReviewerSubmissionFromRow($result->GetRowAssoc(false), false, true);
 		}
 
 		$result->Close();
@@ -190,10 +190,11 @@ class ReviewerSubmissionDAO extends DAO {
 	/**
 	 * Internal function to return a ReviewerSubmission object from a row.
 	 * @param $row array
+	 * @param $assignedReviewer bool
+	 * @param $single bool
 	 * @return ReviewerSubmission
-	 * Last modified EL on March 4th 2013
 	 */
-	function &_returnReviewerSubmissionFromRow(&$row, $assignedReviewer = true) {
+	function &_returnReviewerSubmissionFromRow(&$row, $assignedReviewer = true, $single = false) {
 		$reviewerSubmission = new ReviewerSubmission();
                 
                 // Reviewer
@@ -219,11 +220,11 @@ class ReviewerSubmissionDAO extends DAO {
 		$reviewerSubmission->setDecisionsAndAssignments($this->sectionDecisionDao->getSectionDecisionsByArticleId($row['article_id']));
 
 		// Article attributes
-		$this->articleDao->_articleFromRow($reviewerSubmission, $row);
+		$this->articleDao->_articleFromRow($reviewerSubmission, $row, $single);
 
 		
 		
-		HookRegistry::call('ReviewerSubmissionDAO::_returnReviewerSubmissionFromRow', array(&$reviewerSubmission, &$row));
+		HookRegistry::call('ReviewerSubmissionDAO::_returnReviewerSubmissionFromRow', array(&$reviewerSubmission, &$row, $single));
 		
 		return $reviewerSubmission;
 	}
@@ -314,7 +315,7 @@ class ReviewerSubmissionDAO extends DAO {
 			)
 		);
 		$review = null;
-		$review =& $this->_returnReviewerSubmissionFromRow($result->GetRowAssoc(false));
+		$review =& $this->_returnReviewerSubmissionFromRow($result->GetRowAssoc(false), true, true);
 		
 		$result->Close();
 		unset($result);

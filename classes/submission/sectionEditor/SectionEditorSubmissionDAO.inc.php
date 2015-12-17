@@ -71,7 +71,7 @@ class SectionEditorSubmissionDAO extends DAO {
 
 		$returner = null;
 		if ($result->RecordCount() != 0) {
-			$returner =& $this->_returnSectionEditorSubmissionFromRow($result->GetRowAssoc(false));
+			$returner =& $this->_returnSectionEditorSubmissionFromRow($result->GetRowAssoc(false), true);
 		}
 
 		$result->Close();
@@ -83,13 +83,14 @@ class SectionEditorSubmissionDAO extends DAO {
 	/**
 	 * Internal function to return a SectionEditorSubmission object from a row.
 	 * @param $row array
+	 * @param $single bool
 	 * @return SectionEditorSubmission
 	 */
-	function &_returnSectionEditorSubmissionFromRow(&$row) {
+	function &_returnSectionEditorSubmissionFromRow(&$row, $single = false) {
 		$sectionEditorSubmission = new SectionEditorSubmission();
 
 		// Article attributes
-		$this->articleDao->_articleFromRow($sectionEditorSubmission, $row);
+		$this->articleDao->_articleFromRow($sectionEditorSubmission, $row, $single);
 
 		// Comments
 		$sectionEditorSubmission->setMostRecentEditorDecisionComment($this->articleCommentDao->getMostRecentArticleComment($row['article_id'], COMMENT_TYPE_SECTION_DECISION, $row['article_id']));
@@ -114,7 +115,7 @@ class SectionEditorSubmissionDAO extends DAO {
 		$sectionEditorSubmission->setGalleys($this->galleyDao->getGalleysByArticle($row['article_id']));
 
 		// Proof Assignment
-		HookRegistry::call('SectionEditorSubmissionDAO::_returnSectionEditorSubmissionFromRow', array(&$sectionEditorSubmission, &$row));
+		HookRegistry::call('SectionEditorSubmissionDAO::_returnSectionEditorSubmissionFromRow', array(&$sectionEditorSubmission, &$row, $single));
 
 		return $sectionEditorSubmission;
 	}
