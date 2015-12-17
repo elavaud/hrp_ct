@@ -552,14 +552,6 @@ class ArticleDetails extends DataObject {
 	function getCROInvolved() {
 		return $this->getData('CROInvolved');
 	}
-        /**
-	 * Get all the letter of delegations files.
-	 * @return array object SuppFile
-	 */
-	function getDelegationFiles() {
-		$suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
-		return $suppFileDao->getSuppFilesByArticleAndType($this->getArticleId(), SUPP_FILE_DELEGATION);
-	}
         
         /**
 	 * Get a map for yes/no/not provided constant to locale key.

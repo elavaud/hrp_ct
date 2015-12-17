@@ -151,6 +151,7 @@ class AuthorSubmitSuppFileForm extends Form {
 				'articleSite',
 				'articleDrugForIB',
 				'articleDrugForSmPC',
+				'articleCRO',                            
 				'description',
 				'publisher',
 				'sponsor',
@@ -220,6 +221,8 @@ class AuthorSubmitSuppFileForm extends Form {
                     $suppFile->setSuppAssocId($this->getData('articleDrugForIB'));                    
                 } elseif ($this->getData('type') == SUPP_FILE_SMPC) {
                     $suppFile->setSuppAssocId($this->getData('articleDrugForSmPC'));
+                } elseif ($this->getData('type') == SUPP_FILE_DELEGATION) {
+                    $suppFile->setSuppAssocId($this->getData('articleCRO'));
                 }
                 $suppFile->setShowReviewers(1);
 	}

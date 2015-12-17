@@ -34,6 +34,7 @@ class AuthorSubmitStep8Form extends AuthorSubmitForm {
                 $sites = $article->getArticleSites();
                 $details = $article->getArticleDetails();
                 $drugs = $article->getArticleDrugs();
+                $CROs = $article->getArticleCROs();
                 
 		$suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
 		$trialSiteDao =& DAORegistry::getDAO('TrialSiteDAO');                
@@ -68,6 +69,18 @@ class AuthorSubmitStep8Form extends AuthorSubmitForm {
                     $siteArray = array('name' => $trialSite->getName(), 'endorsmentLetters' => $endorsmentLetters, 'CVs' => $CVs);
                     array_push($sitesArray, $siteArray);
                 }
+                $CROsList = array();
+                $CROsArray = array();
+                if ($details->getCROInvolved() == ARTICLE_DETAIL_YES) {
+                    foreach ($CROs as $CRO) {
+                        $delegationLetters = $suppFileDao->getSuppFilesByArticleTypeAndAssocId($this->articleId, SUPP_FILE_DELEGATION, $CRO->getId());
+                        if (empty($delegationLetters)) {
+                            $goToNextStep = false;
+                        }
+                        $CROsList[$CRO->getId()] = $CRO->getName();
+                        array_push($CROsArray, array('name' => $CRO->getName(), 'delegations' => $delegationLetters));
+                    }
+                }                
                 $drugsListForIB = array();
                 $drugsListForSMPC = array();                
                 $drugsArray = array();
@@ -101,13 +114,6 @@ class AuthorSubmitStep8Form extends AuthorSubmitForm {
                     $advertisements = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_ADVERTISEMENT);
                     if (empty($advertisements)) {$goToNextStep = false;}
                 }
-                $showDelegation = false;
-                if ($details->getCROInvolved() == ARTICLE_DETAIL_YES) {
-                    $showDelegation = true;
-                    $delegations = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_DELEGATION);
-                    if (empty($delegations)) {$goToNextStep = false;}
-                }
-
                 
 		$templateMgr =& TemplateManager::getManager();
 		$templateMgr->assign('typeOptions', $suppFileDao->getTypeMap());
@@ -124,8 +130,8 @@ class AuthorSubmitStep8Form extends AuthorSubmitForm {
 		$templateMgr->assign('drugsListForSMPC', $drugsListForSMPC);                
 		$templateMgr->assign('showAdvertisements', $showAdvertisements);
 		$templateMgr->assign_by_ref('advertisements', $advertisements);
-		$templateMgr->assign('showDelegation', $showDelegation);
-		$templateMgr->assign_by_ref('delegations', $delegations);     
+		$templateMgr->assign('CROsList', $CROsList);
+		$templateMgr->assign('CROsArray', $CROsArray);
 		$templateMgr->assign_by_ref('relatedPublications', $relatedPublications);     
 		$templateMgr->assign('goToNextStep', $goToNextStep);
                 

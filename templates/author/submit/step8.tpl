@@ -18,6 +18,7 @@
         var SUPP_FILE_CV = "{/literal}{$smarty.const.SUPP_FILE_CV}{literal}";
         var SUPP_FILE_BROCHURE = "{/literal}{$smarty.const.SUPP_FILE_BROCHURE}{literal}";
         var SUPP_FILE_SMPC = "{/literal}{$smarty.const.SUPP_FILE_SMPC}{literal}";
+        var SUPP_FILE_DELEGATION = "{/literal}{$smarty.const.SUPP_FILE_DELEGATION}{literal}";
         
         function checkSize(){
             var fileToUpload = document.getElementById('uploadSuppFile');
@@ -45,6 +46,11 @@
                     $('#articleDrugForSmPC').append('<option value="NA"></option>');
                 }
                 $('#articleDrugForSmPC').val('NA');
+                $('#articleCROField').hide();
+                if (!$('#articleCRO').find('option[value="NA"]').length > 0){
+                    $('#articleCRO').append('<option value="NA"></option>');
+                }
+                $('#articleCRO').val('NA');                
             } else if($('#fileType').val() == SUPP_FILE_BROCHURE ) {
                 $('#articleDrugForIBField').show();
                 if($('#articleDrugForIB').find('option[value="NA"]').length > 0) {
@@ -59,12 +65,42 @@
                 if (!$('#articleDrugForSmPC').find('option[value="NA"]').length > 0){
                     $('#articleDrugForSmPC').append('<option value="NA"></option>');
                 }
-                $('#articleDrugForSmPC').val('NA');                
+                $('#articleDrugForSmPC').val('NA');      
+                $('#articleCROField').hide();
+                if (!$('#articleCRO').find('option[value="NA"]').length > 0){
+                    $('#articleCRO').append('<option value="NA"></option>');
+                }
+                $('#articleCRO').val('NA');                
             } else if($('#fileType').val() == SUPP_FILE_SMPC) {
                 $('#articleDrugForSmPCField').show();
                 if($('#articleDrugForSmPC').find('option[value="NA"]').length > 0) {
                     $('#articleDrugForSmPC').find('option[value="NA"]').remove();
                 }
+                $('#articleSiteField').hide();
+                if (!$('#articleSite').find('option[value="NA"]').length > 0){
+                    $('#articleSite').append('<option value="NA"></option>');
+                }
+                $('#articleSite').val('NA');
+                $('#articleDrugForIBField').hide();
+                if (!$('#articleDrugForIB').find('option[value="NA"]').length > 0){
+                    $('#articleDrugForIB').append('<option value="NA"></option>');
+                }
+                $('#articleDrugForIB').val('NA');
+                $('#articleCROField').hide();
+                if (!$('#articleCRO').find('option[value="NA"]').length > 0){
+                    $('#articleCRO').append('<option value="NA"></option>');
+                }
+                $('#articleCRO').val('NA');                
+            } else if($('#fileType').val() == SUPP_FILE_DELEGATION) {
+                $('#articleCROField').show();
+                if($('#articleCRO').find('option[value="NA"]').length > 0) {
+                    $('#articleCRO').find('option[value="NA"]').remove();
+                }
+                $('#articleDrugForSmPCField').hide();
+                if (!$('#articleDrugForSmPC').find('option[value="NA"]').length > 0){
+                    $('#articleDrugForSmPC').append('<option value="NA"></option>');
+                }
+                $('#articleDrugForSmPC').val('NA');                
                 $('#articleSiteField').hide();
                 if (!$('#articleSite').find('option[value="NA"]').length > 0){
                     $('#articleSite').append('<option value="NA"></option>');
@@ -91,6 +127,11 @@
                     $('#articleDrugForIB').append('<option value="NA"></option>');
                 }
                 $('#articleDrugForIB').val('NA');
+                $('#articleCROField').hide();
+                if (!$('#articleCRO').find('option[value="NA"]').length > 0){
+                    $('#articleCRO').append('<option value="NA"></option>');
+                }
+                $('#articleCRO').val('NA');                
             }        
         }
         
@@ -107,6 +148,9 @@
                 return false;                                
             } else if($('#articleDrugForSmPC').val() == "") {
                 alert('{/literal}{translate key="author.submit.suppFile.drugRequired"}{literal}');
+                return false;                                
+            } else if($('#articleCRO').val() == "") {
+                alert('{/literal}{translate key="author.submit.suppFile.croRequired"}{literal}');
                 return false;                                
             }
         }
@@ -334,18 +378,18 @@
             <td colspan="3"><i>[?] {translate key="author.submit.suppFile.advertisements.instruct"}</i></td>
         </tr>        
     {/if}
-    {if $showDelegation}
+    {foreach from=$CROsArray item=CROArray}
         <tr>
             <td colspan="5" class="separator">&nbsp;</td>
         </tr>        
         <tr valign="top">
-            <td colspan="2"><a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {translate key="author.submit.suppFile.delegation"}</td>
-            {if empty($delegations)}
+            <td colspan="2"><a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {translate key="author.submit.suppFile.delegation"}: {$CROArray.name|escape}</td>
+            {if empty($CROArray.delegations)}
                 <td colspan="3" align="center"><font color="red">{translate key="article.suppFile.missing"}</font></td>
             {else}
                 <td colspan="3" align="left">
                     <table valign="top" width="100%">
-                        {foreach from=$delegations item=delegation}
+                        {foreach from=$CROArray.delegations item=delegation}
                             <tr valign="top">
                                 <td width="50%">{$delegation->getOriginalFileName()|escape}</td>
                                 <td width="25%">&nbsp;{$delegation->getDateSubmitted()|date_format:$dateFormatTrunc}</td>
@@ -361,8 +405,8 @@
         <tr valign="top" hidden class="showHideHelpField">
             <td colspan="2">&nbsp;</td>
             <td colspan="3"><i>[?] {translate key="author.submit.suppFile.delegation.instruct"}</i></td>
-        </tr>        
-    {/if}
+        </tr>  
+    {/foreach}
     {foreach from=$drugsArray item=drugArray}
         <tr>
             <td colspan="5" class="separator">&nbsp;</td>
@@ -545,6 +589,15 @@
             <select name="articleSite" id="articleSite" class="selectMenu">
                 <option value=""></option>
                 {html_options options=$sitesList selected=$articleSite}
+            </select>
+        </td>
+    </tr>
+    <tr id="articleCROField">
+	<td width="20%" class="label">{fieldLabel name="articleCRO" required="true" key="proposal.articleSponsor.croInvolved"}</td>
+	<td width="80%" class="value">
+            <select name="articleCRO" id="articleCRO" class="selectMenu">
+                <option value=""></option>
+                {html_options options=$CROsList selected=$articleCRO}
             </select>
         </td>
     </tr>

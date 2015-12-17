@@ -229,6 +229,8 @@ class SubmitHandler extends AuthorHandler {
                 $articleSite = $request->getUserVar('articleSite');
                 $articleDrugForIB = $request->getUserVar('articleDrugForIB');
                 $articleDrugForSmPC = $request->getUserVar('articleDrugForSmPC');
+                $articleCRO = $request->getUserVar('articleCRO');
+                
 		$journal =& $request->getJournal();
 
 		$this->validate($articleId, 8);
@@ -240,7 +242,7 @@ class SubmitHandler extends AuthorHandler {
 		$submitForm->setData('title', array($article->getLocale() => Locale::translate('common.untitled')));
 		$suppFileId = $submitForm->execute();
                 
-                Request::redirect(null, null, 'saveSubmitSuppFile', $suppFileId, array('articleId' => $articleId, 'type' => $fileType, 'articleSite' => $articleSite, 'articleDrugForIB' => $articleDrugForIB, 'articleDrugForSmPC' => $articleDrugForSmPC));
+                Request::redirect(null, null, 'saveSubmitSuppFile', $suppFileId, array('articleId' => $articleId, 'type' => $fileType, 'articleSite' => $articleSite, 'articleDrugForIB' => $articleDrugForIB, 'articleDrugForSmPC' => $articleDrugForSmPC, 'articleCRO' => $articleCRO));
                 // End Edit Raf Tan 04/30/2011
 	}
 
@@ -280,6 +282,7 @@ class SubmitHandler extends AuthorHandler {
                 $articleSite = $request->getUserVar('articleSite');
                 $articleDrugForIB = $request->getUserVar('articleDrugForIB');
                 $articleDrugForSmPC = $request->getUserVar('articleDrugForSmPC');
+                $articleCRO = $request->getUserVar('articleCRO');
                 
 		$suppFileId = isset($args[0]) ? (int) $args[0] : 0;
 		$journal =& $request->getJournal();
@@ -298,6 +301,7 @@ class SubmitHandler extends AuthorHandler {
                 $submitForm->setData('articleSite', $articleSite);
                 $submitForm->setData('articleDrugForIB', $articleDrugForIB);
                 $submitForm->setData('articleDrugForSmPC', $articleDrugForSmPC);
+                $submitForm->setData('articleCRO', $articleCRO);
                 
                 $submitForm->execute();
                 Request::redirect(null, null, 'submit', '8', array('articleId' => $articleId));

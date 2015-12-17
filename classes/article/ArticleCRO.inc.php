@@ -214,6 +214,15 @@ class ArticleCRO extends DataObject {
 	 */
 	function setEmail($email) {
 		return $this->setData('email', $email);
+	}     
+        
+        /**
+	 * Get all the letter of delegations files.
+	 * @return array object SuppFile
+	 */
+	function getDelegationFiles() {
+		$suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
+		return $suppFileDao->getSuppFilesByArticleTypeAndAssocId($this->getArticleId(), SUPP_FILE_DELEGATION, $this->getId());
 	}        
 }
 ?>

@@ -180,20 +180,19 @@
                         <td width="10%">&nbsp;</td>
                         <td width="30%" class="label">{translate key="proposal.articleSponsor.cro.email"}</td>
                         <td width="60%" class="value">{$CRO->getEmail()|escape}</td>                        
-                    </tr>                    
+                    </tr>    
+                    {assign var="delegationFiles" value=$CRO->getDelegationFiles()}
+                    <tr valign="top">
+                        <td width="10%">&nbsp;</td>
+                        <td width="30%" class="label">{translate key="article.suppFile.delegation"}</td>
+                        <td width="60%" class="value">
+                            {foreach from=$delegationFiles item=delegationFile}
+                                <a class="file" href="{url op="download" path=$articleId|to_array:$delegationFile->getFileId()}">{$delegationFile->getOriginalFileName()|escape}</a><br/>
+                            {/foreach}
+                        </td>
+                    </tr>
                 </table>                
             </td>
         </tr>
     {/foreach}
-    {assign var="delegationFiles" value=$articleDetails->getDelegationFiles()}
-    <tr valign="top">
-        <td width="20%" class="label">{translate key="article.suppFile.delegation"}</td>
-        <td width="80%" class="value">
-            <ul>
-                {foreach from=$delegationFiles item=delegationFile}
-                    <li><a class="file" href="{url op="download" path=$articleId|to_array:$delegationFile->getFileId()}">{$delegationFile->getOriginalFileName()|escape}</a></li>
-                {/foreach}
-            </ul>
-        </td>
-    </tr>
 </table>
