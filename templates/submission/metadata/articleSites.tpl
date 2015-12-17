@@ -58,7 +58,6 @@
                     </tr>     
                 </table>                
             </td>
-            
         </tr>
         <tr valign="top">
             <td width="20%" class="label">{translate key="proposal.articleSite.authority"}</td>

@@ -459,15 +459,13 @@
     {/foreach}
     <tr>
         <td colspan="5" class="separator">&nbsp;</td>
-    </tr>        
+    </tr>   
+    {assign var="iSites" value=1}    
+    {assign var="countSitesTotal" value=$sitesArray|@count}    
     {foreach from=$sitesArray item=siteArray}
         <tr valign="top">
             <td colspan="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$siteArray.name|escape}:</td>
         </tr>
-        <tr>
-            <td width="10%">&nbsp;</td>
-            <td colspan="4" class="separator">&nbsp;</td>
-        </tr>                
         <tr valign="top">
             <td width="10%">&nbsp;</td>
             <td width="30%"><a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {translate key="author.submit.suppFile.endorsmentLetter"}</td>
@@ -522,6 +520,13 @@
             <td colspan="2">&nbsp;</td>
             <td colspan="3"><i>[?] {translate key="author.submit.suppFile.CV.instruct"}</i></td>
         </tr>
+        {if $iSites != $countSitesTotal}
+            <tr>
+                <td width="10%">&nbsp;</td>
+                <td colspan="4" class="separator">&nbsp;</td>
+            </tr>                         
+        {/if}
+        {assign var="iSites" value=$iSites+1}    
     {/foreach}
     <tr>
         <td colspan="5" class="separator">&nbsp;</td>
