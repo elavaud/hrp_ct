@@ -58,6 +58,13 @@
     <h4>{translate key="author.submit.step5"}&nbsp;&nbsp;&nbsp;<a href="{url op="submit" path="5" articleId=$article->getId()}"><i>{translate key="common.modify"}</i></a></h4>
     <br />
     {include file="submission/metadata/articleSponsors.tpl"}
+    
+    <div class="separator"></div>
+    
+    <h4>{translate key="author.submit.step6"}&nbsp;&nbsp;&nbsp;<a href="{url op="submit" path="6" articleId=$article->getId()}"><i>{translate key="common.modify"}</i></a></h4>
+    <br />
+    {include file="submission/metadata/articleContact.tpl"}
+    
     <br />
     <br />
     

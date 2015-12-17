@@ -98,8 +98,7 @@ class AuthorSubmitStep9Form extends AuthorSubmitForm {
                 $templateMgr->assign_by_ref('pSponsor', $this->article->getArticlePrimarySponsor());
                 $templateMgr->assign_by_ref('sSponsors', $this->article->getArticleSecondarySponsors());
                 $templateMgr->assign_by_ref('CROs', $this->article->getArticleCROs());
-                
-                
+                $templateMgr->assign_by_ref('contact', $this->article->getArticleContact());
                 
 		// Set up required Payment Related Information
 		import('classes.payment.ojs.OJSPaymentManager');
