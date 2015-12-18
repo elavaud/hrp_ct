@@ -190,6 +190,7 @@ class AuthorSubmitStep9Form extends AuthorSubmitForm {
 		$signoffDao =& DAORegistry::getDAO('SignoffDAO');
 		$sectionDao =& DAORegistry::getDAO('SectionDAO');
 		$ercReviewersDao =& DAORegistry::getDAO('ErcReviewersDAO');
+		$institutionDao =& DAORegistry::getDAO('InstitutionDAO');
 
 		$journal = Request::getJournal();
 		$user = Request::getUser();
@@ -202,11 +203,11 @@ class AuthorSubmitStep9Form extends AuthorSubmitForm {
 
                         $countyear = $articleDao->getSubmissionsForYearCount($year) + 1;
                         
-                        //$section = $sectionDao->getSection($article->getSectionId());
-            
-                        //$countyearsection = $articleDao->getSubmissionsForYearForSectionCount($year, $section->getId()) + 1;
-            
-                        $article->setProposalId($year. '.' . $countyear  );
+                        $pSponsor = $article->getArticlePrimarySponsor();
+                        
+                        $institution = $institutionDao->getInstitutionById($pSponsor->getInstitutionId());
+                                    
+                        $article->setProposalId($year. '-' . $countyear . '-' . $institution->getInstitutionAcronym());
                 }
                 if ($this->getData('commentsToEditor') != '') {
                         $article->setCommentsToEditor($this->getData('commentsToEditor'));
