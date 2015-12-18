@@ -174,17 +174,25 @@ class SectionEditorSubmissionDAO extends DAO {
 	 * last modified by EL on February 17th 2013
 	 */
 	function &getSectionEditorSubmissions($sectionId, $journalId, $status = true) {
+		$primaryLocale = Locale::getPrimaryLocale();
+		$locale = Locale::getLocale();
+            
 		$sectionEditorSubmissions = array();
 
 		$result =& $this->retrieve(
-			'SELECT	a.*
+			'SELECT	a.*,
+                                COALESCE(atl.scientific_title, atpl.scientific_title) AS scientifictitle
 			FROM	articles a
 				LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)
 				LEFT JOIN section_decisions sdec2 ON (a.article_id = sdec2.article_id AND sdec.section_decision_id < sdec2.section_decision_id)
+                                LEFT JOIN article_text atpl ON (atpl.article_id = a.article_id AND atpl.locale = ?)
+                                LEFT JOIN article_text atl ON (atl.article_id = a.article_id AND atl.locale = ?)
                         WHERE	sdec2.section_decision_id IS NULL AND a.journal_id = ?
 				AND sdec.section_id = ?
 				AND a.status = ?',
 			array(
+                                $primaryLocale,
+                                $locale,
 				$journalId,
 				$sectionId,
 				$status
@@ -206,7 +214,12 @@ class SectionEditorSubmissionDAO extends DAO {
 	 * Retrieve unfiltered section editor submissions
 	 */
 	function &_getUnfilteredSectionEditorSubmissions($sectionId, $journalId, $searchField = null, $searchMatch = null, $search = null, $dateField = null, $dateFrom = null, $dateTo = null, $additionalWhereSql = '', $rangeInfo = null, $sortBy = null, $sortDirection = SORT_DIRECTION_ASC) {
-		$params = array(
+		$primaryLocale = Locale::getPrimaryLocale();
+		$locale = Locale::getLocale();
+            
+                $params = array(
+                        $primaryLocale, // Scientific title
+                        $locale,                    
 			$journalId,
 			$sectionId
 		);
@@ -216,17 +229,16 @@ class SectionEditorSubmissionDAO extends DAO {
 
 		if (!empty($search)) switch ($searchField) {
 			case SUBMISSION_FIELD_TITLE:
-
 				if ($searchMatch === 'is') {
-					//$searchSql = ' AND LOWER(ab.scientific_title) = LOWER(?)';
+					$searchSql = ' AND LOWER(scientifictitle) = LOWER(?)';
 				} elseif ($searchMatch === 'contains') {
-					//$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
-					//$search = '%' . $search . '%';
+					$searchSql = ' AND LOWER(scientifictitle) LIKE LOWER(?)';
+					$search = '%' . $search . '%';
 				} else {
-					//$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
-					//$search = $search . '%';
+					$searchSql = ' AND LOWER(scientifictitle) LIKE LOWER(?)';
+					$search = $search . '%';
 				}
-				//$params[] = $search;
+				$params[] = $search;
 				break;
 			case SUBMISSION_FIELD_AUTHOR:
 				$first_last = $this->_dataSource->Concat('aa.first_name', '\' \'', 'aa.last_name');
@@ -259,13 +271,16 @@ class SectionEditorSubmissionDAO extends DAO {
 											  	                 
 		$sql = 'SELECT DISTINCT
 				a.*,
+                                COALESCE(atl.scientific_title, atpl.scientific_title) AS scientifictitle,
 				aap.last_name AS author_name
 			FROM	articles a
 				LEFT JOIN article_site ars ON (ars.article_id = a.article_id)
 				LEFT JOIN authors aa ON (aa.site_id = ars.site_id)
 				LEFT JOIN authors aap ON (aap.site_id = ars.site_id AND aap.primary_contact = 1)
 				LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)
-                                LEFT JOIN section_decisions sdec2 ON (a.article_id = sdec2.article_id AND sdec.section_decision_id < sdec2.section_decision_id)				
+                                LEFT JOIN section_decisions sdec2 ON (a.article_id = sdec2.article_id AND sdec.section_decision_id < sdec2.section_decision_id)	
+                                LEFT JOIN article_text atpl ON (atpl.article_id = a.article_id AND atpl.locale = ?)
+                                LEFT JOIN article_text atl ON (atl.article_id = a.article_id AND atl.locale = ?)
 			WHERE	a.journal_id = ?
 				AND sdec.section_id = ?
 				AND a.submission_progress = 0 '.
@@ -975,6 +990,7 @@ class SectionEditorSubmissionDAO extends DAO {
 	 */
 	function getSortMapping($heading) {
 		switch ($heading) {
+			case 'title': return 'scientifictitle';
 			case 'status': return 'a.status, sdec.decision';
 			case 'round': return 'sdec.review_type, sdec.round';
 			case 'submitDate': return 'a.date_submitted';

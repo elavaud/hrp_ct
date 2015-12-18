@@ -69,7 +69,7 @@
 
                         <tr valign="top">
 				<td>{$articleId|escape}</td>
-				<td><a href="{url op="submission" path=$submission->getArticleId()}" class="action">title</a></td>
+				<td><a href="{url op="submission" path=$submission->getArticleId()}" class="action">{if $submission->getScientificTitle()}{$submission->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}{else}{translate key="common.untitled"}{/if}</a></td>
                                 <td align="right">{translate key=$undergoingDecision->getReviewTypeKey()} - {$undergoingDecision->getRound()}</td>
 				<td align="right">{$rrAssignment->getDateNotified()|date_format:$dateFormatLong}</td>
                                 <td align="right">{$rrAssignment->getDateDue()|date_format:$dateFormatLong}</td>

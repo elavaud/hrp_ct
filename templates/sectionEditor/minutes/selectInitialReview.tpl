@@ -17,7 +17,7 @@
 					<select name="articleId" id="articleId" class="selectMenu">
 						<option value="none">Choose One</option>
 						{foreach from=$submissions item=submission}
-							<option value="{$submission->getArticleId()}">{$submission->getProposalId()}: title</option>						
+							<option value="{$submission->getArticleId()}">{$submission->getProposalId()}: {if $submission->getScientificTitle()}{$submission->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}{else}{translate key="common.untitled"}{/if}</option>						
 						{/foreach}
 					</select>
 				</td>	

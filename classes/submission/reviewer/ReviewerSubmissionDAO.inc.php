@@ -336,6 +336,8 @@ class ReviewerSubmissionDAO extends DAO {
 		$primaryLocale = Locale::getPrimaryLocale();
 		$locale = Locale::getLocale();
 		$params = array(
+                                $primaryLocale, // Scientific title
+                                $locale,
 				'proposalCountry',
 				'proposalCountry',
 				$locale,
@@ -346,15 +348,15 @@ class ReviewerSubmissionDAO extends DAO {
 		if (!empty($search)) switch ($searchField) {
 			case SUBMISSION_FIELD_TITLE:
 				if ($searchMatch === 'is') {
-					//$searchSql = ' AND LOWER(ab.scientific_title) = LOWER(?)';
+					$searchSql = ' AND LOWER(scientifictitle) = LOWER(?)';
 				} elseif ($searchMatch === 'contains') {
-					//$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
-					//$search = '%' . $search . '%';
+					$searchSql = ' AND LOWER(scientifictitle) LIKE LOWER(?)';
+					$search = '%' . $search . '%';
 				} else { // $searchMatch === 'startsWith'
-					//$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
-					//$search = $search . '%';
+					$searchSql = ' AND LOWER(scientifictitle) LIKE LOWER(?)';
+					$search = $search . '%';
 				}
-				//$params[] = $search;
+				$params[] = $search;
 				break;
 			case SUBMISSION_FIELD_AUTHOR:
 				$searchSql = $this->_generateUserNameSearchSQL($search, $searchMatch, 'aa.', $params);
@@ -388,12 +390,15 @@ class ReviewerSubmissionDAO extends DAO {
 				
 		$sql = 'SELECT	DISTINCT a.*,
 				r.reviewer_id,
-				u.first_name, u.last_name
+				u.first_name, u.last_name,
+                                COALESCE(atl.scientific_title, atpl.scientific_title) AS scientifictitle
 			FROM	articles a
 				LEFT JOIN article_site ars ON (ars.article_id = a.article_id)
 				LEFT JOIN section_decisions sd ON (a.article_id = sd.article_id)
 				LEFT JOIN authors aa ON (aa.site_id = ars.site_id AND aa.primary_contact = 1)
 				LEFT JOIN review_assignments r ON (sd.section_decision_id = r.decision_id)
+                                LEFT JOIN article_text atpl ON (atpl.article_id = a.article_id AND atpl.locale = ?)
+                                LEFT JOIN article_text atl ON (atl.article_id = a.article_id AND atl.locale = ?)
 				LEFT JOIN article_settings appc ON (a.article_id = appc.article_id AND appc.setting_name = ? AND appc.locale = a.locale)
 				LEFT JOIN article_settings apc ON (a.article_id = apc.article_id AND apc.setting_name = ? AND apc.locale = ?)
 				LEFT JOIN users u ON (r.reviewer_id = u.user_id)
@@ -428,19 +433,26 @@ class ReviewerSubmissionDAO extends DAO {
 	 * @return array ReviewerSubmissions
 	 */
 	function &getReviewerMeetingSubmissionsByReviewerId($reviewerId, $journalId, $searchField = null, $searchMatch = null, $search = null, $rangeInfo = null, $sortBy = null, $sortDirection = SORT_DIRECTION_ASC) {
-		$params = array($reviewerId);
+		$primaryLocale = Locale::getPrimaryLocale();
+		$locale = Locale::getLocale();
+                $params = array(
+                    $primaryLocale, // Scientific title
+                    $locale,                    
+                    $reviewerId
+                        );
+                
 		$searchSql = '';
 		
 		if (!empty($search)) switch ($searchField) {
 			case SUBMISSION_FIELD_TITLE:
 				if ($searchMatch === 'is') {
-					//$searchSql = ' AND LOWER(ab.scientific_title) = LOWER(?)';
+					$searchSql = ' AND LOWER(scientifictitle) = LOWER(?)';
 				} elseif ($searchMatch === 'contains') {
-					//$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
-					//$search = '%' . $search . '%';
+					$searchSql = ' AND LOWER(scientifictitle) LIKE LOWER(?)';
+					$search = '%' . $search . '%';
 				} else {
-					//$searchSql = ' AND LOWER(ab.scientific_title) LIKE LOWER(?)';
-					//$search = $search . '%';
+					$searchSql = ' AND LOWER(scientifictitle) LIKE LOWER(?)';
+					$search = $search . '%';
 				}
 				$params[] = $search;
 				break;
@@ -451,7 +463,8 @@ class ReviewerSubmissionDAO extends DAO {
 		
 		$sql = 'SELECT	DISTINCT a.*,
 				ma.user_id as reviewer_id,
-				u.first_name, u.last_name
+				u.first_name, u.last_name,
+                                COALESCE(atl.scientific_title, atpl.scientific_title) AS scientifictitle
                         FROM	articles a
                                 LEFT JOIN section_decisions sd ON (sd.article_id = a.article_id)
 				LEFT JOIN article_site ars ON (ars.article_id = a.article_id)
@@ -459,6 +472,8 @@ class ReviewerSubmissionDAO extends DAO {
 				LEFT JOIN meeting_section_decisions msd ON (sd.section_decision_id = msd.section_decision_id)
 				LEFT JOIN meeting_attendance ma ON (msd.meeting_id = ma.meeting_id)
 				LEFT JOIN users u ON (ma.user_id = u.user_id)
+                                LEFT JOIN article_text atpl ON (atpl.article_id = a.article_id AND atpl.locale = ?)
+                                LEFT JOIN article_text atl ON (atl.article_id = a.article_id AND atl.locale = ?)
 			WHERE	ma.user_id = ?';	
 		
 		$result =& $this->retrieveRange(
@@ -572,6 +587,7 @@ class ReviewerSubmissionDAO extends DAO {
 	 */
 	function getSortMapping($heading) {
 		switch ($heading) {
+			case 'title': return 'scientifictitle';
 			case 'id': return 'a.article_id';
 			case 'assignDate': return 'r.date_assigned';
 			case 'dueDate': return 'r.date_due';

@@ -72,7 +72,7 @@
                         <td>{if $first == "0"}{$articleId|escape}{else}&nbsp;{/if}</td>
                         <td>
                             {if $first == "0"}
-                                <a href="{url op="submission" path=$submission->getArticleId()}" class="action">title</a>
+                                <a href="{url op="submission" path=$submission->getArticleId()}" class="action">{if $submission->getScientificTitle()}{$submission->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}{else}{translate key="common.untitled"}{/if}</a>
                             {else}
                                 &nbsp;
                             {/if}

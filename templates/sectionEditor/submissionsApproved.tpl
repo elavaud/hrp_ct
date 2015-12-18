@@ -23,7 +23,7 @@
     {assign var="proposalId" value=$submission->getProposalId()}
 	<tr valign="top">
 		<td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
-        <td><a href="{url op="submissionReview" path=$submission->getId()}" class="action">title</a></td>
+        <td><a href="{url op="submissionReview" path=$submission->getId()}" class="action">{if $submission->getScientificTitle()}{$submission->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}{else}{translate key="common.untitled"}{/if}</a></td>
 		<td align="right">{$lastDecision->getDateDecided()|date_format:$dateFormatLong}</td>		
 	</tr>
 	<tr>

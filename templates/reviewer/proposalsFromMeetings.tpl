@@ -81,9 +81,9 @@
                                         <td>{if $firstDecision ne 0}
                                             {assign var="articleId" value = $meetingSubmission->getArticleId()}
                                             {if $map.$articleId}
-                                                <a href="{url op="submission" path=$articleId}" class="action">title</a>
+                                                <a href="{url op="submission" path=$articleId}" class="action">{if $meetingSubmission->getScientificTitle()}{$meetingSubmission->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}{else}{translate key="common.untitled"}{/if}</a>
                                             {else}
-                                                <a href="{url op="viewProposalFromMeeting" path=$articleId}" class="action">title</a>
+                                                <a href="{url op="viewProposalFromMeeting" path=$articleId}" class="action">{if $meetingSubmission->getScientificTitle()}{$meetingSubmission->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}{else}{translate key="common.untitled"}{/if}</a>
                                             {/if}
                                             {else}&nbsp;{/if}
                                         </td>

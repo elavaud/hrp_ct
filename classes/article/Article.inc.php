@@ -1491,6 +1491,21 @@ class Article extends Submission {
 	function setArticleContact($articleContact) {
 		return $this->articleContact = $articleContact;
 	}
+
         
+        /**
+	 * Get the scientific title for this submission.
+	 * @return string
+	 */
+	function &getScientificTitle() {
+		return $this->getData('scientificTitle');
+	}
+        /**
+	 * Set the scientific title for this submission.
+	 * @param $scientificTitle string
+	 */
+	function setScientificTitle($scientificTitle) {
+		return $this->setData('scientificTitle', $scientificTitle);
+	}
 }
 ?>

@@ -125,6 +125,8 @@ class EditorSubmissionDAO extends DAO {
 		$primaryLocale = Locale::getPrimaryLocale();
 		$locale = Locale::getLocale();
 		$params = array(
+                        $primaryLocale, // Scientific title
+                        $locale,
 			'title', // Section title
 			$primaryLocale,
 			'title',
@@ -142,13 +144,13 @@ class EditorSubmissionDAO extends DAO {
 		if (!empty($search)) switch ($searchField) {
 			case SUBMISSION_FIELD_TITLE:
 				if ($searchMatch === 'is') {
-					$searchSql = '';
+					$searchSql = ' AND LOWER(scientifictitle) = LOWER(?)';
 				} elseif ($searchMatch === 'contains') {
-					$searchSql = '';
-					$search = '' . $search . '';
+					$searchSql = ' AND LOWER(scientifictitle) LIKE LOWER(?)';
+					$search = '%' . $search . '%';
 				} else { // $searchMatch === 'startsWith'
-					$searchSql = '';
-					$search = $search . '';
+					$searchSql = ' AND LOWER(scientifictitle) LIKE LOWER(?)';
+					$search = $search . '%';
 				}
 				$params[] = $search;
 				break;
@@ -205,14 +207,17 @@ class EditorSubmissionDAO extends DAO {
 				aap.first_name AS afname, aap.last_name AS alname, 
 				aap.affiliation as investigatoraffiliation, aap.email as email,
 				COALESCE(stl.setting_value, stpl.setting_value) AS section_title,
-				COALESCE(sal.setting_value, sapl.setting_value) AS section_abbrev
+				COALESCE(sal.setting_value, sapl.setting_value) AS section_abbrev,
+                                COALESCE(atl.scientific_title, atpl.scientific_title) AS scientifictitle
 			FROM	articles a
 				LEFT JOIN article_site ars ON (ars.article_id = a.article_id)
 				LEFT JOIN authors aa ON (aa.site_id = ars.site_id)
 				LEFT JOIN authors aap ON (aap.site_id = ars.site_id AND aap.primary_contact = 1)
 				LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)
 				LEFT JOIN section_editors se ON (se.section_id = sdec.section_id)
-				
+                                LEFT JOIN article_text atpl ON (atpl.article_id = a.article_id AND atpl.locale = ?)
+                                LEFT JOIN article_text atl ON (atl.article_id = a.article_id AND atl.locale = ?)
+
 				LEFT JOIN section_settings stpl ON (sdec.section_id = stpl.section_id AND stpl.setting_name = ? AND stpl.locale = ?)
 				LEFT JOIN section_settings stl ON (sdec.section_id = stl.section_id AND stl.setting_name = ? AND stl.locale = ?)
 				
@@ -490,6 +495,7 @@ class EditorSubmissionDAO extends DAO {
 	 */
 	function getSortMapping($heading) {
 		switch ($heading) {
+			case 'title': return 'scientifictitle';
 			case 'id': return 'a.article_id';
 			case 'submitDate': return 'a.date_submitted';
 			case 'section': return 'section_abbrev';

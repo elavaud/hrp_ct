@@ -192,6 +192,7 @@ class ArticleDAO extends DAO {
 		if (isset($row['fast_tracked'])) $article->setFastTracked($row['fast_tracked']);
 		if (isset($row['hide_author'])) $article->setHideAuthor($row['hide_author']);
 		if (isset($row['comments_status'])) $article->setCommentsStatus($row['comments_status']);
+		if (isset($row['scientifictitle'])) $article->setScientificTitle($row['scientifictitle']);
                 
                 if ($single) {
                     $article = $this->_returnSingleArticleFromRow($article);
@@ -647,6 +648,8 @@ class ArticleDAO extends DAO {
 			'abbrev',
 		$primaryLocale,
 			'abbrev',
+		$locale,
+		$primaryLocale,
 		$locale
 		);
 		if ($journalId !== null) $params[] = (int) $journalId;
@@ -654,7 +657,8 @@ class ArticleDAO extends DAO {
 		$result =& $this->retrieve(
 			'SELECT	a.*,
 				COALESCE(stl.setting_value, stpl.setting_value) AS section_title,
-				COALESCE(sal.setting_value, sapl.setting_value) AS section_abbrev
+				COALESCE(sal.setting_value, sapl.setting_value) AS section_abbrev,
+				COALESCE(atl.scientific_title, atpl.scientific_title) AS scientifictitle
 			FROM	articles a
 				LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)
                                 LEFT JOIN section_decisions sdec2 ON (a.article_id = sdec2.article_id AND sdec.section_decision_id < sdec2.section_decision_id)
@@ -662,6 +666,8 @@ class ArticleDAO extends DAO {
 				LEFT JOIN section_settings stl ON (sdec.section_id = stl.section_id AND stl.setting_name = ? AND stl.locale = ?)
 				LEFT JOIN section_settings sapl ON (sdec.section_id = sapl.section_id AND sapl.setting_name = ? AND sapl.locale = ?)
 				LEFT JOIN section_settings sal ON (sdec.section_id = sal.section_id AND sal.setting_name = ? AND sal.locale = ?)
+				LEFT JOIN article_text atpl ON (atpl.article_id = a.article_id AND atpl.locale = ?)
+				LEFT JOIN article_text atl ON (atl.article_id = a.article_id AND atl.locale = ?)
 			' . ($journalId !== null ? 'WHERE a.journal_id = ?' : '') . ' AND sdec2.section_decision_id IS NULL',
 		$params
 		);
@@ -701,6 +707,8 @@ class ArticleDAO extends DAO {
 		$primaryLocale,
 			'abbrev',
 		$locale,
+		$primaryLocale,
+		$locale,
 		$userId
 		);
 		if ($journalId) $params[] = $journalId;
@@ -709,7 +717,8 @@ class ArticleDAO extends DAO {
 		$result =& $this->retrieve(
 			'SELECT	a.*,
 				COALESCE(stl.setting_value, stpl.setting_value) AS section_title,
-				COALESCE(sal.setting_value, sapl.setting_value) AS section_abbrev
+				COALESCE(sal.setting_value, sapl.setting_value) AS section_abbrev,
+				COALESCE(atl.scientific_title, atpl.scientific_title) AS scientifictitle
 			FROM	articles a
 				LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)
                                 LEFT JOIN section_decisions sdec2 ON (a.article_id = sdec2.article_id AND sdec.section_decision_id < sdec2.section_decision_id)
@@ -717,6 +726,8 @@ class ArticleDAO extends DAO {
 				LEFT JOIN section_settings stl ON (sdec.section_id = stl.section_id AND stl.setting_name = ? AND stl.locale = ?)
 				LEFT JOIN section_settings sapl ON (sdec.section_id = sapl.section_id AND sapl.setting_name = ? AND sapl.locale = ?)
 				LEFT JOIN section_settings sal ON (sdec.section_id = sal.section_id AND sal.setting_name = ? AND sal.locale = ?)
+				LEFT JOIN article_text atpl ON (atpl.article_id = a.article_id AND atpl.locale = ?)
+				LEFT JOIN article_text atl ON (atl.article_id = a.article_id AND atl.locale = ?)
 			WHERE	a.user_id = ? AND sdec2.section_decision_id IS NULL' .
 		(isset($journalId)?' AND a.journal_id = ?':''),
 		$params
@@ -1170,6 +1181,7 @@ class ArticleDAO extends DAO {
 
 	function getSortMapping($heading) {
 		switch ($heading) {
+			case 'title': return 'scientifictitle';
 			case 'status': return 'a.status';
 			default: return 'a.status';
 		}

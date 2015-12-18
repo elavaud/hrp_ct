@@ -28,7 +28,7 @@
 	<tr valign="top">
 		<td>{$articleId|escape}</td>
 		<td>{$proofreaderSignoff->getDateNotified()|date_format:$dateFormatTrunc}</td>
-   		<td><a href="{url op="submission" path=$articleId}" class="action">title</a></td>
+   		<td><a href="{url op="submission" path=$articleId}" class="action">{if $submission->getScientificTitle()}{$submission->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}{else}{translate key="common.untitled"}{/if}</a></td>
 		<td align="right">
 			{if not $authorSignoff->getDateCompleted()}
 				{translate key="submissions.initialProof"}

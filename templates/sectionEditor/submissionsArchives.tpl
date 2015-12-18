@@ -31,7 +31,7 @@
 	<tr valign="top">
 		<td>{$proposalId|escape}</td>
 		<td>{$submission->getDateSubmitted()|date_format:$dateFormatLong}</td>
-        <td><a href="{url op="submissionReview" path=$articleId}" class="action">title</a></td>
+        <td><a href="{url op="submissionReview" path=$articleId}" class="action">{if $submission->getScientificTitle()}{$submission->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}{else}{translate key="common.untitled"}{/if}</a></td>
 		<td align="right">
         	{if $status==STATUS_WITHDRAWN}
             	{translate key="submission.status.withdrawn"}
