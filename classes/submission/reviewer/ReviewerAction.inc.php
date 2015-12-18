@@ -216,7 +216,7 @@ class ReviewerAction extends Action {
 					$email->assignParams(array(
 						'editorialContactName' => $editorialContactName,
 						'reviewerName' => $reviewer->getFullName(),
-						'articleTitle' => strip_tags(''),
+						'articleTitle' => strip_tags($reviewerSubmission->getScientificTitle()),
 						'recommendation' => Locale::translate($reviewerRecommendationOptions[$recommendation])
 					));
 				}
@@ -444,7 +444,7 @@ class ReviewerAction extends Action {
 					$url = Request::url(null, $userRole['role'], 'submissionReview', $article->getId(), null, 'peerReview');
 					$notificationManager->createNotification(
 						$userRole['id'], 'notification.type.reviewerFormComment',
-						'title', $url, 1, NOTIFICATION_TYPE_REVIEWER_FORM_COMMENT
+						$article->getScientificTitle, $url, 1, NOTIFICATION_TYPE_REVIEWER_FORM_COMMENT
 					);
 				}
 				

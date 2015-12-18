@@ -711,7 +711,7 @@ class MinutesHandler extends Handler {
                         String::fputcsv($fp, array(Locale::translate('submissions.reviewRound'), Locale::translate('article.scientificTitle'), Locale::translate('editor.minutes.generalDiscussion'), Locale::translate('submissions.editorDecision'), Locale::translate('editor.minutes.primaryReviewer'), Locale::translate('editor.minutes.timeFrame')));                    
 
                         foreach ($proposalCategory['category'] as $selection){
-                            String::fputcsv($fp, array($selection['decision']->getRound(), 'title', '', '', $selection['reviewAssignments'], ''));                                            
+                            String::fputcsv($fp, array($selection['decision']->getRound(), $selection['proposal']->getScientificTitle(), '', '', $selection['reviewAssignments'], ''));                                            
                         }                        
                     }
                 }

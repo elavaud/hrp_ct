@@ -81,7 +81,7 @@ class CommentForm extends Form {
 		$templateMgr->assign_by_ref('userDao', $userDao);
 		$templateMgr->assign('sectionId', $article->getSectionId());
 		$templateMgr->assign('articleId', $article->getId());
-		$templateMgr->assign('commentTitle', strip_tags(''));
+		$templateMgr->assign('commentTitle', strip_tags($article->getScientificTitle()));
 		$user =& $this->user;
 		$templateMgr->assign('userId', $user->getId());
 		$templateMgr->assign('articleComments', $articleComments);

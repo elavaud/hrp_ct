@@ -411,8 +411,11 @@ class SectionDecision extends DataObject {
          * Get localized proposal title
 	 */	 
 	function &getLocalizedProposalTitle() {
+            $articleTextDao =& DAORegistry::getDAO('ArticleTextDAO');
             $locale = Locale::getLocale();
-            return '';
+            $texts = $articleTextDao->getArticleTextsByArticleId($this->getArticleId());
+            $text = $texts[$locale];
+            return $text->getScientificTitle();
 	}
         
         /*
