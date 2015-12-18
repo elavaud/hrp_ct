@@ -58,11 +58,15 @@ class AuthorSubmitStep9Form extends AuthorSubmitForm {
 		
 		$previousFiles =& $articleFileDao->getPreviousFilesByArticleId($this->articleId);
 		foreach ($articleFiles as $articleFile) {
-			foreach ($previousFiles as $previousFile) {
-				if ($articleFile->getFileId() == $previousFile->getFileId()) {
-					$articleFile->setType('previous');
-				}
-			}
+                    foreach ($previousFiles as $previousFile) {
+                        if ($articleFile->getFileId() == $previousFile->getFileId()) {
+                            $articleFile->setType('previous');
+                        } 
+                    }
+                    if ($articleFile->getType() == 'supp') {
+                        $suppFile = $suppFileDao->getSuppFileByFileId($articleFile->getFileId());
+                        $articleFile->setType(Locale::translate($suppFile->getTypeKey()));
+                    }
 		}
                 $showAdvertisements = false;
                 $advertisements = array();
