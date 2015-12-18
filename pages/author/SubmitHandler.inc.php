@@ -179,36 +179,76 @@ class SubmitHandler extends AuthorHandler {
                                 
 				if ($step == 9) {
 					
+                                        $countryDao =& DAORegistry::getDAO('CountryDAO');
+                                        $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
+                                        $sectionDao =& DAORegistry::getDAO('SectionDAO');
+                                        $suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
+                                        $articleDrugInfoDao =& DAORegistry::getDAO('ArticleDrugInfoDAO');
+                                        $currencyDao =& DAORegistry::getDAO('CurrencyDAO');
+                                        $extraFieldDAO =& DAORegistry::getDAO('ExtraFieldDAO');
+                                        
+                                        $details = $this->article->getArticleDetails();
+                                        $articleFiles =& $articleFileDao->getArticleFilesByArticle($articleId);
+                                        $previousFiles =& $articleFileDao->getPreviousFilesByArticleId($articleId);
+                                        foreach ($articleFiles as $articleFile) {
+                                            foreach ($previousFiles as $previousFile) {
+                                                if ($articleFile->getFileId() == $previousFile->getFileId()) {
+                                                    $articleFile->setType('previous');
+                                                } 
+                                            }
+                                            if ($articleFile->getType() == 'supp') {
+                                                $suppFile = $suppFileDao->getSuppFileByFileId($articleFile->getFileId());
+                                                $articleFile->setType(Locale::translate($suppFile->getTypeKey()));
+                                            }
+                                        }
+                                        $showAdvertisements = false;
+                                        $advertisements = array();
+                                        if ($details->getAdvertisingScheme() == ARTICLE_DETAIL_YES) {
+                                            $showAdvertisements = true;
+                                            $advertisements = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_ADVERTISEMENT);
+                                        }
+                                        $section = $sectionDao->getSection($article->getSectionId());
+                                        $sourceCurrencyId = $journal->getSetting('sourceCurrency');
+                                        
 					// Rename uploaded files
-					$this->renameSubmittedFiles(); /*Added by MSB, Sept29, 2011*/
+					$this->renameSubmittedFiles();
 
 					$journal =& $request->getJournal();
 					$templateMgr =& TemplateManager::getManager();
-					$templateMgr->assign_by_ref('journal', $journal);
 					// If this is an editor and there is a
 					// submission file, article can be expedited.
 					if (Validation::isEditor($journal->getId()) && $article->getSubmissionFileId()) {
 						$templateMgr->assign('canExpedite', true);
 					}
+                                        $templateMgr->assign_by_ref('section', $section);
+                                        $templateMgr->assign_by_ref('files', $articleFiles);
+					$templateMgr->assign_by_ref('journal', $journal);
 					$templateMgr->assign('articleId', $articleId);
 					$templateMgr->assign('helpTopicId','submission.index');
-
                                         $templateMgr->assign_by_ref('article', $this->article);
-
-                                        $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
-                                        $articleFiles =& $articleFileDao->getArticleFilesByArticle($articleId);
-                                        $templateMgr->assign_by_ref('files', $articleFiles);
-
-                                        $templateMgr->assign_by_ref('abstractLocales', $journal->getSupportedLocaleNames());
-
-                                        $sectionDao =& DAORegistry::getDAO('SectionDAO');
-                                        $section = $sectionDao->getSection($article->getSectionId());
-                                        $templateMgr->assign_by_ref('section', $section);
-                                        
-                                        $currencyDao =& DAORegistry::getDAO('CurrencyDAO');
-                                        $sourceCurrencyId = $journal->getSetting('sourceCurrency');
                                         $templateMgr->assign('sourceCurrency', $currencyDao->getCurrencyByAlphaCode($sourceCurrencyId));
-                
+                                        $templateMgr->assign_by_ref('articleDetails', $details);
+                                        $templateMgr->assign_by_ref('articleTexts', $this->article->getArticleTexts());
+                                        $templateMgr->assign_by_ref('articleSecIds', $this->article->getArticleSecIds());
+                                        $templateMgr->assign_by_ref('articlePurposes', $this->article->getArticlePurposes());
+                                        $templateMgr->assign('articleTextLocales', $journal->getSupportedLocaleNames());
+                                        $templateMgr->assign_by_ref('articlePrimaryOutcomes', $this->article->getArticleOutcomesByType(ARTICLE_OUTCOME_PRIMARY));
+                                        $templateMgr->assign_by_ref('articleSecondaryOutcomes', $this->article->getArticleOutcomesByType(ARTICLE_OUTCOME_SECONDARY));
+                                        $templateMgr->assign('coveringArea', $journal->getLocalizedSetting('location'));
+                                        $templateMgr->assign('coutryList', $countryDao->getCountries());
+                                        $templateMgr->assign('showAdvertisements', $showAdvertisements);
+                                        $templateMgr->assign_by_ref('advertisements', $advertisements);
+                                        $templateMgr->assign_by_ref('articleDrugs', $this->article->getArticleDrugs());
+                                        $templateMgr->assign('pharmaClasses', $articleDrugInfoDao->getPharmaClasses());
+                                        $templateMgr->assign('drugStudyClasses', $articleDrugInfoDao->getClassMap());
+                                        $templateMgr->assign_by_ref('articleSites', $this->article->getArticleSites());
+                                        $templateMgr->assign('expertisesList', $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_THERAPEUTIC_AREA, EXTRA_FIELD_ACTIVE));
+                                        $templateMgr->assign_by_ref('fundingSources', $this->article->getArticleFundingSources());
+                                        $templateMgr->assign_by_ref('pSponsor', $this->article->getArticlePrimarySponsor());
+                                        $templateMgr->assign_by_ref('sSponsors', $this->article->getArticleSecondarySponsors());
+                                        $templateMgr->assign_by_ref('CROs', $this->article->getArticleCROs());
+                                        $templateMgr->assign_by_ref('contact', $this->article->getArticleContact());
+                                        
                                         $templateMgr->display('author/submit/complete.tpl');
 					
 				} else {

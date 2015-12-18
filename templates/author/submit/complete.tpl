@@ -20,50 +20,76 @@
 <h1>{translate key="article.metadata"}</h1>
 <p>{$section->getSectionTitle()}</p>
 
-<div id="Authors">
-<h4>{translate key="article.authors"}</h4>
-<table class="listing" width="100%">
-    <tr valign="top">
-        <td colspan="5" class="headseparator">&nbsp;</td>
-    </tr>
-</table>
-</div>
+    <div class="separator"></div>
 
-<div class="separator"></div>
+    <h4>{translate key="author.submit.step2"}</h4>
+    <br />
+    {include file="submission/metadata/articleDetails.tpl"}
+    
+    <div class="separator"></div>
+    
+    <h4>{translate key="author.submit.step3"}</h4>
+    <br />
+    {include file="submission/metadata/articleDrugs.tpl"}
 
-<br/> 
+    <div class="separator"></div>
+    
+    <h4>{translate key="author.submit.step4"}</h4>
+    <br />
+    {include file="submission/metadata/articleSites.tpl"}
 
-<h3>{translate key="author.submit.filesSummary"}</h3>
-<table class="listing" width="100%">
-<tr>
-	<td colspan="5" class="headseparator">&nbsp;</td>
-</tr>
-<tr class="heading" valign="bottom">
-	<td width="10%">{translate key="common.id"}</td>
-	<td width="35%">{translate key="common.originalFileName"}</td>
-	<td width="25%">{translate key="common.type"}</td>
-	<td width="20%" class="nowrap">{translate key="common.fileSize"}</td>
-	<td width="10%" class="nowrap">{translate key="common.dateUploaded"}</td>
-</tr>
-<tr>
-	<td colspan="5" class="headseparator">&nbsp;</td>
-</tr>
-{foreach from=$files item=file}
-{if ($file->getType() == 'supp' || $file->getType() == 'submission/original')}
-<tr valign="top">
-	<td>{$file->getFileId()}</td>
-	<td><a class="file" href="{url op="download" path=$articleId|to_array:$file->getFileId()}">{$file->getOriginalFileName()|escape}</a></td>
-	<td>{if ($file->getType() == 'supp')}{translate key="article.suppFile"}{else}{translate key="author.submit.submissionFile"}{/if}</td>
-	<td>{$file->getNiceFileSize()}</td>
-	<td>{$file->getDateUploaded()|date_format:$dateFormatTrunc}</td>
-</tr>
-{/if}
-{foreachelse}
-<tr valign="top">
-<td colspan="5" class="nodata">{translate key="author.submit.noFiles"}</td>
-</tr>
-{/foreach}
-</table>
+    <div class="separator"></div>
+    
+    <h4>{translate key="author.submit.step5"}</h4>
+    <br />
+    {include file="submission/metadata/articleSponsors.tpl"}
+    
+    <div class="separator"></div>
+    
+    <h4>{translate key="author.submit.step6"}</h4>
+    <br />
+    {include file="submission/metadata/articleContact.tpl"}
+    
+    <div class="separator"></div>
+    
+    <div id="fileSummary">
+
+        <h3>{translate key="author.submit.filesSummary"}</h3>
+        <table class="listing" width="100%">
+            <tr>
+                <td colspan="5" class="headseparator">&nbsp;</td>
+            </tr>
+            <tr class="heading" valign="bottom">
+                <td width="35%">{translate key="common.originalFileName"}</td>
+                <td width="25%">{translate key="common.type"}</td>
+                <td width="20%" class="nowrap">{translate key="common.fileSize"}</td>
+                <td width="10%" class="nowrap">{translate key="common.dateUploaded"}</td>
+            </tr>
+            <tr>
+                <td colspan="5" class="headseparator">&nbsp;</td>
+            </tr>
+            {foreach from=$files item=file}
+                <tr valign="top">
+                    <td><a class="file" href="{url op="download" path=$articleId|to_array:$file->getFileId()}">{$file->getOriginalFileName()|escape}</a></td>
+                    <td>
+                        {if ($file->getType() == 'submission/original')}
+                            {translate key="author.submit.submissionFile"}
+                        {elseif ($file->getType() == 'previous')}
+                            {translate key="author.submit.previousSubmissionFile"}
+                        {else}
+                            {$file->getType()}
+                        {/if}
+                    </td>
+                    <td>{$file->getNiceFileSize()}</td>
+                    <td>{$file->getDateUploaded()|date_format:$dateFormatTrunc}</td>
+                </tr>
+            {foreachelse}
+                <tr valign="top">
+                    <td colspan="5" class="nodata">{translate key="author.submit.noFiles"}</td>
+                </tr>
+            {/foreach}
+        </table>
+    </div>
 
 <div class="separator"></div>
 
