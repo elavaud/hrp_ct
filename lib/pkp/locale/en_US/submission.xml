@@ -346,7 +346,7 @@
 	<message key="submission.notes">Submission Notes</message>
 	<message key="submission.notes.updateNote">Update Note</message>
 	<message key="submission.notes.viewNotes">View Notes</message>
-	<message key="submission.originalFile">Proposal file</message>
+	<message key="submission.originalFile">Protocol file</message>
     <message key="submission.originalFileInstruct">Main file of the research proposal. Please click on its title (blue link) for downloading it.</message>
 	<message key="submission.page.editing">{$id} Editing</message>
 	<message key="submission.page.history">{$id} History</message>
@@ -355,7 +355,7 @@
 	<message key="submission.page.summary">{$id} Summary</message>
 	<message key="submission.page.citations">{$id} Citations</message>
 	<message key="submission.peerReview">Peer&amp;nbsp;Review</message>
-    <message key="submission.previousProposalFile">Previous proposal file(s)</message>
+    <message key="submission.previousProposalFile">Previous protocol file(s)</message>
     <message key="submission.previousProposalFileInstruct">In case of a re-submission, here are the study protocol files previously submitted. Plese click on their title to download them.</message>
     <message key="submission.proposalDetails">Proposal Details</message>
 	<message key="submission.protocolAmendment">Protocol Amendment</message>
