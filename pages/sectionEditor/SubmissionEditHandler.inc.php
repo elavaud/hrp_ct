@@ -459,7 +459,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
                 || ($pastDecisionResult == SUBMISSION_SECTION_DECISION_EXEMPTED && !$previousDecision->getComments())) 
                 && isset($_FILES[$fileName])) {			
                     if ((SectionEditorAction::uploadDecisionFile($articleId, $fileName, $submission->getLastSectionDecisionId()) == '0') && $previousDecision->getReviewType() == INITIAL_REVIEW) {
-                        Request::redirect(null, null, 'submissionReview', $articleId);		
+                        Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));		
                     }
 		}
                 
@@ -486,7 +486,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
                         SubmissionCommentsHandler::emailEditorDecisionComment($articleId);
                         break;
                     default:
-                        Request::redirect(null, null, 'submissionReview', $articleId);
+                        Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
                         break;
                 }                
 	}
@@ -536,7 +536,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 			//Notify reviewer and send email by default
 			$reviewId = $sectionEditorSubmissionDao->getReviewAssignmentIdByDecisionAndReviewer($submission->getLastSectionDecisionId(), $reviewerId);
 			SectionEditorAction::notifyReviewer($submission, $reviewId, 0, true);
-			Request::redirect(null, null, 'submissionReview', $articleId);
+			Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 
 			// FIXME: Prompt for due date.
 		} else {
@@ -639,7 +639,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 			if ($incrementNumber < count($reviewAssignments)) {
 				Request::redirect(null, null, 'notifyReviewers', array($articleId, $incrementNumber));
                         }
-                        else Request::redirect(null, null, 'submissionReview', $articleId);
+                        else Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
                 } else {
                     
                 }
@@ -653,7 +653,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		
 		//send emails by default
 		SectionEditorAction::notifyReviewer($submission, $reviewId, 0, true);
-		Request::redirect(null, null, 'submissionReview', $articleId);
+		Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 	}
 
 	function clearReview($args) {
@@ -665,7 +665,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 
 		SectionEditorAction::clearReview($submission->getLastSectionDecision(), $reviewId);
 
-		Request::redirect(null, null, 'submissionReview', $articleId);
+		Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 	}
 
 	function cancelReview($args) {
@@ -679,7 +679,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		$this->setupTemplate(1, $articleId, 'review');
 
 		if (SectionEditorAction::cancelReview($submission, $reviewId, $send)) {
-			Request::redirect(null, null, 'submissionReview', $articleId);
+			Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 		}
 	}
 
@@ -692,7 +692,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		$this->setupTemplate(1, $articleId, 'review');
 
 		if (SectionEditorAction::remindReviewer($submission, $reviewId, Request::getUserVar('send'))) {
-			Request::redirect(null, null, 'submissionReview', $articleId);
+			Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 		}
 	}
 
@@ -707,7 +707,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		$this->setupTemplate(1, $articleId, 'review');
 
 		if (SectionEditorAction::thankReviewer($submission, $reviewId, $send)) {
-			Request::redirect(null, null, 'submissionReview', $articleId);
+			Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 		}
 	}
 
@@ -721,7 +721,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 
 		SectionEditorAction::rateReviewer($articleId, $reviewId, $quality);
 
-		Request::redirect(null, null, 'submissionReview', $articleId);
+		Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 	}
 
 	function confirmReviewForReviewer($args) {
@@ -733,7 +733,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		$reviewId = (int) isset($args[1])?$args[1]:0;
 
 		SectionEditorAction::confirmReviewForReviewer($reviewId, $accept);
-		Request::redirect(null, null, 'submissionReview', $articleId);
+		Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 	}
 
 	function uploadReviewForReviewer($args) {
@@ -744,7 +744,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		$reviewId = (int) Request::getUserVar('reviewId');
 
 		SectionEditorAction::uploadReviewForReviewer($reviewId);
-		Request::redirect(null, null, 'submissionReview', $articleId);
+		Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 	}
 
 	function makeReviewerFileViewable() {
@@ -758,7 +758,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 
 		SectionEditorAction::makeReviewerFileViewable($articleId, $reviewId, $fileId, $viewable);
 
-		Request::redirect(null, null, 'submissionReview', $articleId);
+		Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 	}
 
 	function setDueDateForAll($args) {
@@ -775,7 +775,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 					SectionEditorAction::setDueDate($articleId, $reviewId, $dueDate, $numWeeks);		
 				}			
 			}
-			Request::redirect(null, null, 'submissionReview', $articleId);
+			Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 		} else {
 			$this->setupTemplate(1, $articleId, 'review');
 			$journal =& Request::getJournal();
@@ -800,7 +800,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 
 		if ($dueDate != null || $numWeeks != null ) {
 			SectionEditorAction::setDueDate($articleId, $reviewId, $dueDate, $numWeeks);
-			Request::redirect(null, null, 'submissionReview', $articleId);
+			Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 
 		} else {
 			$this->setupTemplate(1, $articleId, 'review');
@@ -846,7 +846,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 
 		if ($recommendation != null) {
 			SectionEditorAction::setReviewerRecommendation($articleId, $reviewId, $recommendation, SUBMISSION_REVIEWER_RECOMMENDATION_ACCEPT);
-			Request::redirect(null, null, 'submissionReview', $articleId);
+			Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 		} else {
 			$this->setupTemplate(1, $articleId, 'review');
 
@@ -1001,7 +1001,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 
 		SectionEditorAction::clearReviewForm($submission, $reviewId);
 
-		Request::redirect(null, null, 'submissionReview', $articleId);
+		Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 	}
 
 	/**
@@ -1018,7 +1018,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 
 		if ($reviewFormId != null) {
 			SectionEditorAction::addReviewForm($submission, $reviewId, $reviewFormId);
-			Request::redirect(null, null, 'submissionReview', $articleId);
+			Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 		} else {
 			$journal =& Request::getJournal();
 			$rangeInfo =& Handler::getRangeInfo('reviewForms');
@@ -1287,7 +1287,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 
 		SectionEditorAction::uploadReviewVersion($submission);
 
-		Request::redirect(null, null, 'submissionReview', $articleId);
+		Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 	}
 
 	function uploadCopyeditVersion() {
@@ -1367,7 +1367,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 			$suppFile->setShowReviewers(Request::getUserVar('show')==1?1:0);
 			$suppFileDao->updateSuppFile($suppFile);
 		}
-		Request::redirect(null, null, 'submissionReview', $articleId);
+		Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 	}
 
 	/**
@@ -1423,7 +1423,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		$submission =& $this->submission;
 		SectionEditorAction::deleteArticleFile($submission, $fileId);
 
-		Request::redirect(null, null, 'submissionReview', $articleId);
+		Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 	}
 
 	/**
@@ -2153,7 +2153,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		if (isset($_FILES[$fileName])){
 			SectionEditorAction::uploadDecisionFile($articleId, $fileName, $decisionId);
 		}
-		Request::redirect(null, null, 'submissionReview', $articleId);
+		Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 	}
 	
 	/**
@@ -2521,7 +2521,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
                 else {$message = 'log.editor.fee.waived';}
                 ArticleLog::logEvent($submission->getArticleId(), ARTICLE_LOG_SECTION_DECISION, ARTICLE_LOG_TYPE_EDITOR, $user->getId(), $message, array('editorName' => $user->getFullName(), 'proposalId' => $submission->getProposalId()));
                 
-		$request->redirect(null, null, 'submissionReview', array($articleId));
+		$request->redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 	}
 
 	function waiveFastTrackFee($args) {

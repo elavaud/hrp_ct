@@ -1498,7 +1498,16 @@ class Article extends Submission {
 	 * @return string
 	 */
 	function &getScientificTitle() {
-		return $this->getData('scientificTitle');
+                $title = $this->getData('scientificTitle');
+                if ($title == null){
+                    $localizedArticleText = $this->getLocalizedArticleText();
+                    if ($localizedArticleText) {
+                        $title = $localizedArticleText->getScientificTitle();
+                    } else {
+                        $title == '';
+                    }
+                }
+		return $title;
 	}
         /**
 	 * Set the scientific title for this submission.

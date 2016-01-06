@@ -118,7 +118,7 @@ class SubmissionCommentsHandler extends SectionEditorHandler {
 
 		if (!$send) $this->setupTemplate(true, $articleId, 'editing');
 		if (SectionEditorAction::blindCcReviewsToReviewers($submission, $send, $inhibitExistingEmail)) {
-			Request::redirect(null, null, 'submissionReview', $articleId);
+			Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 		}
 	}
 
@@ -247,7 +247,7 @@ class SubmissionCommentsHandler extends SectionEditorHandler {
 			if (Request::getUserVar('blindCcReviewers')) {
 				SubmissionCommentsHandler::blindCcReviewsToReviewers();
 			} else {
-				Request::redirect(null, null, 'submissionReview', array($articleId));
+				Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 			}
 		}
 	}

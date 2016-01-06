@@ -22,7 +22,7 @@
         <tr valign="top">
             <td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
             <td>{if $submission->getDateSubmitted()}{$submission->getDateSubmitted()|date_format:$dateFormatLong}{else}&mdash;{/if}</td>                
-            <td><a href="{url op="submission" path=$articleId}" class="action">{if $submission->getScientificTitle()}{$submission->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}{else}{translate key="common.untitled"}{/if}</a></td>
+            <td><a href="{url op="submission" path=$articleId|to_array:"submissionReview"}" class="action">{if $submission->getScientificTitle()}{$submission->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}{else}{translate key="common.untitled"}{/if}</a></td>
             <td align="right">
                 <a href="{url op="addCompletionReport" path=$articleId}" class="action">{translate key="author.submit.modifyCompletionReport"} &#8226;</a><br />
                 <a href="{url op="addRawDataFile" path=$articleId}" title="{translate key="author.submit.uploadRawDataInstruct"}" class="action">{translate key="author.submit.uploadRawData.short"} &#8226;</a><br />

@@ -188,7 +188,7 @@ class SubmissionCommentsHandler extends AuthorHandler {
 		$authorSubmission =& $trackSubmissionHandler->submission;
 
 		if (AuthorAction::emailEditorDecisionComment($authorSubmission, Request::getUserVar('send'))) {
-			Request::redirect(null, null, 'submissionReview', array($articleId));
+			Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 		}
 	}
 

@@ -402,11 +402,14 @@ class ArticleFileManager extends FileManager {
 		$type = $this->pathToType($path);
 	
 		if($type == ARTICLE_FILE_SUPP ){
-			$suppFileCounter = $suppFileCounter + 1;
-                        $suppFileType = preg_replace('/\s+/', '', $suppFileType);  
-			$type = $suppFileType.$suppFileCounter;
+                    $suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
+                    $typeMap = $suppFileDao->getTypeMap();
+                    $suppFileTypeName = preg_replace('/\s+/', '', $typeMap[$suppFileType]);  
+                    $suppFileTypeName = preg_replace('/[^a-z]+/i', '', $suppFileTypeName); 
+                    $suppFileTypeName = substr($suppFileTypeName, 0, 20);
+                    $suppFileCounter = $suppFileCounter + 1;
+                    $type = $suppFileTypeName.$suppFileCounter;
 		}
-		
 		
 		$fileExtension = $this->parseFileExtension($sourceArticleFile->getFileName());
 		

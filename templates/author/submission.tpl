@@ -9,34 +9,30 @@
  * $Id$
  *}
 {strip}
-{translate|assign:"pageTitleTranslated" key="submission.page.summary" id=$submission->getProposalId()} 
+{translate|assign:"pageTitleTranslated" key="common.queue.long.$pageToDisplay" id=$proposalId} 
 {assign var="pageCrumbTitle" value="submission.summary"}
 {include file="common/header.tpl"}
 {/strip}
 
 <ul class="menu">
-	<li class="current"><a href="{url op="submission" path=$submission->getArticleId()}">{translate key="submission.summary"}</a></li>
-        <li><a href="{url op="submissionReview" path=$submission->getArticleId()}">{translate key="submission.review"}</a></li>
-        <!-- Comment out, AIM, June 21, 201
-        {*
-	<li><a href="{url op="submissionEditing" path=$submission->getArticleId()}">{translate key="submission.editing"}</a></li>
-        *}
-        -->
+    <li{if ($pageToDisplay == "articleDetails")} class="current"{/if}><a href="{url op="submission" path=$articleId|to_array:"articleDetails"}">{translate key="common.queue.short.articleDetails"}</a></li>
+    <li{if ($pageToDisplay == "articleDrugs")} class="current"{/if}><a href="{url op="submission" path=$articleId|to_array:"articleDrugs"}">{translate key="common.queue.short.articleDrugs"}</a></li>
+    <li{if ($pageToDisplay == "articleSites")} class="current"{/if}><a href="{url op="submission" path=$articleId|to_array:"articleSites"}">{translate key="common.queue.short.articleSites"}</a></li>
+    <li{if ($pageToDisplay == "articleSponsors")} class="current"{/if}><a href="{url op="submission" path=$articleId|to_array:"articleSponsors"}">{translate key="common.queue.short.articleSponsors"}</a></li>
+    <li{if ($pageToDisplay == "articleContact")} class="current"{/if}><a href="{url op="submission" path=$articleId|to_array:"articleContact"}">{translate key="common.queue.short.articleContact"}</a></li>
+    <li{if ($pageToDisplay == "articleFiles")} class="current"{/if}><a href="{url op="submission" path=$articleId|to_array:"articleFiles"}">{translate key="common.queue.short.articleFiles"}</a></li>
+    <li{if ($pageToDisplay == "submissionReview")} class="current"{/if}><a href="{url op="submission" path=$articleId|to_array:"submissionReview"}">{translate key="common.queue.short.submissionReview"}</a></li>
 </ul>
 
 {include file="author/submission/management.tpl"}
 
-{if $authorFees}
-
 <div class="separator"></div>
-
-{include file="author/submission/authorFees.tpl"}
-
+<br/>
+{if ($pageToDisplay == "submissionReview")}
+    {include file="author/submission/peerReview.tpl"}
+{else}
+    {include file="submission/metadata/$pageToDisplay.tpl"}
 {/if}
-
-<div class="separator"></div>
-
-{include file="submission/metadata/metadata.tpl"}
 
 {include file="common/footer.tpl"}
 

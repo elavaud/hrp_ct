@@ -487,9 +487,9 @@ class MeetingAction extends Action {
                                         $sectionDecision = $sectionDecisionDao->getSectionDecision($mSectionDecision->getSectionDecisionId());
                                         $submission = $articleDao->getArticle($sectionDecision->getArticleId(), $journal->getId(), false);
                                         if ($urlFirst) { 
-						$replyUrl .= Request::url(null, 'author', 'submissionReview', $sectionDecision->getArticleId());
+						$replyUrl .= Request::url(null, 'author', 'submission', array($sectionDecision->getArticleId(),'submissionReview'));
 						$urlFirst = false;
-					} else $replyUrl .= '    '.Locale::translate("common.or").':    '.Request::url(null, 'author', 'submissionReview', $sectionDecision->getArticleId());
+					} else $replyUrl .= '    '.Locale::translate("common.or").':    '.Request::url(null, 'author', 'submission', array($sectionDecision->getArticleId(),'submissionReview'));
 					// Add name of the investigators if different from submitter
 					if ($submission->getUserId() == $investigatorAttendance->getUserId()) {
 						$authors = $submission->getAuthors();
@@ -598,9 +598,9 @@ class MeetingAction extends Action {
 					foreach ($mSectionDecisions as $mSectionDecision){
                                                 $sectionDecision = $sectionDecisionDao->getSectionDecision($mSectionDecision->getSectionDecisionId());
 						if ($urlFirst) {
-							$replyUrl .= Request::url(null, 'author', 'submissionReview', $sectionDecision->getArticleId());
+							$replyUrl .= Request::url(null, 'author', 'submission', array($sectionDecision->getArticleId(),'submissionReview'));
 							$urlFirst = false;
-						} else $replyUrl .= '   '.Locale::translate("common.or").':   '.Request::url(null, 'author', 'submissionReview', $sectionDecision->getArticleId());					
+						} else $replyUrl .= '   '.Locale::translate("common.or").':   '.Request::url(null, 'author', 'submission', array($sectionDecision->getArticleId(),'submissionReview'));					
 					}
 				} elseif ($type == MEETING_SECRETARY) {
 					$replyUrl = Request::url(null, 'sectionEditor', 'viewMeeting', $meeting->getId());

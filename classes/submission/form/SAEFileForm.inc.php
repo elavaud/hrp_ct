@@ -189,7 +189,7 @@ class SAEFileForm extends Form {
 		import('lib.pkp.classes.notification.NotificationManager');
 		$notificationManager = new NotificationManager();
 		$journal =& Request::getJournal();
-		$url = Request::url($journal->getPath(), 'sectionEditor', 'submissionReview', array($this->article->getArticleId()));
+		$url = Request::url($journal->getPath(), 'sectionEditor', 'submission', array($this->article->getArticleId(), 'submissionReview'));
                 $sectionEditorsDao =& DAORegistry::getDAO('SectionEditorsDAO');
                 $sectionEditors =& $sectionEditorsDao->getEditorsBySectionId($journal->getId(), $lastDecision->getSectionId());
 		foreach ($sectionEditors as $sectionEditor) {

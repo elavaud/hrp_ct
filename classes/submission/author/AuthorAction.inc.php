@@ -616,7 +616,7 @@ class AuthorAction extends Action {
 			$notificationUsers = $article->getAssociatedUserIds(false, false);
 			$param = $article->getProposalId().': <br/>'.$user->getFullName().', <i>'.$user->getErcFunction($article->getSectionId()).'</i>,';
 			foreach ($notificationUsers as $userRole) {
-				$url = Request::url(null, $userRole['role'], 'submissionReview', $article->getId(), null, 'editorDecision');
+				$url = Request::url(null, $userRole['role'], 'submission', array($article->getId(), 'submissionReview'), null, 'editorDecision');
 				$notificationManager->createNotification(
 					$userRole['id'], 'notification.type.editorDecisionComment',
 					$param, $url, 1, NOTIFICATION_TYPE_SECTION_DECISION_COMMENT

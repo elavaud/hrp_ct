@@ -268,8 +268,21 @@
         <message key="common.queue.short.meetingList">Meetings</message>
         <message key="common.queue.long.meetingList">List of meetings</message>
         <message key="common.queue.long.viewMeeting">View Meeting</message>
-
-	
+        <message key="common.queue.short.articleDetails">CT Information</message>
+        <message key="common.queue.long.articleDetails">{$id} - Clinical Trial's Information</message>
+        <message key="common.queue.short.articleDrugs">Product(s)</message>
+        <message key="common.queue.long.articleDrugs">{$id} - Drug Product(s)</message>
+        <message key="common.queue.short.articleSites">Site(s)</message>
+        <message key="common.queue.long.articleSites">{$id} - Trial Site(s)</message>
+        <message key="common.queue.short.articleSponsors">Sponsors</message>
+        <message key="common.queue.long.articleSponsors">{$id} - Funding Source(s), Sponsors and CRO(s)</message>
+        <message key="common.queue.short.articleContact">Contacts</message>
+        <message key="common.queue.long.articleContact">{$id} - Contacts</message>
+        <message key="common.queue.short.articleFiles">Files</message>
+        <message key="common.queue.long.articleFiles">{$id} - Uploaded Files</message>
+        <message key="common.queue.short.submissionReview">Review</message>
+        <message key="common.queue.long.submissionReview">{$id} - Review of the submission</message>
+                        	
 	<!--
 	 *
 	 * ENTITIES - This section contains terms pertaining to the system's
@@ -314,11 +327,11 @@
         <message key="article.suppFile.informedConsent">Informed Consent</message>
         <message key="article.suppFile.advertisements">Subject Recruitment Advertisements</message>
         <message key="article.suppFile.relatedPublications">Trial related presentations/ publications list</message>
-        <message key="article.suppFile.brochure">Investigator’s brochure</message>
-        <message key="article.suppFile.impd">Investigational medicinal product dossier (IMPD)</message>
+        <message key="article.suppFile.brochure">Investigator's brochure</message>
+        <message key="article.suppFile.impd">Investigational medicinal product dossier</message>
         <message key="article.suppFile.smpc">Approved Summary of Product Characteristics</message>
-        <message key="article.suppFile.labels">Label(s)</message>
-	<message key="article.suppFile.gmp">GMP Certificate(s) of manufacturer</message>
+        <message key="article.suppFile.labels">Label</message>
+	<message key="article.suppFile.gmp">GMP Certificate of manufacturer</message>
 	<message key="article.suppFile.delegation">Letter of delegation from Sponsor</message>
         <message key="article.suppFile.CV">CV of principal investigator</message>
         <message key="article.suppFile.policy">Insurance policy in the event of injury or death</message>

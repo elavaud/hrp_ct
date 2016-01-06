@@ -35,7 +35,7 @@
                     {assign var="progress" value=$submission->getSubmissionProgress()}
                     <td><a href="{url op="submit" path=$progress articleId=$articleId}" class="action">{if $submission->getLocalizedTitle()}{$submission->getLocalizedTitle()|escape}{else}{translate key="common.untitled"}{/if}</a></td>
                 {else}
-                    <td><a href="{url op="submission" path=$articleId}" class="action">{if $submission->getLocalizedTitle()}{$submission->getLocalizedTitle()|strip_unsafe_html|truncate:60:"..."}{else}{translate key="common.untitled"}{/if}</a></td>
+                    <td><a href="{url op="submission" path=$articleId|to_array:"submissionReview"}" class="action">{if $submission->getLocalizedTitle()}{$submission->getLocalizedTitle()|strip_unsafe_html|truncate:60:"..."}{else}{translate key="common.untitled"}{/if}</a></td>
                 {/if}
                 <td align="right">
                         {if $status==PROPOSAL_STATUS_DRAFT}
@@ -128,7 +128,7 @@
             <tr valign="top">
                 <td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
                 <td>{if $submission->getDateSubmitted()}{$submission->getDateSubmitted()|date_format:$dateFormatLong}{else}&mdash;{/if}</td>                
-                <td><a href="{url op="submission" path=$articleId}" class="action">{if $submission->getLocalizedTitle()}{$submission->getLocalizedTitle()|escape}{else}{translate key="common.untitled"}{/if}</a></td>
+                <td><a href="{url op="submission" path=$articleId|to_array:"submissionReview"}" class="action">{if $submission->getLocalizedTitle()}{$submission->getLocalizedTitle()|escape}{else}{translate key="common.untitled"}{/if}</a></td>
                 <td>
                 	{if ($status==PROPOSAL_STATUS_EXEMPTED)}
                 		{translate key="submission.status.exempted"}
@@ -206,7 +206,7 @@
             <tr valign="top">
                 <td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
                 <td>{if $submission->getDateSubmitted()}{$submission->getDateSubmitted()|date_format:$dateFormatLong}{else}&mdash;{/if}</td>                
-                <td><a href="{url op="submission" path=$articleId}" class="action">{if $submission->getLocalizedTitle()}{$submission->getLocalizedTitle()|escape}{else}{translate key="common.untitled"}{/if}</a></td>
+                <td><a href="{url op="submission" path=$articleId|to_array:"submissionReview"}" class="action">{if $submission->getLocalizedTitle()}{$submission->getLocalizedTitle()|escape}{else}{translate key="common.untitled"}{/if}</a></td>
                 <td align="right">
                     {assign var="count" value=$count+1}
                     {translate key="submission.status.declined"}<br />

@@ -272,38 +272,27 @@ class SuppFileForm extends Form {
 		import('lib.pkp.classes.notification.NotificationManager');
 		$notificationManager = new NotificationManager();
 		$journal =& Request::getJournal();
-		$url = Request::url($journal->getPath(), 'sectionEditor', 'submissionReview', array($this->article->getArticleId()));
+		$url = Request::url($journal->getPath(), 'sectionEditor', 'submission', array($this->article->getArticleId(), 'submissionReview'));
 
-			// Removed by EL on February 17th 2013
-			// No edit assignments anymore		
-			//$edit Assignment Dao =& DAORegistry::getDAO('Edit Assignment DAO');
-			//$notificationSectionEditors = array();
-			//$sectionEditors = $edit Assignment Dao->getEditorAssignmentsByArticleId3($this->article->getArticleId());
-		
-			//foreach ($sectionEditors as $sectionEditorEntry) {
-				//$sectionEditor =& $sectionEditorEntry['user'];
-            	//$notificationSectionEditors[] = array('id' => $sectionEditor->getId());
-            	//unset($sectionEditor);
-        	//}
- 			$sectionEditorsDao =& DAORegistry::getDAO('SectionEditorsDAO');
-			$sectionEditors =& $sectionEditorsDao->getEditorsBySectionId($journal->getId(), $this->article->getSectionId());
-			foreach ($sectionEditors as $sectionEditor) $notificationSectionEditors[] = array('id' => $sectionEditor->getId());
+                $sectionEditorsDao =& DAORegistry::getDAO('SectionEditorsDAO');
+                $sectionEditors =& $sectionEditorsDao->getEditorsBySectionId($journal->getId(), $this->article->getSectionId());
+                foreach ($sectionEditors as $sectionEditor) $notificationSectionEditors[] = array('id' => $sectionEditor->getId());
 
 		if ($suppFile->getData('type') == 'Raw Data File') $message = 'notification.type.rawDataSubmitted'; 
-        if ($suppFile->getData('type') == 'Other Supplementary Research Output') $message = 'notification.type.otherSuppResearchOutput';
-        if ($suppFile->getData('type') == 'Progress Report') $message = 'notification.type.progressReport';
-        if ($suppFile->getData('type') == 'Completion Report') $message = 'notification.type.completionReport';
-        if ($suppFile->getData('type') == 'Extension Request') $message = 'notification.type.extensionRequest';
-        if ($this->getData('type') == "Supp File") $message = 'notification.type.suppFile';
+                if ($suppFile->getData('type') == 'Other Supplementary Research Output') $message = 'notification.type.otherSuppResearchOutput';
+                if ($suppFile->getData('type') == 'Progress Report') $message = 'notification.type.progressReport';
+                if ($suppFile->getData('type') == 'Completion Report') $message = 'notification.type.completionReport';
+                if ($suppFile->getData('type') == 'Extension Request') $message = 'notification.type.extensionRequest';
+                if ($this->getData('type') == "Supp File") $message = 'notification.type.suppFile';
                     
-        if (isset($message)){
-        	foreach ($notificationSectionEditors as $userRole) {
-            	$notificationManager->createNotification(
-                	$userRole['id'], $message,
-                	$this->article->getLocalizedTitle(), $url, 1, NOTIFICATION_TYPE_SUPP_FILE_MODIFIED
-            	);
-       		}
-        }
+                if (isset($message)){
+                    foreach ($notificationSectionEditors as $userRole) {
+                        $notificationManager->createNotification(
+                            $userRole['id'], $message,
+                            $this->article->getLocalizedTitle(), $url, 1, NOTIFICATION_TYPE_SUPP_FILE_MODIFIED
+                        );
+                    }
+                }
 		
 		return $this->suppFileId;
 	}

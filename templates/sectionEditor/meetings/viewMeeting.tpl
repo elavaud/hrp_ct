@@ -65,7 +65,7 @@
 	{foreach from=$sectionDecisions item=decision}
 		<tr valign="top">
 			<td>{$decision->getProposalId()|escape}</td>
-   			<td><a href="{url op="submissionReview" path=$decision->getArticleId()}" class="action">{$decision->getLocalizedProposalTitle()|strip_unsafe_html|truncate:60:"..."}</a></td>
+   			<td><a href="{url op="submission" path=$decision->getArticleId()|to_array:"submissionReview"}" class="action">{$decision->getLocalizedProposalTitle()|strip_unsafe_html|truncate:60:"..."}</a></td>
         	<td>{translate key=$decision->getReviewTypeKey()} - {$decision->getRound()}</td>
 			<td>{translate key=$decision->getReviewStatusKey()}</td>
 		</tr>

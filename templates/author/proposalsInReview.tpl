@@ -26,7 +26,7 @@
     <tr valign="top">
         <td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
         <td>{if $submission->getDateSubmitted()}{$submission->getDateSubmitted()|date_format:$dateFormatLong}{else}&mdash;{/if}</td>
-        <td><a href="{url op="submission" path=$articleId}" class="action">{if $submission->getScientificTitle()}{$submission->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}{else}{translate key="common.untitled"}{/if}</a></td>
+        <td><a href="{url op="submission" path=$articleId|to_array:"submissionReview"}" class="action">{if $submission->getScientificTitle()}{$submission->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}{else}{translate key="common.untitled"}{/if}</a></td>
         <td>{$lastDecision->getSectionAcronym()} - {translate key=$lastDecision->getReviewTypeKey()} - {$lastDecision->getRound()}</td>
         <td align="right">
         	{translate key=$lastDecision->getReviewStatusKey()}<br />

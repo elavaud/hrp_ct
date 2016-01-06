@@ -57,7 +57,7 @@ class SectionEditorAction extends Action {
 			
                         if ($reviewType == REVIEW_TYPE_FR && ($decision == SUBMISSION_SECTION_DECISION_APPROVED || ($decision == SUBMISSION_SECTION_DECISION_EXEMPTED && $sectionDecision->getComments()))){
                             if(!SectionEditorAction::_publishResearch($sectionEditorSubmission)){
-				Request::redirect(null, null, 'submissionReview', $sectionEditorSubmission->getArticleId());
+				Request::redirect(null, null, 'submission', array($sectionEditorSubmission->getArticleId(), 'submissionReview'));
                             }
                         }
                         
@@ -81,7 +81,7 @@ class SectionEditorAction extends Action {
                         // Send a notification to the user
                         import('lib.pkp.classes.notification.NotificationManager');
                         $notificationManager = new NotificationManager();
-                        $url = Request::url($journal->getPath(), 'author', 'submissionReview', array($sectionEditorSubmission->getArticleId()));
+                        $url = Request::url($journal->getPath(), 'author', 'submission', array($sectionEditorSubmission->getArticleId(), 'submissionReview'));
                         
                         switch ($decision) {
                             case SUBMISSION_SECTION_DECISION_COMPLETE:
@@ -670,7 +670,7 @@ class SectionEditorAction extends Action {
 			else $message = 'notification.type.reviewerFileDeleted';
 			$param = $article->getProposalId().':<br/>A reviewer';
 			foreach ($notificationUsers as $userRole) {
-				$url = Request::url(null, $userRole['role'], 'submissionReview', $article->getId(), null, 'peerReview');
+				$url = Request::url(null, $userRole['role'], 'submission', array($article->getId(), 'submissionReview'), null, 'peerReview');
 				$notificationManager->createNotification(
             		$userRole['id'], $message,
                 	$param, $url, 1, NOTIFICATION_TYPE_REVIEWER_COMMENT
@@ -2001,7 +2001,7 @@ class SectionEditorAction extends Action {
             	$param = $article->getProposalId().':<br/>'.$user->getUsername().' commented ';
             	if ($userRole['role'] == 'sectionEditor') {
             		$param = $param.'the review of '.$reviewer->getUsername();
-            		$url = Request::url(null, $userRole['role'], 'submissionReview', $article->getId(), null, 'peerReview');
+            		$url = Request::url(null, $userRole['role'], 'submission', array($article->getId(), 'submissionReview'), null, 'peerReview');
             	} else {
             		$url = Request::url(null, $userRole['role'], 'submission', $reviewId);
             		$param = $param.'your review';
@@ -2062,7 +2062,7 @@ class SectionEditorAction extends Action {
 			$notificationUsers = $article->getAssociatedUserIds(true, false);
 			$param = $article->getProposalId().': <br/>'.$user->getFullName().', <i>'.$user->getErcFunction($article->getSectionId()).'</i>,';
 			foreach ($notificationUsers as $userRole) {
-				$url = Request::url(null, $userRole['role'], 'submissionReview', $article->getId(), null, 'editorDecision');
+				$url = Request::url(null, $userRole['role'], 'submission', array($article->getId(), 'submissionReview'), null, 'editorDecision');
 				if ($user->getId()!=$userRole['id']) $notificationManager->createNotification(
 					$userRole['id'], 'notification.type.editorDecisionComment',
 					$param, $url, 1, NOTIFICATION_TYPE_SECTION_DECISION_COMMENT
@@ -2146,7 +2146,7 @@ class SectionEditorAction extends Action {
 					'authorName' => $authorUser->getFullName(),
 					'urlOngoing' => Request::url(null, 'author', 'index', 'ongoingResearches'),
     					'urlDrafts' => Request::url(null, 'author', 'index', 'proposalsToSubmit'),
-    					'url' => Request::url(null, 'author', 'submissionReview', $sectionEditorSubmission->getArticleId()),
+    					'url' => Request::url(null, 'author', 'submission', array($sectionEditorSubmission->getArticleId(), 'submissionReview')),
                                         'reviewType' => Locale::translate($decision->getReviewTypeKey()),
 					'journalTitle' => $journal->getLocalizedTitle()
 				));
@@ -2593,13 +2593,13 @@ class SectionEditorAction extends Action {
 					$parent = array(Request::url(null, $section, 'submission', $articleId), 'submission.summary');
 					break;
 				case 'review':
-					$parent = array(Request::url(null, $section, 'submissionReview', $articleId), 'submission.review');
+					$parent = array(Request::url(null, $section, 'submission', array($articleId, 'submissionReview')), 'submission.review');
 					break;
 				case 'editing':
-					$parent = array(Request::url(null, $section, 'submissionEditing', $articleId), 'submission.editing');
+					$parent = array(Request::url(null, $section, 'submission', array($articleId, 'submissionEditing')), 'submission.editing');
 					break;
 				case 'history':
-					$parent = array(Request::url(null, $section, 'submissionHistory', $articleId), 'submission.history');
+					$parent = array(Request::url(null, $section, 'submission', array($articleId, 'submissionHistory')), 'submission.history');
 					break;
 			}
 			if ($section != 'editor' && $section != 'sectionEditor') {

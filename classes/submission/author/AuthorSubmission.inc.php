@@ -322,6 +322,23 @@ class AuthorSubmission extends Article {
 	function setSAEFiles($saeFiles) {
 		return $this->setData('saeFiles', $saeFiles);
 	}        
+        
+	/**
+	 * Get previousFiles.
+	 * @return ArticleFile
+	 */
+	function &getPreviousFiles() {
+		$returner =& $this->getData('previousFiles');
+		return $returner;
+	}
+
+	/**
+	 * Set previousFiles.
+	 * @param $reviewFile ArticleFile
+	 */
+	function setPreviousFiles($previousFiles) {
+		return $this->setData('previousFiles', $previousFiles);
+	}        
 }
 
 ?>

@@ -302,7 +302,7 @@ class Action extends PKPAction {
 				$notificationManager = new NotificationManager();
 				$notificationUsers = $article->getAssociatedUserIds(true, false);
 				foreach ($notificationUsers as $userRole) {
-					$url = Request::url(null, $userRole['role'], 'submissionReview', $article->getId(), null, 'editorDecision');
+					$url = Request::url(null, $userRole['role'], 'submission', array($article->getId(),'submissionReview'), null, 'editorDecision');
 					$notificationManager->createNotification(
 						$userRole['id'], 'notification.type.submissionComment',
 						$article->getProposalId(), $url, 1, NOTIFICATION_TYPE_SUBMISSION_COMMENT

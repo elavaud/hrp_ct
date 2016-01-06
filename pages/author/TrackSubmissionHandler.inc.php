@@ -74,72 +74,93 @@ class TrackSubmissionHandler extends AuthorHandler {
 			AuthorAction::deleteArticleFile($authorSubmission, $fileId);
 		}
 
-		Request::redirect(null, null, 'submissionReview', $articleId);
+		Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 	}
 
 	/**
 	 * Display a summary of the status of an author's submission.
 	 */
 	function submission($args) {
-                
 		$journal =& Request::getJournal();
-		$user =& Request::getUser();
 		$articleId = isset($args[0]) ? (int) $args[0] : 0;
-
+		$page = isset($args[1]) ? $args[1] : 'submissionReview';
+                
 		$this->validate($articleId);
-		$submission =& $this->submission;
 		$this->setupTemplate(true, $articleId);
 
-		$journalSettingsDao =& DAORegistry::getDAO('JournalSettingsDAO');
-		$journalSettings = $journalSettingsDao->getJournalSettings($journal->getId());
+		Locale::requireComponents(array(LOCALE_COMPONENT_OJS_EDITOR)); // editor.article.decision etc. FIXME?
                 
-		$templateMgr =& TemplateManager::getManager();
-
-		$publishedArticleDao =& DAORegistry::getDAO('PublishedArticleDAO');
-		$publishedArticle =& $publishedArticleDao->getPublishedArticleByArticleId($submission->getArticleId());
-		if ($publishedArticle) {
-			$issueDao =& DAORegistry::getDAO('IssueDAO');
-			$issue =& $issueDao->getIssueById($publishedArticle->getIssueId());
-			$templateMgr->assign_by_ref('issue', $issue);
-		}
-
-		$sectionDao =& DAORegistry::getDAO('SectionDAO');
-		$section =& $sectionDao->getSection($submission->getSectionId());
-		$templateMgr->assign_by_ref('section', $section);
-
-		$templateMgr->assign_by_ref('journalSettings', $journalSettings);
-		$templateMgr->assign_by_ref('submission', $submission);
-		$templateMgr->assign_by_ref('publishedArticle', $publishedArticle);
-		$templateMgr->assign_by_ref('submissionFile', $submission->getSubmissionFile());
-		$templateMgr->assign_by_ref('revisedFile', $submission->getRevisedFile());
-		$templateMgr->assign_by_ref('suppFiles', $submission->getSuppFiles());
-		$templateMgr->assign_by_ref('reportFiles', $submission->getReportFiles());
-		$templateMgr->assign_by_ref('saeFiles', $submission->getSAEFiles());
-
+                $journalSettingsDao =& DAORegistry::getDAO('JournalSettingsDAO');
+		$sectionDao =& DAORegistry::getDAO('SectionDAO');                
 		$suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
-		$templateMgr->assign_by_ref('suppFileDao', $suppFileDao);
-
-		import('classes.submission.sectionEditor.SectionEditorSubmission');
-		$templateMgr->assign_by_ref('editorDecisionOptions', SectionEditorSubmission::getEditorDecisionOptions());
-
-		$templateMgr->assign('helpTopicId','editorial.authorsRole');
+		$countryDao =& DAORegistry::getDAO('CountryDAO');
+		$articleDrugInfoDao =& DAORegistry::getDAO('ArticleDrugInfoDAO');
+                $extraFieldDAO =& DAORegistry::getDAO('ExtraFieldDAO');
                 
+                $submission =& $this->submission;
+		$journalSettings = $journalSettingsDao->getJournalSettings($journal->getId());
+                $suppFiles = $submission->getSuppFiles();
+                foreach ($suppFiles as $suppFile) {
+                    $suppFile->setType(Locale::translate($suppFile->getTypeKey()));
+                }
+		$section =& $sectionDao->getSection($submission->getSectionId());
                 $lastSectionDecision = $submission->getLastSectionDecision();
                 if($lastSectionDecision->getDecision() == SUBMISSION_SECTION_NO_DECISION && $lastSectionDecision->getReviewType() == REVIEW_TYPE_INITIAL) {
-                        $canEditMetadata = true;
-                        $canEditFiles = true;
+                    $canEditMetadata = true;
+                    $canEditFiles = true;
+                } else {
+                    $canEditMetadata = false;
+                    $canEditFiles = false;
+                }       
+                $details = $submission->getArticleDetails();
+                $showAdvertisements = false;
+                $advertisements = array();
+                if ($details->getAdvertisingScheme() == ARTICLE_DETAIL_YES) {
+                    $showAdvertisements = true;
+                    $advertisements = $suppFileDao->getSuppFilesByArticleAndType($submission->getArticleId(), SUPP_FILE_ADVERTISEMENT);
                 }
-                else {
-                        $canEditMetadata = false;
-                        $canEditFiles = false;
-                }
+                
+		$templateMgr =& TemplateManager::getManager();
+		$templateMgr->assign('pageToDisplay', $page);     
+		$templateMgr->assign('articleId', $submission->getArticleId());  
+		$templateMgr->assign('proposalId', $submission->getProposalId()); 
+		$templateMgr->assign('scientificTitle', $submission->getScientificTitle()); 
+		$templateMgr->assign('submitter', $submission->getUser()); 
+		$templateMgr->assign('dateSubmitted', $submission->getDateSubmitted()); 
+		$templateMgr->assign('commentsToEditor', $submission->getCommentsToEditor()); 
+		$templateMgr->assign_by_ref('section', $section);
+		$templateMgr->assign_by_ref('journalSettings', $journalSettings);
+		$templateMgr->assign_by_ref('submissionFile', $submission->getSubmissionFile());
+		$templateMgr->assign_by_ref('previousFiles', $submission->getPreviousFiles());
+		$templateMgr->assign_by_ref('revisedFile', $submission->getRevisedFile());
+		$templateMgr->assign_by_ref('suppFiles', $suppFiles);
+		$templateMgr->assign_by_ref('reportFiles', $submission->getReportFiles());
+		$templateMgr->assign_by_ref('saeFiles', $submission->getSAEFiles());
                 $templateMgr->assign('canEditMetadata', $canEditMetadata);
                 $templateMgr->assign('canEditFiles', $canEditFiles);
-                
-		$currencyDao =& DAORegistry::getDAO('CurrencyDAO');
-                
+		$templateMgr->assign_by_ref('sectionDecisions', $submission->getDecisions());
+                $templateMgr->assign_by_ref('articleDetails', $details);
+                $templateMgr->assign_by_ref('articleTexts', $submission->getArticleTexts());
+                $templateMgr->assign_by_ref('articleSecIds', $submission->getArticleSecIds());
+                $templateMgr->assign_by_ref('articlePurposes', $submission->getArticlePurposes());
+                $templateMgr->assign('articleTextLocales', $journal->getSupportedLocaleNames());
+                $templateMgr->assign_by_ref('articlePrimaryOutcomes', $submission->getArticleOutcomesByType(ARTICLE_OUTCOME_PRIMARY));
+                $templateMgr->assign_by_ref('articleSecondaryOutcomes', $submission->getArticleOutcomesByType(ARTICLE_OUTCOME_SECONDARY));
+                $templateMgr->assign('coveringArea', $journal->getLocalizedSetting('location'));
+                $templateMgr->assign('coutryList', $countryDao->getCountries());
+		$templateMgr->assign('showAdvertisements', $showAdvertisements);
+		$templateMgr->assign_by_ref('advertisements', $advertisements);
+                $templateMgr->assign_by_ref('articleDrugs', $submission->getArticleDrugs());
+                $templateMgr->assign('pharmaClasses', $articleDrugInfoDao->getPharmaClasses());
+                $templateMgr->assign('drugStudyClasses', $articleDrugInfoDao->getClassMap());
+                $templateMgr->assign_by_ref('articleSites', $submission->getArticleSites());
+                $templateMgr->assign('expertisesList', $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_THERAPEUTIC_AREA, EXTRA_FIELD_ACTIVE));
+                $templateMgr->assign_by_ref('fundingSources', $submission->getArticleFundingSources());
+                $templateMgr->assign_by_ref('pSponsor', $submission->getArticlePrimarySponsor());
+                $templateMgr->assign_by_ref('sSponsors', $submission->getArticleSecondarySponsors());
+                $templateMgr->assign_by_ref('CROs', $submission->getArticleCROs());
+                $templateMgr->assign_by_ref('contact', $submission->getArticleContact());
 		$templateMgr->display('author/submission.tpl');
-                
 	}
 
 	/**
@@ -166,17 +187,10 @@ class TrackSubmissionHandler extends AuthorHandler {
 		$templateMgr->assign('helpTopicId', 'editorial.authorsRole.review');
                 $templateMgr->display('author/submissionReview.tpl');
 	}
-
-		//$meetingsAndAttendances =& $meetingAttendanceDao->getAttendancesByUserIdAndDecisionId($user->getId(), $articleId);
-		//$templateMgr->assign('countMeetings', count($meetingsAndAttendances));
-		//$templateMgr->assign('meetingsAndAttendances', $meetingsAndAttendances);
-		
         
 	/**
 	 * Add a supplementary file.
 	 * @param $args array ($articleId)
-         *
-         * Last Edit Jan 31 2012
 	 */
 	function addSuppFile($args, $request) {
 		$articleId = (int) array_shift($args);
@@ -208,8 +222,6 @@ class TrackSubmissionHandler extends AuthorHandler {
 	}
 
         /**
-         * Added by AIM Jan 30 2012
-         *
 	 * Delete a supplementary file.
 	 * @param $args array, the first parameter is the supplementary file to delete
 	 */
@@ -283,7 +295,7 @@ class TrackSubmissionHandler extends AuthorHandler {
 				$suppFileDao->updateSuppFile($suppFile);
 			}
 		}
-		Request::redirect(null, null, 'submissionReview', $articleId);
+		Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 	}
 
 	/**
@@ -391,7 +403,7 @@ class TrackSubmissionHandler extends AuthorHandler {
 
 		AuthorAction::uploadRevisedVersion($submission);
 
-		Request::redirect(null, null, 'submissionReview', $articleId);
+		Request::redirect(null, null, 'submission', array($articleId, 'submissionReview'));
 	}
 
 	function viewMetadata($args, $request) {
@@ -1074,7 +1086,7 @@ class TrackSubmissionHandler extends AuthorHandler {
 		
 		$meetingAttendanceDao =& DAORegistry::getDao('MeetingAttendanceDAO');
 		$meetingAttendanceDao->updateReplyOfAttendance($meetingAttendance);
-		Request::redirect(null, 'author', 'submissionReview', $submissionId);
+		Request::redirect(null, 'author', 'submission', array($submissionId, 'submissionReview'));
 	}
         
         /*

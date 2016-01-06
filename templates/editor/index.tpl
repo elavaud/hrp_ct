@@ -101,7 +101,7 @@ function sortSearch(heading, direction) {
 	<tr valign="top">
 		<td>{$submission->getProposalId()}</td>
 		<td>{$submission->getDateSubmitted()|date_format:$dateFormatTrunc}</td>
-		<td><a href="{url op="submission" path=$submission->getArticleId()}" class="action">{$submission->getLocalizedTitle()|strip_unsafe_html|truncate:60:"..."}</a></td>
+		<td><a href="{url op="submission" path=$submission->getArticleId()|to_array:"submissionReview"}" class="action">{$submission->getLocalizedTitle()|strip_unsafe_html|truncate:60:"..."}</a></td>
 		<td align="right">
 			{assign var="statusKey" value=$submission->getProposalStatusKey()}
 			{translate key=$statusKey} 

@@ -30,7 +30,7 @@
 	</td>
 </tr>
 </table>
-<p><input type="submit" value="{translate key="common.save"}" class="button defaultButton" /> <input type="button" value="{translate key="common.cancel"}" class="button" onclick="document.location.href='{url op="submissionReview" path=$articleId escape=false}';"/></p>
+<p><input type="submit" value="{translate key="common.save"}" class="button defaultButton" /> <input type="button" value="{translate key="common.cancel"}" class="button" onclick="document.location.href='{url op="submission" path=$articleId|to_array:"submissionReview" escape=false}';"/></p>
 </form>
 </div>
 {include file="common/footer.tpl"}

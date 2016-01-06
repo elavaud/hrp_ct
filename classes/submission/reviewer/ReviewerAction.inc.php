@@ -77,11 +77,11 @@ class ReviewerAction extends Action {
 				if ($decline == '1') $message = $article->getProposalId().':<br/>'.$user->getUsername().' declined';
 				else $message = $article->getProposalId().':<br/>'.$user->getUsername().' accepted';
 				foreach ($notificationUsers as $userRole) {
-					$url = Request::url(null, $userRole['role'], 'submissionReview', $article->getId(), null, 'peerReview');
-            		$notificationManager->createNotification(
-            			$userRole['id'], 'notification.type.reviewAssignmentConfirmed',
-                		$message, $url, 1, NOTIFICATION_TYPE_REVIEWER_COMMENT
-            		);
+                                    $url = Request::url(null, $userRole['role'], 'submission', array($article->getId(), 'submissionReview'), null, 'peerReview');
+                                    $notificationManager->createNotification(
+                                            $userRole['id'], 'notification.type.reviewAssignmentConfirmed',
+                                            $message, $url, 1, NOTIFICATION_TYPE_REVIEWER_COMMENT
+                                    );
 				}
 				
 				// Add log
@@ -297,10 +297,10 @@ class ReviewerAction extends Action {
 			$user =& Request::getUser();
 			$message = $article->getProposalId().':<br/>'.$user->getUsername();
 			foreach ($notificationUsers as $userRole) {
-                            $url = Request::url(null, $userRole['role'], 'submissionReview', $article->getId(), null, 'peerReview');
+                            $url = Request::url(null, $userRole['role'], 'submission', array($article->getId(), 'submissionReview'), null, 'peerReview');
                             $notificationManager->createNotification(
-                                    $userRole['id'], 'notification.type.reviewerFile',
-                                    $message, $url, 1, NOTIFICATION_TYPE_REVIEWER_COMMENT
+                                $userRole['id'], 'notification.type.reviewerFile',
+                                $message, $url, 1, NOTIFICATION_TYPE_REVIEWER_COMMENT
                             );
 			}
 		}
@@ -330,11 +330,11 @@ class ReviewerAction extends Action {
 			$user =& Request::getUser();
 			$message = $article->getProposalId().':<br/>'.$user->getUsername();
 			foreach ($notificationUsers as $userRole) {
-				$url = Request::url(null, $userRole['role'], 'submissionReview', $article->getId(), null, 'peerReview');
-            	$notificationManager->createNotification(
-            		$userRole['id'], 'notification.type.reviewerFileDeleted',
-                	$message, $url, 1, NOTIFICATION_TYPE_REVIEWER_COMMENT
-            	);
+                            $url = Request::url(null, $userRole['role'], 'submission', array($article->getId(), 'submissionReview'), null, 'peerReview');
+                            $notificationManager->createNotification(
+                                    $userRole['id'], 'notification.type.reviewerFileDeleted',
+                                    $message, $url, 1, NOTIFICATION_TYPE_REVIEWER_COMMENT
+                            );
 			}
 		}
 	}
@@ -379,13 +379,13 @@ class ReviewerAction extends Action {
 				import('lib.pkp.classes.notification.NotificationManager');
 				$notificationManager = new NotificationManager();
 				$notificationUsers = $article->getAssociatedUserIds(false, false, false, true);
-				$url = Request::url(null, 'sectionEditor', 'submissionReview', $article->getId(), null, 'peerReview');
+				$url = Request::url(null, 'sectionEditor', 'submission', array($article->getId(), 'submissionReview'), null, 'peerReview');
 				$param = $article->getProposalId().':<br/>'.$user->getUsername().' commented his review';
 				foreach ($notificationUsers as $userRole) {
-                	$notificationManager->createNotification(
-                    	$userRole['id'], 'notification.type.reviewerComment',
-                        $param, $url, 1, NOTIFICATION_TYPE_REVIEWER_COMMENT
-                    );
+                                    $notificationManager->createNotification(
+                                        $userRole['id'], 'notification.type.reviewerComment',
+                                        $param, $url, 1, NOTIFICATION_TYPE_REVIEWER_COMMENT
+                                    );
 				}
 				
 				if ($emailComment) {
@@ -441,7 +441,7 @@ class ReviewerAction extends Action {
 				$article =& $articleDao->getArticle($articleId);
 				$notificationUsers = $article->getAssociatedUserIds();
 				foreach ($notificationUsers as $userRole) {
-					$url = Request::url(null, $userRole['role'], 'submissionReview', $article->getId(), null, 'peerReview');
+					$url = Request::url(null, $userRole['role'], 'submission', array($article->getId(), 'submissionReview'), null, 'peerReview');
 					$notificationManager->createNotification(
 						$userRole['id'], 'notification.type.reviewerFormComment',
 						$article->getScientificTitle, $url, 1, NOTIFICATION_TYPE_REVIEWER_FORM_COMMENT

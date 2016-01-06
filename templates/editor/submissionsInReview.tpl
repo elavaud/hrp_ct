@@ -34,7 +34,7 @@
 			<tr valign="top">
 				<td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
 				<td>{$submission->getDateSubmitted()|date_format:$dateFormatLong}</td>
-				<td><a href="{url op="submission" path=$submission->getId()}" class="action">{if $submission->getScientificTitle()}{$submission->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}{else}{translate key="common.untitled"}{/if}</a></td>
+				<td><a href="{url op="submission" path=$submission->getId()|to_array:"submissionReview"}" class="action">{if $submission->getScientificTitle()}{$submission->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}{else}{translate key="common.untitled"}{/if}</a></td>
 				<td align="right">
 					{assign var="proposalStatusKey" value=$submission->getProposalStatusKey()}
 					{translate key=$proposalStatusKey}
@@ -89,7 +89,7 @@
 			<tr valign="top">
 				<td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
 				<td>{$submission->getDateSubmitted()|date_format:$dateFormatLong}</td>
-				<td><a href="{url op="submission" path=$submission->getId()}" class="action">title</a></td>
+				<td><a href="{url op="submission" path=$submission->getId()|to_array:"submissionReview"}" class="action">title</a></td>
 				<td>{$submission->getApprovalDate($submission->getLocale())|date_format:$dateFormatLong}</td>
 			</tr>
 			<tr>
@@ -139,7 +139,7 @@
 			<tr valign="top">
 				<td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
 				<td>{$submission->getDateSubmitted()|date_format:$dateFormatLong}</td>
-                <td><a href="{url op="submission" path=$submission->getId()}" class="action">title</a></td>	
+                <td><a href="{url op="submission" path=$submission->getId()|to_array:"submissionReview"}" class="action">title</a></td>	
 			</tr>
 			<tr>
 				<td colspan="6" class="separator">&nbsp;</td>
@@ -189,7 +189,7 @@
 			<tr valign="top">
 				<td>{if $proposalId}{$proposalId|escape}{else}&mdash;{/if}</td>
 				<td>{$submission->getDateSubmitted()|date_format:$dateFormatLong}</td>
-                <td><a href="{url op="submission" path=$submission->getId()}" class="action">title</a></td>		
+                <td><a href="{url op="submission" path=$submission->getId()|to_array:"submissionReview"}" class="action">title</a></td>		
 			</tr>
 			<tr>
 				<td colspan="6" class="separator">&nbsp;</td>

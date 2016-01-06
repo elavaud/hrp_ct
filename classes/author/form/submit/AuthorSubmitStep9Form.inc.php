@@ -324,7 +324,7 @@ class AuthorSubmitStep9Form extends AuthorSubmitForm {
                 
 		import('lib.pkp.classes.notification.NotificationManager');
 		$notificationManager = new NotificationManager();
-		$url = Request::url($journal->getPath(), 'sectionEditor', 'submissionReview', array($article->getId()));
+		$url = Request::url($journal->getPath(), 'sectionEditor', 'submission', array($article->getId(), 'submissionReview'));
                 foreach ($sectionEditors as $sectionEditor) {
                     $notificationManager->createNotification(
                         $sectionEditor->getId(), $message,
