@@ -68,7 +68,7 @@
             {if $isSecretary == true}
                 {if $decision == SUBMISSION_SECTION_DECISION_EXPEDITED || $decision == SUBMISSION_SECTION_DECISION_FULL_REVIEW || ($decision == SUBMISSION_SECTION_DECISION_EXEMPTED && !$sectionDecision->getComments())}
                     <form method="post" action="{url op="downloadApprovalNoticeTemplate"}">
-                        <input type="hidden" name="articleId" value="{$submission->getId()}" />
+                        <input type="hidden" name="articleId" value="{$articleId}" />
                         <tr valign="top">
                             <td title="editor.approvalNotice.templates.instruct" class="label" width="20%">[?] {translate key="editor.approvalNotice.templates"}</td>
                             <td width="80%" class="value">
@@ -81,7 +81,7 @@
                     </form>
                 {/if}
                 <form method="post" action="{url op="recordDecision"}" onSubmit="return checkSize()" enctype="multipart/form-data">
-                    <input type="hidden" name="articleId" value="{$submission->getId()}" />
+                    <input type="hidden" name="articleId" value="{$articleId}" />
                     {if $decision == SUBMISSION_SECTION_NO_DECISION}
                         <tr valign="top" id="reviewSelection">
                             <td title="{translate key="editor.article.selectInitialReviewInstruct"}" class="label" width="20%">[?] {translate key="editor.article.selectInitialReview"}</td>
@@ -111,14 +111,14 @@
                             <tr id="finalDecisionSelection">
                                 <td title="{translate key="editor.article.selectDecisionInstruct"}" class="label" width="20%">[?] {translate key="editor.article.selectDecision"}</td>
                                 <td width="80%" class="value">
-                                    <select id="decision" name="decision" {if $authorFees && !$submissionPayment && $submission->getTotalBudget() > 5000}disabled="disabled"{/if} size="1" class="selectMenu">
+                                    <select id="decision" name="decision" size="1" class="selectMenu">
                                         {if $sectionDecision->getReviewType() == REVIEW_TYPE_INITIAL}
                                             {html_options_translate options=$sectionDecisionOptions selected=0}
                                         {else}
                                             {html_options_translate options=$sectionDecisionOptionsWithoutDeclined selected=0}
                                         {/if}
                                     </select> 
-                                    {if $authorFees && !$submissionPayment && $submission->getTotalBudget() > 5000}
+                                    {if $authorFees && !$submissionPayment}
                                         <i>{translate key="editor.article.payment.paymentConfirm"}</i>
                                     {/if}			
                                 </td>		
@@ -179,7 +179,7 @@
                                                 <tr style="vertical-align:middle" id="reviewFormResponse">
                                                     <td title="{translate key="submission.reviewFormResponseInstruct"}" width="30%" class="label">[?] {translate key="submission.reviewForm"}
                                                     <td width="70%" class="value">
-                                                        <a href="javascript:openComments('{url op="viewReviewFormResponse" path=$submission->getId()|to_array:$reviewAssignment->getId()}');" class="icon">{icon name="comment"}</a>
+                                                        <a href="javascript:openComments('{url op="viewReviewFormResponse" path=$articleId|to_array:$reviewAssignment->getId()}');" class="icon">{icon name="comment"}</a>
                                                     </td>
                                                 </tr>
                                                 {/if}
@@ -187,7 +187,7 @@
                                                 {if $reviewerFile}
                                                     <tr style="vertical-align:middle" id="reviewerFile">
                                                         <td title="{translate key="reviewer.article.uploadedFileInstruct"}" width="30%" class="label">[?] {translate key="reviewer.article.uploadedFile"}</td>
-                                                        <td width="70%" class="value"><a href="{url op="downloadFile" path=$submission->getId()|to_array:$reviewerFile->getFileId()}" class="file">{$reviewerFile->getFileName()|escape}</a></td>
+                                                        <td width="70%" class="value"><a href="{url op="downloadFile" path=$articleId|to_array:$reviewerFile->getFileId()}" class="file">{$reviewerFile->getFileName()|escape}</a></td>
                                                     </tr>
                                                 {/if}
                                                 {if $reviewAssignment->getRecommendation() !== null && $reviewAssignment->getRecommendation() !== ''}

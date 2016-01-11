@@ -19,13 +19,11 @@
 		{if ($submissionPayment->getPayMethodPluginName()) == 'ManualPayment'}Payment received in cash or cheque<br/>Date: {$submissionPayment->getTimestamp()|date_format:$datetimeFormatLong}
 		{elseif ($submissionPayment->getPayMethodPluginName()) == 'Waiver'}Waiver by the secretary<br/>Date: {$submissionPayment->getTimestamp()|date_format:$datetimeFormatLong}
 		{/if}
-	{elseif $submission->getTotalBudget() < 5000}
-		<b>Payment issue solved</b><br/>Payment method:&nbsp;&nbsp;Exempted of fee (under 5000 US$)
 	{else}
 		Please confirm the reception of the waive of the payment:<br/>
-		<input type="button" value="Payment Received" class="button" onclick="confirmAction('{url op="waiveSubmissionFee" path=$submission->getArticleId() markAsPaid=true}', 'Please be sure you received the payment.')" />
-		&nbsp;or&nbsp;<input type="button" value="Waive Payment" class="button" onclick="confirmAction('{url op="waiveSubmissionFee" path=$submission->getArticleId()}', 'Are you sure to waive this payment?')" />
-		{*<a class="action" href="{url op="waiveSubmissionFee" path=$submission->getArticleId() markAsPaid=true}">{translate key="payment.paymentReceived"}</a>&nbsp;|&nbsp;<a class="action" href="{url op="waiveSubmissionFee" path=$submission->getArticleId()}">{translate key="payment.waive"}</a>*}
+		<input type="button" value="Payment Received" class="button" onclick="confirmAction('{url op="waiveSubmissionFee" path=$articleId markAsPaid=true}', 'Please be sure you received the payment.')" />
+		&nbsp;or&nbsp;<input type="button" value="Waive Payment" class="button" onclick="confirmAction('{url op="waiveSubmissionFee" path=$articleId}', 'Are you sure to waive this payment?')" />
+		{*<a class="action" href="{url op="waiveSubmissionFee" path=$articleId markAsPaid=true}">{translate key="payment.paymentReceived"}</a>&nbsp;|&nbsp;<a class="action" href="{url op="waiveSubmissionFee" path=$articleId}">{translate key="payment.waive"}</a>*}
 	{/if}
 		</td>
 	</tr>
@@ -37,7 +35,7 @@
 	{if $fastTrackPayment}
 		{translate key="payment.paid"} {$fastTrackPayment->getTimestamp()|date_format:$datetimeFormatLong}
 	{else}
-		<a class="action" href="{url op="waiveFastTrackFee" path=$submission->getArticleId() markAsPaid=true}">{translate key="payment.paymentReceived"}</a>&nbsp;|&nbsp;<a class="action" href="{url op="waiveFastTrackFee" path=$submission->getArticleId()}">{translate key="payment.waive"}</a>		
+		<a class="action" href="{url op="waiveFastTrackFee" path=$articleId markAsPaid=true}">{translate key="payment.paymentReceived"}</a>&nbsp;|&nbsp;<a class="action" href="{url op="waiveFastTrackFee" path=$articleId}">{translate key="payment.waive"}</a>		
 	{/if}
 		</td>
 	</tr>	
@@ -49,7 +47,7 @@
 	{if $publicationPayment}
 		{translate key="payment.paid"} {$publicationPayment->getTimestamp()|date_format:$datetimeFormatLong}
 	{else}
-		<a class="action" href="{url op="waivePublicationFee" path=$submission->getArticleId() markAsPaid=true}">{translate key="payment.paymentReceived"}</a>&nbsp;|&nbsp;<a class="action" href="{url op="waivePublicationFee" path=$submission->getArticleId()}">{translate key="payment.waive"}</a>		
+		<a class="action" href="{url op="waivePublicationFee" path=$articleId markAsPaid=true}">{translate key="payment.paymentReceived"}</a>&nbsp;|&nbsp;<a class="action" href="{url op="waivePublicationFee" path=$articleId}">{translate key="payment.waive"}</a>		
 	{/if}
 		</td>
 	</tr>
