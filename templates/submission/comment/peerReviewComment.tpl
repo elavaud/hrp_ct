@@ -24,6 +24,9 @@ window.opener.location.reload();
 
 <div id="articleComments">
 <table class="data" width="100%" cellpadding="10" style="width: 75em">
+    
+    <input type="hidden" name="sort" value="id"/>
+    
 <!--
 <tr valign="top">
 	<td width="50%">

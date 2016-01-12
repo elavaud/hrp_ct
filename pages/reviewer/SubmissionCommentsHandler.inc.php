@@ -36,7 +36,7 @@ class SubmissionCommentsHandler extends ReviewerHandler {
 		$reviewId = $args[1];
 
 		$submissionReviewHandler = new SubmissionReviewHandler();
-		$submissionReviewHandler->validate($reviewId);
+		$submissionReviewHandler->validate($articleId);
 		$submission =& $submissionReviewHandler->submission;
 		$user =& $submissionReviewHandler->user;
 
@@ -56,7 +56,7 @@ class SubmissionCommentsHandler extends ReviewerHandler {
 		$emailComment = Request::getUserVar('saveAndEmail') != null ? true : false;
 
 		$submissionReviewHandler = new SubmissionReviewHandler();
-		$submissionReviewHandler->validate($reviewId);
+		$submissionReviewHandler->validate($articleId);
 		$submission =& $submissionReviewHandler->submission;
 		$user =& $submissionReviewHandler->user;
 

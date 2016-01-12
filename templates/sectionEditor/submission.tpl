@@ -9,9 +9,9 @@
  * $Id$
  *}
 {strip}
-{translate|assign:"pageTitleTranslated" key="submission.page.summary" id=$proposalId}
-{assign var="pageCrumbTitle" value="submission.summary"}
-{include file="common/header.tpl"}
+    {translate|assign:"pageTitleTranslated" key="submission.page.summary" id=$proposalId}
+    {assign var="pageCrumbTitle" value="common.queue.short.$pageToDisplay"}
+    {include file="common/header.tpl"}
 {/strip}
 
 

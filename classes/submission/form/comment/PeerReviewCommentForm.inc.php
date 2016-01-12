@@ -40,7 +40,6 @@ class PeerReviewCommentForm extends CommentForm {
 	function display() {
 		$reviewAssignmentDao =& DAORegistry::getDAO('ReviewAssignmentDAO');
 		$reviewAssignment =& $reviewAssignmentDao->getById($this->reviewId);
-		$reviewLetters =& $reviewAssignmentDao->getReviewIndexesForDecision($this->article->getLastSectionDecisionId());
 		
 		$templateMgr =& TemplateManager::getManager();
 		$templateMgr->assign('commentType', 'peerReview');
@@ -50,7 +49,6 @@ class PeerReviewCommentForm extends CommentForm {
 		$templateMgr->assign('isLocked', isset($reviewAssignment) && $reviewAssignment->getDateCompleted() != null);
 		$templateMgr->assign('canEmail', false); // Previously, editors could always email.
 		$templateMgr->assign('showReviewLetters', ($this->roleId == ROLE_ID_EDITOR || $this->roleId == ROLE_ID_SECTION_EDITOR) ? true : false);
-		$templateMgr->assign('reviewLetters', $reviewLetters);
 		$templateMgr->assign('reviewer', ROLE_ID_REVIEWER);
 		$templateMgr->assign('hiddenFormParams', 
 			array(

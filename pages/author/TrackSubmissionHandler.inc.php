@@ -132,7 +132,6 @@ class TrackSubmissionHandler extends AuthorHandler {
 		$templateMgr->assign_by_ref('journalSettings', $journalSettings);
 		$templateMgr->assign_by_ref('submissionFile', $submission->getSubmissionFile());
 		$templateMgr->assign_by_ref('previousFiles', $submission->getPreviousFiles());
-		$templateMgr->assign_by_ref('revisedFile', $submission->getRevisedFile());
 		$templateMgr->assign_by_ref('suppFiles', $suppFiles);
 		$templateMgr->assign_by_ref('reportFiles', $submission->getReportFiles());
 		$templateMgr->assign_by_ref('saeFiles', $submission->getSAEFiles());

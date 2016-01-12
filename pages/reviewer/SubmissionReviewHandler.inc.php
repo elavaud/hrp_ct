@@ -47,8 +47,31 @@ class SubmissionReviewHandler extends ReviewerHandler {
                 $currencyDao =& DAORegistry::getDAO('CurrencyDAO');
 		$articleFileDao =& DAORegistry::getDao('ArticleFileDAO');
 		$meetingSectionDecisionDao =& DAORegistry::getDAO('MeetingSectionDecisionDAO');
+                $journalSettingsDao =& DAORegistry::getDAO('JournalSettingsDAO');
+		$sectionDao =& DAORegistry::getDAO('SectionDAO');                
+		$suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
+		$countryDao =& DAORegistry::getDAO('CountryDAO');
+		$articleDrugInfoDao =& DAORegistry::getDAO('ArticleDrugInfoDAO');
+                $extraFieldDAO =& DAORegistry::getDAO('ExtraFieldDAO');
+                
 
                 $this->setupTemplate(false, 0, $submission->getArticleId());
+                
+                $suppFiles = $submission->getSuppFiles();
+                foreach ($suppFiles as $suppFile) {
+                    $suppFile->setType(Locale::translate($suppFile->getTypeKey()));
+                }
+		$section =& $sectionDao->getSection($submission->getSectionId());
+                $canEditMetadata = false;
+                $canEditFiles = false;
+                $details = $submission->getArticleDetails();
+                $showAdvertisements = false;
+                $advertisements = array();
+                if ($details->getAdvertisingScheme() == ARTICLE_DETAIL_YES) {
+                    $showAdvertisements = true;
+                    $advertisements = $suppFileDao->getSuppFilesByArticleAndType($submission->getArticleId(), SUPP_FILE_ADVERTISEMENT);
+                }
+                
 		$templateMgr =& TemplateManager::getManager();
 
                 // Get the decisions concerned by a meeting but where the user has not been assigned to review. Only to attend the meeting (array will be cleaned after in this function)
@@ -99,26 +122,51 @@ class SubmissionReviewHandler extends ReviewerHandler {
                     $templateMgr->assign('otherDecisionsExist', false);
                 }
                 
+		$templateMgr->assign('articleId', $articleId);  
+		$templateMgr->assign('proposalId', $submission->getProposalId()); 
+		$templateMgr->assign('scientificTitle', $submission->getScientificTitle()); 
+		$templateMgr->assign_by_ref('submitter', $submission->getUser()); 
+		$templateMgr->assign('dateSubmitted', $submission->getDateSubmitted()); 
 		$templateMgr->assign_by_ref('user', $user);
-		$templateMgr->assign_by_ref('submission', $submission);
-		$templateMgr->assign_by_ref('reviewFile', $submission->getSubmissionFile());
+		$templateMgr->assign_by_ref('submissionFile', $submission->getSubmissionFile());
+		$templateMgr->assign_by_ref('previousFiles', $articleFileDao->getPreviousFilesByArticleId($submission->getId()));
 		$templateMgr->assign_by_ref('reviewerFile', $submission->getReviewerFile());
-		$templateMgr->assign_by_ref('suppFiles', $submission->getSuppFiles());
+		$templateMgr->assign_by_ref('suppFiles', $suppFiles);
 		$templateMgr->assign_by_ref('reportFiles', $submission->getReportFiles());
 		$templateMgr->assign_by_ref('saeFiles', $submission->getSAEFiles());
-		$templateMgr->assign_by_ref('previousFiles', $articleFileDao->getPreviousFilesByArticleId($submission->getId()));
+                $templateMgr->assign('canEditMetadata', $canEditMetadata);
+                $templateMgr->assign('canEditFiles', $canEditFiles);
 		$templateMgr->assign_by_ref('journal', $journal);
+                $templateMgr->assign_by_ref('articleDetails', $details);
+                $templateMgr->assign_by_ref('articleTexts', $submission->getArticleTexts());
+                $templateMgr->assign_by_ref('articleSecIds', $submission->getArticleSecIds());
+                $templateMgr->assign_by_ref('articlePurposes', $submission->getArticlePurposes());
+                $templateMgr->assign('articleTextLocales', $journal->getSupportedLocaleNames());
+                $templateMgr->assign_by_ref('articlePrimaryOutcomes', $submission->getArticleOutcomesByType(ARTICLE_OUTCOME_PRIMARY));
+                $templateMgr->assign_by_ref('articleSecondaryOutcomes', $submission->getArticleOutcomesByType(ARTICLE_OUTCOME_SECONDARY));
+                $templateMgr->assign('coveringArea', $journal->getLocalizedSetting('location'));
+                $templateMgr->assign('coutryList', $countryDao->getCountries());
+		$templateMgr->assign('showAdvertisements', $showAdvertisements);
+		$templateMgr->assign_by_ref('advertisements', $advertisements);
+                $templateMgr->assign_by_ref('articleDrugs', $submission->getArticleDrugs());
+                $templateMgr->assign('pharmaClasses', $articleDrugInfoDao->getPharmaClasses());
+                $templateMgr->assign('drugStudyClasses', $articleDrugInfoDao->getClassMap());
+                $templateMgr->assign_by_ref('articleSites', $submission->getArticleSites());
+                $templateMgr->assign('expertisesList', $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_THERAPEUTIC_AREA, EXTRA_FIELD_ACTIVE));
+                $templateMgr->assign_by_ref('fundingSources', $submission->getArticleFundingSources());
+                $templateMgr->assign_by_ref('pSponsor', $submission->getArticlePrimarySponsor());
+                $templateMgr->assign_by_ref('sSponsors', $submission->getArticleSecondarySponsors());
+                $templateMgr->assign_by_ref('CROs', $submission->getArticleCROs());
+                $templateMgr->assign_by_ref('contact', $submission->getArticleContact());
 		$templateMgr->assign_by_ref('reviewGuidelines', $journal->getLocalizedSetting('reviewGuidelines'));
-                
 		import('classes.submission.reviewAssignment.ReviewAssignment');
 		$templateMgr->assign_by_ref('reviewerRecommendationOptions', ReviewAssignment::getReviewerRecommendationOptions());
                 $templateMgr->assign_by_ref('abstractLocales', $journal->getSupportedLocaleNames());
 		$templateMgr->assign('helpTopicId', 'editorial.reviewersRole.review');
-
                 $sourceCurrencyId = $journal->getSetting('sourceCurrency');
                 $templateMgr->assign('sourceCurrency', $currencyDao->getCurrencyByAlphaCode($sourceCurrencyId));                
-                
                 $templateMgr->assign('pageToDisplay', $page);
+		$templateMgr->assign_by_ref('section', $section);
                 
 		$templateMgr->display('reviewer/submission.tpl');
 	}

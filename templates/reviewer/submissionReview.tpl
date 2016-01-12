@@ -369,7 +369,7 @@
                             <td class="label" width="30%">{translate key="submission.recommendation"}</td>
                             <td class="value" width="70%">
                                 {if $undergoingAssignment->getRecommendation() !== null && $undergoingAssignment->getRecommendation() !== ''}
-                                    {assign var="recommendation" value=$submission->getRecommendation()}
+                                    {assign var="recommendation" value=$undergoingAssignment->getRecommendation()}
                                     <strong>{translate key=$reviewerRecommendationOptions.$recommendation}</strong>&nbsp;&nbsp;
                                     {$undergoingAssignment->getDateCompleted()|date_format:$dateFormatShort}
                                 {else}
