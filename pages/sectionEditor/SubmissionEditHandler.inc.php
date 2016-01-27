@@ -246,6 +246,7 @@ class SubmissionEditHandler extends SectionEditorHandler {
 			
 		$templateMgr =& TemplateManager::getManager();
 		$templateMgr->assign('articleId', $submission->getArticleId());  
+                $templateMgr->assign('scientificTitle', $submission->getScientificTitle()); 
 		$templateMgr->assign('submitter', $submission->getUser()); 
 		$templateMgr->assign('commentsToEditor', $submission->getCommentsToEditor()); 
 		$templateMgr->assign('dateSubmitted', $submission->getDateSubmitted()); 
