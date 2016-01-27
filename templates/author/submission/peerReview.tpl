@@ -34,7 +34,7 @@
 					</td>
 					<td class="value" width="80%">
 						{foreach from=$reviewerFiles item=reviewerFile}
-									<a href="{url op="downloadFile" path=$submission->getId()|to_array:$reviewerFile->getFileId()}" class="file">{$reviewerFile->getFileName()|escape}</a>&nbsp;&nbsp;{$reviewerFile->getDateModified()|date_format:$dateFormatLong}<br />
+									<a href="{url op="downloadFile" path=$articleId|to_array:$reviewerFile->getFileId()}" class="file">{$reviewerFile->getFileName()|escape}</a>&nbsp;&nbsp;{$reviewerFile->getDateModified()|date_format:$dateFormatLong}<br />
 						{/foreach}
 					</td>
 				</tr>
@@ -46,7 +46,7 @@
 					</td>
 					<td class="value" width="80%">
 						{foreach from=$editorFiles item=editorFile}
-							<a href="{url op="downloadFile" path=$submission->getId()|to_array:$editorFile->getFileId()}" class="file">{$editorFile->getFileName()|escape}</a>&nbsp;&nbsp;{$editorFile->getDateModified()|date_format:$dateFormatLong}<br />
+							<a href="{url op="downloadFile" path=$articleId|to_array:$editorFile->getFileId()}" class="file">{$editorFile->getFileName()|escape}</a>&nbsp;&nbsp;{$editorFile->getDateModified()|date_format:$dateFormatLong}<br />
 						{/foreach}
 					</td>
 				</tr>
