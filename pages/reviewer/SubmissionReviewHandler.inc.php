@@ -311,6 +311,15 @@ class SubmissionReviewHandler extends ReviewerHandler {
 			Request::redirect(null, null, 'submission', $articleId);
 		}
 	}
+        
+	/**
+	 * Redirect to download a file.
+	 * @param $args array ($articleId, $fileId)
+	 */
+	function download($args) {
+		$this->downloadFile($args);
+	}
+        
 	
 	//
 	// Review Form
