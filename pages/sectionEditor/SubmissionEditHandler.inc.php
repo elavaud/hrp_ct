@@ -2177,6 +2177,14 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		}
 	}
 
+        /**
+	 * Redirect to download a file.
+	 * @param $args array ($articleId, $fileId)
+	 */
+	function download($args) {
+		$this->downloadFile($args);
+	}
+
 	/**
 	 * Download a file.
 	 * @param $args array ($articleId, $fileId)

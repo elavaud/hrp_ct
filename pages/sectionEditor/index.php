@@ -116,6 +116,7 @@ switch ($op) {
 	// Misc.
 	//
 	case 'downloadFile':
+	case 'download':
         case 'downloadApprovalNoticeTemplate':
 	case 'viewFile':
 	case 'section':
