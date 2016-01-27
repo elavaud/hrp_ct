@@ -40,100 +40,104 @@ class SubmissionEditHandler extends SectionEditorHandler {
 		$articleId = isset($args[0]) ? (int) $args[0] : 0;
 		$page = isset($args[1]) ? $args[1] : 'submissionReview';   
                 
-		$this->validate($articleId);
-		$journal =& Request::getJournal();
-		$submission =& $this->submission;
+                if ($page == 'submissionReview') {
+                    $this->submissionReview($args);
+                } else {
+                    $this->validate($articleId);
+                    $journal =& Request::getJournal();
+                    $submission =& $this->submission;
 
-		// FIXME? For comments.readerComments under Status and
-		// author.submit.selectPrincipalContact under Metadata
-		Locale::requireComponents(array(LOCALE_COMPONENT_PKP_READER, LOCALE_COMPONENT_OJS_AUTHOR));
+                    // FIXME? For comments.readerComments under Status and
+                    // author.submit.selectPrincipalContact under Metadata
+                    Locale::requireComponents(array(LOCALE_COMPONENT_PKP_READER, LOCALE_COMPONENT_OJS_AUTHOR));
 
-		$this->setupTemplate(1, $articleId);
+                    $this->setupTemplate(1, $articleId);
 
-		$user =& Request::getUser();
+                    $user =& Request::getUser();
 
-		$journalSettingsDao =& DAORegistry::getDAO('JournalSettingsDAO');
-		$roleDao =& DAORegistry::getDAO('RoleDAO');
-		$sectionDao =& DAORegistry::getDAO('SectionDAO');
-		$suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
-		$countryDao =& DAORegistry::getDAO('CountryDAO');
-		$articleDrugInfoDao =& DAORegistry::getDAO('ArticleDrugInfoDAO');
-                $extraFieldDAO =& DAORegistry::getDAO('ExtraFieldDAO');
-                $currencyDao =& DAORegistry::getDAO('CurrencyDAO');
-                
-                
-		$journalSettings = $journalSettingsDao->getJournalSettings($journal->getId());
-		$isEditor = $roleDao->roleExists($journal->getId(), $user->getId(), ROLE_ID_EDITOR);
-		$isSectionEditor = $roleDao->roleExists($journal->getId(), $user->getId(), ROLE_ID_SECTION_EDITOR);
-		$section =& $sectionDao->getSection($submission->getSectionId());
-		$enableComments = $journal->getSetting('enableComments');
-                $suppFiles = $submission->getSuppFiles();
-                foreach ($suppFiles as $suppFile) {
-                    $suppFile->setType(Locale::translate($suppFile->getTypeKey()));
+                    $journalSettingsDao =& DAORegistry::getDAO('JournalSettingsDAO');
+                    $roleDao =& DAORegistry::getDAO('RoleDAO');
+                    $sectionDao =& DAORegistry::getDAO('SectionDAO');
+                    $suppFileDao =& DAORegistry::getDAO('SuppFileDAO');
+                    $countryDao =& DAORegistry::getDAO('CountryDAO');
+                    $articleDrugInfoDao =& DAORegistry::getDAO('ArticleDrugInfoDAO');
+                    $extraFieldDAO =& DAORegistry::getDAO('ExtraFieldDAO');
+                    $currencyDao =& DAORegistry::getDAO('CurrencyDAO');
+
+
+                    $journalSettings = $journalSettingsDao->getJournalSettings($journal->getId());
+                    $isEditor = $roleDao->roleExists($journal->getId(), $user->getId(), ROLE_ID_EDITOR);
+                    $isSectionEditor = $roleDao->roleExists($journal->getId(), $user->getId(), ROLE_ID_SECTION_EDITOR);
+                    $section =& $sectionDao->getSection($submission->getSectionId());
+                    $enableComments = $journal->getSetting('enableComments');
+                    $suppFiles = $submission->getSuppFiles();
+                    foreach ($suppFiles as $suppFile) {
+                        $suppFile->setType(Locale::translate($suppFile->getTypeKey()));
+                    }
+                    $details = $submission->getArticleDetails();
+                    $showAdvertisements = false;
+                    $advertisements = array();
+                    if ($details->getAdvertisingScheme() == ARTICLE_DETAIL_YES) {
+                        $showAdvertisements = true;
+                        $advertisements = $suppFileDao->getSuppFilesByArticleAndType($submission->getArticleId(), SUPP_FILE_ADVERTISEMENT);
+                    }
+
+                    $templateMgr =& TemplateManager::getManager();
+                    $templateMgr->assign('pageToDisplay', $page);     
+                    $templateMgr->assign('articleId', $submission->getArticleId());  
+                    $templateMgr->assign('proposalId', $submission->getProposalId()); 
+                    $templateMgr->assign('scientificTitle', $submission->getScientificTitle()); 
+                    $templateMgr->assign('submitter', $submission->getUser()); 
+                    $templateMgr->assign('dateSubmitted', $submission->getDateSubmitted()); 
+                    $templateMgr->assign_by_ref('section', $section);
+                    $templateMgr->assign_by_ref('submissionFile', $submission->getSubmissionFile());
+                    $templateMgr->assign_by_ref('suppFiles', $suppFiles);
+                    $templateMgr->assign_by_ref('reportFiles', $submission->getReportFiles());
+                    $templateMgr->assign_by_ref('saeFiles', $submission->getSAEFiles());
+                    $templateMgr->assign_by_ref('previousFiles', $submission->getPreviousFiles());
+                    $templateMgr->assign_by_ref('reviewFile', $submission->getReviewFile());
+                    $templateMgr->assign_by_ref('journalSettings', $journalSettings);
+                    $templateMgr->assign('userId', $user->getId());
+                    $templateMgr->assign('isEditor', $isEditor);
+                    $templateMgr->assign('isSectionEditor', $isSectionEditor);
+                    $templateMgr->assign('enableComments', $enableComments);
+                    $templateMgr->assign_by_ref('sections', $sectionDao->getSectionTitles($journal->getId()));
+                    $templateMgr->assign_by_ref('sectionDecisions', $submission->getDecisions());
+                    $templateMgr->assign_by_ref('articleDetails', $details);
+                    $templateMgr->assign_by_ref('articleTexts', $submission->getArticleTexts());
+                    $templateMgr->assign_by_ref('articleSecIds', $submission->getArticleSecIds());
+                    $templateMgr->assign_by_ref('articlePurposes', $submission->getArticlePurposes());
+                    $templateMgr->assign('articleTextLocales', $journal->getSupportedLocaleNames());
+                    $templateMgr->assign_by_ref('articlePrimaryOutcomes', $submission->getArticleOutcomesByType(ARTICLE_OUTCOME_PRIMARY));
+                    $templateMgr->assign_by_ref('articleSecondaryOutcomes', $submission->getArticleOutcomesByType(ARTICLE_OUTCOME_SECONDARY));
+                    $templateMgr->assign('coveringArea', $journal->getLocalizedSetting('location'));
+                    $templateMgr->assign('coutryList', $countryDao->getCountries());
+                    $templateMgr->assign('showAdvertisements', $showAdvertisements);
+                    $templateMgr->assign_by_ref('advertisements', $advertisements);
+                    $templateMgr->assign_by_ref('articleDrugs', $submission->getArticleDrugs());
+                    $templateMgr->assign('pharmaClasses', $articleDrugInfoDao->getPharmaClasses());
+                    $templateMgr->assign('drugStudyClasses', $articleDrugInfoDao->getClassMap());
+                    $templateMgr->assign_by_ref('articleSites', $submission->getArticleSites());
+                    $templateMgr->assign('expertisesList', $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_THERAPEUTIC_AREA, EXTRA_FIELD_ACTIVE));
+                    $templateMgr->assign_by_ref('fundingSources', $submission->getArticleFundingSources());
+                    $templateMgr->assign_by_ref('pSponsor', $submission->getArticlePrimarySponsor());
+                    $templateMgr->assign_by_ref('sSponsors', $submission->getArticleSecondarySponsors());
+                    $templateMgr->assign_by_ref('CROs', $submission->getArticleCROs());
+                    $templateMgr->assign_by_ref('contact', $submission->getArticleContact());                
+                    if ($enableComments) {
+                            import('classes.article.Article');
+                            $templateMgr->assign('commentsStatus', $submission->getCommentsStatus());
+                            $templateMgr->assign_by_ref('commentsStatusOptions', Article::getCommentsStatusOptions());
+                    }
+                    if ($isEditor) {
+                            $templateMgr->assign('helpTopicId', 'editorial.editorsRole.submissionSummary');
+                    }
+                    $templateMgr->assign('canEditMetadata', true);
+
+                    $sourceCurrencyId = $journal->getSetting('sourceCurrency');
+                    $templateMgr->assign('sourceCurrency', $currencyDao->getCurrencyByAlphaCode($sourceCurrencyId));                
+                    $templateMgr->display('sectionEditor/submission.tpl');
                 }
-                $details = $submission->getArticleDetails();
-                $showAdvertisements = false;
-                $advertisements = array();
-                if ($details->getAdvertisingScheme() == ARTICLE_DETAIL_YES) {
-                    $showAdvertisements = true;
-                    $advertisements = $suppFileDao->getSuppFilesByArticleAndType($submission->getArticleId(), SUPP_FILE_ADVERTISEMENT);
-                }
-                
-		$templateMgr =& TemplateManager::getManager();
-		$templateMgr->assign('pageToDisplay', $page);     
-		$templateMgr->assign('articleId', $submission->getArticleId());  
-		$templateMgr->assign('proposalId', $submission->getProposalId()); 
-		$templateMgr->assign('scientificTitle', $submission->getScientificTitle()); 
-		$templateMgr->assign('submitter', $submission->getUser()); 
-		$templateMgr->assign('dateSubmitted', $submission->getDateSubmitted()); 
-		$templateMgr->assign_by_ref('section', $section);
-		$templateMgr->assign_by_ref('submissionFile', $submission->getSubmissionFile());
-		$templateMgr->assign_by_ref('suppFiles', $suppFiles);
-		$templateMgr->assign_by_ref('reportFiles', $submission->getReportFiles());
-		$templateMgr->assign_by_ref('saeFiles', $submission->getSAEFiles());
-		$templateMgr->assign_by_ref('previousFiles', $submission->getPreviousFiles());
-		$templateMgr->assign_by_ref('reviewFile', $submission->getReviewFile());
-		$templateMgr->assign_by_ref('journalSettings', $journalSettings);
-		$templateMgr->assign('userId', $user->getId());
-		$templateMgr->assign('isEditor', $isEditor);
-		$templateMgr->assign('isSectionEditor', $isSectionEditor);
-		$templateMgr->assign('enableComments', $enableComments);
-		$templateMgr->assign_by_ref('sections', $sectionDao->getSectionTitles($journal->getId()));
-		$templateMgr->assign_by_ref('sectionDecisions', $submission->getDecisions());
-                $templateMgr->assign_by_ref('articleDetails', $details);
-                $templateMgr->assign_by_ref('articleTexts', $submission->getArticleTexts());
-                $templateMgr->assign_by_ref('articleSecIds', $submission->getArticleSecIds());
-                $templateMgr->assign_by_ref('articlePurposes', $submission->getArticlePurposes());
-                $templateMgr->assign('articleTextLocales', $journal->getSupportedLocaleNames());
-                $templateMgr->assign_by_ref('articlePrimaryOutcomes', $submission->getArticleOutcomesByType(ARTICLE_OUTCOME_PRIMARY));
-                $templateMgr->assign_by_ref('articleSecondaryOutcomes', $submission->getArticleOutcomesByType(ARTICLE_OUTCOME_SECONDARY));
-                $templateMgr->assign('coveringArea', $journal->getLocalizedSetting('location'));
-                $templateMgr->assign('coutryList', $countryDao->getCountries());
-		$templateMgr->assign('showAdvertisements', $showAdvertisements);
-		$templateMgr->assign_by_ref('advertisements', $advertisements);
-                $templateMgr->assign_by_ref('articleDrugs', $submission->getArticleDrugs());
-                $templateMgr->assign('pharmaClasses', $articleDrugInfoDao->getPharmaClasses());
-                $templateMgr->assign('drugStudyClasses', $articleDrugInfoDao->getClassMap());
-                $templateMgr->assign_by_ref('articleSites', $submission->getArticleSites());
-                $templateMgr->assign('expertisesList', $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_THERAPEUTIC_AREA, EXTRA_FIELD_ACTIVE));
-                $templateMgr->assign_by_ref('fundingSources', $submission->getArticleFundingSources());
-                $templateMgr->assign_by_ref('pSponsor', $submission->getArticlePrimarySponsor());
-                $templateMgr->assign_by_ref('sSponsors', $submission->getArticleSecondarySponsors());
-                $templateMgr->assign_by_ref('CROs', $submission->getArticleCROs());
-                $templateMgr->assign_by_ref('contact', $submission->getArticleContact());                
-		if ($enableComments) {
-			import('classes.article.Article');
-			$templateMgr->assign('commentsStatus', $submission->getCommentsStatus());
-			$templateMgr->assign_by_ref('commentsStatusOptions', Article::getCommentsStatusOptions());
-		}
-		if ($isEditor) {
-			$templateMgr->assign('helpTopicId', 'editorial.editorsRole.submissionSummary');
-		}
-		$templateMgr->assign('canEditMetadata', true);
-            
-                $sourceCurrencyId = $journal->getSetting('sourceCurrency');
-                $templateMgr->assign('sourceCurrency', $currencyDao->getCurrencyByAlphaCode($sourceCurrencyId));                
-		$templateMgr->display('sectionEditor/submission.tpl');
 	}
 	
 	/*
