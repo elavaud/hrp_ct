@@ -219,6 +219,18 @@ class ArticleSite extends DataObject {
 		return null;
 	}
         /**
+	 * Get primary investigator for this site.
+	 * @return object Author
+	 */
+	function &getPrimaryInvestigator() {
+                foreach ($this->investigators as $investigator) {
+                    if ($investigator->getPrimaryContact() == true) {
+                        return $investigator;
+                    }
+                }
+		return null;
+	}
+        /**
 	 * Get the IDs of all investigators removed from this site.
 	 * @return array int
 	 */

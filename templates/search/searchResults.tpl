@@ -101,48 +101,43 @@ $(document).ready(
 	<table width="100%" class="listing">
 		<tr class="heading" valign="bottom">
 			<td>{sort_heading key='article.title' sort="title"}</td>
-			<td>{sort_heading key='proposal.keyImplInstitution' sort="kii"}</td>
-			<td>{sort_heading key='search.region' sort="region"}</td>
-			<td>{sort_heading key='search.researchField' sort="researchField"}</td>
-			<td>{sort_heading key='search.researchDates' sort="researchDates"}</td>
+			<td>{sort_heading key='proposal.articleSponsor.primarySponsor' sort="sponsor"}</td>
+			<td>{sort_heading key='proposal.therapeuticArea' sort="therapeuticarea"}</td>
 			<td>{sort_heading key="common.status" sort="status"}</td>
 		</tr>
 		<tr>
-			<td colspan="6" class="headseparator">&nbsp;</td>
+			<td colspan="4" class="headseparator">&nbsp;</td>
 		</tr>
 		<p></p>
 		{iterate from=results item=result}
 			<tr valign="bottom">
-				<td><a href="{url op="viewProposal" path=$result->getId()}" class="action">title</a></td>
-				<td>oinstitution</td>
-				<td>
-				</td>
-				<td>research field</td>
-				<td>start date to end date</td>
+				<td><a href="{url op="viewProposal" path=$result->getId()}" class="action">{$result->getScientificTitle()|escape}</a></td>
+				<td>{$result->getArticlePrimarySponsorName()|escape}</td>
+				<td>{$result->getArticleTherapeuticArea()|escape}</td>
 				<td>
                                     {if $result->getStatus() == STATUS_COMPLETED}
                                         {translate key="common.queue.short.completedResearches"}
                                 	{assign var="finalReport" value=$result->getPublishedFinalReport()}
                                 	<br/><a href="{url op="downloadFinalReport" path=$result->getArticleId()|to_array:$finalReport->getFileId()}" class="file">{translate key="search.downloadFinalReport"}</a>
                                     {else}
-                                        {translate key="common.queue.short.ongoingResearches"}
+                                        {$result->getArticleRecruitmentStatus()|escape}
                                     {/if}
                                 </td>
 			</tr>
 			<tr>
-				<td colspan="6" class="{if $results->eof()}end{/if}separator">&nbsp;</td>
+				<td colspan="4" class="{if $results->eof()}end{/if}separator">&nbsp;</td>
 			</tr>
 		{/iterate}
 		{if $results->wasEmpty()}
 			<tr>
-				<td colspan="6" class="nodata">{translate key="search.noResults"}</td>
+				<td colspan="4" class="nodata">{translate key="search.noResults"}</td>
 			</tr>
 			<tr>
-				<td colspan="6" class="endseparator">&nbsp;</td>
+				<td colspan="4" class="endseparator">&nbsp;</td>
 			</tr>
 		{else}
 			<tr>
-				<td colspan="4" align="left">{page_info iterator=$results}</td>
+				<td colspan="2" align="left">{page_info iterator=$results}</td>
 				<td align="right" colspan="2">{page_links anchor="results" iterator=$results name="search" query=$query dateFrom=$dateFrom dateTo=$dateTo proposalCountry=$country status=$statusFilter sort=$sort sortDirection=$sortDirection}</td>
 			</tr>
 		{/if}

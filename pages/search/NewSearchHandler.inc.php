@@ -215,19 +215,53 @@ class NewSearchHandler extends Handler {
 	}
 	
 	function viewProposal($args) {
+		$journal =& Request::getJournal();
 		$articleId = isset($args[0]) ? (int) $args[0] : 0;
 		$this->setupTemplate(true, $articleId);
+                
 		$articleDao =& DAORegistry::getDAO('ArticleDAO');
-		$submission = $articleDao->getArticle($articleId);
-		$templateMgr =& TemplateManager::getManager();
-		$templateMgr->assign_by_ref('results', $results);
-		$templateMgr->assign('query', Request::getUserVar('query'));
-		
+		$countryDao =& DAORegistry::getDAO('CountryDAO');
+                $extraFieldDAO =& DAORegistry::getDAO('ExtraFieldDAO');
+                
 		$proposal = $articleDao->getArticle($articleId);
+                $articleDetails = $proposal->getArticleDetails();
+                
+		$templateMgr =& TemplateManager::getManager();
+		$templateMgr->assign('query', Request::getUserVar('query'));
+		$templateMgr->assign('locale', Locale::getLocale());                
+		$templateMgr->assign('status', $proposal->getStatus());
+		$templateMgr->assign('articleId', $articleId);       
+		$templateMgr->assign('proposalId', $proposal->getProposalId());  
 		$templateMgr->assign_by_ref('finalReport', $proposal->getPublishedFinalReport());
-			
-		$templateMgr->assign_by_ref('submission', $submission);
-		
+		$templateMgr->assign_by_ref('articleText', $proposal->getLocalizedArticleText());
+                $templateMgr->assign_by_ref('articleSecIds', $proposal->getArticleSecIds());
+		$templateMgr->assign('recruitmentStatusKey', $articleDetails->getRecruitmentStatusKey());
+		$templateMgr->assign('therapeuticArea', $articleDetails->getRightTherapeuticAreaDisplay());
+		$templateMgr->assign('icd10s', $articleDetails->getHealthCondDiseaseArrayToDisplay());
+                $templateMgr->assign_by_ref('articlePurposes', $proposal->getArticlePurposes());
+                $templateMgr->assign_by_ref('articlePrimaryOutcomes', $proposal->getArticleOutcomesByType(ARTICLE_OUTCOME_PRIMARY));
+                $templateMgr->assign_by_ref('articleSecondaryOutcomes', $proposal->getArticleOutcomesByType(ARTICLE_OUTCOME_SECONDARY));
+		$templateMgr->assign('minAge', $articleDetails->getMinAgeNum());
+		$templateMgr->assign('minAgeUnitKey', $articleDetails->getMinAgeUnitKey());
+		$templateMgr->assign('maxAge', $articleDetails->getMaxAgeNum());
+		$templateMgr->assign('maxAgeUnitKey', $articleDetails->getMaxAgeUnitKey());
+		$templateMgr->assign('sexKey', $articleDetails->getSexKey());
+		$templateMgr->assign('healthyYesNoKey', $articleDetails->getYesNoKey($articleDetails->getHealthy()));
+                $templateMgr->assign('coveringArea', $journal->getLocalizedSetting('location'));
+		$templateMgr->assign('localeSampleSize', $articleDetails->getLocaleSampleSize());
+		$templateMgr->assign('multinationalYesNoKey', $articleDetails->getYesNoKey($articleDetails->getMultinational()));
+		$templateMgr->assign('multinational', $articleDetails->getMultinational());
+                $templateMgr->assign('coutryList', $countryDao->getCountries());
+		$templateMgr->assign('intSampleSizeArray', $articleDetails->getIntSampleSizeArray());
+		$templateMgr->assign('startDate', $articleDetails->getStartDate());
+		$templateMgr->assign('endDate', $articleDetails->getEndDate());
+                $templateMgr->assign_by_ref('articleSites', $proposal->getArticleSites());
+                $templateMgr->assign('expertisesList', $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_THERAPEUTIC_AREA, EXTRA_FIELD_ACTIVE));
+                $templateMgr->assign_by_ref('fundingSources', $proposal->getArticleFundingSources());
+                $templateMgr->assign_by_ref('pSponsor', $proposal->getArticlePrimarySponsor());
+                $templateMgr->assign_by_ref('sSponsors', $proposal->getArticleSecondarySponsors());
+                $templateMgr->assign_by_ref('contact', $proposal->getArticleContact());                
+                
 		$templateMgr->display('search/viewProposal.tpl');
 	}
 	/**

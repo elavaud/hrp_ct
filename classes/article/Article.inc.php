@@ -1320,6 +1320,22 @@ class Article extends Submission {
 
         
         /**
+	 * Get the article primary sponsor name for this submission.
+	 * @return string
+	 */
+	function &getArticlePrimarySponsorName() {
+		return $this->getData('articlePrimarySponsorName');
+	}
+        /**
+	 * Set article primary sponsor Name of this submission.
+	 * @param $articlePrimarySponsorName string
+	 */
+	function setArticlePrimarySponsorName($articlePrimarySponsorName) {
+		return $this->setData('articlePrimarySponsorName', $articlePrimarySponsorName);
+	}
+
+        
+        /**
 	 * Add an article secondary sponsor.
 	 * @param $articleSponsor ArticleSponsor
 	 */
@@ -1516,5 +1532,47 @@ class Article extends Submission {
 	function setScientificTitle($scientificTitle) {
 		return $this->setData('scientificTitle', $scientificTitle);
 	}
+        
+        
+        /**
+	 * Set therapeutic area.
+	 * @param $therapeuticArea string
+	 */
+	function setArticleTherapeuticArea($therapeuticArea) {
+                return $this->setData('articleTherapeuticArea', $therapeuticArea);
+	}
+	/**
+	 * Get therapeutic area.
+	 * @return string
+	 */
+	function getArticleTherapeuticArea() {
+                $therapeuticArea = $this->getData('articleTherapeuticArea');
+                if (preg_match('/OTHER/', $therapeuticArea)) {
+                    $string = substr($therapeuticArea, 6);
+                    return substr($string, 0, -1);
+                } else {
+                    $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
+                    $extraField = $extraFieldDao->getExtraField($therapeuticArea);
+                    return $extraField->getLocalizedExtraFieldName();
+                }
+	}
+        
+        /**
+	 * Set recruitment status.
+	 * @param $recruitmentStatus string
+	 */
+	function setArticleRecruitmentStatus($recruitmentStatus) {
+                $this->setData('recruitmentStatus', $recruitmentStatus);
+	}
+	/**
+	 * Get recruitment status.
+	 * @return string
+	 */
+	function getArticleRecruitmentStatus() {
+                $articleDetailsDao  =& DAORegistry::getDAO('ArticleDetailsDAO');
+                $statusMap = $articleDetailsDao->getRecruitmentStatusMap();
+                return $statusMap[$this->getData('recruitmentStatus')];
+	}
+        
 }
 ?>

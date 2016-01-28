@@ -1016,21 +1016,34 @@ class ArticleDAO extends DAO {
 	function searchProposalsPublic($query, $dateFrom, $dateTo, $geoAreas, $status = null, $rangeInfo = null, $sortBy = null, $sortDirection = SORT_DIRECTION_ASC) {
 		
 		$locale = Locale::getLocale();
-
+		$primaryLocale = Locale::getPrimaryLocale();
+                
 		$params = array(
-                                REVIEW_TYPE_INITIAL,
-				SUBMISSION_SECTION_DECISION_APPROVED,
-				SUBMISSION_SECTION_DECISION_EXEMPTED,
-				SUBMISSION_SECTION_DECISION_DONE
+                    $primaryLocale,
+                    $locale,
+                    ARTICLE_SPONSOR_TYPE_PRIMARY,
+                    REVIEW_TYPE_INITIAL,
+                    SUBMISSION_SECTION_DECISION_APPROVED,
+                    SUBMISSION_SECTION_DECISION_EXEMPTED,
+                    SUBMISSION_SECTION_DECISION_DONE
 		);
 	
 		$searchSql = '';
 	
 		$sql = 'select distinct 
 				a.article_id, a.status,
-				a.date_submitted as date_submitted
+				a.date_submitted as date_submitted,
+                                inst.name as psponsorname,
+                                ad.therapeutic_area as therapeuticarea,
+                                ad.recruitment_status as recruitmentstatus,
+				COALESCE(atl.scientific_title, atpl.scientific_title) AS scientifictitle
 			FROM articles a
 				LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)
+				LEFT JOIN article_text atpl ON (atpl.article_id = a.article_id AND atpl.locale = ?)
+				LEFT JOIN article_text atl ON (atl.article_id = a.article_id AND atl.locale = ?)
+                                LEFT JOIN article_sponsor asp ON (asp.article_id = a.article_id AND asp.type = ?)
+                                LEFT JOIN institutions inst ON (inst.institution_id = asp.institution_id)
+                                LEFT JOIN article_details ad ON (ad.article_id = a.article_id)                                
 			WHERE sdec.review_type = ? AND (sdec.decision = ? 
 				OR sdec.decision = ? 
 				OR sdec.decision = ?)';
@@ -1147,30 +1160,10 @@ class ArticleDAO extends DAO {
 		if (isset($row['efname']) or isset($row['elname'])) $article->setPrimaryEditor($row['efname']." ".$row['elname']);
 		if (isset($row['decision'])) $article->setProposalStatus($row['decision']);
 		if (isset($row['date_decided'])) $article->setDateStatusModified($this->datetimeFromDB($row['date_decided']));
-		
-                $article->setArticleTexts($this->articleTextDao->getArticleTextsByArticleId($row['article_id']));
-
-                $article->setArticleSecIds($this->articleSecIdDao->getArticleSecIdsByArticleId($row['article_id']));
-
-                $article->setArticleDetails($this->articleDetailsDao->getArticleDetailsByArticleId($row['article_id']));
-
-                $article->setArticlePurposes($this->articlePurposeDao->getArticlePurposesByArticleId($row['article_id']));
-
-                $article->setArticleOutcomes($this->articleOutcomeDao->getArticleOutcomesByArticleId($row['article_id']));
-
-                $article->setArticleDrugs($this->articleDrugInfoDao->getArticleDrugInfosByArticleId($row['article_id']));
-
-                $article->setArticleSites($this->articleSiteDao->getArticleSitesByArticleId($row['article_id']));
-
-                $article->setArticleFundingSources($this->articleSponsorDao->getArticleSponsorsByArticleId($row['article_id'], ARTICLE_SPONSOR_TYPE_FUNDING));
-
-                $article->setArticlePrimarySponsor($this->articleSponsorDao->getArticleSponsorsByArticleId($row['article_id'], ARTICLE_SPONSOR_TYPE_PRIMARY, true));
-                
-                $article->setArticleSecondarySponsors($this->articleSponsorDao->getArticleSponsorsByArticleId($row['article_id'], ARTICLE_SPONSOR_TYPE_SECONDARY));
-
-                $article->setArticleCROs($this->articleCRODao->getArticleCROsByArticleId($row['article_id']));
-
-                $article->setArticleContact($this->articleContactDao->getArticleContactByArticleId($row['article_id']));
+		if (isset($row['scientifictitle'])) $article->setScientificTitle($row['scientifictitle']);
+		if (isset($row['psponsorname'])) $article->setArticlePrimarySponsorName($row['psponsorname']);
+		if (isset($row['therapeuticarea'])) $article->setArticleTherapeuticArea($row['therapeuticarea']);
+		if (isset($row['recruitmentstatus'])) $article->setArticleRecruitmentStatus($row['recruitmentstatus']);
                 
                 $articleFileDao =& DAORegistry::getDAO('ArticleFileDAO');
                 $publicFiles = $articleFileDao->getArticleFilesByType($row['article_id'], 'PublicFile');
