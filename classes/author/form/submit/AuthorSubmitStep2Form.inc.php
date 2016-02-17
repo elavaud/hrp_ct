@@ -209,7 +209,7 @@ class AuthorSubmitStep2Form extends AuthorSubmitForm {
                                         'description' => $articleTexts[$localeKey]->getDescription(),
                                         'keyInclusionCriteria' => $articleTexts[$localeKey]->getKeyInclusionCriteria(),
                                         'keyExclusionCriteria' => $articleTexts[$localeKey]->getKeyExclusionCriteria(),
-                                        'recruitmentInfo' => $articleTexts[$localeKey]->getRecruitmentInfo(),
+                                        'recruitmentInfo' => $articleTexts[$localeKey]->getRecruitmentInfo()
                                     );
                             }
                         }
