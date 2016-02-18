@@ -66,6 +66,8 @@ switch ($op) {
 	case 'uploadCopyeditVersion':
 	case 'completeAuthorCopyedit':
         case 'protocolAmendment': 
+        case 'changeRecruitmentStatus':   
+        case 'saveRecruitmentStatus':
 	//
 	// Misc.
 	//

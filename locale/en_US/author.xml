@@ -279,6 +279,8 @@
         <message key="author.submit.previousSubmissionFile">Previous Protocol File</message>
         <message key="author.submit.submitInterimProgressReport.short">Progress report</message>
         <message key="author.submit.submitInterimProgressReport">Submit interim progress report</message>
+        <message key="author.submit.changeRecruitmentStatus.short">Recruitment status</message>
+        <message key="author.submit.changeRecruitmentStatus">Change recruitment status</message>        
         <message key="author.submit.submitFinalReport">Submit final report</message>
         <message key="author.submit.submitFinalReport.short">Final report</message>
         <message key="author.submit.submitExtensionRequest">Submit extension request</message>

@@ -24,6 +24,7 @@
             <td>{if $submission->getDateSubmitted()}{$submission->getDateSubmitted()|date_format:$dateFormatLong}{else}&mdash;{/if}</td>                
             <td><a href="{url op="submission" path=$articleId|to_array:"submissionReview"}" class="action">{if $submission->getScientificTitle()}{$submission->getScientificTitle()|strip_unsafe_html|truncate:60:"..."}{else}{translate key="common.untitled"}{/if}</a></td>
             <td align="right">
+                <a href="{url op="changeRecruitmentStatus" path=$articleId}" class="action">{translate key="author.submit.changeRecruitmentStatus.short"} &#8226;</a><br />
                 <a href="{url op="addProgressReport" path=$articleId}" class="action">{translate key="author.submit.submitInterimProgressReport.short"} &#8226;</a><br />
                 <a href="{url op="addCompletionReport" path=$articleId}" class="action">{translate key="author.submit.submitFinalReport.short"} &#8226;</a><br />
                 <a href="{url op="addAdverseEvent" path=$articleId}" class="action">{translate key="author.submit.submitSAE.short"} &#8226;</a><br />

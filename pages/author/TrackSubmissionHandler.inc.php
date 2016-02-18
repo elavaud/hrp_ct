@@ -1048,7 +1048,6 @@ class TrackSubmissionHandler extends AuthorHandler {
 		$this->validate($articleId);
 		$authorSubmission =& $this->submission;
 
-
 		$this->setupTemplate(true, $articleId, 'summary');
 
 		import('classes.submission.form.SuppFileForm');
@@ -1125,10 +1124,61 @@ class TrackSubmissionHandler extends AuthorHandler {
                 Request::redirect(null, null, 'submit', 2, array('articleId' => $articleId));
             } else {
                 Request::redirect(null, 'author', 'ongoingResearches');
-            }
-   
-            
-            
+            }            
         }
+        
+        
+        /**
+         * Change recruitment status
+         * @param $args array ($articleId)
+         */
+
+        function changeRecruitmentStatus($args) {
+		$articleId = (int) array_shift($args);
+                
+		$this->validate($articleId);
+		$authorSubmission =& $this->submission;
+
+		$this->setupTemplate(true, $articleId);
+
+		import('classes.submission.form.RecruitmentStatusForm');
+
+                $submitForm = new RecruitmentStatusForm($authorSubmission);
+
+                if ($submitForm->isLocaleResubmit()) {
+                    $submitForm->readInputData();
+		} else {
+                    $submitForm->initData();
+		}
+
+                $submitForm->display();
+	}
+        
+        /**
+	 * Save a change in the recruitment status.
+	 * @param $args array ($articleId)
+	 */
+	function saveRecruitmentStatus($args, &$request) {
+		$articleId = Request::getUserVar('articleId');
+		if ($articleId) {
+                    $this->validate($articleId);
+                } else {
+                    Request::redirect(null, Request::getRequestedPage());
+                }
+		$authorSubmission =& $this->submission;
+		$this->setupTemplate(true, $articleId);
+                
+                import('classes.submission.form.RecruitmentStatusForm');
+
+                $submitForm = new RecruitmentStatusForm($authorSubmission);
+                $submitForm->readInputData();
+
+                if ($submitForm->validate()) {
+                    $submitForm->execute();
+                    Request::redirect(null, null, 'index','ongoingResearches');
+                } else {
+                    $submitForm->display();
+                }
+	}
 }
 ?>
