@@ -626,7 +626,6 @@
             <td width="15%" class="label"><a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {fieldLabel name="articleDetails-recruitStatus" required="true" key="proposal.recruitment.status"}</td>
             <td width="65%" class="value">
                 <select name="articleDetails[recruitStatus]" class="selectMenu">
-                    <option value=""></option>
                     {html_options options=$recruitmentStatusMap selected=$articleDetails.recruitStatus}
                 </select>     
             </td>  
@@ -636,6 +635,18 @@
             <td width="15%" class="label">&nbsp;</td>
             <td width="65%" class="value"><i>[?] {translate key="proposal.recruitment.status.instruct"}</i></td>
         </tr>
+        <tr valign="middle">
+            <td width="20%" class="label">&nbsp;</td>
+            <td width="15%" class="label"><a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {fieldLabel name="articleDetails-adScheme" required="true" key="proposal.recruitment.adScheme"}</td>
+            <td width="65%" class="value">
+                {html_radios name="articleDetails[adScheme]" options=$yesNoList selected=$articleDetails.adScheme separator='&nbsp;&nbsp;&nbsp;&nbsp;'}
+            </td>
+        </tr>
+        <tr valign="top" hidden class="showHideHelpField">
+            <td width="20%" class="label">&nbsp;</td>
+            <td width="15%" class="label">&nbsp;</td>
+            <td width="65%" class="value"><i>[?] {translate key="proposal.recruitment.adScheme.instruct"}</i></td>
+        </tr>        
         {foreach from=$articleTextLocales item=localeName key=localeKey}
             {assign var="articleText" value=$articleTexts[$localeKey]}
             <tr valign="top">
@@ -649,18 +660,6 @@
                 <td width="65%" class="value"><i>[?] {translate key="proposal.recruitment.info.instruct"}</i></td>
             </tr>
         {/foreach}
-        <tr valign="middle">
-            <td width="20%" class="label">&nbsp;</td>
-            <td width="15%" class="label"><a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {fieldLabel name="articleDetails-adScheme" required="true" key="proposal.recruitment.adScheme"}</td>
-            <td width="65%" class="value">
-                {html_radios name="articleDetails[adScheme]" options=$yesNoList selected=$articleDetails.adScheme separator='&nbsp;&nbsp;&nbsp;&nbsp;'}
-            </td>
-        </tr>
-        <tr valign="top" hidden class="showHideHelpField">
-            <td width="20%" class="label">&nbsp;</td>
-            <td width="15%" class="label">&nbsp;</td>
-            <td width="65%" class="value"><i>[?] {translate key="proposal.recruitment.adScheme.instruct"}</i></td>
-        </tr>
     </table>
     <p><input type="submit" value="{translate key="common.saveAndContinue"}" class="button defaultButton"/> <input type="button" value="{translate key="common.cancel"}" class="button" onclick="confirmAction('{url page="author"}', '{translate|escape:"jsparam" key="author.submit.cancelSubmission"}');" /></p>
 

@@ -280,8 +280,8 @@ class ArticleDetailsDAO extends DAO{
 		static $recruitmentStatusMap;
 		if (!isset($recruitmentStatusMap)) {
 			$recruitmentStatusMap = array(
-				ARTICLE_DETAIL_RECRUIT_RECRUITING => Locale::translate('proposal.recruit.recruiting'),
 				ARTICLE_DETAIL_RECRUIT_NOTYET => Locale::translate('proposal.recruit.notyet'),
+				ARTICLE_DETAIL_RECRUIT_RECRUITING => Locale::translate('proposal.recruit.recruiting'),
 				ARTICLE_DETAIL_RECRUIT_ACTIVE => Locale::translate('proposal.recruit.active'),
 				ARTICLE_DETAIL_RECRUIT_COMPLETED => Locale::translate('proposal.recruit.completed'),
 				ARTICLE_DETAIL_RECRUIT_INVITATION => Locale::translate('proposal.recruit.invitation'),
