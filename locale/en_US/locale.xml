@@ -531,9 +531,9 @@
                 <li>The timepoint(s) of primary interest</li>                
             </ul>
             <u>Example:</u>
-            <br/>Primary Outcome Name: Depression
-            <br/>Metric/method of measurement: Beck Depression Score
-            <br/>Timepoint: 18 weeks following end of treatment
+            <br/>Primary Outcome Name: Eczema
+            <br/>Metric/method of measurement: Eczema Area and Severity index (EASI) Score
+            <br/>Timepoint: weekly for 28 days of treatment
             <br/><br/>Enter only one primary outcome in the primary outcome box (one at a time) and the timepoint(s) at which this particular outcome is measured in the timepoint box.
             <br/><br/>Click “Add” to add more boxes if the study has multiple primary outcomes. The form allows maximum of 3 sets of entries for the primary outcome and timepoint.
             <br/>
