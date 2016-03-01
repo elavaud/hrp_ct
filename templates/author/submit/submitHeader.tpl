@@ -42,7 +42,7 @@
 {translate key="author.submit.confirmation"}{if $submitStep != 9 && $submissionProgress >= 9}</a>{/if}</li>
 </ul>
 
-<p><span class="formRequired">{translate key="common.requiredField"}</span></p>
-<p><span class="formRequired">{translate key="common.mouseOver"}</span></p>
+<p>{translate key="common.requiredField"}</p>
+<p>{translate key="common.mouseOver"}</p>
 
 <p>{$protocolAmendmentGuidelines}</p>
