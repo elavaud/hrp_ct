@@ -680,7 +680,7 @@
     </message>        
     <message key="proposal.drugInfo.countries">Country(ies) in which the drug has been granted marketing authorisation</message>   
     <message key="proposal.drugInfo.countries.add">Add another country</message>   
-    <message key="proposal.drugInfo.administration.gastro">Gastro-intestinal</message>    
+    <message key="proposal.drugInfo.administration.gastro">Oral</message>    
     <message key="proposal.drugInfo.administration.injection">Injection</message>    
     <message key="proposal.drugInfo.administration.mucosal">Mucosla</message>    
     <message key="proposal.drugInfo.administration.topical">Topical/Dermal</message>    
