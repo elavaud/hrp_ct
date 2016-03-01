@@ -35,7 +35,7 @@ class AuthorSubmitStep2Form extends AuthorSubmitForm {
                 $this->addCheck(new FormValidator($this, 'articleDetails-healthy', 'required', 'author.submit.form.healthy.required'));
                 $this->addCheck(new FormValidator($this, 'articleDetails-localeSampleSize', 'required', 'author.submit.form.localeSampleSize.required'));
                 $this->addCheck(new FormValidator($this, 'articleDetails-multinational', 'required', 'author.submit.form.multinational.required'));
-		$this->addCheck(new FormValidatorArray($this, 'articleDetails-intSampleSize', 'required', 'author.submit.form.intSampleSize.required'));
+		//$this->addCheck(new FormValidatorArray($this, 'articleDetails-intSampleSize', 'required', 'author.submit.form.intSampleSize.required'));
                 $this->addCheck(new FormValidator($this, 'articleDetails-startDate', 'required', 'author.submit.form.startDate.required'));
                 $this->addCheck(new FormValidator($this, 'articleDetails-endDate', 'required', 'author.submit.form.endDate.required'));
                 $this->addCheck(new FormValidator($this, 'articleDetails-recruitStatus', 'required', 'author.submit.form.recruitStatus.required'));
