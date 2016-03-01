@@ -159,6 +159,7 @@
         <message key="author.submit.form.otherTherapeuticArea.required">You selected "Other" for you therapeutic area. Please specify</message>
         <message key="author.submit.form.icd10s.required">At least one ICD 10 classification code is required. If you know the exact code, specify it in the corresponding area.</message>
         <message key="author.submit.form.purposes.required">Specify if this study is observational or interventional.</message>
+        <message key="author.submit.form.purposes.fields.required">For each purpose of study, specify the type, the clinical trial phase, and the study design allocation, masking, control, assignment and endpoint.</message>
         <message key="author.submit.form.primaryOutcome.required">At least one primary outcome is required. For each outcome, provide the name, the metric / method of measurement and the timepoint.</message>            
         <message key="author.submit.form.minAgeNum.required">Specify the minimum age of the study's participants.</message>            
         <message key="author.submit.form.maxAgeNum.required">Specify the maximum age of the study's participants.</message>            
