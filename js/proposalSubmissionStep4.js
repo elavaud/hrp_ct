@@ -34,6 +34,7 @@ function addSite(){
     $('#articleSites-'+fieldId+'-siteSelect').val('');
     $('#articleSites-'+fieldId+'-siteSelect').change(function(e) {var id = e.target.id;showOrHideSiteFields(id);});
     $('#articleSites-'+fieldId+'-authority').val('');
+    $('#articleSites-'+fieldId+'-erc').val('');
     $('#articleSites-'+fieldId+'-primaryPhone').val('');
     $('#articleSites-'+fieldId+'-secondaryPhone').val('');
     $('#articleSites-'+fieldId+'-fax').val('');

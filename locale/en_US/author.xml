@@ -193,7 +193,8 @@
         <message key="author.submit.form.site.nameAndCityUsed">There is already a trial site with this name in this city. Please verify that your trial site is not already listed.</message>                        
         <message key="author.submit.form.site.licensureUsed">There is already a trial site with this DOH licensure number. Please verify that your trial site is not already listed.</message>                        
         <message key="author.submit.form.site.accreditationUsed">There is already a trial site with this Philhealth accreditation number. Please verify that your trial site is not already listed.</message>                        
-        <message key="author.submit.form.authority.required">Provide the full name of Approving Authority (Director ) for the Trial Site who has issued the endorsement letter..</message>                        
+        <message key="author.submit.form.authority.required">Provide the full name of Approving Authority (Director ) for the Trial Site who has issued the endorsement letter.</message>                        
+        <message key="author.submit.form.erc.required">Select the approving ethical review committee for the Trial Site.</message>                        
         <message key="author.submit.form.primaryPhone.required">Provide the primary phone number of the approving authority. Only professional contact details should be provided. Telephone and fax numbers should be entered in this format +Country code, Area Code, Number. Example: +63 44 7911111.</message>                        
         <message key="author.submit.form.email.required">Provide the email address of the approving authority. Only professional contact details should be provided.</message>                        
         <message key="author.submit.form.subjectsNumber.required">Provide the planned number of trial subjects.</message>                        

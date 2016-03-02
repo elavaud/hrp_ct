@@ -738,6 +738,8 @@
     <message key="proposal.articleSite.siteAccreditation">Philhealth accreditation number</message>   
     <message key="proposal.articleSite.authority">Approving authority</message>   
     <message key="proposal.articleSite.authority.instruct">Full name of Approving Authority (Director ) for the Trial Site who has issued the endorsement letter.</message>   
+    <message key="proposal.articleSite.erc">Approving Ethical Review Committee</message>   
+    <message key="proposal.articleSite.erc.instruct">Select the Level 3 accredited Ethical Review Committee that approved the trial on this site.</message>   
     <message key="proposal.articleSite.primaryPhone">Primary phone</message>   
     <message key="proposal.articleSite.primaryPhone.instruct">Primary phone number of the approving authority. Only professional contact details should be provided. Telephone and fax numbers should be entered in this format +Country code, Area Code, Number. Example: +63 44 7911111</message>   
     <message key="proposal.articleSite.secondaryPhone">Secondary phone</message>   

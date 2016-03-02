@@ -76,6 +76,22 @@ class ArticleSite extends DataObject {
         
         
         /**
+	 * Get the ID of the ERC.
+	 * @return int
+	 */
+	function getERCId() {
+		return $this->getData('ercId');
+	}
+	/**
+	 * Set the ID of the ERC.
+	 * @param $ercId int
+	 */
+	function setERCId($ercId) {
+		return $this->setData('ercId', $ercId);
+	}
+        
+        
+        /**
 	 * Get primary phone number of the site.
 	 * @return string
 	 */
@@ -255,6 +271,16 @@ class ArticleSite extends DataObject {
 		return $trialSiteDao->getTrialSiteById($this->getSiteId());
 	}
 
+        /**
+	 * Get the ERC name (extra field) object for this article site.
+	 * @return string
+	 */
+	function &getERCName() {
+		$extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
+		$erc = $extraFieldDao->getExtraField($this->getERCId());
+                return $erc->getLocalizedExtraFieldName();
+	}
+        
         /**
 	 * Get all the CVs of the principal investigator.
 	 * @return array object SuppFile

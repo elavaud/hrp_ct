@@ -26,7 +26,8 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
             $this->addCheck(new FormValidatorCustom($this, 'articleSites', 'required', 'author.submit.form.site.nameAndCityUsed', function($articleSites) {foreach ($articleSites as $articleSite) { if($this->trialSiteDao->trialSiteExistsByNameAndCity($articleSite['siteName'], $articleSite['siteCity'])) {return false;}} return true;})); 
             $this->addCheck(new FormValidatorCustom($this, 'articleSites', 'required', 'author.submit.form.site.licensureUsed', function($articleSites) {foreach ($articleSites as $articleSite) {if($this->trialSiteDao->trialSiteExistsByLicensure($articleSite['siteLicensure'])) {return false;}}return true;})); 
             $this->addCheck(new FormValidatorCustom($this, 'articleSites', 'required', 'author.submit.form.site.accreditationUsed', function($articleSites) {foreach ($articleSites as $articleSite) { if($this->trialSiteDao->trialSiteExistsByAccreditation($articleSite['siteAccreditation'])) {return false;}}return true;})); 
-            $this->addCheck(new FormValidatorArray($this, 'articleSites', 'required', 'author.submit.form.authority.required', array('authority')));	
+            $this->addCheck(new FormValidatorArray($this, 'articleSites', 'required', 'author.submit.form.authority.required', array('authority')));
+            $this->addCheck(new FormValidatorArray($this, 'articleSites', 'required', 'author.submit.form.erc.required', array('erc')));	
             $this->addCheck(new FormValidatorArray($this, 'articleSites', 'required', 'author.submit.form.primaryPhone.required', array('primaryPhone')));	
             $this->addCheck(new FormValidatorArray($this, 'articleSites', 'required', 'author.submit.form.email.required', array('email')));	
             $this->addCheck(new FormValidatorArray($this, 'articleSites', 'required', 'author.submit.form.subjectsNumber.required', array('subjectsNumber')));
@@ -85,6 +86,7 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
                             'id' => $articleSite->getId(),
                             'siteSelect' => $articleSite->getSiteId(),
                             'authority' => $articleSite->getAuthority(),
+                            'erc' => $articleSite->getERCId(),
                             'primaryPhone' => $articleSite->getPrimaryPhone(),
                             'secondaryPhone' => $articleSite->getSecondaryPhone(),
                             'fax' => $articleSite->getFax(),
@@ -129,6 +131,7 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
 		$trialSiteDao =& DAORegistry::getDAO('TrialSiteDAO');
                 
                 $geoAreas =& $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_GEO_AREA, EXTRA_FIELD_ACTIVE);
+                $ercList =& $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_LEVEL3_ERC, EXTRA_FIELD_ACTIVE);
                 
                 $sitesList = $trialSiteDao->getTrialSitesList();
                 $sitesListWithOther = $sitesList + array('OTHER' => Locale::translate('common.other'));
@@ -136,6 +139,7 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
 		$templateMgr =& TemplateManager::getManager();
                 $templateMgr->assign('sitesList', $sitesListWithOther);
                 $templateMgr->assign('geoAreas', $geoAreas);
+                $templateMgr->assign('ercList', $ercList);                
                 $templateMgr->assign('expertisesList', $extraFieldDAO->getExtraFieldsList(EXTRA_FIELD_THERAPEUTIC_AREA, EXTRA_FIELD_ACTIVE));
                 
                 
@@ -196,6 +200,7 @@ class AuthorSubmitStep4Form extends AuthorSubmitForm {
                         $articleSite->setSiteId($articleSiteData['siteSelect']);
                     }
                     $articleSite->setAuthority($articleSiteData['authority']);
+                    $articleSite->setERCId($articleSiteData['erc']);
                     $articleSite->setPrimaryPhone($articleSiteData['primaryPhone']);
                     $articleSite->setSecondaryPhone($articleSiteData['secondaryPhone']);
                     $articleSite->setFax($articleSiteData['fax']);

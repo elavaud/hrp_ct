@@ -102,6 +102,8 @@
             <table width="100%" class="data">
                 {assign var="articleSiteAuthorityB" value='articleSites['|cat:$i|cat:'][authority]'}
                 {assign var="articleSiteAuthorityD" value='articleSites-'|cat:$i|cat:'-authority'}    
+                {assign var="articleSiteERCB" value='articleSites['|cat:$i|cat:'][erc]'}
+                {assign var="articleSiteERCD" value='articleSites-'|cat:$i|cat:'-erc'}    
                 {assign var="articleSitePrimaryPhoneB" value='articleSites['|cat:$i|cat:'][primaryPhone]'}
                 {assign var="articleSitePrimaryPhoneD" value='articleSites-'|cat:$i|cat:'-primaryPhone'}    
                 {assign var="articleSiteSecondaryPhoneB" value='articleSites['|cat:$i|cat:'][secondaryPhone]'}
@@ -120,6 +122,21 @@
                     <tr valign="top" hidden class="showHideHelpField">
                         <td width="20%">&nbsp;</td>
                         <td width="80%" class="value"><i>[?] {translate key="proposal.articleSite.authority.instruct"}</i></td>
+                    </tr>    
+                {/if}
+                <tr valign="top">
+                    <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleSiteERCD required="true" key="proposal.articleSite.erc"}</td>
+                    <td width="80%" class="value">
+                        <select name="{$articleSiteERCB|escape}" id="{$articleSiteERCD|escape}" class="selectMenu">
+                            <option value=""></option>
+                            {html_options options=$ercList|truncate:80:"..." selected=$articleSites.$i.erc}                                
+                        </select>
+                    </td>
+                </tr>
+                {if $i == 0}
+                    <tr valign="top" hidden class="showHideHelpField">
+                        <td width="20%">&nbsp;</td>
+                        <td width="80%" class="value"><i>[?] {translate key="proposal.articleSite.erc.instruct"}</i></td>
                     </tr>    
                 {/if}
                 <tr valign="top">

@@ -68,17 +68,18 @@ class ArticleSiteDAO extends DAO {
 	function insertArticleSite(&$articleSite) {
 		$this->update(
 			'INSERT INTO article_site 
-				(article_id, site_id, approving_authority, primary_phone, secondary_phone, fax, email, subjects_number)
+				(article_id, site_id, approving_authority, approving_erc, primary_phone, secondary_phone, fax, email, subjects_number)
 			VALUES
-				(?, ?, ?, ?, ?, ?, ?, ?)',
+				(?, ?, ?, ?, ?, ?, ?, ?, ?)',
 			array(
 				(int) $articleSite->getArticleId(),
 				(int) $articleSite->getSiteId(),
-				$articleSite->getAuthority(),
-				$articleSite->getPrimaryPhone(),
-				$articleSite->getSecondaryPhone(),
-				$articleSite->getFax(),
-				$articleSite->getEmail(),
+				(string) $articleSite->getAuthority(),
+				(int) $articleSite->getERCId(),                            
+				(string) $articleSite->getPrimaryPhone(),
+				(string) $articleSite->getSecondaryPhone(),
+				(string) $articleSite->getFax(),
+				(string) $articleSite->getEmail(),
 				(int) $articleSite->getSubjectsNumber()
 			)
 		);	
@@ -106,6 +107,7 @@ class ArticleSiteDAO extends DAO {
 				article_id = ?,
 				site_id = ?,
 				approving_authority = ?,
+				approving_erc = ?,                                
 				primary_phone = ? ,
 				secondary_phone = ? ,
 				fax = ? ,
@@ -115,11 +117,12 @@ class ArticleSiteDAO extends DAO {
 			array(
 				(int) $articleSite->getArticleId(),
 				(int) $articleSite->getSiteId(),
-				$articleSite->getAuthority(),
-				$articleSite->getPrimaryPhone(),
-				$articleSite->getSecondaryPhone(),
-				$articleSite->getFax(),
-				$articleSite->getEmail(),
+				(string) $articleSite->getAuthority(),
+				(int) $articleSite->getERCId(),                            
+				(string) $articleSite->getPrimaryPhone(),
+				(string) $articleSite->getSecondaryPhone(),
+				(string) $articleSite->getFax(),
+				(string) $articleSite->getEmail(),
 				(int) $articleSite->getSubjectsNumber(),
                                 (int) $articleSite->getId()
 			)
@@ -182,6 +185,7 @@ class ArticleSiteDAO extends DAO {
 		$articleSite->setArticleId($row['article_id']);
                 $articleSite->setSiteId($row['site_id']);
                 $articleSite->setAuthority($row['approving_authority']);
+                $articleSite->setERCId($row['approving_erc']);
                 $articleSite->setPrimaryPhone($row['primary_phone']);
                 $articleSite->setSecondaryPhone($row['secondary_phone']);
                 $articleSite->setFax($row['fax']);
