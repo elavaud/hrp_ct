@@ -60,6 +60,10 @@
             </td>
         </tr>
         <tr valign="top">
+            <td width="20%" class="label">{translate key="proposal.articleSite.erc"}</td>
+            <td width="80%" class="value"><ul><li>{$articleSite->getERCName()|escape}</li></ul></td>
+        </tr>        
+        <tr valign="top">
             <td width="20%" class="label">{translate key="proposal.articleSite.authority"}</td>
             <td width="80%" class="value"><ul><li><a class="showHideSiteInfoButton" style="cursor:pointer;">{$articleSite->getAuthority()|escape}</a></li></ul></td>
         </tr>

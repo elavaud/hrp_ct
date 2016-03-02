@@ -115,16 +115,6 @@
                 {assign var="articleSiteSubjectsNumberB" value='articleSites['|cat:$i|cat:'][subjectsNumber]'}
                 {assign var="articleSiteSubjectsNumberD" value='articleSites-'|cat:$i|cat:'-subjectsNumber'}    
                 <tr valign="top">
-                    <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleSiteAuthorityD required="true" key="proposal.articleSite.authority"}</td>
-                    <td width="80%" class="value"><input type="text" class="textField" name="{$articleSiteAuthorityB|escape}" id="{$articleSiteAuthorityD|escape}" value="{$articleSites.$i.authority|escape}" size="40" maxlength="255" /></td>
-                </tr>
-                {if $i == 0}
-                    <tr valign="top" hidden class="showHideHelpField">
-                        <td width="20%">&nbsp;</td>
-                        <td width="80%" class="value"><i>[?] {translate key="proposal.articleSite.authority.instruct"}</i></td>
-                    </tr>    
-                {/if}
-                <tr valign="top">
                     <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleSiteERCD required="true" key="proposal.articleSite.erc"}</td>
                     <td width="80%" class="value">
                         <select name="{$articleSiteERCB|escape}" id="{$articleSiteERCD|escape}" class="selectMenu">
@@ -137,6 +127,16 @@
                     <tr valign="top" hidden class="showHideHelpField">
                         <td width="20%">&nbsp;</td>
                         <td width="80%" class="value"><i>[?] {translate key="proposal.articleSite.erc.instruct"}</i></td>
+                    </tr>    
+                {/if}
+                <tr valign="top">
+                    <td width="20%">{if $i == 0}<a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {/if}{fieldLabel name=$articleSiteAuthorityD required="true" key="proposal.articleSite.authority"}</td>
+                    <td width="80%" class="value"><input type="text" class="textField" name="{$articleSiteAuthorityB|escape}" id="{$articleSiteAuthorityD|escape}" value="{$articleSites.$i.authority|escape}" size="40" maxlength="255" /></td>
+                </tr>
+                {if $i == 0}
+                    <tr valign="top" hidden class="showHideHelpField">
+                        <td width="20%">&nbsp;</td>
+                        <td width="80%" class="value"><i>[?] {translate key="proposal.articleSite.authority.instruct"}</i></td>
                     </tr>    
                 {/if}
                 <tr valign="top">
