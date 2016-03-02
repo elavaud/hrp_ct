@@ -41,6 +41,9 @@ class ExtraFieldForm extends Form {
                     case 'therapeuticAreas':
                         $this->typeConst = (int) EXTRA_FIELD_THERAPEUTIC_AREA;
                         break;
+                    case 'level3erc':
+                        $this->typeConst = (int) EXTRA_FIELD_LEVEL3_ERC;
+                        break;                    
                 }
 
 		// Validation checks for this form

@@ -216,6 +216,15 @@
         <message key="manager.extraFields.therapeuticAreas.replacement.message">It appears that the therapeutic area you would like to delete is currently in used by one or multiple submission(s). If you want to delete this area, you therefore need to select a replacement area for the concerned submission(s).</message>        
         <message key="manager.extraFields.therapeuticAreas.replacement.required">Please choose a replacement for this therapeutic area. The area you intend to delete is used by one or multiple submission(s) in the database. You therefore need to choose a replacing area for these submission(s). Please choose carefully: this operation can not be undone.</message>
         
+        <message key="manager.extraFields.level3erc">Level 3 Ethics Review Committee</message>
+        <message key="manager.extraFields.level3erc.new">Create a new Ethics Review Committee</message>    
+        <message key="manager.extraFields.level3erc.edit">Create / Edit a new Ethics Review Committee</message>    
+        <message key="manager.extraFields.level3erc.delete">Delete Ethics Review Committee</message>    
+        <message key="manager.extraFields.level3erc.missing.name">Please enter the name of the Ethics Review Committee.</message>    
+        <message key="manager.extraFields.level3erc.modify.warning">Attention! This Ethics Review Committee is in used by some research submission(s). The modification will therefore affect all of the proposal(s) referring to it.</message>
+        <message key="manager.extraFields.level3erc.replacement.warning">Attention! The deletion of an Ethics Review Committee and its replacement can not be undone. Please be sure you want to delete this particular area and, if applicable, you selected the right replacement committee. It is strongly recommended to operate daily backup of the database. Please contact your server administrator for more information.</message>
+        <message key="manager.extraFields.level3erc.replacement.message">It appears that the Ethics Review Committee you would like to delete is currently in used by one or multiple submission(s). If you want to delete this area, you therefore need to select a replacement committee for the concerned submission(s).</message>        
+        <message key="manager.extraFields.level3erc.replacement.required">Please choose a replacement for this Ethics Review Committee. The committee you intend to delete is used by one or multiple submission(s) in the database. You therefore need to choose a replacing committee for these submission(s). Please choose carefully: this operation can not be undone.</message>
         
         
         <message key="manager.extraFields.modify.warning">Attention! This entry is in used by some research proposal(s). The modification will therefore affect all of the proposal(s) referring to it.</message>

@@ -43,6 +43,10 @@ class ExtraFieldDeleteForm extends Form {
                         $this->typeConst = (int) EXTRA_FIELD_THERAPEUTIC_AREA;
         		$this->addCheck(new FormValidator($this, 'replacement', 'required','manager.extraFields.therapeuticAreas.replacement.required'));
                         break;
+                    case 'level3erc':
+                        $this->typeConst = (int) EXTRA_FIELD_LEVEL3_ERC;
+        		$this->addCheck(new FormValidator($this, 'replacement', 'required','manager.extraFields.level3erc.replacement.required'));
+                        break;                    
                 }                
 	}
 
@@ -70,6 +74,9 @@ class ExtraFieldDeleteForm extends Form {
                 } elseif ($this->typeConst == EXTRA_FIELD_THERAPEUTIC_AREA) {
                     $replacementMessage = 'manager.extraFields.therapeuticAreas.replacement.message';
                     $replacementWarning = 'manager.extraFields.therapeuticAreas.replacement.warning';                    
+                } elseif ($this->typeConst == EXTRA_FIELD_LEVEL3_ERC) {
+                    $replacementMessage = 'manager.extraFields.level3erc.replacement.message';
+                    $replacementWarning = 'manager.extraFields.level3erc.replacement.warning';                    
                 }else {
                     $replacementMessage = 'manager.extraFields.replacement.message';
                     $replacementWarning = 'manager.extraFields.replacement.warning';

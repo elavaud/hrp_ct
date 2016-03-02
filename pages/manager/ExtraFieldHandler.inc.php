@@ -39,6 +39,9 @@ class ExtraFieldHandler extends ManagerHandler {
                         case 'therapeuticAreas':
                             $typeConst = (int) EXTRA_FIELD_THERAPEUTIC_AREA;
                             break;
+                        case 'level3erc':
+                            $typeConst = (int) EXTRA_FIELD_LEVEL3_ERC;
+                            break;                        
                     }
                     
                     if (!$typeConst) {

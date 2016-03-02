@@ -23,6 +23,7 @@
 	<li>&#187; <a href="{url op="aboutFiles"}">{translate key="manager.aboutFiles"}</a></li>
 	<li>&#187; <a href="{url op="approvalNotices"}">{translate key="manager.approvalNotices"}</a></li>
         <li>&#187; <a href="{url op="sections"}">{translate key="section.sections"}</a></li>
+        <li>&#187; <a href="{url op='extraFields' path='level3erc'}">{translate key="manager.extraFields.level3erc"}</a></li>
         <li>&#187; <a href="{url op="institutions"}">{translate key="manager.institutions"}</a></li>
         <li>&#187; <a href="{url op="trialSites"}">{translate key="manager.trialSites"}</a></li>
         <li>&#187; <a href="{url op='extraFields' path='geoAreas'}">{translate key="manager.extraFields.geoAreas"}</a></li>
