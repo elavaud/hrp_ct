@@ -140,7 +140,7 @@
 	<message key="editor.article.dueDateFormat">Format: YYYY-MM-DD</message>
 	<message key="editor.article.enterRecommendation">Enter Recommendation</message>
 	<message key="editor.article.enterReviewerRecommendation">Enter Reviewer Recommendation</message>
-        <message key="editor.article.ethicsCommittee">Ethics Review Committee</message>
+        <message key="editor.article.ethicsCommittee">Review Committee</message>
         <message key="editor.article.committee">Review Committee</message>
 	<message key="editor.article.exemption.alreadyExists">The data (including health-care records and specimens) being studied already exist and are either publicly available or are recorded by the investigator in such a manner as to be unidentifiable.</message>
 	<message key="editor.article.exemption.instructions">(Please check all that apply)</message>
@@ -529,7 +529,7 @@
 	<message key="editor.reports.isPresent">Is present?</message>
 	<message key="editor.reports.reason">Reason (if absent)</message>
 	<message key="editor.reports.proposalId">Proposal ID</message>
-        <message key="editor.reports.erc">Ethics Committee</message>
+        <message key="editor.reports.erc">Review Committee</message>
         <message key="editor.reports.decision">Last secretary decision</message>
         <message key="editor.reports.submitDate">Date Submitted</message>
         <message key="editor.reports.approveDate">Date Approved</message>

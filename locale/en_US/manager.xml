@@ -747,7 +747,7 @@
 	<message key="manager.statistics.statistics.registeredReaders">Registered readers</message>
 	<message key="manager.statistics.statistics.registeredUsers">Registered users</message>
 	<message key="manager.statistics.statistics.reviewerCount">No. assigned</message>
-	<message key="manager.statistics.statistics.reviewers">Ethics Committees Members</message>
+	<message key="manager.statistics.statistics.reviewers">Review Committees Members</message>
 	<message key="manager.statistics.statistics.reviewerScore">Editor score</message>
 	<message key="manager.statistics.statistics.reviewsPerReviewer">No. of reviews</message>
 	<message key="manager.statistics.statistics.selectSections">Select the sections for calculating this journal's peer-reviewed statistics.</message>

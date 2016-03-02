@@ -39,7 +39,7 @@
         <message key="common.area">Geographical Area</message>
         <message key="common.comments">Comments</message>
         <message key="common.dateDecided">Date decided</message>
-        <message key="common.dateSubmittedInstruct">The date when this proposal has been submitted to the Ethics Committee.</message>
+        <message key="common.dateSubmittedInstruct">The date when this proposal has been submitted to the Review Committee.</message>
         <message key="common.date.on">on</message>
         <message key="common.disableEnable">Disable/Enable</message>
         <message key="common.enroll">Enrol user as :</message>
@@ -94,7 +94,7 @@
         
         <!-- Old -->
         
-        <message key="about.contact">The National Ethics Committee for Health Research</message>
+        <message key="about.contact">Philippines FDA Review Committee</message>
         
         <!-- ******** -->
         <!-- /CHANGED -->
