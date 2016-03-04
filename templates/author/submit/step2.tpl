@@ -572,7 +572,7 @@
             <table width="100%" id="{$countryAndSizeId|escape}" {if $m == 0}style="display:none"{else}class="countryAndSizeSupp"{/if}>
                 <tr valign="middle">
                     <td width="20%" class="label">&nbsp;</td>
-                    <td width="10%" class="label" align="right">{fieldLabel name="articleDetails-intSampleSize-"|cat:$m|cat:'-country' required="true" key="common.country"}</td>
+                    <td width="10%" class="label" align="right">{fieldLabel name="articleDetails-intSampleSize-"|cat:$m|cat:'-country' key="common.country"}</td>
                     <td width="70%" class="value">
                         {assign var="countryCode" value='articleDetails[intSampleSize]['|cat:$m|cat:'][country]'}
                         {assign var="countryCodeId" value='articleDetails-intSampleSize-'|cat:$m|cat:'-country'}                        
@@ -585,7 +585,7 @@
                 </tr>
                 <tr valign="middle">
                     <td width="20%" class="label">&nbsp;</td>
-                    <td width="10%" class="label" align="right">{fieldLabel name="articleDetails-intSampleSize-"|cat:$m|cat:'-number' required="true" key="proposal.multinational.number"}</td>
+                    <td width="10%" class="label" align="right">{fieldLabel name="articleDetails-intSampleSize-"|cat:$m|cat:'-number' key="proposal.multinational.number"}</td>
                     <td width="70%" class="value" align="left">
                         {assign var="countryNumber" value='articleDetails[intSampleSize]['|cat:$m|cat:'][number]'}
                         {assign var="countryNumberId" value='articleDetails-intSampleSize-'|cat:$m|cat:'-number'}                        
