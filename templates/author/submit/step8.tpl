@@ -322,33 +322,35 @@
         <td colspan="2">&nbsp;</td>
         <td colspan="3"><i>[?] {translate key="author.submit.suppFile.gmp.instruct"}</i></td>
     </tr>
-    <tr>
-        <td colspan="5" class="separator">&nbsp;</td>
-    </tr>        
-    <tr valign="top">
-        <td colspan="2"><a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {translate key="author.submit.suppFile.policy"}</td>
-        {if empty($policies)}
-            <td colspan="3" align="center"><font color="red">{translate key="article.suppFile.missing"}</font></td>
-        {else}
-            <td colspan="3" align="left">
-                <table valign="top" width="100%">
-                    {foreach from=$policies item=policy}
-                        <tr valign="top">
-                            <td width="50%">{$policy->getOriginalFileName()|escape}</td>
-                            <td width="25%">&nbsp;{$policy->getDateSubmitted()|date_format:$dateFormatTrunc}</td>
-                            <td width="25%" align="right">
-                                <a href="{url op="deleteSubmitSuppFile" path=$policy->getSuppFileId() articleId=$articleId}" onclick="return confirm('{translate|escape:"jsparam" key="author.submit.confirmDeleteSuppFile"}')" class="action">{translate key="common.delete"}</a>
-                            </td>
-                        </tr>
-                    {/foreach}
-                </table>
-            </td>
-        {/if}
-    </tr>
-    <tr valign="top" hidden class="showHideHelpField">
-        <td colspan="2">&nbsp;</td>
-        <td colspan="3"><i>[?] {translate key="author.submit.suppFile.policy.instruct"}</i></td>
-    </tr>
+    {if $showPolicies}
+        <tr>
+            <td colspan="5" class="separator">&nbsp;</td>
+        </tr>        
+        <tr valign="top">
+            <td colspan="2"><a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {translate key="author.submit.suppFile.policy"}</td>
+            {if empty($policies)}
+                <td colspan="3" align="center"><font color="red">{translate key="article.suppFile.missing"}</font></td>
+            {else}
+                <td colspan="3" align="left">
+                    <table valign="top" width="100%">
+                        {foreach from=$policies item=policy}
+                            <tr valign="top">
+                                <td width="50%">{$policy->getOriginalFileName()|escape}</td>
+                                <td width="25%">&nbsp;{$policy->getDateSubmitted()|date_format:$dateFormatTrunc}</td>
+                                <td width="25%" align="right">
+                                    <a href="{url op="deleteSubmitSuppFile" path=$policy->getSuppFileId() articleId=$articleId}" onclick="return confirm('{translate|escape:"jsparam" key="author.submit.confirmDeleteSuppFile"}')" class="action">{translate key="common.delete"}</a>
+                                </td>
+                            </tr>
+                        {/foreach}
+                    </table>
+                </td>
+            {/if}
+        </tr>
+        <tr valign="top" hidden class="showHideHelpField">
+            <td colspan="2">&nbsp;</td>
+            <td colspan="3"><i>[?] {translate key="author.submit.suppFile.policy.instruct"}</i></td>
+        </tr>        
+    {/if}
     {if $showAdvertisements}
         <tr>
             <td colspan="5" class="separator">&nbsp;</td>

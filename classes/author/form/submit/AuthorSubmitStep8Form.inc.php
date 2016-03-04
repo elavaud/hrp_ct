@@ -45,15 +45,13 @@ class AuthorSubmitStep8Form extends AuthorSubmitForm {
                 $approvalLetters = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_APPROVAL);
                 $informedConsents = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_CONSENT);
                 $labelss = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_LABELS);
-                $gmps = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_GMP);
-                $policies = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_POLICY);
+                $gmps = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_GMP);                
                 $relatedPublications = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_PUBLICATIONS);
                 if (empty($impds) 
                         || empty($approvalLetters) 
                         || empty($informedConsents) 
                         || empty($labelss) 
-                        || empty($gmps) 
-                        || empty($policies)) {
+                        || empty($gmps)) {
                     $goToNextStep = false;
                 }
                 $sitesList = array();
@@ -80,7 +78,13 @@ class AuthorSubmitStep8Form extends AuthorSubmitForm {
                         $CROsList[$CRO->getId()] = $CRO->getName();
                         array_push($CROsArray, array('name' => $CRO->getName(), 'delegations' => $delegationLetters));
                     }
-                }                
+                }   
+                $showPolicies = false;
+                if ($details->getCompensationPolicy() == ARTICLE_DETAIL_YES) {
+                    $showPolicies = true;
+                    $policies = $suppFileDao->getSuppFilesByArticleAndType($this->articleId, SUPP_FILE_POLICY);
+                    if (empty($policies)) {$goToNextStep = false;}
+                }
                 $drugsListForIB = array();
                 $drugsListForSMPC = array();                
                 $drugsArray = array();
@@ -122,7 +126,6 @@ class AuthorSubmitStep8Form extends AuthorSubmitForm {
 		$templateMgr->assign_by_ref('informedConsents', $informedConsents);
 		$templateMgr->assign_by_ref('labelss', $labelss);
 		$templateMgr->assign_by_ref('gmps', $gmps);
-		$templateMgr->assign_by_ref('policies', $policies);
 		$templateMgr->assign('sitesArray', $sitesArray);
 		$templateMgr->assign('sitesList', $sitesList);
 		$templateMgr->assign('drugsArray', $drugsArray);
@@ -130,6 +133,8 @@ class AuthorSubmitStep8Form extends AuthorSubmitForm {
 		$templateMgr->assign('drugsListForSMPC', $drugsListForSMPC);                
 		$templateMgr->assign('showAdvertisements', $showAdvertisements);
 		$templateMgr->assign_by_ref('advertisements', $advertisements);
+                $templateMgr->assign('showPolicies', $showPolicies);
+		$templateMgr->assign_by_ref('policies', $policies);
 		$templateMgr->assign('CROsList', $CROsList);
 		$templateMgr->assign('CROsArray', $CROsArray);
 		$templateMgr->assign_by_ref('relatedPublications', $relatedPublications);     

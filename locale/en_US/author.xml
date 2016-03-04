@@ -340,7 +340,7 @@
 	<message key="author.submit.suppFile.delegation.instruct">The letter of delegation from sponsor allowing the applicant to conduct the trial is a statement containing the name and address of the CRO, identification of the clinical study, and the obligations delegated</message>
         <message key="author.submit.suppFile.CV">CV of principal investigator</message>
 	<message key="author.submit.suppFile.CV.instruct">Signed and authenticated CV of all principal investigators at all the clinical trial sites in FDA-required format. Persons engaged in health research involving human participants should be scientifically qualified. The investigator must have the ability and skills to conduct the proposed study and the knowledge of the literature on the subject of interest.</message>
-        <message key="author.submit.suppFile.policy">Insurance policy in the event of injury or death</message>
+        <message key="author.submit.suppFile.policy">Policy on Compensation to subjects in case of injury or death</message>
         <message key="author.submit.suppFile.policy.instruct">The amount of compensation paid shall be appropriate to the nature, severity and persistence of the injury.</message>        
         <message key="author.submit.suppFile.typeRequired">Please select the type of your file in the drop-down menu.</message>
         <message key="author.submit.suppFile.siteRequired">Please select the concerned trial site for your file in the drop-down menu.</message>
