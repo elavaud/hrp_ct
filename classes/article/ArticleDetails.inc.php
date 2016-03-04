@@ -576,5 +576,21 @@ class ArticleDetails extends DataObject {
 		$yesNoMap =& $this->getYesNoMap();
 		return $yesNoMap[$value];
 	}   
+        
+       
+        /**
+	 * Set if there is any compensation policy to subjects in case of injury or death.
+	 * @param $compensationPolicy int
+	 */
+	function setCompensationPolicy($compensationPolicy) {
+		return $this->setData('compensationPolicy', $compensationPolicy);
+	}
+	/**
+	 * Get if there is any compensation policy to subjects in case of injury or death.
+	 * @return int
+	 */
+	function getCompensationPolicy() {
+		return $this->getData('compensationPolicy');
+	}        
 }
 ?>

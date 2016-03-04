@@ -172,6 +172,7 @@
         <message key="author.submit.form.endDate.required">Specify the locale expected end date of recruitment.</message>            
         <message key="author.submit.form.recruitStatus.required">Specify the recruitment status of your study.</message>            
         <message key="author.submit.form.adScheme.required">Specify if you intend to use any advertising scheme for your recruitment.</message>            
+        <message key="author.submit.form.compensationPolicy.required">Specify if there is any available policy on compensation to subjects in case of injury or death.</message>            
             
         <message key="author.submit.form.drugType.required">Specify the type of all your drug product(s).</message>            
         <message key="author.submit.form.drugName.required">Specify the name of all your drug product(s).</message>                        

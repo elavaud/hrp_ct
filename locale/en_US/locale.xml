@@ -630,6 +630,8 @@
     <message key="proposal.recruitment.info.instruct">Provide recruitment information for potential participants. This information will be publicly displayed and can be modified anytime until completion of the research</message>    
     <message key="proposal.recruitment.adScheme">Advertisement scheme</message>
     <message key="proposal.recruitment.adScheme.instruct">Are you planning to use any advertisement scheme(s) for recruiting participants?</message>    
+    <message key="proposal.recruitment.compensationPolicy">Compensation in case of injury or death?</message>
+    <message key="proposal.recruitment.compensationPolicy.instruct">Available Policy on Compensation to subjects in case of injury or death?</message>    
 
     <message key="proposal.drugInfo">Drug product</message>   
     <message key="proposal.drugInfo.add">Add another drug product</message>    

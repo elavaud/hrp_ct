@@ -39,9 +39,11 @@ class AuthorSubmitStep2Form extends AuthorSubmitForm {
                 $this->addCheck(new FormValidator($this, 'articleDetails-startDate', 'required', 'author.submit.form.startDate.required'));
                 $this->addCheck(new FormValidator($this, 'articleDetails-endDate', 'required', 'author.submit.form.endDate.required'));
                 $this->addCheck(new FormValidator($this, 'articleDetails-recruitStatus', 'required', 'author.submit.form.recruitStatus.required'));
-                $this->addCheck(new FormValidator($this, 'articleDetails-adScheme', 'required', 'author.submit.form.adScheme.required'));                
+                $this->addCheck(new FormValidator($this, 'articleDetails-adScheme', 'required', 'author.submit.form.adScheme.required'));  
+                $this->addCheck(new FormValidator($this, 'articleDetails-compensationPolicy', 'required', 'author.submit.form.compensationPolicy.required'));                  
         }
-	
+        
+        
         /* Overwrite getting the value of a form field for allowing sub-arrays of arrays.
 	 * @param $key string
 	 * @return mixed
@@ -123,7 +125,8 @@ class AuthorSubmitStep2Form extends AuthorSubmitForm {
                             'startDate' => $articleDetails->getStartDate(),
                             'endDate' => $articleDetails->getEndDate(),
                             'recruitStatus' => $articleDetails->getRecruitmentStatus(),
-                            'adScheme' => $articleDetails->getAdvertisingScheme()
+                            'adScheme' => $articleDetails->getAdvertisingScheme(),
+                            'compensationPolicy' => $articleDetails->getCompensationPolicy(),                            
                         );
 
                         $purposes =& $article->getArticlePurposes();
@@ -392,6 +395,7 @@ class AuthorSubmitStep2Form extends AuthorSubmitForm {
 		$articleDetails->setEndDate($articlelDetailsData['endDate']);
 		$articleDetails->setRecruitmentStatus($articlelDetailsData['recruitStatus']);
 		$articleDetails->setAdvertisingScheme($articlelDetailsData['adScheme']);
+		$articleDetails->setCompensationPolicy($articlelDetailsData['compensationPolicy']);
                 
                 $article->setArticleDetails($articleDetails);
 

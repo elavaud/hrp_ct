@@ -51,11 +51,11 @@ class ArticleDetailsDAO extends DAO{
 			'INSERT INTO article_details (
                                     article_id, protocol_version, therapeutic_area, healthcond_disease, min_age_num, min_age_unit, max_age_num,
                                     max_age_unit, sex, healthy, local_sample_size, multinational, international_sample_size, enrolment_start_date,
-                                    enrolment_end_date, recruitment_status, advertising_scheme, cro)
+                                    enrolment_end_date, recruitment_status, advertising_scheme, cro, compensation_policy)
 				VALUES(
                                     ?, ?, ?, ?, ?, ?, ?, 
                                     ?, ?, ?, ?, ?, ?, %s, 
-                                    %s, ?, ?, ?)',
+                                    %s, ?, ?, ?, ?)',
                         $this->dateToDB(strtotime($articleDetails->getStartDateForDB())), $this->dateToDB(strtotime($articleDetails->getEndDateForDB()))),
 			array(
 				(int) $articleDetails->getArticleId(),
@@ -73,7 +73,8 @@ class ArticleDetailsDAO extends DAO{
 				(string) $articleDetails->getIntSampleSize(),
 				(int) $articleDetails->getRecruitmentStatus(),
 				(int) $articleDetails->getAdvertisingScheme(),
-				(int) $articleDetails->getCROInvolved()                            
+				(int) $articleDetails->getCROInvolved(),
+				(int) $articleDetails->getCompensationPolicy()                            
 			)
 		);
 		
@@ -105,7 +106,8 @@ class ArticleDetailsDAO extends DAO{
                                 enrolment_end_date = %s, 
                                 recruitment_status = ?, 
                                 advertising_scheme = ?,
-                                cro = ?
+                                cro = ?,
+                                compensation_policy = ?
 			WHERE	article_id = ?',
                         $this->datetimeToDB(strtotime($articleDetails->getStartDateForDB())), 
                         $this->datetimeToDB(strtotime($articleDetails->getEndDateForDB()))),
@@ -124,7 +126,8 @@ class ArticleDetailsDAO extends DAO{
 				(string) $articleDetails->getIntSampleSize(),
 				(int) $articleDetails->getRecruitmentStatus(),
 				(int) $articleDetails->getAdvertisingScheme(),
-				(int) $articleDetails->getCROInvolved(),                            
+				(int) $articleDetails->getCROInvolved(),
+				(int) $articleDetails->getCompensationPolicy(),                            
 				(int) $articleDetails->getArticleId()                            
 			)
 		);
@@ -185,6 +188,7 @@ class ArticleDetailsDAO extends DAO{
 		$articleDetails->setRecruitmentStatus($row['recruitment_status']);
 		$articleDetails->setAdvertisingScheme($row['advertising_scheme']);
 		$articleDetails->setCROInvolved($row['cro']);
+		$articleDetails->setCompensationPolicy($row['compensation_policy']);
                         
 		HookRegistry::call('ArticleDetailsDAO::_returnArticleDetailsFromRow', array(&$articleDetails, &$row));
 

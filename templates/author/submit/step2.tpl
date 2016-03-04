@@ -660,6 +660,18 @@
                 <td width="65%" class="value"><i>[?] {translate key="proposal.recruitment.info.instruct"}</i></td>
             </tr>
         {/foreach}
+        <tr valign="middle">
+            <td width="20%" class="label">&nbsp;</td>
+            <td width="15%" class="label"><a class="showHideHelpButton" style="cursor:pointer;">[?]</a> {fieldLabel name="articleDetails-compensationPolicy" required="true" key="proposal.recruitment.compensationPolicy"}</td>
+            <td width="65%" class="value">
+                {html_radios name="articleDetails[compensationPolicy]" options=$yesNoList selected=$articleDetails.compensationPolicy separator='&nbsp;&nbsp;&nbsp;&nbsp;'}
+            </td>
+        </tr>
+        <tr valign="top" hidden class="showHideHelpField">
+            <td width="20%" class="label">&nbsp;</td>
+            <td width="15%" class="label">&nbsp;</td>
+            <td width="65%" class="value"><i>[?] {translate key="proposal.recruitment.compensationPolicy.instruct"}</i></td>
+        </tr>        
     </table>
     <p><input type="submit" value="{translate key="common.saveAndContinue"}" class="button defaultButton"/> <input type="button" value="{translate key="common.cancel"}" class="button" onclick="confirmAction('{url page="author"}', '{translate|escape:"jsparam" key="author.submit.cancelSubmission"}');" /></p>
 
