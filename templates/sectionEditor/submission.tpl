@@ -26,6 +26,8 @@
     <li><a href="{url op="submissionHistory" path=$articleId}">{translate key="submission.history"}</a></li>
 </ul>
 
+<p style="text-align:right"><a href="{url op="downloadSummary" path=$articleId}" class="file"><b>{translate key="common.download"} {translate key="submission.summary"}</b></a></p>
+
 {include file="sectionEditor/submission/management.tpl"}
 
 <div class="separator"></div>

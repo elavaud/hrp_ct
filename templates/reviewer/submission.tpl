@@ -26,6 +26,7 @@
     <li{if ($pageToDisplay == "submissionReview")} class="current"{/if}><a href="{url op="submission" path=$articleId|to_array:"submissionReview"}">{translate key="reviewer.article.submissionReview"}</a></li>
 </ul>
 
+<p style="text-align:right"><a href="{url op="downloadSummary" path=$articleId}" class="file"><b>{translate key="common.download"} {translate key="submission.summary"}</b></a></p>
 
 <script type="text/javascript">
     {literal}

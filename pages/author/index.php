@@ -36,6 +36,8 @@ switch ($op) {
 	//
 	// Submission Tracking
 	//
+            
+    	case 'downloadSummary':
 	case 'deleteArticleFile':
 	case 'deleteSubmission':
         case 'withdrawSubmission':   //Added by AIM, May 25, 2011

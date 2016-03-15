@@ -268,7 +268,8 @@ class ArticleSite extends DataObject {
 	 */
 	function &getTrialSiteObject() {
 		$trialSiteDao =& DAORegistry::getDAO('TrialSiteDAO');
-		return $trialSiteDao->getTrialSiteById($this->getSiteId());
+                $trialSiteObject = $trialSiteDao->getTrialSiteById($this->getSiteId());
+		return $trialSiteObject;
 	}
 
         /**
@@ -278,7 +279,8 @@ class ArticleSite extends DataObject {
 	function &getERCName() {
 		$extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
 		$erc = $extraFieldDao->getExtraField($this->getERCId());
-                return $erc->getLocalizedExtraFieldName();
+                $ercName = $erc->getLocalizedExtraFieldName();
+                return $ercName;
 	}
         
         /**

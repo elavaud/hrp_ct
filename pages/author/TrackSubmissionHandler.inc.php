@@ -512,6 +512,14 @@ class TrackSubmissionHandler extends AuthorHandler {
 		Action::downloadFile($articleId, $fileId);
 	}
 
+        function downloadSummary($args){
+		$articleId = isset($args[0]) ? (int)$args[0] : 0;
+		$this->validate($articleId);
+		$submission =& $this->submission;
+		AuthorAction::automaticSummaryInPDF($submission);
+        }
+        
+        
 	//
 	// Validation
 	//

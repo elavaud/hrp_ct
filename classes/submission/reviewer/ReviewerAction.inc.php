@@ -549,6 +549,11 @@ class ReviewerAction extends Action {
 			$commentForm->display(array('reviewId' => $reviewId));
 		}
 	}
+        
+        function automaticSummaryInPDF($submission){
+                $this->validate($submission->getId());
+                parent::automaticSummaryInPDF($submission);
+        }
 }
 
 ?>

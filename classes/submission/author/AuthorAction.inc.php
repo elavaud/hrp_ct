@@ -632,6 +632,12 @@ class AuthorAction extends Action {
 		}
 		return true;
 	}
+        
+        
+        function automaticSummaryInPDF($submission){
+                $this->validate($submission->getId());
+                parent::automaticSummaryInPDF($submission);
+        }
 }
 
 ?>

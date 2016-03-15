@@ -452,6 +452,14 @@ class SubmissionReviewHandler extends ReviewerHandler {
 		$this->user =& $user;
 		return true;
 	}
+        
+        function downloadSummary($args){
+		$articleId = isset($args[0]) ? (int)$args[0] : 0;
+		$this->validate($articleId);
+		$submission =& $this->submission;
+		ReviewerAction::automaticSummaryInPDF($submission);
+        }
+        
 
 }
 ?>

@@ -33,7 +33,7 @@ switch ($op) {
 	//
 	// Misc.
 	//
-	
+    	case 'downloadSummary':
 	case 'downloadFile':
 	case 'download':
             

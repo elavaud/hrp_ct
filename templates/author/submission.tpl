@@ -24,6 +24,8 @@
     <li{if ($pageToDisplay == "submissionReview")} class="current"{/if}><a href="{url op="submission" path=$articleId|to_array:"submissionReview"}">{translate key="common.queue.short.submissionReview"}</a></li>
 </ul>
 
+<p style="text-align:right"><a href="{url op="downloadSummary" path=$articleId}" class="file"><b>{translate key="common.download"} {translate key="submission.summary"}</b></a></p>
+
 {include file="author/submission/management.tpl"}
 
 <div class="separator"></div>

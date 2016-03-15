@@ -382,6 +382,22 @@ class ArticleDrugInfoDAO extends DAO {
             }
             return $classMap;
 	}
+        /**
+	 * Get a map for the class of drug study constants.
+	 * @return array
+	 */
+	function &getClassKeysMap() {
+            static $classMap;
+            if (!isset($classMap)) {
+                $classMap = array(
+                    ARTICLE_DRUG_INFO_CLASS_I => 'proposal.drugInfo.class.I',
+                    ARTICLE_DRUG_INFO_CLASS_II => 'proposal.drugInfo.class.II',
+                    ARTICLE_DRUG_INFO_CLASS_III => 'proposal.drugInfo.class.III',
+                    ARTICLE_DRUG_INFO_CLASS_IV => 'proposal.drugInfo.class.IV'                            
+                );
+            }
+            return $classMap;
+	}
         
         /**
 	 * Get a map for the conditions of use in the CT constants to locale key.

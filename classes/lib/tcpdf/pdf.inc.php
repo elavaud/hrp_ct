@@ -8,37 +8,35 @@ class PDF extends TCPDF {
 	function Header(){
 
                 // Logo
-                //$this->Image("public/site/images/mainlogo.png", 85, 5, 40);
-                $this->Image("public/site/images/mainlogo.png", 'C', 5, 40, '', '', false, 'C', false, 300, 'C', false, false, 0, false, false, false);
-		$this->Ln($this->getImageRBY());
+                //$this->Image("public/site/images/mainlogo.png", 'C', 5, 40, '', '', false, 'C', false, 300, 'C', false, false, 0, false, false, false);
+                $this->Image("public/site/images/PhilDOHs.png", 10, 10, 30, 30);
+                $this->Image("public/site/images/PhilFDA.jpeg", 160, 13, 30, 24);
 
-		// Title
-		$title = $this->title;
-		$this->SetFont('dejavusans','B',15);
-		$w = $this->GetStringWidth($title)+6;
-		$this->SetX((210-$w)/2);
-		$this->Cell($w,9,$title,0,1,'C');
+                $this->Ln(12);
+
+		$this->SetFont('Times','',12);
+                $hTitle = 'DEPARTMENT OF HEALTH';
+		$wDOH = $this->GetStringWidth($hTitle)+20;
+		$this->SetX((210-$wDOH)/2);
+		$this->Cell($wDOH,9,$hTitle,0,1,'C');
                 
-                // sub-title
-		$this->SetFont('dejavusans','BI',14);
-		$subject = $this->subject;
-                $w2 = $this->GetStringWidth($subject)+6;
-		$this->SetX((210-$w2)/2);
-		$this->Cell($w2,9,$subject,0,1,'C');
-                
-		// Line break
-		$this->Ln(10);
+		$this->SetFont('Times','B',12);
+                $hSubTitle = 'FOOD AND DRUG ADMINISTRATION';
+		$wFDA = $this->GetStringWidth($hSubTitle)+20;
+		$this->SetX((210-$wFDA)/2);
+		$this->Cell($wFDA,9,$hSubTitle,0,1,'C');
 	}
 
 	function Footer(){
-		// Position at 1.5 cm from bottom
-		$this->SetY(-15);
+		// Position at 1 cm from bottom
+		$this->SetY(-10);
 		// Arial italic 8
-		$this->SetFont('Times','I',8);
+		$this->SetFont('Times','',8);
 		// Text color in gray
 		$this->SetTextColor(128);
-		// Page number
-		$this->Cell(0,10,'Page '.$this->PageNo(),0,0,'C');
+		// Title, subject, page number and date/time                
+                $this->MultiRow3Columns(63, 64, $this->title.' - '.$this->subject, 'Page '.$this->PageNo(), date('d F Y H:i:s'), 'L', 'C', 'R');
+                
 	}
 
 	function ChapterTitle($label, $style = 'B'){
@@ -71,7 +69,7 @@ class PDF extends TCPDF {
 		$this->Ln();
 	}
         
-        function MultiRow($wLeft, $left, $right, $align = 'L') {
+        function MultiRow($wLeft, $left, $right, $align = 'L', $alignR = null) {
                 // MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0)
 
                 $page_start = $this->getPage();
@@ -86,8 +84,12 @@ class PDF extends TCPDF {
                 $this->setPage($page_start);
 
                 // write the right cell
-                $this->MultiCell(0, 0, $right, 0, $align, 0, 1, $this->GetX(), $y_start, true, 0);
-
+                if ($alignR) {
+                    $this->MultiCell(0, 0, $right, 0, $alignR, 0, 1, $this->GetX(), $y_start, true, 0);
+                } else {
+                    $this->MultiCell(0, 0, $right, 0, $align, 0, 1, $this->GetX(), $y_start, true, 0);
+                }
+                
                 $page_end_2 = $this->getPage();
                 $y_end_2 = $this->GetY();
 
@@ -106,7 +108,7 @@ class PDF extends TCPDF {
                 $this->SetXY($this->GetX(),$ynew);
         }
         
-        function MultiRow3Columns($wLeft, $wMiddle, $left, $middle, $right, $align = 'L') {
+        function MultiRow3Columns($wLeft, $wMiddle, $left, $middle, $right, $align = 'L', $alignM = null, $alignR = null) {
                 // MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0)
 
                 $page_start = $this->getPage();
@@ -121,15 +123,22 @@ class PDF extends TCPDF {
                 $this->setPage($page_start);
 
                 // write the middle cell
-                $this->MultiCell($wMiddle, 0, $middle, 0, $align, 0, 2, $this->GetX(), $y_start, true, 0);
-
+                if ($alignM) {
+                    $this->MultiCell($wMiddle, 0, $middle, 0, $alignM, 0, 2, $this->GetX(), $y_start, true, 0);
+                } else {
+                    $this->MultiCell($wMiddle, 0, $middle, 0, $align, 0, 2, $this->GetX(), $y_start, true, 0);
+                }
                 $page_end_2 = $this->getPage();
                 $y_end_2 = $this->GetY();
                 
                 $this->setPage($page_start);
                 
                 // write the right cell
-                $this->MultiCell(0, 0, $right, 0, $align, 0, 1, $this->GetX() ,$y_start, true, 0);
+                if ($alignR) {
+                    $this->MultiCell(0, 0, $right, 0, $alignR, 0, 1, $this->GetX() ,$y_start, true, 0);
+                } else {
+                    $this->MultiCell(0, 0, $right, 0, $align, 0, 1, $this->GetX() ,$y_start, true, 0);
+                }
 
                 $page_end_3 = $this->getPage();
                 $y_end_3 = $this->GetY();
