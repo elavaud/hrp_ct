@@ -24,7 +24,7 @@
 
 <ul class="menu">
 	<li class="current"><a href="{url path="active"}">{translate key="common.queue.short.reviewAssignments"}</a></li>
-	<li><a href="{url journal=$journalPath page="reviewer" op="meetings}">{translate key="reviewer.meetings"}</a></li>
+	<!--<li><a href="{url journal=$journalPath page="reviewer" op="meetings"}">{translate key="reviewer.meetings"}</a></li>-->
 </ul>
 
 <ul class="menu">

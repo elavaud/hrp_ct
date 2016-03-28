@@ -20,10 +20,11 @@
 	<li>&#187; <a href="{url op="submissions"}">{translate key="reviewer.submissions"}</a>&nbsp;({if $rangeInfo}{$rangeInfo}{else}0{/if})</li>
 	{call_hook name="Templates::Reviewer::Index::Submissions"}
 </ul>
-<ul class="plain">
+<!--<ul class="plain">
 	<li>&#187; <a href="{url op="meetings"}">{translate key="reviewer.meetings"}</a>&nbsp;({if $meetingsCount}{$meetingsCount}{else}0{/if})</li>
 	{call_hook name="Templates::Reviewer::Index::Meetings"}
 </ul>
+-->
 </div>
 
 {include file="common/footer.tpl"}

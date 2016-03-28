@@ -87,7 +87,7 @@
 					<a href="{url journal=$journalPath page="sectionEditor" op="index" path="submissionsCompleted"}">{translate key="common.queue.short.submissionsCompleted"} ({$sectionEditorSubmissionsCount[3]})</a>
 					{else}<span class="disabled">0 {translate key="common.queue.short.submissionsCompleted"}</span>{/if}
 				</td>
-				<td align="right"><a href="{url journal=$journalPath page="sectionEditor" op="meetings"}">{translate key="editor.meetings"}</a></td>
+				<td align="right"><!--<a href="{url journal=$journalPath page="sectionEditor" op="meetings"}">{translate key="editor.meetings"}</a>--></td>
 				<td align="right"></td>
 			</tr>
 			<tr>
@@ -210,7 +210,7 @@
 					{/if}					
 				</td>
 				<td align="right">
-					<a href="{url journal=$journalPath page="reviewer" op="meetings}">{translate key="reviewer.meetings"}</a>
+					<!--<a href="{url journal=$journalPath page="reviewer" op="meetings"}">{translate key="reviewer.meetings"}</a>-->
 				</td>
 				<td align="right"></td>
 			</tr>

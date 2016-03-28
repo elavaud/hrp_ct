@@ -17,7 +17,7 @@
 <ul class="menu">
 	<li class="current"><a class="action" href="{url op="index"}">{translate key="article.articles"}</a></li>
 	<li><a class="action" href="{url op="section" path=$ercId}">{translate key="section.sectionAbbrev"}</a></li>
-	<li><a class="action" href="{url op="meetings"}">{translate key="editor.meetings"}</a></li>
+	<!--<li><a class="action" href="{url op="meetings"}">{translate key="editor.meetings"}</a></li>-->
 </ul>
 <ul class="menu">
 	<li{if ($pageToDisplay == "submissionsSubmitted")} class="current"{/if}><a href="{url path="submissionsSubmitted"}">{translate key="common.queue.short.submissionsSubmitted"}</a></li>

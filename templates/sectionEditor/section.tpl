@@ -12,7 +12,7 @@
 <ul class="menu">
 	<li><a class="action" href="{url op="index"}">{translate key="article.articles"}</a></li>
 	<li class="current"><a class="action" href="{url op="section" path=$ercId}">{translate key="section.sectionAbbrev"}</a></li>
-	<li><a class="action" href="{url op="meetings"}">{translate key="editor.meetings"}</a></li>
+	<!--<li><a class="action" href="{url op="meetings"}">{translate key="editor.meetings"}</a></li>-->
 </ul>
 
 <h3><b>{$erc->getLocalizedTitle()}</b></h3>
