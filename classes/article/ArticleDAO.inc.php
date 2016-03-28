@@ -1043,13 +1043,23 @@ class ArticleDAO extends DAO {
 				LEFT JOIN article_text atl ON (atl.article_id = a.article_id AND atl.locale = ?)
                                 LEFT JOIN article_sponsor asp ON (asp.article_id = a.article_id AND asp.type = ?)
                                 LEFT JOIN institutions inst ON (inst.institution_id = asp.institution_id)
-                                LEFT JOIN article_details ad ON (ad.article_id = a.article_id)                                
+                                LEFT JOIN article_details ad ON (ad.article_id = a.article_id)
+                                LEFT JOIN article_drug_info adi ON (adi.article_id = a.article_id)
 			WHERE sdec.review_type = ? AND (sdec.decision = ? 
 				OR sdec.decision = ? 
 				OR sdec.decision = ?)';
 		
 		if (!empty($query)) {
-			$searchSql .= '';
+			$searchSql .= ' AND (
+				LOWER(atl.scientific_title) LIKE LOWER("%'.$query.'%")
+				OR LOWER(atl.public_title) LIKE LOWER("%'.$query.'%")
+				OR LOWER(atl.description) LIKE LOWER("%'.$query.'%")
+				OR LOWER(atpl.public_title) LIKE LOWER("%'.$query.'%")
+				OR LOWER(atpl.description) LIKE LOWER("%'.$query.'%")
+				OR LOWER(atpl.scientific_title) LIKE LOWER("%'.$query.'%")  
+				OR LOWER(adi.name) LIKE LOWER("%'.$query.'%")    
+				OR LOWER(adi.brand_name) LIKE LOWER("%'.$query.'%")  
+			)';
 		}
 		
 		
