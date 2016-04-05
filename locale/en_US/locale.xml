@@ -854,7 +854,7 @@
         <message key="proposal.recruit.withdrawn">Withdrawn</message>
         <message key="proposal.recruit.closedCont">Closed. Follow-up continuing</message>
         <message key="proposal.recruit.closedComp">Closed. Follow-up completed</message>
-        <message key="proposal.expectedDate">Excpected dates of enrolment</message>
+        <message key="proposal.expectedDate">Expected dates of enrolment</message>
         <message key="proposal.expectedDate.instruct">Estimated enrolment date of the first participant and the anticipated date (dd/mm/yyyy) that recruitment into the study will cease.</message>
         <message key="proposal.startDate">Start Date</message>
         <message key="proposal.endDate">End Date</message>
