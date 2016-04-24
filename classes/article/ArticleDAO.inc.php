@@ -1013,7 +1013,7 @@ class ArticleDAO extends DAO {
         }
  
 	
-	function searchProposalsPublic($query, $dateFrom, $dateTo, $geoAreas, $status = null, $rangeInfo = null, $sortBy = null, $sortDirection = SORT_DIRECTION_ASC) {
+	function searchProposalsPublic($query, $dateFrom, $dateTo, $geoAreas, $status = null, $trialSite = null, $rangeInfo = null, $sortBy = null, $sortDirection = SORT_DIRECTION_ASC) {
 		
 		$locale = Locale::getLocale();
 		$primaryLocale = Locale::getPrimaryLocale();
@@ -1045,6 +1045,8 @@ class ArticleDAO extends DAO {
                                 LEFT JOIN institutions inst ON (inst.institution_id = asp.institution_id)
                                 LEFT JOIN article_details ad ON (ad.article_id = a.article_id)
                                 LEFT JOIN article_drug_info adi ON (adi.article_id = a.article_id)
+                                LEFT JOIN article_site arts ON (arts.article_id = a.article_id)
+                                LEFT JOIN trial_site ts ON (ts.site_id = arts.site_id)
 			WHERE sdec.review_type = ? AND (sdec.decision = ? 
 				OR sdec.decision = ? 
 				OR sdec.decision = ?)';
@@ -1062,22 +1064,21 @@ class ArticleDAO extends DAO {
 			)';
 		}
 		
-		
 		if (!empty($dateFrom) || !empty($dateTo)){
 			if (!empty($dateFrom)) {
-				$searchSql .= '';
+				$searchSql .= ' AND (ad.enrolment_end_date >= "'.substr($dateFrom, 0, 10).'")';
 			}
 			if (!empty($dateTo)) {
-				$searchSql .= '';
+				$searchSql .= ' AND (ad.enrolment_start_date <= "'.substr($dateTo, 0, 10).'")';
 			}
 		}
 		
-		if ($geoAreas != 'ALL') $searchSql .= '';
-				
+		if ($geoAreas != 'ALL' && $geoAreas != '') $searchSql .= ' AND (ts.region = '.$geoAreas.')';
 		
-		if ($status == 1) $searchSql .= ' AND a.status = ' . STATUS_COMPLETED;
-		elseif ($status == 2) $searchSql .= ' AND a.status <> ' . STATUS_COMPLETED;
-
+		if ($status != 'ALL' && $status != '') $searchSql .= ' AND ad.recruitment_status = ' . $status;
+                
+		if ($trialSite != 'ALL' && $trialSite != '') $searchSql .= ' AND arts.site_id = ' . $trialSite;
+                
 		$result =& $this->retrieveRange(
 			$sql . ' ' . $searchSql. ' GROUP BY a.article_id' . ($sortBy?(' ORDER BY ' . $this->getSortMapping($sortBy) . ' ' . $this->getDirectionMapping($sortDirection)) : ''),
 			count($params)===1?array_shift($params):$params,
@@ -1100,43 +1101,86 @@ class ArticleDAO extends DAO {
 		return $article;
 	}
 
-	function searchCustomizedProposalsPublic($query, $statusFilter, $fromDate, $toDate, $investigatorName, $investigatorAffiliation, $investigatorEmail, $status, $dateSubmitted) {
+        function searchCustomizedProposalsPublic($query, $region, $fromDate, $toDate, $statusFilter, $proposalId, $scientificTitle, $publicTitle, $recruitmentStatus, $therapeuticArea, $minAge, $maxAge, $sex, $healthy, $pSponsor, $enrolment) {
 		
 		$searchSqlBeg = "select distinct a.article_id";
 		$searchSqlMid = " FROM articles a                    
-                                        LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)";
+                                    LEFT JOIN section_decisions sdec ON (a.article_id = sdec.article_id)
+                                    LEFT JOIN article_details ad ON (a.article_id = ad.article_id)
+                                    LEFT JOIN article_site asite ON (a.article_id = asite.article_id)
+                                    LEFT JOIN article_drug_info adi ON (adi.article_id = a.article_id)
+                                    LEFT JOIN article_text atpl ON (atpl.article_id = a.article_id AND atpl.locale = ".Locale::getPrimaryLocale().")
+                                    LEFT JOIN article_text atl ON (atl.article_id = a.article_id AND atl.locale = ".Locale::getLocale().")";
 		$searchSqlEnd = " WHERE sdec.review_type = ".REVIEW_TYPE_INITIAL." AND (sdec.decision = ".SUBMISSION_SECTION_DECISION_APPROVED." 
-                                            OR sdec.decision = ".SUBMISSION_SECTION_DECISION_EXEMPTED." 
-                                            OR sdec.decision = ".SUBMISSION_SECTION_DECISION_DONE.")";
+                                        OR sdec.decision = ".SUBMISSION_SECTION_DECISION_EXEMPTED." 
+                                        OR sdec.decision = ".SUBMISSION_SECTION_DECISION_DONE.")";
 
-		if ($investigatorName == true || $investigatorAffiliation == true || $investigatorEmail == true){
-			$searchSqlMid .= " left join artice_site ars ON (ars.article_id = a.article_id) left join authors investigator on (investigator.site_id = ars.site_id and investigator.primary_contact = '1')";
-			if ($investigatorName == true) $searchSqlBeg .= ", investigator.first_name as afname, investigator.last_name as alname";
-			if ($investigatorAffiliation == true) $searchSqlBeg .= ", investigator.affiliation as investigatoraffiliation";	
-			if ($investigatorEmail == true) $searchSqlBeg .= ", investigator.email as email";
+		if ($scientificTitle || $publicTitle){
+                    if ($scientificTitle) $searchSqlBeg .= ", COALESCE(atl.scientific_title, atpl.scientific_title) AS as s_title";
+                    if ($publicTitle == true) $searchSqlBeg .= ", COALESCE(atl.public_title, atpl.public_title) AS as p_title";	
 		}
 
-		if ($status == true){
-			$searchSqlBeg .= "";
+		if ($proposalId){
+                    $searchSqlBeg .= ", a.public_id as public_id";
 		}
 										
-		if ($dateSubmitted == true){
-			$searchSqlBeg .= ", a.date_submitted as date_submitted";
+		if ($recruitmentStatus){
+                    $searchSqlBeg .= ", ad.recruitment_status as r_status";
 		}	
 		
-		
+		if ($therapeuticArea){
+                    $searchSqlBeg .= ", ad.therapeutic_area as t_area";
+		}	
+                
+                if ($minAge){
+                    $searchSqlBeg .= ", ad.min_age_num as min_age_num, ad.min_age_unit as min_age_unit";
+		}
+                
+                if ($maxAge){
+                    $searchSqlBeg .= ", ad.max_age_num as max_age_num, ad.max_age_unit as max_age_unit";
+		}	
+                
+		if ($sex){
+                    $searchSqlBeg .= ", ad.sex as sex";
+		}
+                
+		if ($healthy){
+                    $searchSqlBeg .= ", ad.healthy as healthy";
+		}
+                
+		if ($pSponsor){
+                    $searchSqlMid .= " left join article_sponsor asp ON (asp.article_id = a.article_id AND asp.type = ".ARTICLE_SPONSOR_TYPE_PRIMARY.") ";
+                    $searchSqlBeg .= ", asp.institution_id as institution_id";
+		}
+                     
+		if ($enrolment){
+                    $searchSqlBeg .= ", ad.enrolment_start_date as enrolment_start_date, ad.enrolment_end_date as enrolment_end_date";
+		}
+                                
 		if (!empty($query)) {
-			$searchSqlEnd .= "";
+                    $searchSqlEnd .= ' AND (
+                            LOWER(atl.scientific_title) LIKE LOWER("%'.$query.'%")
+                            OR LOWER(atl.public_title) LIKE LOWER("%'.$query.'%")
+                            OR LOWER(atl.description) LIKE LOWER("%'.$query.'%")
+                            OR LOWER(atpl.public_title) LIKE LOWER("%'.$query.'%")
+                            OR LOWER(atpl.description) LIKE LOWER("%'.$query.'%")
+                            OR LOWER(atpl.scientific_title) LIKE LOWER("%'.$query.'%")  
+                            OR LOWER(adi.name) LIKE LOWER("%'.$query.'%")    
+                            OR LOWER(adi.brand_name) LIKE LOWER("%'.$query.'%")  
+			)';
+		}
+
+                if (!empty($region)) {
+                    $searchSqlEnd .= " ";
 		}
 		
-		
 		if ($fromDate != "--" || $toDate != "--"){
-			if ($fromDate != "--" && $fromDate != null) {
-				$searchSqlEnd .= "";
-			}
-			if ($toDate != "--" && $toDate != null) {
-				$searchSqlEnd .= "";
-			}
+                    if ($fromDate != "--" && $fromDate != null) {
+                        $searchSqlEnd .= "";
+                    }
+                    if ($toDate != "--" && $toDate != null) {
+                        $searchSqlEnd .= "";
+                    }
 		}
 					
 		if ($statusFilter == 1) $searchSqlEnd .= " AND a.status = 11";

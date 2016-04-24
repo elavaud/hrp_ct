@@ -73,7 +73,7 @@
         <message key="search.exportSearchResults">Export Search Results</message>
         <message key="search.exportIntruct">Please check fields you would like to export.</message>
         <message key="search.fromTitle">Search from Title or Keyword(s)</message>
-        <message key="search.startDate">Start date of the research</message>
+        <message key="search.startDate">Enrolling between</message>
         <message key="search.startDateAbr">Start date</message>    
         <message key="search.hideExportOptions">Hide Export Options</message>
         <message key="search.results">result(s)</message>

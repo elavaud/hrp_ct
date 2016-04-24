@@ -15,12 +15,11 @@
             $('#advancedQuery').val("");
             $('#dateFromYear').val("");
             $('#dateFromMonth').val("");
-            $('#dateFromDay').val("");
             $('#dateToYear').val("");
             $('#dateToMonth').val("");
-            $('#dateToDay').val("");
             $('#proposalCountry').val("ALL");
-            $('input:radio[name="status"]').attr('checked', false);
+            $('#status').val("ALL");
+            $('#trialSite').val("ALL");
         }
     </script>
     <style type="text/css">
@@ -43,6 +42,7 @@
 {if !$dateTo}
 {assign var="dateTo" value="--"}
 {/if}
+
 <div id="advancedSearch">
     <form method="post" name="search" action="{url op="advancedResults"}">
         <table width='100%' class="data">
@@ -52,16 +52,13 @@
                 <td colspan="3"><input type="text" id="advancedQuery" name="query" size="40" maxlength="255" value="{$query|escape}" class="textField" /></td>
             </tr>
             <tr valign="top">
-                <td width="25%"><b>{translate key="search.startDate"} {translate key="search.dateFrom"}</b></td>
+                <td width="25%"><b>{translate key="search.startDate"}</b></td>
                 <td width="35%">
-                    {html_select_date prefix="dateFrom" time=$dateFrom all_extra="class=\"selectMenu\"" year_empty="" year_extra='id="dateFromYear"' month_empty="" month_extra='id="dateFromMonth"' day_empty="" day_extra='id="dateFromDay"' start_year="-5" end_year="+1"} &nbsp;&nbsp;({translate key="search.inclusive"})&nbsp;&nbsp;
+                    {html_select_date prefix="dateFrom" time=$dateFrom all_extra="class=\"selectMenu\"" year_empty="" year_extra='id="dateFromYear"' month_empty="" month_extra='id="dateFromMonth"' start_year="-5" end_year="+2" display_days=false} &nbsp;&nbsp;({translate key="search.inclusive"})&nbsp;&nbsp;
                 </td>
-                <td width="5%"><b>{translate key="search.dateTo"}</b>&nbsp;&nbsp;</td>
+                <td width="5%"><b>{translate key="common.and"}</b>&nbsp;&nbsp;</td>
                 <td width="35%">
-                    {html_select_date prefix="dateTo" time=$dateTo all_extra="class=\"selectMenu\"" year_empty="" year_extra='id="dateToYear"' month_empty="" month_extra='id="dateToMonth"' day_empty="" day_extra='id="dateToDay"' start_year="-5" end_year="+1"} &nbsp;&nbsp;({translate key="search.inclusive"})
-                    <input type="hidden" name="dateToHour" value="23" />
-                    <input type="hidden" name="dateToMinute" value="59" />
-                    <input type="hidden" name="dateToSecond" value="59" />
+                    {html_select_date prefix="dateTo" time=$dateTo all_extra="class=\"selectMenu\"" year_empty="" year_extra='id="dateToYear"' month_empty="" month_extra='id="dateToMonth"' start_year="-5" end_year="+2" display_days=false} &nbsp;&nbsp;({translate key="search.inclusive"})
                 </td>
             </tr>
             <tr valign="top">
@@ -74,11 +71,24 @@
                 </td>
                 <td width="5%"><b>{translate key="common.status"}</b></td>
                 <td width="35%">
-                    <input type="radio" name="status" value="1" {if $statusFilter == 1}checked="checked"{/if}/> {translate key="common.complete"}
-                    &nbsp;&nbsp;
-                    <input type="radio" name="status" value="2" {if $statusFilter == 2}checked="checked"{/if}/> {translate key="common.ongoing"}
+                    <select name="status" id="status" class="selectMenu">
+                        <option value="ALL">{translate key="common.all"}</option>
+                        {html_options options=$recruitmentStatusMap selected=$statusFilter}
+                    </select>     
                 </td>
             </tr>
+            <tr valign="top">
+                <td width="20%"><b>{translate key="proposal.articleSite"}</b></td>
+                <td width="80%" colspan=2" class="value">
+                    <select name="trialSite" id="trialSite" class="selectMenu">
+                        <option value="ALL">{translate key="common.all"}</option>
+                        {html_options options=$sitesList selected=$trialSite}                                
+                    </select>
+                </td>                     
+            </tr>
+            
+            
+            
         </table>
         <p>
             <input type="submit" value="{translate key="common.search"}" class="button defaultButton" />

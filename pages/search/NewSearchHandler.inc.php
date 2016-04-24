@@ -90,12 +90,13 @@ class NewSearchHandler extends Handler {
 		if(!$fromDate) $fromDate = Request::getUserDateVar('dateFrom', 1, 1);
 
 		$toDate = Request::getUserVar('dateTo');		
-		if(!$toDate) $toDate = Request::getUserDateVar('dateTo', 32, 12, null, 23, 59, 59);
-		
-		$country = Request::getUserVar('proposalCountry');
-		
+                if(!$toDate) $toDate = Request::getUserDateVar('dateTo', 1, 12, null, 23, 59, 59);
+
+                $country = Request::getUserVar('proposalCountry');
+
 		$status = Request::getUserVar('status');
-		if($status != '1' && $status != '2') $status = false;
+
+                $trialSite = Request::getUserVar('trialSite');
 		
 		$rangeInfo =& Handler::getRangeInfo('search');
 		
@@ -114,15 +115,18 @@ class NewSearchHandler extends Handler {
                 if ($toDate == '--') $toDate = null;                
                 if ($fromDate !== null) $fromDate = date('Y-m-d H:i:s', $fromDate);
 		if ($toDate !== null) $toDate = date('Y-m-d H:i:s', $toDate);
-		
+                
 		$articleDao =& DAORegistry::getDAO('ArticleDAO');
                 $extraFieldDao =& DAORegistry::getDAO('ExtraFieldDAO');
-		$results =& $articleDao->searchProposalsPublic($query, $fromDate, $toDate, $country, $status, $rangeInfo, $sort, $sortDirection);
+                $articleDetailsDao =& DAORegistry::getDAO('ArticleDetailsDAO');
+		$trialSiteDao =& DAORegistry::getDAO('TrialSiteDAO');
+		$results =& $articleDao->searchProposalsPublic($query, $fromDate, $toDate, $country, $status, $trialSite, $rangeInfo, $sort, $sortDirection);
 
 		$templateMgr->assign('formattedDateFrom', $fromDate);
 		$templateMgr->assign('formattedDateTo', $toDate);
-										
+                $templateMgr->assign('recruitmentStatusMap', $articleDetailsDao->getRecruitmentStatusMap());
 		$templateMgr->assign('statusFilter', $status);
+		$templateMgr->assign('trialSite', $trialSite);                
 		$templateMgr->assign_by_ref('results', $results);
 		$templateMgr->assign('query', $query);
 		$templateMgr->assign('region', $country);
@@ -130,6 +134,7 @@ class NewSearchHandler extends Handler {
 		$templateMgr->assign('country', (isset($extraField) ? $extraField->getLocalizedExtraFieldName() : null));
 		$templateMgr->assign('countryCode', $country);
                 $templateMgr->assign('proposalCountries', $extraFieldDao->getExtraFieldsList(EXTRA_FIELD_GEO_AREA));	
+                $templateMgr->assign('sitesList', $trialSiteDao->getTrialSitesList());	
 		$templateMgr->assign('sort', $sort);
 		$templateMgr->assign('sortDirection', $sortDirection);
 
@@ -157,37 +162,72 @@ class NewSearchHandler extends Handler {
 		
 		$columns = array();
 		
-		$investigatorName = false;
-		if (Request::getUserVar('investigatorName')) {
-			$columns = $columns + array('investigator' => Locale::translate('search.investigator'));
-			$investigatorName = true;
+		$proposalId = false;
+		if (Request::getUserVar('proposalId')) {
+			$columns = $columns + array('proposalId' => Locale::translate('article.submissionId'));
+			$proposalId = true;
 		}
 					
-		$investigatorAffiliation = false;
-		if (Request::getUserVar('investigatorAffiliation')) {
-			$columns = $columns + array('investigator_affiliation' => Locale::translate('search.investigatorAffiliation'));
-			$investigatorAffiliation = true;
+		$scientificTitle = false;
+		if (Request::getUserVar('scientificTitle')) {
+			$columns = $columns + array('scientificTitle' => Locale::translate('article.scientificTitle'));
+			$scientificTitle = true;
 		}
 							
-		$investigatorEmail = false;
-		if (Request::getUserVar('investigatorEmail')) {
-			$columns = $columns + array('investigator_email' => Locale::translate('search.investigatorEmail'));
-			$investigatorEmail = true;
+		$publicTitle = false;
+		if (Request::getUserVar('publicTitle')) {
+			$columns = $columns + array('publicTitle' => Locale::translate('article.publicTitle'));
+			$publicTitle = true;
 		}
 		
-		$status = false;
-		if (Request::getUserVar('status')) {
-			$columns = $columns + array('status' => Locale::translate('search.status'));
-			$status = true;
+		$recruitmentStatus = false;
+		if (Request::getUserVar('recruitmentStatus')) {
+			$columns = $columns + array('recruitmentStatus' => Locale::translate('proposal.recruitment').' '.Locale::translate('proposal.recruitment.status'));
+			$recruitmentStatus = true;
 		}
 
-		$dateSubmitted = false;
-		if (Request::getUserVar('dateSubmitted')) {
-			$columns = $columns + array('date_submitted' => Locale::translate('search.dateSubmitted'));
-			$dateSubmitted = true;
+		$therapeuticArea = false;
+		if (Request::getUserVar('therapeuticArea')) {
+			$columns = $columns + array('therapeuticArea' => Locale::translate('proposal.therapeuticArea'));
+			$therapeuticArea = true;
 		}		
 		
-		
+		$minAge = false;
+		if (Request::getUserVar('minAge')) {
+			$columns = $columns + array('minAge' => Locale::translate('proposal.age.minimum'));
+			$minAge = true;
+		}		
+                
+		$maxAge = false;
+		if (Request::getUserVar('maxAge')) {
+			$columns = $columns + array('maxAge' => Locale::translate('proposal.age.maximum'));
+			$maxAge = true;
+		}		
+                
+		$sex = false;
+		if (Request::getUserVar('sex')) {
+			$columns = $columns + array('sex' => Locale::translate('proposal.sex'));
+			$sex = true;
+		}		
+                
+                $healthy = false;
+		if (Request::getUserVar('healthy')) {
+			$columns = $columns + array('healthy' => Locale::translate('proposal.healthy'));
+			$healthy = true;
+		}		
+                
+                $pSponsor = false;
+		if (Request::getUserVar('pSponsor')) {
+			$columns = $columns + array('pSponsor' => Locale::translate('proposal.primarySponsor'));
+			$pSponsor = true;
+		}		
+                
+                $enrolment = false;
+		if (Request::getUserVar('enrolment')) {
+			$columns = $columns + array('enrolment' => Locale::translate('proposal.expectedDate'));
+			$enrolment = true;
+		}		
+                
 		header('content-type: text/comma-separated-values');
 		header('content-disposition: attachment; filename=searchResults-' . date('Ymd') . '.csv');
 				
@@ -197,7 +237,7 @@ class NewSearchHandler extends Handler {
 
                 $articleDao =& DAORegistry::getDAO('ArticleDAO');
 		
-		$results = $articleDao->searchCustomizedProposalsPublic($query, $statusFilter, $investigatorName, $investigatorAffiliation, $investigatorEmail, $status, $dateSubmitted);
+		$results = $articleDao->searchCustomizedProposalsPublic($query, $region, $fromDate, $toDate, $statusFilter, $proposalId, $scientificTitle, $publicTitle, $recruitmentStatus, $therapeuticArea, $minAge, $maxAge, $sex, $healthy, $pSponsor, $enrolment);
 
                 foreach ($results as $result) {
                         foreach ($columns as $index => $junk) {

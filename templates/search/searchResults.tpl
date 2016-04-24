@@ -47,56 +47,79 @@ $(document).ready(
 {assign var="dateTo" value="--"}
 {/if}
 
-<br/>
-
 <form name="generate" action="{url op="generateCustomizedCSV"}" method="post"  id="exportOptions">
-	<input type="hidden" name="query" value="{$query|escape}"/>
-	<input type="hidden" name="region" value="{$region|escape}"/>
-	<input type="hidden" name="statusFilter" value="{$statusFilter|escape}"/>
-	<input type="hidden" name="dateFrom" value="{$dateFrom|escape}"/>
-	<input type="hidden" name="dateTo" value="{$dateTo|escape}"/>
-	
-	<table class="data" width="100%">
-		<tr><i><br />{translate key="search.exportIntruct"}<br /></i></tr>
-		<tr>
-			<td colspan="4" class="headseparator"></td>
-		</tr>
-		<tr>
-			<td><br /><strong>{translate key="user.role.authors"}:</strong></td>
-		</tr>
-		<tr valign="top">
-			<td width="20%" class="value">
-				<input type="checkbox" name="investigatorName" checked="checked"/>&nbsp;{translate key="common.fullName"}
-			</td>
-			<td width="20%" class="value">
-				<input type="checkbox" name="investigatorAffiliation"/>&nbsp;{translate key="user.affiliation"}
-			</td>
-		</tr>
-		<tr>
-			<td colspan="4" class="separator"></td>
-		</tr>
-		<tr>
-			<td><strong>{translate key="article.metadata"}:</strong></td>
-		</tr>
-		<tr valign="top">                       
-		</tr>
-		<tr valign="top">
-		</tr>
-		<tr valign="top">
-			<td width="20%" class="value">
-				<input type="checkbox" name="status" checked="checked"/>&nbsp;{translate key="common.status"}
-			</td>
-		</tr>
+    <input type="hidden" name="query" value="{$query|escape}"/>
+    <input type="hidden" name="region" value="{$region|escape}"/>
+    <input type="hidden" name="statusFilter" value="{$statusFilter|escape}"/>
+    <input type="hidden" name="trialSite" value="{$trialSite|escape}"/>    
+    <input type="hidden" name="dateFrom" value="{$dateFrom|escape}"/>
+    <input type="hidden" name="dateTo" value="{$dateTo|escape}"/>
 
-		<tr>
-			<td colspan="4" class="endseparator">&nbsp;</td>
-		</tr>
-	</table>
-	<p><input type="submit" value="{translate key="common.export"}" class="button defaultButton"/>
+    <table class="data" width="100%">
+        <tr><i><br />{translate key="search.exportIntruct"}<br /></i></tr>
+        <tr valign="top">
+            <td width="20%" class="value">
+                <input type="checkbox" name="proposalId" checked="checked"/>&nbsp;{translate key="article.submissionId"}
+            </td>
+            <td width="20%" class="value">
+                <input type="checkbox" name="scientificTitle" checked="checked"/>&nbsp;{translate key="article.scientificTitle"}
+            </td>
+            <td width="20%" class="value">
+                <input type="checkbox" name="publicTitle"/>&nbsp;{translate key="article.publicTitle"}
+            </td>
+            <td width="20%" class="value">
+                <input type="checkbox" name="recruitmentStatus"/>&nbsp;{translate key="proposal.recruitment"}&nbsp;{translate key="proposal.recruitment.status"}
+            </td>
+            <td width="20%" class="value">
+                &nbsp;
+            </td>            
+        </tr>
+        <tr valign="top">
+            <td width="20%" class="value">
+                <input type="checkbox" name="therapeuticArea" checked="checked"/>&nbsp;{translate key="proposal.therapeuticArea"}
+            </td>
+            <td width="20%" class="value">
+                <input type="checkbox" name="minAge"/>&nbsp;{translate key="proposal.age.minimum"}
+            </td>
+            <td width="20%" class="value">
+                <input type="checkbox" name="maxAge"/>&nbsp;{translate key="proposal.age.maximum"}
+            </td>
+            <td width="20%" class="value">
+                <input type="checkbox" name="sex"/>&nbsp;{translate key="proposal.sex"}
+            </td>
+            <td width="20%" class="value">
+                &nbsp;
+            </td>            
+        </tr>
+        <tr valign="top">
+            <td width="20%" class="value">
+                <input type="checkbox" name="healthy"/>&nbsp;{translate key="proposal.healthy"}
+            </td>
+            <td width="20%" class="value">
+                <input type="checkbox" name="pSponsor" checked="checked"/>&nbsp;{translate key="proposal.primarySponsor"}
+            </td>
+            <td width="20%" class="value" colspan="2">
+                <input type="checkbox" name="enrolment"/>&nbsp;{translate key="proposal.expectedDate"}
+            </td>
+            <td width="20%" class="value">
+                &nbsp;
+            </td>            
+        </tr>
+    </table>
+    <p><input type="submit" value="{translate key="common.export"}" class="button defaultButton"/>
 </form>
 
 <br/>
-<h4>{if $statusFilter == 1}{translate key="common.complete"}:<br/>{elseif $statusFilter == 2}{translate key="common.ongoing"}:<br/>{/if}{if $query}{translate key="help.searchResultsFor"} '{$query}' {else}{translate key="common.search"} {/if}{if $dateFrom != '--'}{translate key="search.dateFrom"} {$dateFrom|date_format:$dateFormatLong} {/if}{if $dateFrom != '--' && $dateTo != '--'}{translate key="search.operator.and"} {/if}{if $dateTo != '--'}{translate key="search.dateTo"} {$dateTo|date_format:$dateFormatLong} {/if}{if $country}{translate key="search.takingPlaceIn"} {$country} {/if}: {$count} {translate key="search.results"}. </h4>
+<h4>
+    {if $statusFilter != "ALL"}{$recruitmentStatusMap.$statusFilter}<br/>{/if}
+    {if $query}{translate key="help.searchResultsFor"} '{$query}' {else} {translate key="common.search"} {/if}
+    {if $dateFrom != '--'}{translate key="search.dateFrom"} {$dateFrom|date_format:$dateFormatLong} {/if}
+    {if $dateFrom != '--' && $dateTo != '--'} {translate key="search.operator.and"} {/if}
+    {if $dateTo != '--'}{translate key="search.dateTo"} {$dateTo|date_format:$dateFormatLong} {/if}
+    {if $country}{translate key="search.takingPlaceIn"} {$country} {/if}
+    {if $trialSite}<br/>{$sitesList.$trialSite} {/if}    
+    : {$count} {translate key="search.results"}. 
+</h4>
 <div id="results">
 	<table width="100%" class="listing">
 		<tr class="heading" valign="bottom">
